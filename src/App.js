@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, useCallback } from 'react'
 
-function App() {
+import './App.css'
+import initialItems from './testData/initialItems'
+import AddItemForm from './components/AddItemForm'
+
+const App = () => {
+  const [items, setItems] = useState(initialItems)
+
+  const getCurrentSuppliers = useCallback(() => {
+    const currentSuppliers = []
+    items.forEach(item => {
+      if (currentSuppliers.includes(item.supplier)) {} else { currentSuppliers.push(item.supplier) }
+    })
+    return currentSuppliers
+  }, [items])
+
+  const [suppliers, setSuppliers] = useState(getCurrentSuppliers)
+
+  useEffect(() => {
+    setSuppliers(getCurrentSuppliers())
+  }, [getCurrentSuppliers])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        {items.map(item => (
+          <li key={item.id}>
+            <label>{item.itemName}</label>
+          </li>
+        ))}
+      </ul>
+      <AddItemForm items={items} setItems={setItems} suppliers={suppliers} />
     </div>
-  );
+  )
 }
-
-export default App;
+export default App
