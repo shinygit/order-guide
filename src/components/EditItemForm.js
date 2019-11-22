@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-const EditItemForm = ({ item, dispatchItems, suppliers, handleDelete }) => {
+const EditItemForm = ({ item, dispatchItems, suppliers, locations, handleDelete }) => {
   const [editItemForm, setEditItemForm] = useState({
     id: item.id,
     itemName: item.itemName,
-    supplier: item.supplier
+    supplier: item.supplier,
+    location: item.location
 
   })
   const handleChangeInput = event => {
@@ -20,7 +21,8 @@ const EditItemForm = ({ item, dispatchItems, suppliers, handleDelete }) => {
         type: 'EDIT_ITEM',
         id: editItemForm.id,
         itemName: editItemForm.itemName,
-        supplier: editItemForm.supplier
+        supplier: editItemForm.supplier,
+        location: editItemForm.location
       })
     }
     event.preventDefault()
@@ -30,7 +32,8 @@ const EditItemForm = ({ item, dispatchItems, suppliers, handleDelete }) => {
     setEditItemForm({
       id: item.id,
       itemName: item.itemName,
-      supplier: item.supplier
+      supplier: item.supplier,
+      location: item.location
     }), [item]
   )
   return (
@@ -56,6 +59,22 @@ const EditItemForm = ({ item, dispatchItems, suppliers, handleDelete }) => {
         />
         <datalist id='suppliersList'>
           {suppliers.map((item) => (
+            <option key={item} value={item} />
+          ))}
+        </datalist>
+      </label>
+      <br />
+      <label>
+        Location
+        <input
+          type='text'
+          name='location'
+          list='locationList'
+          value={editItemForm.location}
+          onChange={handleChangeInput}
+        />
+        <datalist id='locationList'>
+          {locations.map((item) => (
             <option key={item} value={item} />
           ))}
         </datalist>

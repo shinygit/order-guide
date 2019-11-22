@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
-const AddItemForm = ({ items, dispatchItems, suppliers }) => {
+const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
   const [itemForm, setItemForm] = useState({
     itemName: '',
-    supplier: ''
+    supplier: '',
+    location: ''
   })
   const handleChangeInput = event => {
     setItemForm({
@@ -17,12 +18,14 @@ const AddItemForm = ({ items, dispatchItems, suppliers }) => {
       dispatchItems({
         type: 'ADD_ITEM',
         itemName: itemForm.itemName,
-        supplier: itemForm.supplier
+        supplier: itemForm.supplier,
+        location: itemForm.location
       })
     }
     setItemForm({
       itemName: '',
-      supplier: ''
+      supplier: '',
+      location: ''
     })
     event.preventDefault()
   }
@@ -50,6 +53,22 @@ const AddItemForm = ({ items, dispatchItems, suppliers }) => {
         />
         <datalist id='suppliersList'>
           {suppliers.map((item) => (
+            <option key={item} value={item} />
+          ))}
+        </datalist>
+      </label>
+      <br />
+      <label>
+        Location
+        <input
+          type='text'
+          name='location'
+          list='locationList'
+          value={itemForm.location}
+          onChange={handleChangeInput}
+        />
+        <datalist id='locationList'>
+          {locations.map((item) => (
             <option key={item} value={item} />
           ))}
         </datalist>

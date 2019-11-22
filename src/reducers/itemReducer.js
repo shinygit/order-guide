@@ -9,6 +9,7 @@ const itemReducer = (state, action) => {
           id: uuid(),
           itemName: action.itemName,
           supplier: action.supplier,
+          location: action.location,
           order: 0,
           showEditForm: false
         }
@@ -27,7 +28,8 @@ const itemReducer = (state, action) => {
           return ({
             ...item,
             itemName: action.itemName,
-            supplier: action.supplier
+            supplier: action.supplier,
+            location: action.location
           })
         } else { return item }
       })

@@ -6,10 +6,10 @@ import AddItemForm from './components/AddItemForm'
 import itemReducer from './reducers/itemReducer'
 import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
+import SearchForm from './components/SearchForm'
 
 const App = () => {
   const [items, dispatchItems] = useReducer(itemReducer, initialItems)
-
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
     items.forEach(item => {
@@ -24,6 +24,20 @@ const App = () => {
     setSuppliers(getCurrentSuppliers())
   }, [getCurrentSuppliers])
 
+  const getCurrentLocations = useCallback(() => {
+    const currentLocations = []
+    items.forEach(item => {
+      if (currentLocations.includes(item.location)) {} else { currentLocations.push(item.location) }
+    })
+    return currentLocations
+  }, [items])
+
+  const [locations, setLocations] = useState(getCurrentLocations)
+
+  useEffect(() => {
+    setLocations(getCurrentLocations())
+  }, [getCurrentLocations])
+
   const handleDelete = (id) => {
     dispatchItems({ type: 'DELETE_ITEM', id: id })
   }
@@ -31,9 +45,10 @@ const App = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
   return (
     <div>
-      <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} />
-      <ListItems filter={filter} items={items} dispatchItems={dispatchItems} suppliers={suppliers} handleDelete={handleDelete} />
-      <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} />
+      <SearchForm items={items} />
+      <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} locations={locations} />
+      <ListItems filter={filter} items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />
+      <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} />
     </div>
   )
 }
