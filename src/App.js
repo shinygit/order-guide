@@ -6,6 +6,7 @@ import AddItemForm from './components/AddItemForm'
 import EditItemForm from './components/EditItemForm'
 import itemReducer from './reducers/itemReducer'
 import filterReducer from './reducers/filterReducer'
+import FilterMenu from './components/FilterMenu'
 
 const App = () => {
   const [itemForm, setItemForm] = useState({
@@ -34,14 +35,6 @@ const App = () => {
     setSuppliers(getCurrentSuppliers())
   }, [getCurrentSuppliers])
 
-  const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
-
-  const handleShowSupplier = (supplier) => {
-    dispatchFilter({ type: 'supplierFilter', supplier: supplier })
-  }
-  const handleShowAll = () => {
-    dispatchFilter({ type: 'SHOW_ALL' })
-  }
   const handleDelete = (id) => {
     dispatchItems({ type: 'DELETE_ITEM', id: id })
   }
@@ -52,13 +45,10 @@ const App = () => {
       }
     })
   }
-
+  const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
   return (
     <div>
-      <button key='ALL' onClick={() => handleShowAll()}>ALL</button>
-      {suppliers.map(supplier => (
-        <button key={supplier} onClick={() => handleShowSupplier({ supplier })}>{supplier}</button>
-      ))}
+      <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} />
       <ListItems handleEdit={handleEdit} items={items} filter={filter} dispatchItems={dispatchItems} />
       <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} itemForm={itemForm} setItemForm={setItemForm} />
       <EditItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} editItemForm={editItemForm} setEditItemForm={setEditItemForm} handleDelete={handleDelete} />
