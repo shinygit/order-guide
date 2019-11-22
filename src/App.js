@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useReducer } from 'react'
 
 import './App.css'
 import initialItems from './testData/initialItems'
@@ -21,10 +21,43 @@ const App = () => {
     setSuppliers(getCurrentSuppliers())
   }, [getCurrentSuppliers])
 
+  const filterReducer = (state, action) => {
+    switch (action.type) {
+      case 'SHOW_ALL':
+        return 'ALL'
+      case 'supplierFilter':
+        return action.supplier
+      default:
+        throw new Error()
+    }
+  }
+
+  const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
+
+  const handleShowSupplier = (supplier) => {
+    dispatchFilter({ type: 'supplierFilter', supplier: supplier })
+  }
+  const handleShowAll = () => {
+    dispatchFilter({ type: 'SHOW_ALL' })
+  }
+  const filteredItems = items.filter(item => {
+    if (filter === 'ALL') {
+      return true
+    }
+    if (item.supplier === filter.supplier) {
+      return true
+    }
+    return false
+  })
+
   return (
     <div>
+      <button key='ALL' onClick={() => handleShowAll()}>ALL</button>
+      {suppliers.map(supplier => (
+        <button key={supplier} onClick={() => handleShowSupplier({ supplier })}>{supplier}</button>
+      ))}
       <ul>
-        {items.map(item => (
+        {filteredItems.map(item => (
           <li key={item.id}>
             <label>{item.itemName}</label>
           </li>
