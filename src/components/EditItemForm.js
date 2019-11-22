@@ -1,22 +1,23 @@
 import React from 'react'
 
-const AddItemForm = ({ items, dispatchItems, suppliers, itemForm, setItemForm }) => {
+const EditItemForm = ({ items, dispatchItems, suppliers, editItemForm, setEditItemForm }) => {
   const handleChangeInput = event => {
-    setItemForm({
-      ...itemForm,
+    setEditItemForm({
+      ...editItemForm,
       [event.target.name]: event.target.value
     })
   }
 
   const handleSubmit = event => {
-    if (itemForm) {
+    if (editItemForm) {
       dispatchItems({
-        type: 'ADD_ITEM',
-        itemName: itemForm.itemName,
-        supplier: itemForm.supplier
+        type: 'EDIT_ITEM',
+        id: editItemForm.id,
+        itemName: editItemForm.itemName,
+        supplier: editItemForm.supplier
       })
     }
-    setItemForm({
+    setEditItemForm({
       itemName: '',
       supplier: ''
     })
@@ -30,7 +31,7 @@ const AddItemForm = ({ items, dispatchItems, suppliers, itemForm, setItemForm })
         <input
           type='text'
           name='itemName'
-          value={itemForm.itemName}
+          value={editItemForm.itemName}
           onChange={handleChangeInput}
         />
       </label>
@@ -41,7 +42,7 @@ const AddItemForm = ({ items, dispatchItems, suppliers, itemForm, setItemForm })
           type='text'
           name='supplier'
           list='suppliersList'
-          value={itemForm.supplier}
+          value={editItemForm.supplier}
           onChange={handleChangeInput}
         />
         <datalist id='suppliersList'>
@@ -50,8 +51,8 @@ const AddItemForm = ({ items, dispatchItems, suppliers, itemForm, setItemForm })
           ))}
         </datalist>
       </label>
-      <button type='submit'>Add Item</button>
+      <button type='submit'>Edit Item</button>
     </form>
   )
 }
-export default AddItemForm
+export default EditItemForm

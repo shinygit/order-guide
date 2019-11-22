@@ -1,11 +1,23 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
-
 import './App.css'
 import initialItems from './testData/initialItems'
+import ListItems from './components/ListItems'
 import AddItemForm from './components/AddItemForm'
+import EditItemForm from './components/EditItemForm'
+import itemReducer from './reducers/itemReducer'
 
 const App = () => {
-  const [items, setItems] = useState(initialItems)
+  const [itemForm, setItemForm] = useState({
+    itemName: '',
+    supplier: ''
+  })
+  const [editItemForm, setEditItemForm] = useState({
+    itemName: '',
+    supplier: ''
+
+  })
+
+  const [items, dispatchItems] = useReducer(itemReducer, initialItems)
 
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
@@ -40,6 +52,16 @@ const App = () => {
   const handleShowAll = () => {
     dispatchFilter({ type: 'SHOW_ALL' })
   }
+  const handleDelete = (id) => {
+    dispatchItems({ type: 'DELETE_ITEM', id: id })
+  }
+  const handleEdit = (id) => {
+    items.forEach(item => {
+      if (item.id === id) {
+        setEditItemForm(item)
+      }
+    })
+  }
   const filteredItems = items.filter(item => {
     if (filter === 'ALL') {
       return true
@@ -56,14 +78,10 @@ const App = () => {
       {suppliers.map(supplier => (
         <button key={supplier} onClick={() => handleShowSupplier({ supplier })}>{supplier}</button>
       ))}
-      <ul>
-        {filteredItems.map(item => (
-          <li key={item.id}>
-            <label>{item.itemName}</label>
-          </li>
-        ))}
-      </ul>
-      <AddItemForm items={items} setItems={setItems} suppliers={suppliers} />
+      <ListItems handleEdit={handleEdit} handleDelete={handleDelete} filteredItems={filteredItems} />
+      <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} itemForm={itemForm} setItemForm={setItemForm} />
+      <EditItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} editItemForm={editItemForm} setEditItemForm={setEditItemForm} />
+
     </div>
   )
 }
