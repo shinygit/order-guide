@@ -59,7 +59,7 @@ const App = () => {
       {suppliers.map(supplier => (
         <button key={supplier} onClick={() => handleShowSupplier({ supplier })}>{supplier}</button>
       ))}
-      <ListItems handleEdit={handleEdit} items={items} filter={filter} />
+      <ListItems handleEdit={handleEdit} items={items} filter={filter} dispatchItems={dispatchItems} />
       <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} itemForm={itemForm} setItemForm={setItemForm} />
       <EditItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} editItemForm={editItemForm} setEditItemForm={setEditItemForm} handleDelete={handleDelete} />
 

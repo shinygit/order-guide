@@ -8,7 +8,8 @@ const itemReducer = (state, action) => {
         {
           id: uuid(),
           itemName: action.itemName,
-          supplier: action.supplier
+          supplier: action.supplier,
+          order: 0
         }
       ])
     case 'DELETE_ITEM':
@@ -27,6 +28,18 @@ const itemReducer = (state, action) => {
             itemName: action.itemName,
             supplier: action.supplier
           })
+        } else { return item }
+      })
+    case 'DECREASE_ORDER_AMOUNT':
+      return state.map(item => {
+        if (item.id === action.id) {
+          return ({ ...item, order: item.order - 1 })
+        } else { return item }
+      })
+    case 'INCREASE_ORDER_AMOUNT':
+      return state.map(item => {
+        if (item.id === action.id) {
+          return ({ ...item, order: item.order + 1 })
         } else { return item }
       })
     default:
