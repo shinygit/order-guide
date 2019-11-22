@@ -3,18 +3,11 @@ import './App.css'
 import initialItems from './testData/initialItems'
 import ListItems from './components/ListItems'
 import AddItemForm from './components/AddItemForm'
-import EditItemForm from './components/EditItemForm'
 import itemReducer from './reducers/itemReducer'
 import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
 
 const App = () => {
-  const [editItemForm, setEditItemForm] = useState({
-    itemName: '',
-    supplier: ''
-
-  })
-
   const [items, dispatchItems] = useReducer(itemReducer, initialItems)
 
   const getCurrentSuppliers = useCallback(() => {
@@ -34,21 +27,13 @@ const App = () => {
   const handleDelete = (id) => {
     dispatchItems({ type: 'DELETE_ITEM', id: id })
   }
-  const handleEdit = (id) => {
-    items.forEach(item => {
-      if (item.id === id) {
-        setEditItemForm(item)
-      }
-    })
-  }
+
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
   return (
     <div>
       <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} />
-      <ListItems handleEdit={handleEdit} items={items} filter={filter} dispatchItems={dispatchItems} />
+      <ListItems filter={filter} items={items} dispatchItems={dispatchItems} suppliers={suppliers} handleDelete={handleDelete} />
       <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} />
-      <EditItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} editItemForm={editItemForm} setEditItemForm={setEditItemForm} handleDelete={handleDelete} />
-
     </div>
   )
 }

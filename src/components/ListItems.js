@@ -1,6 +1,7 @@
 import React from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
-const ListItems = ({ items, handleDelete, filter, handleEdit, dispatchItems, suppliers }) => {
+import EditItemForm from './EditItemForm'
+const ListItems = ({ items, handleDelete, filter, dispatchItems, suppliers }) => {
   const filteredItems = items.filter(item => {
     if (filter === 'ALL') {
       return true
@@ -10,13 +11,16 @@ const ListItems = ({ items, handleDelete, filter, handleEdit, dispatchItems, sup
     }
     return false
   })
-
+  const handleEdit = (id) => {
+    dispatchItems({ type: 'TOGGLE_EDIT', id: id })
+  }
   return (
     <ul>
       {filteredItems.map(item => (
         <li key={item.id}>
           <label onClick={() => handleEdit(item.id)}>{item.itemName}</label>
           <ChangeOrderAmount id={item.id} orderAmount={item.order} dispatchItems={dispatchItems} />
+          {item.showEditForm && <EditItemForm filter={filter} item={item} dispatchItems={dispatchItems} suppliers={suppliers} handleDelete={handleDelete} />}
         </li>
       ))}
     </ul>

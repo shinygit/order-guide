@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-const EditItemForm = ({ items, dispatchItems, suppliers, editItemForm, setEditItemForm, handleDelete }) => {
+const EditItemForm = ({ item, dispatchItems, suppliers, handleDelete }) => {
+  const [editItemForm, setEditItemForm] = useState({
+    id: item.id,
+    itemName: item.itemName,
+    supplier: item.supplier
+
+  })
   const handleChangeInput = event => {
     setEditItemForm({
       ...editItemForm,
@@ -17,13 +23,16 @@ const EditItemForm = ({ items, dispatchItems, suppliers, editItemForm, setEditIt
         supplier: editItemForm.supplier
       })
     }
-    setEditItemForm({
-      itemName: '',
-      supplier: ''
-    })
     event.preventDefault()
   }
 
+  useEffect(() =>
+    setEditItemForm({
+      id: item.id,
+      itemName: item.itemName,
+      supplier: item.supplier
+    }), [item]
+  )
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -52,7 +61,7 @@ const EditItemForm = ({ items, dispatchItems, suppliers, editItemForm, setEditIt
         </datalist>
       </label>
       <button type='submit'>Edit Item</button>
-      <button onClick={() => handleDelete(editItemForm.id)}>DELETE</button>
+      <button type='button' onClick={() => handleDelete(editItemForm.id)}>DELETE</button>
     </form>
   )
 }

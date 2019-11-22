@@ -9,7 +9,8 @@ const itemReducer = (state, action) => {
           id: uuid(),
           itemName: action.itemName,
           supplier: action.supplier,
-          order: 0
+          order: 0,
+          showEditForm: false
         }
       ])
     case 'DELETE_ITEM':
@@ -40,6 +41,15 @@ const itemReducer = (state, action) => {
       return state.map(item => {
         if (item.id === action.id) {
           return ({ ...item, order: item.order + 1 })
+        } else { return item }
+      })
+    case 'TOGGLE_EDIT':
+      return state.map(item => {
+        if (item.id === action.id) {
+          return ({
+            ...item,
+            showEditForm: !item.showEditForm
+          })
         } else { return item }
       })
     default:
