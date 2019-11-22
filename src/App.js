@@ -5,6 +5,7 @@ import ListItems from './components/ListItems'
 import AddItemForm from './components/AddItemForm'
 import EditItemForm from './components/EditItemForm'
 import itemReducer from './reducers/itemReducer'
+import filterReducer from './reducers/filterReducer'
 
 const App = () => {
   const [itemForm, setItemForm] = useState({
@@ -33,17 +34,6 @@ const App = () => {
     setSuppliers(getCurrentSuppliers())
   }, [getCurrentSuppliers])
 
-  const filterReducer = (state, action) => {
-    switch (action.type) {
-      case 'SHOW_ALL':
-        return 'ALL'
-      case 'supplierFilter':
-        return action.supplier
-      default:
-        throw new Error()
-    }
-  }
-
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
 
   const handleShowSupplier = (supplier) => {
@@ -62,15 +52,6 @@ const App = () => {
       }
     })
   }
-  const filteredItems = items.filter(item => {
-    if (filter === 'ALL') {
-      return true
-    }
-    if (item.supplier === filter.supplier) {
-      return true
-    }
-    return false
-  })
 
   return (
     <div>
@@ -78,9 +59,9 @@ const App = () => {
       {suppliers.map(supplier => (
         <button key={supplier} onClick={() => handleShowSupplier({ supplier })}>{supplier}</button>
       ))}
-      <ListItems handleEdit={handleEdit} handleDelete={handleDelete} filteredItems={filteredItems} />
+      <ListItems handleEdit={handleEdit} items={items} filter={filter} />
       <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} itemForm={itemForm} setItemForm={setItemForm} />
-      <EditItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} editItemForm={editItemForm} setEditItemForm={setEditItemForm} />
+      <EditItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} editItemForm={editItemForm} setEditItemForm={setEditItemForm} handleDelete={handleDelete} />
 
     </div>
   )

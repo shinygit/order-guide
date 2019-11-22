@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EditItemForm = ({ items, dispatchItems, suppliers, editItemForm, setEditItemForm }) => {
+const EditItemForm = ({ items, dispatchItems, suppliers, editItemForm, setEditItemForm, handleDelete }) => {
   const handleChangeInput = event => {
     setEditItemForm({
       ...editItemForm,
@@ -52,6 +52,7 @@ const EditItemForm = ({ items, dispatchItems, suppliers, editItemForm, setEditIt
         </datalist>
       </label>
       <button type='submit'>Edit Item</button>
+      <button onClick={() => handleDelete(editItemForm.id)}>DELETE</button>
     </form>
   )
 }
