@@ -1,6 +1,6 @@
 import React from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
-const ListItems = ({ items, handleDelete, filter, handleEdit, dispatchItems }) => {
+const ListItems = ({ items, handleDelete, filter, handleEdit, dispatchItems, suppliers }) => {
   const filteredItems = items.filter(item => {
     if (filter === 'ALL') {
       return true

@@ -9,10 +9,6 @@ import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
 
 const App = () => {
-  const [itemForm, setItemForm] = useState({
-    itemName: '',
-    supplier: ''
-  })
   const [editItemForm, setEditItemForm] = useState({
     itemName: '',
     supplier: ''
@@ -50,7 +46,7 @@ const App = () => {
     <div>
       <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} />
       <ListItems handleEdit={handleEdit} items={items} filter={filter} dispatchItems={dispatchItems} />
-      <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} itemForm={itemForm} setItemForm={setItemForm} />
+      <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} />
       <EditItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} editItemForm={editItemForm} setEditItemForm={setEditItemForm} handleDelete={handleDelete} />
 
     </div>

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const AddItemForm = ({ items, dispatchItems, suppliers, itemForm, setItemForm }) => {
+const AddItemForm = ({ items, dispatchItems, suppliers }) => {
+  const [itemForm, setItemForm] = useState({
+    itemName: '',
+    supplier: ''
+  })
   const handleChangeInput = event => {
     setItemForm({
       ...itemForm,
