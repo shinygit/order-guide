@@ -1,9 +1,12 @@
 import React from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import EditItemForm from './EditItemForm'
-const ListItems = ({ items, handleDelete, filter, dispatchItems, suppliers, locations }) => {
+const ListItems = ({ items, handleDelete, filter, dispatchItems, suppliers, locations, searchTerm }) => {
   const filteredItems = items.filter(item => {
     if (filter === 'ALL') {
+      return true
+    }
+    if (Array.isArray(filter) && filter.includes(item)) {
       return true
     }
     if (item.supplier === filter.supplier) {

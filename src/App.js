@@ -10,6 +10,7 @@ import SearchForm from './components/SearchForm'
 
 const App = () => {
   const [items, dispatchItems] = useReducer(itemReducer, initialItems)
+  const [searchTerm, setSearchTerm] = useState('')
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
     items.forEach(item => {
@@ -48,11 +49,11 @@ const App = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
   return (
     <div>
-      <SearchForm items={items} />
+      <SearchForm items={items} dispatchFilter={dispatchFilter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} locations={locations} />
       <button onClick={() => toggleNewItem()}>New Item</button>
       {newItemToggle && <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} />}
-      <ListItems filter={filter} items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />
+      <ListItems filter={filter} searchTerm={searchTerm} items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />
     </div>
   )
 }

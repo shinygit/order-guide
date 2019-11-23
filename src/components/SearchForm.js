@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
-const SearchForm = ({ items }) => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [searchResults, setSearchResults] = useState([])
+import React, { useEffect } from 'react'
+const SearchForm = ({ items, dispatchFilter, searchTerm, setSearchTerm }) => {
   const handleChange = event => {
     setSearchTerm(event.target.value)
   }
+
   useEffect(() => {
-    if (searchTerm === '') { setSearchResults([]) } else {
-      const results = items.filter(item =>
+    let results = []
+    if (searchTerm === '') { results = 'ALL' } else {
+      results = items.filter(item =>
         item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
       )
-      setSearchResults(results)
-    }
-  }, [searchTerm, items])
+    } dispatchFilter({ type: 'FILTER_SEARCH', results: results })
+  }, [searchTerm, items, dispatchFilter])
   return (
     <div>
       <input
@@ -22,11 +21,7 @@ const SearchForm = ({ items }) => {
         onChange={handleChange}
       />
       <br />
-      <ul>
-        {searchResults.map(item => (
-          <li key={item.itemName}>{item.itemName}</li>
-        ))}
-      </ul>
+      <ul />
     </div>
   )
 }
