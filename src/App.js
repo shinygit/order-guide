@@ -41,14 +41,18 @@ const App = () => {
   const handleDelete = (id) => {
     dispatchItems({ type: 'DELETE_ITEM', id: id })
   }
-
+  const [newItemToggle, setNewItemToggle] = useState(false)
+  const toggleNewItem = () => {
+    setNewItemToggle(!newItemToggle)
+  }
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
   return (
     <div>
       <SearchForm items={items} />
       <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} locations={locations} />
+      <button onClick={() => toggleNewItem()}>New Item</button>
+      {newItemToggle && <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} />}
       <ListItems filter={filter} items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />
-      <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} />
     </div>
   )
 }
