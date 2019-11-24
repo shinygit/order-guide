@@ -7,7 +7,7 @@ import itemReducer from './reducers/itemReducer'
 import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
-
+1
 const App = () => {
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, initialItems)
