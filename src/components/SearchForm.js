@@ -8,12 +8,17 @@ const SearchForm = ({ items, dispatchFilter, searchTerm, setSearchTerm, itemsCur
     setItemsCurrentlyFiltered(false)
   }, [setItemsCurrentlyFiltered, searchTerm])
   useEffect(() => {
-    const fuse = new Fuse(items, { keys: ['itemName'] })
+    const fuse = new Fuse(items, { maxPatternLength: 32, keys: ['itemName'] })
     let fuseResults = []
-    if (searchTerm === '') { fuseResults = 'ALL' } else {
+    if (searchTerm === '') { fuseResults = 'ALL' } else
+    if (searchTerm.includes(' ')) {
       fuseResults = fuse.search(searchTerm)
-      console.log(fuseResults)
-    } if (itemsCurrentlyFiltered === false) {
+    } else {
+      fuseResults = items.filter(item =>
+        item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+    if (itemsCurrentlyFiltered === false) {
       dispatchFilter({ type: 'FILTER_SEARCH', results: fuseResults })
     }
   }, [searchTerm, items, dispatchFilter, itemsCurrentlyFiltered])
