@@ -8,7 +8,7 @@
 
 # testing
 /coverage
-/src/testData/
+testData
 
 # production
 /build
