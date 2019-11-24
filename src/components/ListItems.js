@@ -16,6 +16,8 @@ const ListItems = ({ items, handleDelete, filter, dispatchItems, suppliers, loca
       return true
     }
     return false
+  }).sort((a, b) => {
+    return filter.indexOf(a) - filter.indexOf(b)
   })
   const handleEdit = (id) => {
     dispatchItems({ type: 'TOGGLE_EDIT', id: id })

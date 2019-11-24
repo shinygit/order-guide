@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react'
-const SearchForm = ({ items, dispatchFilter, searchTerm, setSearchTerm }) => {
+import Fuse from 'fuse.js'
+const SearchForm = ({ items, dispatchFilter, searchTerm, setSearchTerm, itemsCurrentlyFiltered, setItemsCurrentlyFiltered }) => {
   const handleChange = event => {
     setSearchTerm(event.target.value)
   }
-
   useEffect(() => {
-    let results = []
-    if (searchTerm === '') { results = 'ALL' } else {
-      results = items.filter(item =>
-        item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    } dispatchFilter({ type: 'FILTER_SEARCH', results: results })
-  }, [searchTerm, items, dispatchFilter])
+    setItemsCurrentlyFiltered(false)
+  }, [setItemsCurrentlyFiltered, searchTerm])
+  useEffect(() => {
+    const fuse = new Fuse(items, { keys: ['itemName'] })
+    let fuseResults = []
+    if (searchTerm === '') { fuseResults = 'ALL' } else {
+      fuseResults = fuse.search(searchTerm)
+      console.log(fuseResults)
+    } if (itemsCurrentlyFiltered === false) {
+      dispatchFilter({ type: 'FILTER_SEARCH', results: fuseResults })
+    }
+  }, [searchTerm, items, dispatchFilter, itemsCurrentlyFiltered])
   return (
     <div>
       <input

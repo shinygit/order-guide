@@ -1,12 +1,15 @@
 import React from 'react'
-const FilterMenu = ({ suppliers, locations, filter, dispatchFilter }) => {
+const FilterMenu = ({ suppliers, locations, filter, dispatchFilter, setItemsCurrentlyFiltered }) => {
   const handleShowSupplier = (supplier) => {
+    setItemsCurrentlyFiltered(true)
     dispatchFilter({ type: 'FILTER_SUPPLIER', supplier: supplier })
   }
   const handleShowAll = () => {
+    setItemsCurrentlyFiltered(false)
     dispatchFilter({ type: 'SHOW_ALL' })
   }
   const handleShowLocation = (location) => {
+    setItemsCurrentlyFiltered(true)
     dispatchFilter({ type: 'FILTER_LOCATION', location: location })
   }
   return (

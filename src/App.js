@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import './App.css'
-import initialItems from './testData/initialItems'
+import { initialItems } from './testData/initialItems'
 import ListItems from './components/ListItems'
 import AddItemForm from './components/AddItemForm'
 import itemReducer from './reducers/itemReducer'
@@ -9,6 +9,7 @@ import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
 
 const App = () => {
+  const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, initialItems)
   const [searchTerm, setSearchTerm] = useState('')
   const getCurrentSuppliers = useCallback(() => {
@@ -49,8 +50,8 @@ const App = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
   return (
     <div>
-      <SearchForm items={items} dispatchFilter={dispatchFilter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} locations={locations} />
+      <SearchForm items={items} dispatchFilter={dispatchFilter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} itemsCurrentlyFiltered={itemsCurrentlyFiltered} setItemsCurrentlyFiltered={setItemsCurrentlyFiltered} />
+      <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} locations={locations} itemsCurrentlyFiltered={itemsCurrentlyFiltered} setItemsCurrentlyFiltered={setItemsCurrentlyFiltered} />
       <button onClick={() => toggleNewItem()}>New Item</button>
       {newItemToggle && <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} />}
       <ListItems filter={filter} searchTerm={searchTerm} items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />
