@@ -8,7 +8,7 @@ const SearchForm = ({ items, dispatchFilter, searchTerm, setSearchTerm, itemsCur
     setItemsCurrentlyFiltered(false)
   }, [setItemsCurrentlyFiltered, searchTerm])
   useEffect(() => {
-    const fuse = new Fuse(items, { maxPatternLength: 32, keys: ['itemName'] })
+    const fuse = new Fuse(items, { keys: ['itemName'] })
     let fuseResults = []
     if (searchTerm === '') { fuseResults = 'ALL' } else
     if (searchTerm.includes(' ')) {

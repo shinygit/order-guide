@@ -26,15 +26,28 @@ const ListItems = ({ items, handleDelete, filter, dispatchItems, suppliers, loca
     dispatchItems({ type: 'TOGGLE_EDIT', id: id })
   }
   return (
-    <ul>
-      {filteredItems.map(item => (
-        <li key={item.id}>
-          <label onClick={() => handleEdit(item.id)}>{item.itemName}</label>
-          <ChangeOrderAmount id={item.id} orderAmount={item.order} dispatchItems={dispatchItems} />
-          {item.showEditForm && <EditItemForm filter={filter} item={item} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />}
-        </li>
-      ))}
-    </ul>
+    <div>
+      <table>
+        <tbody>
+          <tr><th /><th>Item</th><th>Order</th></tr>
+          {filteredItems.map(item => {
+            if (item.showEditForm) {
+              return <EditItemForm
+                key={item.id}
+                item={item}
+                dispatchItems={dispatchItems}
+                suppliers={suppliers}
+                locations={locations}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+              />
+            } else { return <tr key={item.id}><td onClick={() => handleEdit(item.id)}>Edit</td><td>{item.itemName}</td><td><ChangeOrderAmount id={item.id} orderAmount={item.order} dispatchItems={dispatchItems} /></td></tr> }
+          })}
+        </tbody>
+      </table>
+    </div>
+
   )
 }
 export default ListItems
+//          item.showEditForm && <EditItemForm filter={filter} item={item} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />
