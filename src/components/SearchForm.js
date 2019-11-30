@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react'
 import Fuse from 'fuse.js'
-const SearchForm = ({ items, dispatchFilter, searchTerm, setSearchTerm, itemsCurrentlyFiltered, setItemsCurrentlyFiltered }) => {
+const SearchForm = ({
+  items,
+  dispatchFilter,
+  searchTerm,
+  setSearchTerm,
+  itemsCurrentlyFiltered,
+  setItemsCurrentlyFiltered
+}) => {
   const handleChange = event => {
     setSearchTerm(event.target.value)
   }
   useEffect(() => {
     setItemsCurrentlyFiltered(false)
   }, [setItemsCurrentlyFiltered, searchTerm])
+
   useEffect(() => {
     const fuse = new Fuse(items, { keys: ['itemName'] })
     let fuseResults = []
-    if (searchTerm === '') { fuseResults = 'ALL' } else
-    if (searchTerm.includes(' ')) {
+    if (searchTerm === '') {
+      fuseResults = 'ALL'
+    } else if (searchTerm.includes(' ')) {
       fuseResults = fuse.search(searchTerm)
     } else {
       fuseResults = items.filter(item =>

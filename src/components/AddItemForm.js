@@ -4,7 +4,8 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
   const [itemForm, setItemForm] = useState({
     itemName: '',
     supplier: '',
-    location: ''
+    location: '',
+    buildTo: ''
   })
   const handleChangeInput = event => {
     setItemForm({
@@ -19,13 +20,15 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
         type: 'ADD_ITEM',
         itemName: itemForm.itemName,
         supplier: itemForm.supplier,
-        location: itemForm.location
+        location: itemForm.location,
+        buildTo: itemForm.buildTo
       })
     }
     setItemForm({
       itemName: '',
       supplier: '',
-      location: ''
+      location: '',
+      buildTo: ''
     })
     event.preventDefault()
   }
@@ -43,6 +46,16 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
       </label>
       <br />
       <label>
+        Build To:
+        <input
+          type='text'
+          name='buildTo'
+          value={itemForm.buildTo}
+          onChange={handleChangeInput}
+        />
+      </label>
+      <br />
+      <label>
         Supplier
         <input
           type='text'
@@ -52,7 +65,7 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
           onChange={handleChangeInput}
         />
         <datalist id='suppliersList'>
-          {suppliers.map((item) => (
+          {suppliers.map(item => (
             <option key={item} value={item} />
           ))}
         </datalist>
@@ -68,7 +81,7 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
           onChange={handleChangeInput}
         />
         <datalist id='locationList'>
-          {locations.map((item) => (
+          {locations.map(item => (
             <option key={item} value={item} />
           ))}
         </datalist>

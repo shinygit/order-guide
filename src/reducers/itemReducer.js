@@ -3,17 +3,18 @@ import uuid from 'uuid/v4'
 const itemReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_ITEM':
-      return ([
+      return [
         ...state,
         {
           id: uuid(),
           itemName: action.itemName,
           supplier: action.supplier,
           location: action.location,
+          buildTo: action.buildTo,
           order: 0,
           showEditForm: false
         }
-      ])
+      ]
     case 'DELETE_ITEM':
       return state.filter(item => {
         if (item.id === action.id) {
@@ -25,34 +26,43 @@ const itemReducer = (state, action) => {
     case 'EDIT_ITEM':
       return state.map(item => {
         if (item.id === action.id) {
-          return ({
+          return {
             ...item,
             itemName: action.itemName,
+            buildTo: action.buildTo,
             supplier: action.supplier,
             location: action.location
-          })
-        } else { return item }
+          }
+        } else {
+          return item
+        }
       })
     case 'DECREASE_ORDER_AMOUNT':
       return state.map(item => {
         if (item.id === action.id) {
-          return ({ ...item, order: item.order - 1 })
-        } else { return item }
+          return { ...item, order: item.order - 1 }
+        } else {
+          return item
+        }
       })
     case 'INCREASE_ORDER_AMOUNT':
       return state.map(item => {
         if (item.id === action.id) {
-          return ({ ...item, order: item.order + 1 })
-        } else { return item }
+          return { ...item, order: item.order + 1 }
+        } else {
+          return item
+        }
       })
     case 'TOGGLE_EDIT':
       return state.map(item => {
         if (item.id === action.id) {
-          return ({
+          return {
             ...item,
             showEditForm: !item.showEditForm
-          })
-        } else { return item }
+          }
+        } else {
+          return item
+        }
       })
     default:
       throw new Error()
