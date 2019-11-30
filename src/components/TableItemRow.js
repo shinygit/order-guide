@@ -1,27 +1,30 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import CreateTwoToneIcon from '@material-ui/icons/CreateTwoTone'
 
 const TableItemRow = ({ dispatchItems, item, handleEdit }) => {
-  return (
-    <tr>
-      <TdEdit>
-        <CreateTwoToneIcon onClick={() => handleEdit(item.id)}>
-          Edit
-        </CreateTwoToneIcon>
-      </TdEdit>
-      <Td>{item.itemName}</Td>
-      <Td>{item.buildTo}</Td>
-      <Td>
-        <ChangeOrderAmount
-          id={item.id}
-          orderAmount={item.order}
-          dispatchItems={dispatchItems}
-        />
-      </Td>
-      <Td>{item.supplier}</Td>
-    </tr>
+  return useMemo(
+    () => (
+      <tr>
+        <TdEdit>
+          <CreateTwoToneIcon onClick={() => handleEdit(item.id)}>
+            Edit
+          </CreateTwoToneIcon>
+        </TdEdit>
+        <Td>{item.itemName}</Td>
+        <Td>{item.buildTo}</Td>
+        <Td>
+          <ChangeOrderAmount
+            id={item.id}
+            orderAmount={item.order}
+            dispatchItems={dispatchItems}
+          />
+        </Td>
+        <Td>{item.supplier}</Td>
+      </tr>
+    ),
+    [item]
   )
 }
 const Td = styled.td`
