@@ -1,27 +1,56 @@
 import React from 'react'
-const FilterMenu = ({ suppliers, locations, filter, dispatchFilter, setItemsCurrentlyFiltered }) => {
-  const handleShowSupplier = (supplier) => {
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import Button from '@material-ui/core/Button'
+const FilterMenu = ({
+  suppliers,
+  locations,
+  filter,
+  dispatchFilter,
+  setItemsCurrentlyFiltered
+}) => {
+  const handleShowSupplier = supplier => {
     setItemsCurrentlyFiltered(true)
     dispatchFilter({ type: 'FILTER_SUPPLIER', supplier: supplier })
   }
   const handleShowAll = () => {
-    setItemsCurrentlyFiltered(false)
+    setItemsCurrentlyFiltered(true)
     dispatchFilter({ type: 'SHOW_ALL' })
   }
-  const handleShowLocation = (location) => {
+  const handleShowLocation = location => {
     setItemsCurrentlyFiltered(true)
     dispatchFilter({ type: 'FILTER_LOCATION', location: location })
   }
   return (
     <>
-      <button key='ALL' onClick={() => handleShowAll()}>ALL</button>
-      {suppliers.map(supplier => (
-        <button key={supplier} onClick={() => handleShowSupplier({ supplier })}>{supplier}</button>
-      ))}
+      <Button variant='contained' key='ALL' onClick={() => handleShowAll()}>
+        ALL
+      </Button>
       <br />
-      {locations.map(location => (
-        <button key={location} onClick={() => handleShowLocation({ location })}>{location}</button>
-      ))}
+      <ButtonGroup>
+        {suppliers.map(supplier => (
+          <Button
+            color='primary'
+            variant='outlined'
+            key={supplier}
+            onClick={() => handleShowSupplier({ supplier })}
+          >
+            {supplier}
+          </Button>
+        ))}
+      </ButtonGroup>
+      <br />
+      <ButtonGroup>
+        {locations.map(location => (
+          <Button
+            color='primary'
+            variant='outlined'
+            key={location}
+            onClick={() => handleShowLocation({ location })}
+          >
+            {location}
+          </Button>
+        ))}
+      </ButtonGroup>
     </>
   )
 }

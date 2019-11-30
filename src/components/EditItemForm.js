@@ -1,13 +1,24 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
+import deleteImage from '../assets/images/15107-illustration-of-a-red-close-button-pv.png'
+import SaveIcon from '@material-ui/icons/Save'
 
-const EditItemForm = ({ item, dispatchItems, suppliers, locations, handleDelete, handleEdit }) => {
+const EditItemForm = ({
+  item,
+  dispatchItems,
+  suppliers,
+  locations,
+  handleDelete,
+  handleEdit
+}) => {
   const [editItemForm, setEditItemForm] = useState({
     id: item.id,
     itemName: item.itemName,
+    buildTo: item.buildTo,
     supplier: item.supplier,
     location: item.location
-
   })
   const handleChangeInput = event => {
     setEditItemForm({
@@ -22,93 +33,99 @@ const EditItemForm = ({ item, dispatchItems, suppliers, locations, handleDelete,
         type: 'EDIT_ITEM',
         id: editItemForm.id,
         itemName: editItemForm.itemName,
+        buildTo: editItemForm.buildTo,
         supplier: editItemForm.supplier,
         location: editItemForm.location
       })
     }
   }
 
-  useEffect(() =>
-    setEditItemForm({
-      id: item.id,
-      itemName: item.itemName,
-      supplier: item.supplier,
-      location: item.location
-    }), [item]
+  useEffect(
+    () =>
+      setEditItemForm({
+        id: item.id,
+        itemName: item.itemName,
+        buildTo: item.buildTo,
+        supplier: item.supplier,
+        location: item.location
+      }),
+    [item]
   )
 
   return (
-    <tr key={item.id}>
-      <td onClick={() => { handleEdit(item.id); handleSubmit() }}>
-        Edit
-      </td>
-      <td>
-        <input
+    <tr>
+      <Td>
+        <SaveIcon
+          onClick={() => {
+            handleEdit(item.id)
+            handleSubmit()
+          }}
+        >
+          Edit
+        </SaveIcon>
+      </Td>
+      <Td>
+        <Input
           type='text'
           name='itemName'
           value={editItemForm.itemName}
           onChange={handleChangeInput}
         />
-      </td>
-      <td>
+      </Td>
+      <Td>
+        <Input
+          type='text'
+          name='buildTo'
+          value={editItemForm.buildTo}
+          onChange={handleChangeInput}
+        />
+      </Td>
+      <Td>
         <ChangeOrderAmount
           id={item.id}
           orderAmount={item.order}
           dispatchItems={dispatchItems}
         />
-      </td>
-      <td>
-        <button type='button' onClick={() => handleDelete(editItemForm.id)}>DELETE</button>
-      </td>
+      </Td>
+      <Td>
+        <Input
+          type='text'
+          name='supplier'
+          list='suppliersList'
+          value={editItemForm.supplier}
+          onChange={handleChangeInput}
+        />
+        <datalist id='suppliersList'>
+          {suppliers.map(item => (
+            <option key={item} value={item} />
+          ))}
+        </datalist>
+      </Td>
+      <Td>
+        <ButtonDelete
+          type='button'
+          onClick={() => handleDelete(editItemForm.id)}
+        />
+      </Td>
     </tr>
   )
 }
 export default EditItemForm
-/* return (
-  <form onSubmit={handleSubmit}>
-    <label>
-      Item Name:
-      <input
-        type='text'
-        name='itemName'
-        value={editItemForm.itemName}
-        onChange={handleChangeInput}
-      />
-    </label>
-    <br />
-    <label>
-      Supplier
-      <input
-        type='text'
-        name='supplier'
-        list='suppliersList'
-        value={editItemForm.supplier}
-        onChange={handleChangeInput}
-      />
-      <datalist id='suppliersList'>
-        {suppliers.map((item) => (
-          <option key={item} value={item} />
-        ))}
-      </datalist>
-    </label>
-    <br />
-    <label>
-      Location
-      <input
-        type='text'
-        name='location'
-        list='locationList'
-        value={editItemForm.location}
-        onChange={handleChangeInput}
-      />
-      <datalist id='locationList'>
-        {locations.map((item) => (
-          <option key={item} value={item} />
-        ))}
-      </datalist>
-    </label>
-    <button type='submit'>Edit Item</button>
-    <button type='button' onClick={() => handleDelete(editItemForm.id)}>DELETE</button>
-  </form>
-)
-} */
+const Td = styled.td`
+  border: 1px solid grey;
+  padding: 4px;
+  text-align: left;
+`
+const Input = styled.input`
+  box-sizing: border-box;
+`
+const ButtonDelete = styled.button`
+  background-image: url(${deleteImage});
+  background-size: contain;
+  border: 1px solid #000;
+  width: 20px;
+  height: 20px;
+`
+const ButtonEdit = styled.button`
+  background-color: #008cba;
+`

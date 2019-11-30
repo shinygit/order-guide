@@ -8,6 +8,8 @@ import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
 
+import Button from '@material-ui/core/Button'
+
 const App = () => {
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, initialItems)
@@ -15,7 +17,10 @@ const App = () => {
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
     items.forEach(item => {
-      if (currentSuppliers.includes(item.supplier)) {} else { currentSuppliers.push(item.supplier) }
+      if (currentSuppliers.includes(item.supplier)) {
+      } else {
+        currentSuppliers.push(item.supplier)
+      }
     })
     return currentSuppliers
   }, [items])
@@ -29,7 +34,10 @@ const App = () => {
   const getCurrentLocations = useCallback(() => {
     const currentLocations = []
     items.forEach(item => {
-      if (currentLocations.includes(item.location)) {} else { currentLocations.push(item.location) }
+      if (currentLocations.includes(item.location)) {
+      } else {
+        currentLocations.push(item.location)
+      }
     })
     return currentLocations
   }, [items])
@@ -40,7 +48,7 @@ const App = () => {
     setLocations(getCurrentLocations())
   }, [getCurrentLocations])
 
-  const handleDelete = (id) => {
+  const handleDelete = id => {
     dispatchItems({ type: 'DELETE_ITEM', id: id })
   }
   const [newItemToggle, setNewItemToggle] = useState(false)
@@ -50,11 +58,41 @@ const App = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
   return (
     <div>
-      <SearchForm items={items} dispatchFilter={dispatchFilter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} itemsCurrentlyFiltered={itemsCurrentlyFiltered} setItemsCurrentlyFiltered={setItemsCurrentlyFiltered} />
-      <FilterMenu filter={filter} dispatchFilter={dispatchFilter} suppliers={suppliers} locations={locations} itemsCurrentlyFiltered={itemsCurrentlyFiltered} setItemsCurrentlyFiltered={setItemsCurrentlyFiltered} />
-      <button onClick={() => toggleNewItem()}>New Item</button>
-      {newItemToggle && <AddItemForm items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} />}
-      <ListItems filter={filter} searchTerm={searchTerm} items={items} dispatchItems={dispatchItems} suppliers={suppliers} locations={locations} handleDelete={handleDelete} />
+      <SearchForm
+        items={items}
+        dispatchFilter={dispatchFilter}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+        setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+      />
+      <Button onClick={() => toggleNewItem()}>New Item</Button>
+      <br />
+      <FilterMenu
+        filter={filter}
+        dispatchFilter={dispatchFilter}
+        suppliers={suppliers}
+        locations={locations}
+        itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+        setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+      />
+      {newItemToggle && (
+        <AddItemForm
+          items={items}
+          dispatchItems={dispatchItems}
+          suppliers={suppliers}
+          locations={locations}
+        />
+      )}
+      <ListItems
+        filter={filter}
+        searchTerm={searchTerm}
+        items={items}
+        dispatchItems={dispatchItems}
+        suppliers={suppliers}
+        locations={locations}
+        handleDelete={handleDelete}
+      />
     </div>
   )
 }
