@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
@@ -125,7 +124,4 @@ const ButtonDelete = styled.button`
   border: 1px solid #000;
   width: 20px;
   height: 20px;
-`
-const ButtonEdit = styled.button`
-  background-color: #008cba;
 `
