@@ -24,7 +24,7 @@ const TableItemRow = ({ dispatchItems, item, handleEdit }) => {
         <Td>{item.supplier}</Td>
       </tr>
     ),
-    [item]
+    [item, dispatchItems, handleEdit]
   )
 }
 const Td = styled.td`

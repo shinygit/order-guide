@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
@@ -31,9 +31,12 @@ const ListItems = ({
       return filter.indexOf(a) - filter.indexOf(b)
     })
   }
-  const handleEdit = id => {
-    dispatchItems({ type: 'TOGGLE_EDIT', id: id })
-  }
+  const handleEdit = useCallback(
+    id => {
+      dispatchItems({ type: 'TOGGLE_EDIT', id: id })
+    },
+    [dispatchItems]
+  )
   return (
     <Div>
       <Table>
