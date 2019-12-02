@@ -6,12 +6,15 @@ const ListItems = ({
   items,
   handleDelete,
   filter,
+  sort,
   dispatchItems,
+  dispatchSort,
   suppliers,
   locations,
-  searchTerm
+  searchTerm,
+  itemsCurrentlySorted
 }) => {
-  let filteredItems = items.filter(item => {
+  let itemsToDisplay = items.filter(item => {
     if (filter === 'ALL') {
       return true
     }
@@ -27,8 +30,13 @@ const ListItems = ({
     return false
   })
   if (Array.isArray(filter)) {
-    filteredItems = filteredItems.sort((a, b) => {
+    itemsToDisplay = itemsToDisplay.sort((a, b) => {
       return filter.indexOf(a) - filter.indexOf(b)
+    })
+  }
+  if (itemsCurrentlySorted) {
+    itemsToDisplay = itemsToDisplay.sort((a, b) => {
+      return sort.indexOf(a) - sort.indexOf(b)
     })
   }
   const handleEdit = useCallback(
@@ -48,7 +56,7 @@ const ListItems = ({
             <Th>Order</Th>
             <Th>Supplier</Th>
           </tr>
-          {filteredItems.map(item => {
+          {itemsToDisplay.map(item => {
             if (item.showEditForm) {
               return (
                 <EditItemForm
