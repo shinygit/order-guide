@@ -11,8 +11,7 @@ const ListItems = ({
   dispatchSort,
   suppliers,
   locations,
-  searchTerm,
-  itemsCurrentlySorted
+  searchTerm
 }) => {
   let itemsToDisplay = items.filter(item => {
     if (filter === 'ALL') {
@@ -30,14 +29,7 @@ const ListItems = ({
     return false
   })
   if (Array.isArray(filter)) {
-    itemsToDisplay = itemsToDisplay.sort((a, b) => {
-      return filter.indexOf(a) - filter.indexOf(b)
-    })
-  }
-  if (itemsCurrentlySorted) {
-    itemsToDisplay = itemsToDisplay.sort((a, b) => {
-      return sort.indexOf(a) - sort.indexOf(b)
-    })
+    itemsToDisplay = filter
   }
   const handleEdit = useCallback(
     id => {
