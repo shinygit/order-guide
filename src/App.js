@@ -7,10 +7,13 @@ import itemReducer from './reducers/itemReducer'
 import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
+import SortMenu from './components/SortMenu'
+import sortReducer from './reducers/sortReducer'
 
 import Button from '@material-ui/core/Button'
 
 const App = () => {
+  const [itemsCurrentlySorted, setItemsCurrentlySorted] = useState(false)
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, initialItems)
   const [searchTerm, setSearchTerm] = useState('')
@@ -56,6 +59,7 @@ const App = () => {
     setNewItemToggle(!newItemToggle)
   }
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
+  const [sort, dispatchSort] = useReducer(sortReducer, false)
   return (
     <div>
       <SearchForm
@@ -65,6 +69,11 @@ const App = () => {
         setSearchTerm={setSearchTerm}
         itemsCurrentlyFiltered={itemsCurrentlyFiltered}
         setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+      />
+      <SortMenu
+        setItemsCurrentlySorted={setItemsCurrentlySorted}
+        dispatchSort={dispatchSort}
+        items={items}
       />
       <Button onClick={() => toggleNewItem()}>New Item</Button>
       <br />
@@ -86,12 +95,14 @@ const App = () => {
       )}
       <ListItems
         filter={filter}
+        sort={sort}
         searchTerm={searchTerm}
         items={items}
         dispatchItems={dispatchItems}
         suppliers={suppliers}
         locations={locations}
         handleDelete={handleDelete}
+        itemsCurrentlySorted={itemsCurrentlySorted}
       />
     </div>
   )
