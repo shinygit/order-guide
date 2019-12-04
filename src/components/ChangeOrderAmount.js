@@ -8,7 +8,9 @@ const ChangeOrderAmount = ({ id, orderAmount, dispatchItems }) => {
   }
   return (
     <>
-      <button onClick={() => handleDecrease()}>-</button>
+      <button className={`${id} decrease`} onClick={() => handleDecrease()}>
+        -
+      </button>
       {orderAmount}
       <button onClick={() => handleIncrease()}>+</button>
     </>
