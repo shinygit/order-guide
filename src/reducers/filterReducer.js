@@ -1,4 +1,3 @@
-
 const filterReducer = (state, action) => {
   switch (action.type) {
     case 'SHOW_ALL':
