@@ -11,7 +11,6 @@ createItem = (req, res) => {
   }
 
   const item = new Item(body)
-
   if (!item) {
     return res.status(400).json({ success: false, error: err })
   }

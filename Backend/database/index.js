@@ -3,7 +3,7 @@ const config = require('./config')
 
 mongoose
   .connect(
-    `mongodb+srv://${config.username}:${config.password}@cluster0-p6ung.azure.mongodb.net/test?retryWrites=true&w=majority`,
+    `mongodb+srv://${config.username}:${config.password}@cluster0-p6ung.azure.mongodb.net/orders?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .catch(e => {
