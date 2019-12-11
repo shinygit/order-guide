@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import './App.css'
-import { initialItems } from './testData/initialItems'
+// import { initialItems } from './testData/initialItems'
+import api from './api'
 import ListItems from './components/ListItems'
 import AddItemForm from './components/AddItemForm'
 import itemReducer from './reducers/itemReducer'
@@ -12,8 +13,17 @@ import SortMenu from './components/SortMenu'
 import Button from '@material-ui/core/Button'
 
 const App = () => {
+  useEffect(() => {
+    async function getInitialItems() {
+      await api.getAllItems().then(items => {
+        dispatchItems({ type: 'LOAD_ITEMS', items: items.data.data })
+      })
+    }
+
+    getInitialItems()
+  }, [])
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
-  const [items, dispatchItems] = useReducer(itemReducer, initialItems)
+  const [items, dispatchItems] = useReducer(itemReducer, [])
   const [searchTerm, setSearchTerm] = useState('')
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
