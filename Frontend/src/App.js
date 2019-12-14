@@ -14,14 +14,17 @@ import Button from '@material-ui/core/Button'
 
 const App = () => {
   useEffect(() => {
-    async function getInitialItems() {
+    async function getInitialItems () {
+      setIsLoading(true)
       await api.getAllItems().then(items => {
         dispatchItems({ type: 'LOAD_ITEMS', items: items.data.data })
+        setIsLoading(false)
       })
     }
 
     getInitialItems()
   }, [])
+  const [isLoading, setIsLoading] = useState(false)
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, [])
   const [searchTerm, setSearchTerm] = useState('')
@@ -59,8 +62,11 @@ const App = () => {
     setLocations(getCurrentLocations())
   }, [getCurrentLocations])
 
-  const handleDelete = id => {
-    dispatchItems({ type: 'DELETE_ITEM', id: id })
+  const handleDelete = editItemForm => {
+    api.deleteItemById(editItemForm._id).then(res => {
+      console.log(res)
+      dispatchItems({ type: 'DELETE_ITEM', _id: editItemForm._id })
+    })
   }
   const [newItemToggle, setNewItemToggle] = useState(false)
   const toggleNewItem = () => {
@@ -97,15 +103,19 @@ const App = () => {
           locations={locations}
         />
       )}
-      <ListItems
-        filter={filter}
-        searchTerm={searchTerm}
-        items={items}
-        dispatchItems={dispatchItems}
-        suppliers={suppliers}
-        locations={locations}
-        handleDelete={handleDelete}
-      />
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <ListItems
+          filter={filter}
+          searchTerm={searchTerm}
+          items={items}
+          dispatchItems={dispatchItems}
+          suppliers={suppliers}
+          locations={locations}
+          handleDelete={handleDelete}
+        />
+      )}
     </div>
   )
 }

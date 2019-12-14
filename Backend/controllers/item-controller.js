@@ -20,7 +20,7 @@ createItem = (req, res) => {
     .then(() => {
       return res.status(201).json({
         success: true,
-        id: item._id,
+        _id: item._id,
         message: 'Item created!'
       })
     })
@@ -34,14 +34,12 @@ createItem = (req, res) => {
 
 updateItem = async (req, res) => {
   const body = req.body
-
   if (!body) {
     return res.status(400).json({
       success: false,
       error: 'You must provide a body to update'
     })
   }
-
   Item.findOne({ _id: req.params.id }, (err, item) => {
     if (err) {
       return res.status(404).json({
@@ -49,19 +47,20 @@ updateItem = async (req, res) => {
         message: 'Item not found!'
       })
     }
-    item.id = body.id
-    item.supplier = body.supplier
-    item.location = body.location
-    item.itemName = body.itemName
-    item.buildTo = body.buildTo
+    item._id = body._id || item._id
+    item.supplier = body.supplier || item.supplier
+    item.location = body.location || item.location
+    item.itemName = body.itemName || item.itemName
+    item.buildTo = body.buildTo || item.buildTo
     item.order = body.order
-    item.showEditForm = body.showEditForm
+    item.showEditForm = body.showEditForm || item.showEditForm
     item
       .save()
       .then(() => {
         return res.status(200).json({
           success: true,
-          id: item._id,
+          item: item,
+          _id: item._id,
           message: 'Item updated!'
         })
       })
@@ -89,7 +88,7 @@ deleteItem = async (req, res) => {
 }
 
 getItemById = async (req, res) => {
-  await Item.findOne({ _id: req.params.id }, (err, item) => {
+  await Item.findOne({ _id: req.params._id }, (err, item) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
