@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import deleteImage from '../assets/images/15107-illustration-of-a-red-close-button-pv.png'
 import SaveIcon from '@material-ui/icons/Save'
+import api from '../api/'
 
 const EditItemForm = ({
   item,
@@ -13,11 +14,13 @@ const EditItemForm = ({
   handleEdit
 }) => {
   const [editItemForm, setEditItemForm] = useState({
-    id: item.id,
+    _id: item._id,
     itemName: item.itemName,
     buildTo: item.buildTo,
     supplier: item.supplier,
-    location: item.location
+    location: item.location,
+    order: item.order,
+    showEditForm: item.showEditForm
   })
   const handleChangeInput = event => {
     setEditItemForm({
@@ -28,13 +31,18 @@ const EditItemForm = ({
 
   const handleSubmit = event => {
     if (editItemForm) {
-      dispatchItems({
-        type: 'EDIT_ITEM',
-        id: editItemForm.id,
-        itemName: editItemForm.itemName,
-        buildTo: editItemForm.buildTo,
-        supplier: editItemForm.supplier,
-        location: editItemForm.location
+      api.updateItemById(editItemForm._id, editItemForm).then(res => {
+        handleEdit(item._id)
+        dispatchItems({
+          type: 'EDIT_ITEM',
+          _id: res.data.item._id,
+          itemName: res.data.item.itemName,
+          buildTo: res.data.item.buildTo,
+          supplier: res.data.item.supplier,
+          location: res.data.item.location,
+          order: res.data.item.order,
+          showEditForm: res.data.item.showEditForm
+        })
       })
     }
   }
@@ -42,11 +50,13 @@ const EditItemForm = ({
   useEffect(
     () =>
       setEditItemForm({
-        id: item.id,
+        _id: item._id,
         itemName: item.itemName,
         buildTo: item.buildTo,
         supplier: item.supplier,
-        location: item.location
+        location: item.location,
+        order: item.order,
+        showEditForm: false
       }),
     [item]
   )
@@ -56,7 +66,6 @@ const EditItemForm = ({
       <Td>
         <SaveIcon
           onClick={() => {
-            handleEdit(item.id)
             handleSubmit()
           }}
         >
@@ -81,7 +90,7 @@ const EditItemForm = ({
       </Td>
       <Td>
         <ChangeOrderAmount
-          id={item.id}
+          _id={item._id}
           orderAmount={item.order}
           dispatchItems={dispatchItems}
         />
@@ -103,7 +112,7 @@ const EditItemForm = ({
       <Td>
         <ButtonDelete
           type='button'
-          onClick={() => handleDelete(editItemForm.id)}
+          onClick={() => handleDelete(editItemForm)}
         />
       </Td>
     </tr>

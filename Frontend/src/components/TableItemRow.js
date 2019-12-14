@@ -10,7 +10,7 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
   return (
     <tr>
       <TdEdit>
-        <CreateTwoToneIcon onClick={() => handleEdit(item.id)}>
+        <CreateTwoToneIcon onClick={() => handleEdit(item._id)}>
           Edit
         </CreateTwoToneIcon>
       </TdEdit>
@@ -18,7 +18,7 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
       <Td>{item.buildTo}</Td>
       <Td>
         <ChangeOrderAmount
-          id={item.id}
+          _id={item._id}
           orderAmount={item.order}
           dispatchItems={dispatchItems}
         />

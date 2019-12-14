@@ -1,5 +1,5 @@
-import uuid from 'uuid/v4'
-function shuffleArray (array) {
+// import uuid from 'uuid/v4'
+function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[array[i], array[j]] = [array[j], array[i]]
@@ -20,19 +20,19 @@ showEditForm: false,
       return [
         ...state,
         {
-          id: uuid(),
+          _id: action._id,
           itemName: action.itemName,
           supplier: action.supplier,
           location: action.location,
           buildTo: action.buildTo,
-          order: 0,
-          showEditForm: false
+          order: action.order,
+          showEditForm: action.showEditForm
         }
       ]
     case 'DELETE_ITEM':
       // state.filter(item => item.id !== action.id)
       return state.filter(item => {
-        if (item.id === action.id) {
+        if (item._id === action._id) {
           return false
         } else {
           return true
@@ -40,7 +40,7 @@ showEditForm: false,
       })
     case 'EDIT_ITEM':
       return state.map(item => {
-        if (item.id === action.id) {
+        if (item._id === action._id) {
           return {
             ...item,
             itemName: action.itemName,
@@ -54,7 +54,7 @@ showEditForm: false,
       })
     case 'DECREASE_ORDER_AMOUNT':
       return state.map(item => {
-        if (item.id === action.id) {
+        if (item._id === action._id) {
           return { ...item, order: item.order - 1 }
         } else {
           return item
@@ -62,7 +62,7 @@ showEditForm: false,
       })
     case 'INCREASE_ORDER_AMOUNT':
       return state.map(item => {
-        if (item.id === action.id) {
+        if (item._id === action._id) {
           return { ...item, order: item.order + 1 }
         } else {
           return item
@@ -70,7 +70,7 @@ showEditForm: false,
       })
     case 'TOGGLE_EDIT':
       return state.map(item => {
-        if (item.id === action.id) {
+        if (item._id === action._id) {
           return {
             ...item,
             showEditForm: !item.showEditForm
@@ -82,7 +82,7 @@ showEditForm: false,
     case 'SORT_RANDOM':
       return shuffleArray(state.slice())
     case 'SORT_NORMAL':
-      return state.slice().sort(function (a, b) {
+      return state.slice().sort(function(a, b) {
         if (a.supplier > b.supplier) return 1
         if (a.supplier < b.supplier) return -1
         if (a.location > b.location) return 1

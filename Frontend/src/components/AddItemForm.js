@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import api from '../api/'
 
 const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
   const [itemForm, setItemForm] = useState({
     itemName: '',
     supplier: '',
     location: '',
-    buildTo: ''
+    buildTo: '',
+    order: 0,
+    showEditForm: false
   })
   const handleChangeInput = event => {
     setItemForm({
@@ -16,21 +19,29 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
 
   const handleSubmit = event => {
     if (itemForm) {
-      dispatchItems({
-        type: 'ADD_ITEM',
-        itemName: itemForm.itemName,
-        supplier: itemForm.supplier,
-        location: itemForm.location,
-        buildTo: itemForm.buildTo
+      api.insertItem(itemForm).then(res => {
+        dispatchItems({
+          type: 'ADD_ITEM',
+          _id: res.data._id,
+          itemName: itemForm.itemName,
+          supplier: itemForm.supplier,
+          location: itemForm.location,
+          buildTo: itemForm.buildTo,
+          order: itemForm.order,
+          showEditForm: itemForm.showEditForm
+        })
+
+        setItemForm({
+          itemName: '',
+          supplier: '',
+          location: '',
+          buildTo: '',
+          order: 0,
+          showEditForm: false
+        })
       })
+      event.preventDefault()
     }
-    setItemForm({
-      itemName: '',
-      supplier: '',
-      location: '',
-      buildTo: ''
-    })
-    event.preventDefault()
   }
 
   return (

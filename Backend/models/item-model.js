@@ -3,13 +3,12 @@ const Schema = mongoose.Schema
 
 const Item = new Schema(
   {
-    id: { type: String, required: true },
-    supplier: { type: String, required: true },
-    location: { type: String, required: true },
-    itemName: { type: String, required: true },
-    buildTo: { type: Number, required: true },
-    order: { type: Number, required: true },
-    showEditForm: { type: Boolean, required: true }
+    supplier: { type: String, required: false },
+    location: { type: String, required: false },
+    itemName: { type: String, required: false },
+    buildTo: { type: Number, required: false },
+    order: { type: Number, required: false },
+    showEditForm: { type: Boolean, required: false }
   },
   { timestamps: true }
 )
