@@ -32,6 +32,7 @@ const EditItemForm = ({
   const handleSubmit = event => {
     if (editItemForm) {
       api.updateItemById(editItemForm._id, editItemForm).then(res => {
+        console.log(res)
         handleEdit(item._id)
         dispatchItems({
           type: 'EDIT_ITEM',
