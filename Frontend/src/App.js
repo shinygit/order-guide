@@ -11,6 +11,7 @@ import SearchForm from './components/SearchForm'
 import SortMenu from './components/SortMenu'
 
 import Button from '@material-ui/core/Button'
+import OrderWeekSelector from './components/OrderMenu'
 
 const App = () => {
   useEffect(() => {
@@ -28,6 +29,7 @@ const App = () => {
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, [])
   const [searchTerm, setSearchTerm] = useState('')
+  const [currentWeek, setcurrentWeek] = useState(new Date('2019-12-16'))
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
     items.forEach(item => {
@@ -76,6 +78,7 @@ const App = () => {
 
   return (
     <div>
+      <OrderWeekSelector />
       <SearchForm
         items={items}
         dispatchFilter={dispatchFilter}
@@ -101,6 +104,7 @@ const App = () => {
           dispatchItems={dispatchItems}
           suppliers={suppliers}
           locations={locations}
+          currentWeek={currentWeek}
         />
       )}
       {isLoading ? (

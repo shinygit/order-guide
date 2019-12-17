@@ -1,5 +1,5 @@
 // import uuid from 'uuid/v4'
-function shuffleArray(array) {
+function shuffleArray (array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[array[i], array[j]] = [array[j], array[i]]
@@ -26,7 +26,10 @@ showEditForm: false,
           location: action.location,
           buildTo: action.buildTo,
           order: action.order,
-          showEditForm: action.showEditForm
+          showEditForm: action.showEditForm,
+          isLocked: action.isLocked,
+          submittedForWeek: action.submittedForWeek,
+          itemID: action.itemID
         }
       ]
     case 'DELETE_ITEM':
@@ -82,7 +85,7 @@ showEditForm: false,
     case 'SORT_RANDOM':
       return shuffleArray(state.slice())
     case 'SORT_NORMAL':
-      return state.slice().sort(function(a, b) {
+      return state.slice().sort(function (a, b) {
         if (a.supplier > b.supplier) return 1
         if (a.supplier < b.supplier) return -1
         if (a.location > b.location) return 1
