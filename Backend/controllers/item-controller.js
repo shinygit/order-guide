@@ -32,6 +32,31 @@ createItem = (req, res) => {
     })
 }
 
+createManyItems = (req, res) => {
+  const body = req.body
+
+  if (!body) {
+    return res.status(400).json({
+      success: false,
+      error: 'You must provide a item'
+    })
+  }
+
+  Item.insertMany(body)
+    .then(() => {
+      return res.status(201).json({
+        success: true,
+        message: 'Items created!'
+      })
+    })
+    .catch(error => {
+      return res.status(400).json({
+        error,
+        message: 'Items not created!'
+      })
+    })
+}
+
 updateItem = async (req, res) => {
   const body = req.body
   if (!body) {
@@ -54,6 +79,9 @@ updateItem = async (req, res) => {
     item.buildTo = body.buildTo || item.buildTo
     item.order = body.order
     item.showEditForm = body.showEditForm || item.showEditForm
+    item.isLocked = body.isLocked || item.isLocked
+    item.submittedForWeek = body.submittedForWeek || item.submittedForWeek
+    item.itemID = body.itemID || item.itemID
     item
       .save()
       .then(() => {
@@ -112,10 +140,72 @@ getItems = async (req, res) => {
   }).catch(err => console.log(err))
 }
 
+getNewestOrderDate = (req, res) => {
+  try {
+    Item.findOne({})
+      .sort({ submittedForWeek: -1 })
+      .limit(1)
+      .exec()
+      .then(item => {
+        if (!item) {
+          return res
+            .status(200)
+            .json({ success: false, error: 'No newest date' })
+        } else {
+          res.json(item.submittedForWeek)
+        }
+      })
+  } catch (err) {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+  }
+}
+getOrderDates = (req, res) => {
+  try {
+    Item.distinct('submittedForWeek')
+      .exec()
+      .then(orderDates => {
+        if (!orderDates) {
+          return res
+            .status(200)
+            .json({ success: false, error: 'No newest date' })
+        } else {
+          res.json(orderDates.sort((a, b) => b - a))
+        }
+      })
+  } catch (err) {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+  }
+}
+getItemsByDate = (req, res) => {
+  try {
+    Item.find({ submittedForWeek: req.params.date })
+      .exec()
+      .then(items => {
+        if (!items.length) {
+          return res
+            .status(404)
+            .json({ success: false, error: `Items for date not found` })
+        }
+        return res.status(200).json({ success: true, data: items })
+      })
+  } catch (err) {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+  }
+}
 module.exports = {
   createItem,
   updateItem,
   deleteItem,
   getItems,
-  getItemById
+  getItemById,
+  getNewestOrderDate,
+  getOrderDates,
+  getItemsByDate,
+  createManyItems
 }

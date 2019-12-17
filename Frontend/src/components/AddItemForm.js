@@ -1,14 +1,24 @@
 import React, { useState } from 'react'
 import api from '../api/'
+import uuid from 'uuid'
 
-const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
+const AddItemForm = ({
+  items,
+  dispatchItems,
+  suppliers,
+  locations,
+  currentWeek
+}) => {
   const [itemForm, setItemForm] = useState({
     itemName: '',
     supplier: '',
     location: '',
     buildTo: '',
     order: 0,
-    showEditForm: false
+    showEditForm: false,
+    isLocked: false,
+    submittedForWeek: currentWeek,
+    itemID: uuid()
   })
   const handleChangeInput = event => {
     setItemForm({
@@ -28,7 +38,10 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
           location: itemForm.location,
           buildTo: itemForm.buildTo,
           order: itemForm.order,
-          showEditForm: itemForm.showEditForm
+          showEditForm: itemForm.showEditForm,
+          isLocked: itemForm.isLocked,
+          submittedForWeek: itemForm.submittedForWeek,
+          itemID: itemForm.itemID
         })
 
         setItemForm({
@@ -37,7 +50,10 @@ const AddItemForm = ({ items, dispatchItems, suppliers, locations }) => {
           location: '',
           buildTo: '',
           order: 0,
-          showEditForm: false
+          showEditForm: false,
+          isLocked: false,
+          submittedForWeek: currentWeek,
+          itemID: uuid()
         })
       })
       event.preventDefault()

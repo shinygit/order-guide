@@ -8,7 +8,10 @@ const Item = new Schema(
     itemName: { type: String, required: false },
     buildTo: { type: Number, required: false },
     order: { type: Number, required: false },
-    showEditForm: { type: Boolean, required: false }
+    showEditForm: { type: Boolean, required: false },
+    isLocked: { type: Boolean, required: false },
+    submittedForWeek: { type: Date, required: true },
+    itemID: { type: String, required: false }
   },
   { timestamps: true }
 )
