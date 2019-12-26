@@ -82,6 +82,8 @@ updateItem = async (req, res) => {
     item.isLocked = body.isLocked || item.isLocked
     item.submittedForWeek = body.submittedForWeek || item.submittedForWeek
     item.itemID = body.itemID || item.itemID
+    item.user = body.user || item.user
+    item.company = body.company || item.company
     item
       .save()
       .then(() => {
@@ -103,6 +105,19 @@ updateItem = async (req, res) => {
 
 deleteItem = async (req, res) => {
   await Item.findOneAndDelete({ _id: req.params.id }, (err, item) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+
+    if (!item) {
+      return res.status(404).json({ success: false, error: `Item not found` })
+    }
+
+    return res.status(200).json({ success: true, data: item })
+  }).catch(err => console.log(err))
+}
+deleteManyItems = async (req, res) => {
+  await Item.deleteMany({ submittedForWeek: req.params.date }, (err, item) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
@@ -198,6 +213,46 @@ getItemsByDate = (req, res) => {
     }
   }
 }
+createNewOrderDate = async (req, res) => {
+  lastItem = await Item.findOne({})
+    .sort({ submittedForWeek: -1 })
+    .limit(1)
+    .exec()
+  lastDate = lastItem.submittedForWeek
+  newDate = new Date(req.params.date)
+
+  lastDateItems = await Item.find({ submittedForWeek: lastDate })
+
+  newDateItems = lastDateItems.map(item => {
+    return {
+      supplier: item.supplier,
+      location: item.location,
+      itemName: item.itemName,
+      buildTo: item.buildTo,
+      order: 0,
+      showEditForm: item.showEditForm,
+      isLocked: item.isLocked,
+      submittedForWeek: newDate,
+      itemID: item.itemID,
+      user: item.user,
+      company: item.company
+    }
+  })
+
+  Item.insertMany(newDateItems)
+    .then(() => {
+      return res.status(201).json({
+        success: true,
+        message: 'New date created!'
+      })
+    })
+    .catch(error => {
+      return res.status(400).json({
+        error,
+        message: 'New date not created!'
+      })
+    })
+}
 module.exports = {
   createItem,
   updateItem,
@@ -207,5 +262,7 @@ module.exports = {
   getNewestOrderDate,
   getOrderDates,
   getItemsByDate,
-  createManyItems
+  createManyItems,
+  deleteManyItems,
+  createNewOrderDate
 }

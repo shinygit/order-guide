@@ -13,5 +13,7 @@ router.get('/newestOrderDate', ItemCtrl.getNewestOrderDate)
 router.get('/orderDates', ItemCtrl.getOrderDates)
 router.get('/items/:date', ItemCtrl.getItemsByDate)
 router.post('/items', ItemCtrl.createManyItems)
+router.delete('/items/:date', ItemCtrl.deleteManyItems)
+router.post('/items/:date', ItemCtrl.createNewOrderDate)
 
 module.exports = router
