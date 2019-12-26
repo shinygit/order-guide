@@ -13,7 +13,8 @@ export const getNewestOrderDate = () => api.get('/newestOrderDate')
 export const getOrderDates = () => api.get('/orderDates')
 export const getItemsByDate = date => api.get(`/items/${date}`)
 export const createManyItems = payload => api.post('/items', payload)
-
+export const deleteManyItemsByDate = date => api.delete(`/items/${date}`)
+export const createNewOrderDate = date => api.post(`/items/${date}`)
 const apis = {
   insertItem,
   getAllItems,
@@ -23,7 +24,9 @@ const apis = {
   getNewestOrderDate,
   getOrderDates,
   getItemsByDate,
-  createManyItems
+  createManyItems,
+  deleteManyItemsByDate,
+  createNewOrderDate
 }
 
 export default apis

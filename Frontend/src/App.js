@@ -9,27 +9,32 @@ import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
 import SortMenu from './components/SortMenu'
+import OrderMenu from './components/OrderMenu'
 
 import Button from '@material-ui/core/Button'
-import OrderWeekSelector from './components/OrderMenu'
+
+const user = 'testUser'
+const company = 'testCompany'
 
 const App = () => {
+  const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
     async function getInitialItems () {
       setIsLoading(true)
-      await api.getAllItems().then(items => {
-        dispatchItems({ type: 'LOAD_ITEMS', items: items.data.data })
-        setIsLoading(false)
+      await api.getNewestOrderDate().then(date => {
+        setCurrentDate(date.data)
+        api.getItemsByDate(date.data).then(items => {
+          dispatchItems({ type: 'LOAD_ITEMS', items: items.data.data })
+          setIsLoading(false)
+        })
       })
     }
-
     getInitialItems()
-  }, [])
+  }, [currentDate])
   const [isLoading, setIsLoading] = useState(false)
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, [])
   const [searchTerm, setSearchTerm] = useState('')
-  const [currentWeek, setcurrentWeek] = useState(new Date('2019-12-16'))
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
     items.forEach(item => {
@@ -78,7 +83,7 @@ const App = () => {
 
   return (
     <div>
-      <OrderWeekSelector />
+      <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
       <SearchForm
         items={items}
         dispatchFilter={dispatchFilter}
@@ -104,7 +109,9 @@ const App = () => {
           dispatchItems={dispatchItems}
           suppliers={suppliers}
           locations={locations}
-          currentWeek={currentWeek}
+          user={user}
+          company={company}
+          currentDate={currentDate}
         />
       )}
       {isLoading ? (

@@ -47,6 +47,7 @@ const ListItems = ({
             <Th>Build To</Th>
             <Th>Order</Th>
             <Th>Supplier</Th>
+            <Th>Location</Th>
           </tr>
           {itemsToDisplay.map(item => {
             if (item.showEditForm) {

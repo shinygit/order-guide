@@ -24,6 +24,7 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
         />
       </Td>
       <Td>{item.supplier}</Td>
+      <Td>{item.location}</Td>
     </tr>
   )
 }, areEqual)

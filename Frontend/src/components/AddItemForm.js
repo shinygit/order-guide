@@ -7,7 +7,9 @@ const AddItemForm = ({
   dispatchItems,
   suppliers,
   locations,
-  currentWeek
+  currentWeek,
+  user,
+  company
 }) => {
   const [itemForm, setItemForm] = useState({
     itemName: '',
@@ -18,7 +20,9 @@ const AddItemForm = ({
     showEditForm: false,
     isLocked: false,
     submittedForWeek: currentWeek,
-    itemID: uuid()
+    itemID: uuid(),
+    user: '',
+    company: ''
   })
   const handleChangeInput = event => {
     setItemForm({
@@ -41,7 +45,9 @@ const AddItemForm = ({
           showEditForm: itemForm.showEditForm,
           isLocked: itemForm.isLocked,
           submittedForWeek: itemForm.submittedForWeek,
-          itemID: itemForm.itemID
+          itemID: itemForm.itemID,
+          user: itemForm.user,
+          company: itemForm.company
         })
 
         setItemForm({
@@ -53,7 +59,9 @@ const AddItemForm = ({
           showEditForm: false,
           isLocked: false,
           submittedForWeek: currentWeek,
-          itemID: uuid()
+          itemID: uuid(),
+          user: user,
+          company: company
         })
       })
       event.preventDefault()

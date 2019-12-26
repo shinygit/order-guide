@@ -111,6 +111,20 @@ const EditItemForm = ({
         </datalist>
       </Td>
       <Td>
+        <Input
+          type='text'
+          name='location'
+          list='locationsList'
+          value={editItemForm.location}
+          onChange={handleChangeInput}
+        />
+        <datalist id='locationsList'>
+          {locations.map(item => (
+            <option key={item} value={item} />
+          ))}
+        </datalist>
+      </Td>
+      <Td>
         <ButtonDelete
           type='button'
           onClick={() => handleDelete(editItemForm)}

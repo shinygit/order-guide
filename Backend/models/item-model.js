@@ -11,7 +11,11 @@ const Item = new Schema(
     showEditForm: { type: Boolean, required: false },
     isLocked: { type: Boolean, required: false },
     submittedForWeek: { type: Date, required: true },
-    itemID: { type: String, required: false }
+    itemID: { type: String, required: false },
+    user: { type: String, required: false },
+    company: { type: String, required: false }
+    // productOrderNumber
+    // received
   },
   { timestamps: true }
 )
