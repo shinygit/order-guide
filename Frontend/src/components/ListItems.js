@@ -45,6 +45,8 @@ const ListItems = ({
             <Th />
             <Th>Item</Th>
             <Th>Build To</Th>
+            <Th>Two Weeks Ago</Th>
+            <Th>Last Week</Th>
             <Th>Order</Th>
             <Th>Supplier</Th>
             <Th>Location</Th>

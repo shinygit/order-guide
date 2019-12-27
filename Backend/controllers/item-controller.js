@@ -131,7 +131,7 @@ deleteManyItems = async (req, res) => {
 }
 
 getItemById = async (req, res) => {
-  await Item.findOne({ _id: req.params._id }, (err, item) => {
+  await Item.findOne({ _id: req.params.id }, (err, item) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
@@ -223,23 +223,36 @@ createNewOrderDate = async (req, res) => {
 
   lastDateItems = await Item.find({ submittedForWeek: lastDate })
 
-  newDateItems = lastDateItems.map(item => {
+  getLastOrders = async index => {
+    lastOrders = await Item.find({ itemID: lastDateItems[index].itemID })
+      .sort({ submittedForWeek: -1 })
+      .limit(2)
+      .exec()
     return {
-      supplier: item.supplier,
-      location: item.location,
-      itemName: item.itemName,
-      buildTo: item.buildTo,
-      order: 0,
-      showEditForm: item.showEditForm,
-      isLocked: item.isLocked,
-      submittedForWeek: newDate,
-      itemID: item.itemID,
-      user: item.user,
-      company: item.company
+      lastWeek: lastOrders[0].order,
+      twoWeeksAgo: lastOrders[1].order
     }
-  })
+  }
 
-  Item.insertMany(newDateItems)
+  newDateItems = Promise.all(
+    lastDateItems.map(async (item, index) => {
+      return {
+        supplier: item.supplier,
+        location: item.location,
+        itemName: item.itemName,
+        buildTo: item.buildTo,
+        order: 0,
+        showEditForm: item.showEditForm,
+        isLocked: item.isLocked,
+        submittedForWeek: newDate,
+        itemID: item.itemID,
+        user: item.user,
+        company: item.company,
+        previousOrders: await getLastOrders(index)
+      }
+    })
+  )
+  Item.insertMany(await newDateItems)
     .then(() => {
       return res.status(201).json({
         success: true,
@@ -253,6 +266,11 @@ createNewOrderDate = async (req, res) => {
       })
     })
 }
+getPreviousOrders = (req, res) => {
+  console.log(req.params.id)
+  console.log(req.params.count)
+}
+
 module.exports = {
   createItem,
   updateItem,
@@ -264,5 +282,6 @@ module.exports = {
   getItemsByDate,
   createManyItems,
   deleteManyItems,
-  createNewOrderDate
+  createNewOrderDate,
+  getPreviousOrders
 }

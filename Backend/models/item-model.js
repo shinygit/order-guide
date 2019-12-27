@@ -13,7 +13,8 @@ const Item = new Schema(
     submittedForWeek: { type: Date, required: true },
     itemID: { type: String, required: false },
     user: { type: String, required: false },
-    company: { type: String, required: false }
+    company: { type: String, required: false },
+    previousOrders: { type: Object, required: false }
     // productOrderNumber
     // received
   },

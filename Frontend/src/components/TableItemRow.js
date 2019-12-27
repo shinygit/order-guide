@@ -16,6 +16,8 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
       </TdEdit>
       <Td>{item.itemName}</Td>
       <Td>{item.buildTo}</Td>
+      <Td>{item.previousOrders.twoWeeksAgo}</Td>
+      <Td>{item.previousOrders.lastWeek}</Td>
       <Td>
         <ChangeOrderAmount
           _id={item._id}
