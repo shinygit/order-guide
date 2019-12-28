@@ -22,7 +22,11 @@ const AddItemForm = ({
     submittedForWeek: currentWeek,
     itemID: uuid(),
     user: '',
-    company: ''
+    company: '',
+    previousOrders: {
+      lastWeek: 0,
+      twoWeeksAgo: 0
+    }
   })
   const handleChangeInput = event => {
     setItemForm({
@@ -47,7 +51,8 @@ const AddItemForm = ({
           submittedForWeek: itemForm.submittedForWeek,
           itemID: itemForm.itemID,
           user: itemForm.user,
-          company: itemForm.company
+          company: itemForm.company,
+          previousOrders: itemForm.previousOrders
         })
 
         setItemForm({
@@ -61,7 +66,11 @@ const AddItemForm = ({
           submittedForWeek: currentWeek,
           itemID: uuid(),
           user: user,
-          company: company
+          company: company,
+          previousOrders: {
+            lastWeek: 0,
+            twoWeeksAgo: 0
+          }
         })
       })
       event.preventDefault()
