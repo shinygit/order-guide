@@ -44,10 +44,10 @@ const ListItems = ({
           <tr>
             <Th />
             <Th>Item</Th>
-            <Th>Build To</Th>
-            <Th>Two Weeks Ago</Th>
-            <Th>Last Week</Th>
-            <Th>Order</Th>
+            <MinTh>Build To</MinTh>
+            <MinTh>Two Weeks Ago</MinTh>
+            <MinTh>Last Week</MinTh>
+            <MinTh>Order</MinTh>
             <Th>Supplier</Th>
             <Th>Location</Th>
           </tr>
@@ -85,6 +85,10 @@ const Th = styled.th`
   position: sticky;
   top: 0;
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+`
+
+const MinTh = styled(Th)`
+  border: 1px solid grey;
 `
 
 const Table = styled.table`

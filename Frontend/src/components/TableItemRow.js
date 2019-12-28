@@ -15,16 +15,16 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
         </CreateTwoToneIcon>
       </TdEdit>
       <Td>{item.itemName}</Td>
-      <Td>{item.buildTo}</Td>
-      <Td>{item.previousOrders.twoWeeksAgo}</Td>
-      <Td>{item.previousOrders.lastWeek}</Td>
-      <Td>
+      <MinTd>{item.buildTo}</MinTd>
+      <MinTd>{item.previousOrders.twoWeeksAgo}</MinTd>
+      <MinTd>{item.previousOrders.lastWeek}</MinTd>
+      <MinTd>
         <ChangeOrderAmount
           _id={item._id}
           orderAmount={item.order}
           dispatchItems={dispatchItems}
         />
-      </Td>
+      </MinTd>
       <Td>{item.supplier}</Td>
       <Td>{item.location}</Td>
     </tr>
@@ -33,7 +33,10 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
 const Td = styled.td`
   border: 1px solid grey;
   padding: 4px;
-  text-align: left;
+  text-align: center;
+`
+const MinTd = styled(Td)`
+  width: 1px;
 `
 const TdEdit = styled(Td)`
 width 25px`
