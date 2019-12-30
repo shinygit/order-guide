@@ -266,10 +266,6 @@ createNewOrderDate = async (req, res) => {
       })
     })
 }
-getPreviousOrders = (req, res) => {
-  console.log(req.params.id)
-  console.log(req.params.count)
-}
 
 module.exports = {
   createItem,
@@ -282,6 +278,5 @@ module.exports = {
   getItemsByDate,
   createManyItems,
   deleteManyItems,
-  createNewOrderDate,
-  getPreviousOrders
+  createNewOrderDate
 }

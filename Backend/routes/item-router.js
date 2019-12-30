@@ -15,6 +15,5 @@ router.get('/items/:date', ItemCtrl.getItemsByDate)
 router.post('/items', ItemCtrl.createManyItems)
 router.delete('/items/:date', ItemCtrl.deleteManyItems)
 router.post('/items/:date', ItemCtrl.createNewOrderDate)
-router.get('/item/previousOrders/:count/:id', ItemCtrl.getPreviousOrders)
 
 module.exports = router

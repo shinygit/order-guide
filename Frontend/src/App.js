@@ -10,8 +10,11 @@ import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
 import SortMenu from './components/SortMenu'
 import OrderMenu from './components/OrderMenu'
+import NavBar from './components/NavBar/NavBar'
 
 import Button from '@material-ui/core/Button'
+
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 const user = 'testUser'
 const company = 'testCompany'
@@ -83,6 +86,7 @@ const App = () => {
 
   return (
     <div>
+      <NavBar />
       <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
       <SearchForm
         items={items}
