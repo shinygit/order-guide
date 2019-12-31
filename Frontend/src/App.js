@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useReducer,
+  createContext
+} from 'react'
 import './App.css'
 // import { initialItems } from './testData/initialItems'
-import api from './api'
+import api from './api/items'
 import ListItems from './components/ListItems'
 import AddItemForm from './components/AddItemForm'
 import itemReducer from './reducers/itemReducer'
@@ -17,11 +23,17 @@ import Register from './components/User/Register'
 import Button from '@material-ui/core/Button'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import userReducer from './reducers/userReducer'
 
-const user = 'testUser'
 const company = 'testCompany'
 
+export const UserContext = createContext()
 const App = () => {
+  const [user, dispatchUser] = useReducer(userReducer, {
+    isAuthenticated: false,
+    user: null,
+    token: null
+  })
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
     async function getInitialItems() {
@@ -87,68 +99,70 @@ const App = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
 
   return (
-    <Router>
-      <NavBar />
-      <Switch>
-        <Route path='/login'>
-          <Login />
-        </Route>
-        <Route path='/register'>
-          <Register />
-        </Route>
-        <Route exact path='/'>
-          <div>
-            <OrderMenu
-              setCurrentDate={setCurrentDate}
-              currentDate={currentDate}
-            />
-            <SearchForm
-              items={items}
-              dispatchFilter={dispatchFilter}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              itemsCurrentlyFiltered={itemsCurrentlyFiltered}
-              setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
-            />
-            <SortMenu dispatchItems={dispatchItems} items={items} />
-            <Button onClick={() => toggleNewItem()}>New Item</Button>
-            <br />
-            <FilterMenu
-              filter={filter}
-              dispatchFilter={dispatchFilter}
-              suppliers={suppliers}
-              locations={locations}
-              itemsCurrentlyFiltered={itemsCurrentlyFiltered}
-              setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
-            />
-            {newItemToggle && (
-              <AddItemForm
-                items={items}
-                dispatchItems={dispatchItems}
-                suppliers={suppliers}
-                locations={locations}
-                user={user}
-                company={company}
+    <UserContext.Provider value={{ user, dispatchUser }}>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route path='/login'>
+            <Login />
+          </Route>
+          <Route path='/register'>
+            <Register />
+          </Route>
+          <Route exact path='/'>
+            <div>
+              <OrderMenu
+                setCurrentDate={setCurrentDate}
                 currentDate={currentDate}
               />
-            )}
-            {isLoading ? (
-              <h1>Loading...</h1>
-            ) : (
-              <ListItems
-                filter={filter}
-                searchTerm={searchTerm}
+              <SearchForm
                 items={items}
-                dispatchItems={dispatchItems}
+                dispatchFilter={dispatchFilter}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+                setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+              />
+              <SortMenu dispatchItems={dispatchItems} items={items} />
+              <Button onClick={() => toggleNewItem()}>New Item</Button>
+              <br />
+              <FilterMenu
+                filter={filter}
+                dispatchFilter={dispatchFilter}
                 suppliers={suppliers}
                 locations={locations}
-                handleDelete={handleDelete}
+                itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+                setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
               />
-            )}
-          </div>
-        </Route>
-      </Switch>
-    </Router>
+              {newItemToggle && (
+                <AddItemForm
+                  items={items}
+                  dispatchItems={dispatchItems}
+                  suppliers={suppliers}
+                  locations={locations}
+                  user={user}
+                  company={company}
+                  currentDate={currentDate}
+                />
+              )}
+              {isLoading ? (
+                <h1>Loading...</h1>
+              ) : (
+                <ListItems
+                  filter={filter}
+                  searchTerm={searchTerm}
+                  items={items}
+                  dispatchItems={dispatchItems}
+                  suppliers={suppliers}
+                  locations={locations}
+                  handleDelete={handleDelete}
+                />
+              )}
+            </div>
+          </Route>
+        </Switch>
+      </Router>
+    </UserContext.Provider>
   )
 }
 export default App

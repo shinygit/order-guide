@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import api from '../api'
+import api from '../api/items'
 import moment from 'moment'
 
 const OrderMenu = ({ setCurrentDate, currentDate }) => {
