@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import api from '../api/'
+import api from '../api/items'
 
 const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
   const changed = useRef(false)

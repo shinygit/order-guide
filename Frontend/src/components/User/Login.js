@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../../App'
 
 const Login = () => {
+  const [dispatchUser] = useContext(UserContext)
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
-
+    isSubmitting: false,
     errors: {}
   })
 
@@ -19,6 +21,11 @@ const Login = () => {
   }
   const handleSubmit = event => {
     event.preventDefault()
+    setLoginForm({
+      ...loginForm,
+      isSubmitting: true,
+      errors: {}
+    })
   }
 
   const userData = {
@@ -56,7 +63,9 @@ const Login = () => {
         </div>
 
         <div>
-          <button type='submit'>Login</button>
+          <button disabled={loginForm.isSubmitting} type='submit'>
+            {loginForm.isSubmitting ? 'Loading...' : 'Login'}
+          </button>
         </div>
       </form>
     </div>

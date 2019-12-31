@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import deleteImage from '../assets/images/15107-illustration-of-a-red-close-button-pv.png'
 import SaveIcon from '@material-ui/icons/Save'
-import api from '../api/'
+import api from '../api/items'
 
 const EditItemForm = ({
   item,

@@ -15,8 +15,7 @@ export const getItemsByDate = date => api.get(`/items/${date}`)
 export const createManyItems = payload => api.post('/items', payload)
 export const deleteManyItemsByDate = date => api.delete(`/items/${date}`)
 export const createNewOrderDate = date => api.post(`/items/${date}`)
-export const getPreviousOrders = (id, count) =>
-  api.get(`/item/previousOrders/${id}/${count}`)
+
 const apis = {
   insertItem,
   getAllItems,
@@ -28,8 +27,7 @@ const apis = {
   getItemsByDate,
   createManyItems,
   deleteManyItemsByDate,
-  createNewOrderDate,
-  getPreviousOrders
+  createNewOrderDate
 }
 
 export default apis

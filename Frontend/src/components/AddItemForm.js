@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import api from '../api/'
+import api from '../api/items'
 import uuid from 'uuid'
 
 const AddItemForm = ({
