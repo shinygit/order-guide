@@ -11,10 +11,12 @@ import SearchForm from './components/SearchForm'
 import SortMenu from './components/SortMenu'
 import OrderMenu from './components/OrderMenu'
 import NavBar from './components/NavBar/NavBar'
+import Login from './components/User/Login'
+import Register from './components/User/Register'
 
 import Button from '@material-ui/core/Button'
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 const user = 'testUser'
 const company = 'testCompany'
@@ -22,7 +24,7 @@ const company = 'testCompany'
 const App = () => {
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
-    async function getInitialItems () {
+    async function getInitialItems() {
       setIsLoading(true)
       await api.getNewestOrderDate().then(date => {
         setCurrentDate(date.data)
@@ -85,53 +87,68 @@ const App = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
 
   return (
-    <div>
+    <Router>
       <NavBar />
-      <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
-      <SearchForm
-        items={items}
-        dispatchFilter={dispatchFilter}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        itemsCurrentlyFiltered={itemsCurrentlyFiltered}
-        setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
-      />
-      <SortMenu dispatchItems={dispatchItems} items={items} />
-      <Button onClick={() => toggleNewItem()}>New Item</Button>
-      <br />
-      <FilterMenu
-        filter={filter}
-        dispatchFilter={dispatchFilter}
-        suppliers={suppliers}
-        locations={locations}
-        itemsCurrentlyFiltered={itemsCurrentlyFiltered}
-        setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
-      />
-      {newItemToggle && (
-        <AddItemForm
-          items={items}
-          dispatchItems={dispatchItems}
-          suppliers={suppliers}
-          locations={locations}
-          user={user}
-          company={company}
-          currentDate={currentDate}
-        />
-      )}
-      {isLoading ? (
-        <h1>Loading...</h1>
-      ) : (
-        <ListItems
-          filter={filter}
-          searchTerm={searchTerm}
-          items={items}
-          dispatchItems={dispatchItems}
-          suppliers={suppliers}
-          locations={locations}
-          handleDelete={handleDelete}
-        />
-      )}
-    </div>
+      <Switch>
+        <Route path='/login'>
+          <Login />
+        </Route>
+        <Route path='/register'>
+          <Register />
+        </Route>
+        <Route exact path='/'>
+          <div>
+            <OrderMenu
+              setCurrentDate={setCurrentDate}
+              currentDate={currentDate}
+            />
+            <SearchForm
+              items={items}
+              dispatchFilter={dispatchFilter}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+              setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+            />
+            <SortMenu dispatchItems={dispatchItems} items={items} />
+            <Button onClick={() => toggleNewItem()}>New Item</Button>
+            <br />
+            <FilterMenu
+              filter={filter}
+              dispatchFilter={dispatchFilter}
+              suppliers={suppliers}
+              locations={locations}
+              itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+              setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+            />
+            {newItemToggle && (
+              <AddItemForm
+                items={items}
+                dispatchItems={dispatchItems}
+                suppliers={suppliers}
+                locations={locations}
+                user={user}
+                company={company}
+                currentDate={currentDate}
+              />
+            )}
+            {isLoading ? (
+              <h1>Loading...</h1>
+            ) : (
+              <ListItems
+                filter={filter}
+                searchTerm={searchTerm}
+                items={items}
+                dispatchItems={dispatchItems}
+                suppliers={suppliers}
+                locations={locations}
+                handleDelete={handleDelete}
+              />
+            )}
+          </div>
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 export default App
