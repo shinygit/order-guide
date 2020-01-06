@@ -9,6 +9,7 @@
     "cypress": "^3.7.0",
     "eslint-config-react-app": "^5.0.2",
     "fuse.js": "^3.4.6",
+    "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "prettier": "^1.19.1",
     "react": "^16.12.0",

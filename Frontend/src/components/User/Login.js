@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { UserContext } from '../../App'
+import api from '../../api/users'
 
 const Login = () => {
-  const [dispatchUser] = useContext(UserContext)
+  const history = useHistory()
+  const { dispatchUser } = useContext(UserContext)
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
@@ -26,6 +28,29 @@ const Login = () => {
       isSubmitting: true,
       errors: {}
     })
+    api
+      .login(userData)
+      .then(res => {
+        if (res.data.success) {
+          return res
+        }
+        throw res
+      })
+      .then(res => {
+        dispatchUser({
+          type: 'LOGIN',
+          payload: res.data
+        })
+        return res
+      })
+      .then(history.push('/'))
+      .catch(error => {
+        setLoginForm({
+          ...loginForm,
+          isSubmitting: false,
+          errors: error.response.data
+        })
+      })
   }
 
   const userData = {
@@ -45,7 +70,7 @@ const Login = () => {
           <input
             onChange={handleChangeInput}
             value={loginForm.email}
-            error={errors.email}
+            error={errors.email} // meterialui prop
             id='email'
             type='text'
           />
@@ -61,7 +86,7 @@ const Login = () => {
           />
           <label htmlFor='password'>Password</label>
         </div>
-
+        <div>{errors.email || errors.password || errors.emailnotfound}</div>
         <div>
           <button disabled={loginForm.isSubmitting} type='submit'>
             {loginForm.isSubmitting ? 'Loading...' : 'Login'}

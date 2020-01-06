@@ -58,6 +58,7 @@ createManyItems = (req, res) => {
 }
 
 updateItem = async (req, res) => {
+  console.log(req.user)
   const body = req.body
   if (!body) {
     return res.status(400).json({
@@ -156,6 +157,9 @@ getItems = async (req, res) => {
 }
 
 getNewestOrderDate = (req, res) => {
+  console.log(req.headers)
+  console.log(req.user)
+
   try {
     Item.findOne({})
       .sort({ submittedForWeek: -1 })

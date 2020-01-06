@@ -16,6 +16,13 @@ const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
       api
         .updateItemById(_id, { order: orderAmount })
         .then(res => console.log(res.data.item.order))
+        .catch(err => {
+          if (err === 1) {
+            console.log('hmmm')
+          } else {
+            console.log(err)
+          }
+        })
       changed.current = false
     }
   }, [_id, orderAmount])
