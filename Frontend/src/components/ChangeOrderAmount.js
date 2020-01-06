@@ -3,6 +3,7 @@ import api from '../api/items'
 
 const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
   const changed = useRef(false)
+  const apiTimer = useRef(false)
   const handleDecrease = () => {
     dispatchItems({ type: 'DECREASE_ORDER_AMOUNT', _id: _id })
     changed.current = true
@@ -13,16 +14,19 @@ const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
   }
   useEffect(() => {
     if (changed.current) {
-      api
-        .updateItemById(_id, { order: orderAmount })
-        .then(res => console.log(res.data.item.order))
-        .catch(err => {
-          if (err === 1) {
-            console.log('hmmm')
-          } else {
+      clearTimeout(apiTimer.current)
+      let pendingApiCall = () =>
+        api
+          .updateItemById(_id, { order: orderAmount })
+          .then(res => {
+            console.log(res.data.item.order)
+            pendingApiCall = false
+          })
+          .catch(err => {
             console.log(err)
-          }
-        })
+            apiTimer.current = setTimeout(pendingApiCall, 5000)
+          })
+      pendingApiCall()
       changed.current = false
     }
   }, [_id, orderAmount])
