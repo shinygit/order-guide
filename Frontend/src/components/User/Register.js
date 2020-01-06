@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import api from '../../api/users'
 
 const Register = () => {
+  const history = useHistory()
   const [registerForm, setRegisterForm] = useState({
     name: '',
     email: '',
     password: '',
     password2: '',
+    isSubmitting: false,
     errors: {}
   })
 
@@ -20,6 +23,20 @@ const Register = () => {
   }
   const handleSubmit = event => {
     event.preventDefault()
+    setRegisterForm({
+      ...registerForm,
+      isSubmitting: true
+    })
+    api
+      .register(newUser)
+      .then(res => history.push('/login'))
+      .catch(err =>
+        setRegisterForm({
+          ...registerForm,
+          isSubmitting: false,
+          errors: err
+        })
+      )
   }
 
   const newUser = {
@@ -28,8 +45,6 @@ const Register = () => {
     password: registerForm.password,
     password2: registerForm.password2
   }
-
-  console.log(newUser)
 
   return (
     <div>
@@ -78,7 +93,9 @@ const Register = () => {
           <label htmlFor='password'>Confirm Password</label>
         </div>
         <div>
-          <button type='submit'>Sign Up</button>
+          <button disabled={registerForm.isSubmitting} type='submit'>
+            {registerForm.isSubmitting ? 'Registering...' : 'Register'}
+          </button>
         </div>
       </form>
     </div>

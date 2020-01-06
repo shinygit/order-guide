@@ -1,8 +1,10 @@
-import axios from 'axios'
+import api from './axios'
 
-const api = axios.create({
-  baseURL: 'http://localhost:3001/api/users'
-})
+export const login = payload => api.post('/users/login', payload)
+export const register = payload => api.post('/users/register', payload)
 
-export const login = payload => api.post('/login', payload)
-export const register = payload => api.post('/register', payload)
+const apis = {
+  login,
+  register
+}
+export default apis

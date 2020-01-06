@@ -1,8 +1,4 @@
-import axios from 'axios'
-
-const api = axios.create({
-  baseURL: 'http://localhost:3001/api'
-})
+import api from './axios'
 
 export const insertItem = payload => api.post('/item', payload)
 export const getAllItems = () => api.get('/items')

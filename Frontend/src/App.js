@@ -31,12 +31,19 @@ export const UserContext = createContext()
 const App = () => {
   const [user, dispatchUser] = useReducer(userReducer, {
     isAuthenticated: false,
-    user: null,
+    id: null,
+    name: null,
     token: null
   })
+  useEffect(() => {
+    if (localStorage.token) {
+      dispatchUser({ type: 'RESUME', payload: localStorage.token })
+    }
+  }, [])
+
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
-    async function getInitialItems() {
+    async function getInitialItems () {
       setIsLoading(true)
       await api.getNewestOrderDate().then(date => {
         setCurrentDate(date.data)
@@ -88,7 +95,6 @@ const App = () => {
 
   const handleDelete = editItemForm => {
     api.deleteItemById(editItemForm._id).then(res => {
-      console.log(res)
       dispatchItems({ type: 'DELETE_ITEM', _id: editItemForm._id })
     })
   }

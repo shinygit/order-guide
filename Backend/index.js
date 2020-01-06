@@ -20,6 +20,6 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 app.use('/api/users', userRouter)
-app.use('/api', itemRouter)
+app.use('/api', passport.authenticate('jwt', { session: false }), itemRouter)
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
