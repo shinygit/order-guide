@@ -15,7 +15,7 @@ const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
   useEffect(() => {
     if (changed.current) {
       clearTimeout(apiTimer.current)
-      let pendingApiCall = () =>
+      let pendingApiCall = () => {
         api
           .updateItemById(_id, { order: orderAmount })
           .then(res => {
@@ -26,8 +26,9 @@ const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
             console.log(err)
             apiTimer.current = setTimeout(pendingApiCall, 5000)
           })
+        changed.current = false
+      }
       pendingApiCall()
-      changed.current = false
     }
   }, [_id, orderAmount])
   return (

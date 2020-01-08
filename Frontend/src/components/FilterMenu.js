@@ -15,7 +15,7 @@ const FilterMenu = ({
     dispatchFilter({ type: 'FILTER_SUPPLIER', supplier: supplier })
   }
   const handleShowAll = () => {
-    setItemsCurrentlyFiltered(true)
+    setItemsCurrentlyFiltered(false)
     setActiveFilterButtonClass('all-filter-button')
     dispatchFilter({ type: 'SHOW_ALL' })
   }
