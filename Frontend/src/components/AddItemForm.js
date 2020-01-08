@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import api from '../api/items'
 import uuid from 'uuid'
 
@@ -7,7 +8,7 @@ const AddItemForm = ({
   dispatchItems,
   suppliers,
   locations,
-  currentWeek,
+  currentDate,
   user,
   company
 }) => {
@@ -19,7 +20,7 @@ const AddItemForm = ({
     order: 0,
     showEditForm: false,
     isLocked: false,
-    submittedForWeek: currentWeek,
+    submittedForWeek: currentDate,
     itemID: uuid(),
     user: '',
     company: '',
@@ -36,6 +37,7 @@ const AddItemForm = ({
   }
 
   const handleSubmit = event => {
+    event.preventDefault()
     if (itemForm) {
       api.insertItem(itemForm).then(res => {
         dispatchItems({
@@ -50,11 +52,10 @@ const AddItemForm = ({
           isLocked: itemForm.isLocked,
           submittedForWeek: itemForm.submittedForWeek,
           itemID: itemForm.itemID,
-          user: itemForm.user,
+          user: res.data.user,
           company: itemForm.company,
           previousOrders: itemForm.previousOrders
         })
-
         setItemForm({
           itemName: '',
           supplier: '',
@@ -63,7 +64,7 @@ const AddItemForm = ({
           order: 0,
           showEditForm: false,
           isLocked: false,
-          submittedForWeek: currentWeek,
+          submittedForWeek: currentDate,
           itemID: uuid(),
           user: user,
           company: company,
@@ -73,7 +74,6 @@ const AddItemForm = ({
           }
         })
       })
-      event.preventDefault()
     }
   }
 

@@ -1,5 +1,5 @@
 // import uuid from 'uuid/v4'
-function shuffleArray(array) {
+function shuffleArray (array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[array[i], array[j]] = [array[j], array[i]]
@@ -23,7 +23,10 @@ const itemReducer = (state, action) => {
           showEditForm: action.showEditForm,
           isLocked: action.isLocked,
           submittedForWeek: action.submittedForWeek,
-          itemID: action.itemID
+          itemID: action.itemID,
+          user: action.user,
+          company: action.company,
+          previousOrders: action.previousOrders
         }
       ]
     case 'DELETE_ITEM':
@@ -79,7 +82,7 @@ const itemReducer = (state, action) => {
     case 'SORT_RANDOM':
       return shuffleArray(state.slice())
     case 'SORT_NORMAL':
-      return state.slice().sort(function(a, b) {
+      return state.slice().sort(function (a, b) {
         if (a.supplier > b.supplier) return 1
         if (a.supplier < b.supplier) return -1
         if (a.location > b.location) return 1

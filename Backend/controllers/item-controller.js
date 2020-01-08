@@ -11,16 +11,19 @@ createItem = (req, res) => {
   }
 
   const item = new Item(body)
+
   if (!item) {
     return res.status(400).json({ success: false, error: err })
   }
 
+  item.user = req.user._id
   item
     .save()
     .then(() => {
       return res.status(201).json({
         success: true,
         _id: item._id,
+        user: item.user,
         message: 'Item created!'
       })
     })
@@ -58,7 +61,6 @@ createManyItems = (req, res) => {
 }
 
 updateItem = async (req, res) => {
-  console.log(req.user)
   const body = req.body
   if (!body) {
     return res.status(400).json({
@@ -85,6 +87,7 @@ updateItem = async (req, res) => {
     item.itemID = body.itemID || item.itemID
     item.user = body.user || item.user
     item.company = body.company || item.company
+    item.previousOrders = body.previousOrders || item.previousOrders
     item
       .save()
       .then(() => {
@@ -218,6 +221,7 @@ getItemsByDate = (req, res) => {
   }
 }
 createNewOrderDate = async (req, res) => {
+  console.log('hey')
   lastItem = await Item.findOne({})
     .sort({ submittedForWeek: -1 })
     .limit(1)
@@ -232,9 +236,10 @@ createNewOrderDate = async (req, res) => {
       .sort({ submittedForWeek: -1 })
       .limit(2)
       .exec()
+    console.log(lastOrders)
     return {
-      lastWeek: lastOrders[0].order,
-      twoWeeksAgo: lastOrders[1].order
+      lastWeek: lastOrders[0] ? lastOrders[0].order : 0,
+      twoWeeksAgo: lastOrders[1] ? lastOrders[1].order : 0
     }
   }
 
