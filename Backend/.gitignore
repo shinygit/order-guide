@@ -7,6 +7,7 @@
 
 #config
 config.js
+.env
 
 
 # testing
