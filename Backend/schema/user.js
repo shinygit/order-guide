@@ -7,7 +7,7 @@ export default gql`
   }
   type User {
     id: ID!
-    userName: String!
+    username: String!
     items: [Item!]
   }
 `

@@ -1,37 +1,27 @@
 const uuid = require('uuid')
 export default {
   Query: {
-    items: (parent, args, { models }) => Object.values(models.items),
-    item: (parent, { id }, { models }) => {
-      return models.items[id]
+    items: async (parent, args, { models }) => {
+      return await models.Item.findAll()
+    },
+    item: async (parent, { id }, { models }) => {
+      return await models.Item.findByPk(id)
     }
   },
   Mutation: {
-    createItem: (parent, { itemName }, { me, models }) => {
-      const id = uuid()
-      const item = {
-        id,
+    createItem: async (parent, { itemName }, { me, models }) => {
+      return await models.Item.create({
         itemName,
         userId: me.id
-      }
-      models.items[id] = item
-      models.users[me.id].itemIds.push(id)
-      return item
+      })
     },
-    deleteItem: (parent, { id }, { models }) => {
-      const { [id]: item, ...otherItems } = models.items
-
-      if (!item) {
-        return false
-      }
-      models.items = otherItems
-      return true
+    deleteItem: async (parent, { id }, { models }) => {
+      return await models.Item.destroy({ where: { id } })
     }
   },
-
   Item: {
-    userId: (item, args, { models }) => {
-      return models.users[item.userId]
+    userId: async (item, args, { models }) => {
+      return await models.User.findByPk(item.userId)
     }
   }
 }

@@ -1,7 +1,7 @@
 const item = (sequelize, DataTypes) => {
-  const Item = sequelize.define('item'', {
-    text:{
-      type:DataType.STRING
+  const Item = sequelize.define('item', {
+    itemName: {
+      type: DataTypes.STRING
     }
   })
   Item.associate = models => {
@@ -9,3 +9,4 @@ const item = (sequelize, DataTypes) => {
   }
   return Item
 }
+export default item
