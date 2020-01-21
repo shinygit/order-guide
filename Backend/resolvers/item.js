@@ -1,4 +1,7 @@
 const uuid = require('uuid')
+import { combineResolvers } from 'graphql-resolvers'
+import { isAuthenticated, isItemOwner } from './authorization'
+
 export default {
   Query: {
     items: async (parent, args, { models }) => {
@@ -9,15 +12,22 @@ export default {
     }
   },
   Mutation: {
-    createItem: async (parent, { itemName }, { me, models }) => {
-      return await models.Item.create({
-        itemName,
-        userId: me.id
-      })
-    },
-    deleteItem: async (parent, { id }, { models }) => {
-      return await models.Item.destroy({ where: { id } })
-    }
+    createItem: combineResolvers(
+      isAuthenticated,
+      async (parent, { itemName }, { me, models }) => {
+        return await models.Item.create({
+          itemName,
+          userId: me.id
+        })
+      }
+    ),
+    deleteItem: combineResolvers(
+      isAuthenticated,
+      isItemOwner,
+      async (parent, { id }, { models }) => {
+        return await models.Item.destroy({ where: { id } })
+      }
+    )
   },
   Item: {
     userId: async (item, args, { models }) => {

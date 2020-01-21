@@ -1,7 +1,8 @@
 const item = (sequelize, DataTypes) => {
   const Item = sequelize.define('item', {
     itemName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: { notEmpty: true }
     }
   })
   Item.associate = models => {
