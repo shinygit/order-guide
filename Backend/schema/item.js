@@ -5,20 +5,28 @@ export default gql`
     item(id: ID!): Item!
   }
   extend type Mutation {
-    createItem(itemName: String!): Item!
+    createItem(itemName: String!, orderDate: String!): Item!
     deleteItem(id: ID!): Boolean!
+    updateItem(id: ID!, orderAmount: Int): Item!
   }
   type Item {
     id: ID!
     itemName: String!
-    supplier: String
-    location: String
-    buildTo: Int
-    order: Int
-    showEditForm: Boolean
-    isLocked: Boolean
-    submittedDate: String
-    itemId: String
+    supplier: String!
+    location: String!
+    buildTo: Int!
+    orderAmount: Int
+    showEditForm: Boolean!
+    orderDate: String!
+    itemId: String!
     userId: User!
+  }
+
+  extend type Subscription {
+    orderChanged: OrderChanged!
+  }
+
+  type OrderChanged {
+    item: Item!
   }
 `
