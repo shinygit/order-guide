@@ -1,5 +1,6 @@
 const cors = require('cors')
 const express = require('express')
+const http = require('http')
 const jwt = require('jsonwebtoken')
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 
@@ -25,30 +26,38 @@ const getMe = async req => {
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
-  context: async ({ req }) => {
-    const me = await getMe(req)
+  context: async ({ req, connection }) => {
+    if (connection) {
+      return { models }
+    }
+    if (req) {
+      const me = await getMe(req)
 
-    return {
-      models,
-      me,
-      secret: process.env.SECRET
+      return {
+        models,
+        me,
+        secret: process.env.SECRET
+      }
     }
   }
 })
 
 server.applyMiddleware({ app, path: '/graphql' })
 
+const httpServer = http.createServer(app)
+server.installSubscriptionHandlers(httpServer)
+
 const eraseDatabaseOnSync = true
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
   if (eraseDatabaseOnSync) {
-    createUsersWithMessages()
+    createUsersWithMessages(new Date())
   }
-  app.listen({ port: 3001 }, () => {
+  httpServer.listen({ port: 3001 }, () => {
     console.log('Apollo Server on http://localhost:3001/graphql')
   })
 })
 
-const createUsersWithMessages = async () => {
+const createUsersWithMessages = async date => {
   await models.User.create(
     {
       username: 'rwieruch',
@@ -56,7 +65,8 @@ const createUsersWithMessages = async () => {
       password: 'rwieruch',
       items: [
         {
-          itemName: 'Published the Road to learn React'
+          itemName: 'Published the Road to learn React',
+          orderDate: date.setSeconds(date.getSeconds() + 1)
         }
       ]
     },
@@ -71,10 +81,12 @@ const createUsersWithMessages = async () => {
       password: 'dddavids',
       items: [
         {
-          itemName: 'Happy to release ...'
+          itemName: 'Happy to release ...',
+          orderDate: date.setSeconds(date.getSeconds() + 1)
         },
         {
-          itemName: 'Published a complete ...'
+          itemName: 'Published a complete ...',
+          orderDate: date.setSeconds(date.getSeconds() + 1)
         }
       ]
     },
