@@ -1,13 +1,32 @@
 import { gql } from 'apollo-server-express'
 export default gql`
+  input CreateItemInput {
+    itemName: String
+    supplier: String
+    location: String
+    buildTo: Int
+    orderAmount: Int
+    orderDate: String
+    itemId: String
+  }
+  input UpdateItemInput {
+    itemName: String
+    supplier: String
+    location: String
+    buildTo: Int
+    orderAmount: Int
+    orderDate: String
+    itemId: String
+  }
   extend type Query {
     items: [Item!]!
     item(id: ID!): Item!
   }
   extend type Mutation {
-    createItem(itemName: String!, orderDate: String!): Item!
+    createItem(input: CreateItemInput): Item!
     deleteItem(id: ID!): Boolean!
-    updateItem(id: ID!, orderAmount: Int): Item!
+    updateItem(id: ID!, input: UpdateItemInput): Item!
+    updateOrderAmount(id: ID!, orderAmount: Int): Item!
   }
   type Item {
     id: ID!
@@ -16,17 +35,16 @@ export default gql`
     location: String!
     buildTo: Int!
     orderAmount: Int
-    showEditForm: Boolean!
     orderDate: String!
     itemId: String!
     userId: User!
   }
 
   extend type Subscription {
-    orderChanged: OrderChanged!
+    itemChanged: ItemChanged!
   }
 
-  type OrderChanged {
+  type ItemChanged {
     item: Item!
   }
 `

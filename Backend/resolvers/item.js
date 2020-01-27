@@ -26,12 +26,14 @@ export default {
   Mutation: {
     createItem: combineResolvers(
       isAuthenticated,
-      async (parent, { itemName, orderDate }, { me, models }) => {
-        return await models.Item.create({
-          itemName,
-          orderDate,
+      async (parent, { input }, { me, models }) => {
+        console.log(input)
+        const item = await models.Item.create({
+          itemName: input.itemName,
+          orderDate: input.orderDate,
           userId: me.id
         })
+        return item
       }
     ),
     deleteItem: combineResolvers(
@@ -44,12 +46,32 @@ export default {
     updateItem: combineResolvers(
       isAuthenticated,
       isItemOwner,
+      async (parent, { id, input }, { models }) => {
+        return await models.Item.update(
+          { itemName: input.itemName },
+          { where: { id: id }, returning: true }
+        ).then(res => {
+          let item = res[1][0].dataValues
+          pubsub.publish(EVENTS.ITEM.CHANGED, {
+            itemChanged: { item }
+          })
+          return item
+        })
+      }
+    ),
+    updateOrderAmount: combineResolvers(
+      isAuthenticated,
+      isItemOwner,
       async (parent, { id, orderAmount }, { models }) => {
         return await models.Item.update(
           { orderAmount: orderAmount },
           { where: { id: id }, returning: true }
-        ).then(item => {
-          return item[1][0].dataValues
+        ).then(res => {
+          let item = res[1][0].dataValues
+          pubsub.publish(EVENTS.ITEM.CHANGED, {
+            itemChanged: { item }
+          })
+          return item
         })
       }
     )
@@ -60,7 +82,7 @@ export default {
     }
   },
   Subscription: {
-    orderChanged: {
+    itemChanged: {
       subscribe: () => pubsub.asyncIterator(EVENTS.ITEM.CHANGED)
     }
   }
