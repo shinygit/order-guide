@@ -10,9 +10,6 @@ const item = (sequelize, DataTypes) => {
       supplier: {
         type: DataTypes.STRING
       },
-      location: {
-        type: DataTypes.STRING
-      },
       buildTo: {
         type: DataTypes.INTEGER
       },
@@ -32,6 +29,7 @@ const item = (sequelize, DataTypes) => {
   )
   Item.associate = models => {
     Item.belongsTo(models.User)
+    Item.belongsTo(models.Location)
   }
   return Item
 }

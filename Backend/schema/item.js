@@ -26,7 +26,7 @@ export default gql`
     createItem(input: CreateItemInput): Item!
     deleteItem(id: ID!): Boolean!
     updateItem(id: ID!, input: UpdateItemInput): Item!
-    updateOrderAmount(id: ID!, orderAmount: Int): Item!
+    updateItemOrderAmount(id: ID!, orderAmount: Int): Item!
   }
   type Item {
     id: ID!

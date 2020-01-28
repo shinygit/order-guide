@@ -51,12 +51,13 @@ export default {
   },
 
   User: {
-    items: async (user, args, { models }) => {
-      return await models.Item.findAll({
+    items: async (user, args, { loaders }) => {
+      /* return await models.Item.findAll({
         where: {
           userId: user.id
         }
-      })
+      }) */
+      return await loaders.item.load(user.id)
     }
   }
 }
