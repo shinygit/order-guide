@@ -27,7 +27,6 @@ export default {
     createItem: combineResolvers(
       isAuthenticated,
       async (parent, { input }, { me, models }) => {
-        console.log(input)
         const item = await models.Item.create({
           itemName: input.itemName,
           orderDate: input.orderDate,
@@ -59,7 +58,7 @@ export default {
         })
       }
     ),
-    updateOrderAmount: combineResolvers(
+    updateItemOrderAmount: combineResolvers(
       isAuthenticated,
       isItemOwner,
       async (parent, { id, orderAmount }, { models }) => {
@@ -77,8 +76,8 @@ export default {
     )
   },
   Item: {
-    userId: async (item, args, { models }) => {
-      return await models.User.findByPk(item.userId)
+    userId: async (item, args, { loaders }) => {
+      return await loaders.user.load(item.userId)
     }
   },
   Subscription: {

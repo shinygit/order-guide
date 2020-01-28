@@ -3,10 +3,13 @@ const express = require('express')
 const http = require('http')
 const jwt = require('jsonwebtoken')
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
+const Sequelize = require('sequelize')
+import DataLoader from 'dataloader'
 
 import schema from './schema'
 import resolvers from './resolvers'
 import models, { sequelize } from './models'
+import item from './schema/item'
 
 const app = express()
 app.use(cors())
@@ -22,6 +25,28 @@ const getMe = async req => {
     }
   }
 }
+const batchUsers = async (keys, models) => {
+  const users = await models.User.findAll({
+    where: {
+      id: {
+        [Sequelize.Op.in]: keys
+      }
+    }
+  })
+  return keys.map(key => users.find(user => user.id === key))
+}
+const batchItems = async (keys, models) => {
+  const items = await models.Item.findAll({
+    where: {
+      userId: {
+        [Sequelize.Op.in]: keys
+      }
+    }
+  })
+  return keys.map(key => items.filter(item => item.userId === key))
+}
+const userLoader = new DataLoader(keys => batchUsers(keys, models))
+const itemLoader = new DataLoader(keys => batchItems(keys, models))
 
 const server = new ApolloServer({
   typeDefs: schema,
@@ -36,7 +61,11 @@ const server = new ApolloServer({
       return {
         models,
         me,
-        secret: process.env.SECRET
+        secret: process.env.SECRET,
+        loaders: {
+          user: userLoader,
+          item: itemLoader
+        }
       }
     }
   }
@@ -47,9 +76,9 @@ server.applyMiddleware({ app, path: '/graphql' })
 const httpServer = http.createServer(app)
 server.installSubscriptionHandlers(httpServer)
 
-const eraseDatabaseOnSync = true
-sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
-  if (eraseDatabaseOnSync) {
+const isTest = !!process.env.TEST
+sequelize.sync({ force: isTest }).then(async () => {
+  if (isTest) {
     createUsersWithMessages(new Date())
   }
   httpServer.listen({ port: 3001 }, () => {
@@ -66,32 +95,36 @@ const createUsersWithMessages = async date => {
       items: [
         {
           itemName: 'Published the Road to learn React',
-          orderDate: date.setSeconds(date.getSeconds() + 1)
+          orderDate: date.setSeconds(date.getSeconds() + 1),
+          location: { locationName: 'floor' }
         }
       ]
     },
     {
-      include: [models.Item]
+      include: [{ model: models.Item, include: [models.Location] }]
     }
   )
+
   await models.User.create(
     {
       username: 'ddavids',
       email: 'hello@david.com',
-      password: 'dddavids',
+      password: '12345678',
       items: [
         {
-          itemName: 'Happy to release ...',
-          orderDate: date.setSeconds(date.getSeconds() + 1)
+          itemName: 'Good Book',
+          orderDate: '2020-01-20',
+          locationId: 1
         },
         {
-          itemName: 'Published a complete ...',
-          orderDate: date.setSeconds(date.getSeconds() + 1)
+          itemName: 'Bad Book',
+          orderDate: '2020-01-21',
+          locationId: 1
         }
       ]
     },
     {
-      include: [models.Item]
+      include: [{ model: models.Item, include: [models.Location] }]
     }
   )
 }
