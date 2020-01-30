@@ -32,7 +32,7 @@ export default {
         email,
         password
       })
-      return { token: createToken(user, secret, '30m') }
+      return { token: createToken(user, secret, '365d') }
     },
 
     signIn: async (parent, { login, password }, { models, secret }) => {
@@ -46,7 +46,7 @@ export default {
       if (!isValid) {
         throw new AuthenticationError('Invalid password.')
       }
-      return { token: createToken(user, secret, '30d') }
+      return { token: createToken(user, secret, '365d') }
     }
   },
 

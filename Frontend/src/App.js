@@ -5,6 +5,7 @@ import React, {
   useReducer,
   createContext
 } from 'react'
+
 import './App.css'
 // import { initialItems } from './testData/initialItems'
 import api from './api/items'
@@ -26,8 +27,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import userReducer from './reducers/userReducer'
 
 const company = 'testCompany'
-
 export const UserContext = createContext()
+
 const App = () => {
   const [user, dispatchUser] = useReducer(userReducer, {
     isAuthenticated: false,

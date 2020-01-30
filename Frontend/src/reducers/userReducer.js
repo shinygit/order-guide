@@ -3,28 +3,25 @@ import setAuthToken from '../utils/setAuthToken'
 const userReducer = (state, action) => {
   switch (action.type) {
     case 'RESUME':
-      console.log(action.payload)
       setAuthToken(action.payload)
       return {
         ...state,
         isAuthenticated: true,
         id: jwt_decode(action.payload).id,
-        name: jwt_decode(action.payload).name,
+        name: jwt_decode(action.payload).username,
         token: action.payload
       }
     case 'LOGIN':
-      console.log(action.payload.token)
-      setAuthToken(action.payload.token)
-
-      localStorage.setItem('id', jwt_decode(action.payload.token).id)
-      localStorage.setItem('user', jwt_decode(action.payload.token).name)
-      localStorage.setItem('token', action.payload.token)
+      setAuthToken(action.payload)
+      localStorage.setItem('id', jwt_decode(action.payload).id)
+      localStorage.setItem('user', jwt_decode(action.payload).username)
+      localStorage.setItem('token', action.payload)
       return {
         ...state,
         isAuthenticated: true,
-        id: jwt_decode(action.payload.token).id,
-        name: jwt_decode(action.payload.token).name,
-        token: action.payload.token
+        id: jwt_decode(action.payload).id,
+        name: jwt_decode(action.payload).username,
+        token: action.payload
       }
     case 'LOGOUT':
       setAuthToken(false)

@@ -1,64 +1,39 @@
 import React, { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
 import { UserContext } from '../../App'
-import api from '../../api/users'
+const LOGIN = gql`
+  mutation signIn($login: String!, $password: String!) {
+    signIn(login: $login, password: $password) {
+      token
+    }
+  }
+`
 
 const Login = () => {
-  const history = useHistory()
   const { dispatchUser } = useContext(UserContext)
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
-    isSubmitting: false,
-    errors: {}
-  })
+  const [login, { loading, error }] = useMutation(LOGIN)
+  const history = useHistory()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  const { errors } = loginForm
-
-  const handleChangeInput = event => {
-    setLoginForm({
-      ...loginForm,
-      [event.target.id]: event.target.value
-    })
-  }
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault()
-    setLoginForm({
-      ...loginForm,
-      isSubmitting: true,
-      errors: {}
+    const result = await login({
+      variables: { login: email, password: password }
+    }).catch(e => {
+      console.log(e)
     })
-    api
-      .login(userData)
-      .then(res => {
-        if (res.data.success) {
-          return res
-        }
-        throw res
+    if (result) {
+      const token = result.data.signIn.token
+      dispatchUser({
+        type: 'LOGIN',
+        payload: token
       })
-      .then(res => {
-        dispatchUser({
-          type: 'LOGIN',
-          payload: res.data
-        })
-        return res
-      })
-      .then(history.push('/'))
-      .catch(error => {
-        setLoginForm({
-          ...loginForm,
-          isSubmitting: false,
-          errors: error.response.data
-        })
-      })
+      history.push('/')
+    }
   }
-
-  const userData = {
-    email: loginForm.email,
-    password: loginForm.password
-  }
-
-  console.log(userData)
 
   return (
     <div>
@@ -68,9 +43,9 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            onChange={handleChangeInput}
-            value={loginForm.email}
-            error={errors.email} // meterialui prop
+            onChange={({ target }) => setEmail(target.value)}
+            value={email}
+            error='no error'
             id='email'
             type='text'
           />
@@ -78,18 +53,18 @@ const Login = () => {
         </div>
         <div>
           <input
-            onChange={handleChangeInput}
-            value={loginForm.password}
-            error={errors.password}
+            onChange={({ target }) => setPassword(target.value)}
+            value={password}
+            error='no error'
             id='password'
             type='password'
           />
           <label htmlFor='password'>Password</label>
         </div>
-        <div>{errors.email || errors.password || errors.emailnotfound}</div>
+        <div>{error && error.message}</div>
         <div>
-          <button disabled={loginForm.isSubmitting} type='submit'>
-            {loginForm.isSubmitting ? 'Loading...' : 'Login'}
+          <button disabled={loading} type='submit'>
+            {loading ? 'Loading...' : 'Login'}
           </button>
         </div>
       </form>
