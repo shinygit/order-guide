@@ -89,16 +89,29 @@ const createUsersWithMessages = async date => {
       username: 'rwieruch',
       email: 'hello@robin.com',
       password: 'rwieruch',
-      items: [
+      orders: [
         {
-          itemName: 'Published the Road to learn React',
-          orderDate: date.setSeconds(date.getSeconds() + 1),
-          location: { locationName: 'floor' }
+          orderDate: '2020-01-05',
+          items: [
+            {
+              itemName: 'Published the Road to learn React',
+              buildTo: 2,
+              location: { locationName: 'floor' },
+              supplier: { supplierName: 'stuff store' }
+            }
+          ]
         }
       ]
     },
     {
-      include: [{ model: models.Item, include: [models.Location] }]
+      include: [
+        {
+          model: models.Order,
+          include: [
+            { model: models.Item, include: [models.Location, models.Supplier] }
+          ]
+        }
+      ]
     }
   )
 
@@ -107,21 +120,35 @@ const createUsersWithMessages = async date => {
       username: 'ddavids',
       email: 'hello@david.com',
       password: '12345678',
-      items: [
+      orders: [
         {
-          itemName: 'Good Book',
-          orderDate: '2020-01-20',
-          locationId: 1
-        },
-        {
-          itemName: 'Bad Book',
-          orderDate: '2020-01-21',
-          locationId: 1
+          orderDate: '2020-01-01',
+          items: [
+            {
+              itemName: 'Good Book',
+              buildTo: 2,
+              locationId: 1,
+              supplierId: 1
+            },
+            {
+              itemName: 'Bad Book',
+              buildTo: 2,
+              locationId: 1,
+              supplierId: 1
+            }
+          ]
         }
       ]
     },
     {
-      include: [{ model: models.Item, include: [models.Location] }]
+      include: [
+        {
+          model: models.Order,
+          include: [
+            { model: models.Item, include: [models.Location, models.Supplier] }
+          ]
+        }
+      ]
     }
   )
 }

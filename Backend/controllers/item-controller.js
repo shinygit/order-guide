@@ -16,13 +16,13 @@ createItem = (req, res) => {
     return res.status(400).json({ success: false, error: err })
   }
 
-  item.user = req.user._id
+  item.user = req.user.id
   item
     .save()
     .then(() => {
       return res.status(201).json({
         success: true,
-        _id: item._id,
+        id: item.id,
         user: item.user,
         message: 'Item created!'
       })
@@ -68,14 +68,14 @@ updateItem = async (req, res) => {
       error: 'You must provide a body to update'
     })
   }
-  Item.findOne({ _id: req.params.id }, (err, item) => {
+  Item.findOne({ id: req.params.id }, (err, item) => {
     if (err) {
       return res.status(404).json({
         err,
         message: 'Item not found!'
       })
     }
-    item._id = body._id || item._id
+    item.id = body.id || item.id
     item.supplier = body.supplier || item.supplier
     item.location = body.location || item.location
     item.itemName = body.itemName || item.itemName
@@ -94,7 +94,7 @@ updateItem = async (req, res) => {
         return res.status(200).json({
           success: true,
           item: item,
-          _id: item._id,
+          id: item.id,
           message: 'Item updated!'
         })
       })
@@ -108,7 +108,7 @@ updateItem = async (req, res) => {
 }
 
 deleteItem = async (req, res) => {
-  await Item.findOneAndDelete({ _id: req.params.id }, (err, item) => {
+  await Item.findOneAndDelete({ id: req.params.id }, (err, item) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
@@ -135,7 +135,7 @@ deleteManyItems = async (req, res) => {
 }
 
 getItemById = async (req, res) => {
-  await Item.findOne({ _id: req.params.id }, (err, item) => {
+  await Item.findOne({ id: req.params.id }, (err, item) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }

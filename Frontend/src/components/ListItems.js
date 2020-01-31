@@ -32,8 +32,8 @@ const ListItems = ({
     itemsToDisplay = filter
   }
   const handleEdit = useCallback(
-    _id => {
-      dispatchItems({ type: 'TOGGLE_EDIT', _id: _id })
+    id => {
+      dispatchItems({ type: 'TOGGLE_EDIT', id: id })
     },
     [dispatchItems]
   )
@@ -55,7 +55,7 @@ const ListItems = ({
             if (item.showEditForm) {
               return (
                 <EditItemForm
-                  key={item._id}
+                  key={item.id}
                   item={item}
                   dispatchItems={dispatchItems}
                   suppliers={suppliers}
@@ -67,7 +67,7 @@ const ListItems = ({
             } else {
               return (
                 <TableItemRow
-                  key={item._id}
+                  key={item.id}
                   item={item}
                   dispatchItems={dispatchItems}
                   handleEdit={handleEdit}

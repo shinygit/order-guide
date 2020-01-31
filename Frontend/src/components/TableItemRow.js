@@ -10,7 +10,7 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
   return (
     <tr>
       <TdEdit>
-        <CreateTwoToneIcon onClick={() => handleEdit(item._id)}>
+        <CreateTwoToneIcon onClick={() => handleEdit(item.id)}>
           Edit
         </CreateTwoToneIcon>
       </TdEdit>
@@ -20,7 +20,7 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
       <MinTd>{item.previousOrders.lastWeek}</MinTd>
       <MinTd>
         <ChangeOrderAmount
-          _id={item._id}
+          id={item.id}
           orderAmount={item.order}
           dispatchItems={dispatchItems}
         />

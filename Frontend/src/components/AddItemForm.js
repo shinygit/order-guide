@@ -42,7 +42,7 @@ const AddItemForm = ({
       api.insertItem(itemForm).then(res => {
         dispatchItems({
           type: 'ADD_ITEM',
-          _id: res.data._id,
+          id: res.data.id,
           itemName: itemForm.itemName,
           supplier: itemForm.supplier,
           location: itemForm.location,
