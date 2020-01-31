@@ -43,7 +43,7 @@ const user = (sequelize, DataTypes) => {
     return await bcrypt.compare(password, this.password)
   }
   User.associate = models => {
-    User.hasMany(models.Item, { onDelete: 'CASCADE' })
+    User.hasMany(models.Order, { onDelete: 'CASCADE' })
   }
 
   User.findByLogin = async login => {

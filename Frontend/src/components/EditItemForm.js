@@ -14,7 +14,7 @@ const EditItemForm = ({
   handleEdit
 }) => {
   const [editItemForm, setEditItemForm] = useState({
-    _id: item._id,
+    id: item.id,
     itemName: item.itemName,
     buildTo: item.buildTo,
     supplier: item.supplier,
@@ -31,12 +31,12 @@ const EditItemForm = ({
 
   const handleSubmit = event => {
     if (editItemForm) {
-      api.updateItemById(editItemForm._id, editItemForm).then(res => {
+      api.updateItemById(editItemForm.id, editItemForm).then(res => {
         console.log(res)
-        handleEdit(item._id)
+        handleEdit(item.id)
         dispatchItems({
           type: 'EDIT_ITEM',
-          _id: res.data.item._id,
+          id: res.data.item.id,
           itemName: res.data.item.itemName,
           buildTo: res.data.item.buildTo,
           supplier: res.data.item.supplier,
@@ -51,7 +51,7 @@ const EditItemForm = ({
   useEffect(
     () =>
       setEditItemForm({
-        _id: item._id,
+        id: item.id,
         itemName: item.itemName,
         buildTo: item.buildTo,
         supplier: item.supplier,
@@ -93,7 +93,7 @@ const EditItemForm = ({
       <Td>{item.previousOrders.lastWeek}</Td>
       <Td>
         <ChangeOrderAmount
-          _id={item._id}
+          id={item.id}
           orderAmount={item.order}
           dispatchItems={dispatchItems}
         />

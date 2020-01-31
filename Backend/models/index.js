@@ -12,7 +12,9 @@ const sequelize = new Sequelize(getDatabase())
 const models = {
   User: sequelize.import('./user'),
   Item: sequelize.import('./item'),
-  Location: sequelize.import('./location')
+  Location: sequelize.import('./location'),
+  Supplier: sequelize.import('./supplier'),
+  Order: sequelize.import('./order')
 }
 
 Object.keys(models).forEach(key => {

@@ -14,7 +14,7 @@ const itemReducer = (state, action) => {
       return [
         ...state,
         {
-          _id: action._id,
+          id: action.id,
           itemName: action.itemName,
           supplier: action.supplier,
           location: action.location,
@@ -32,7 +32,7 @@ const itemReducer = (state, action) => {
     case 'DELETE_ITEM':
       // state.filter(item => item.id !== action.id)
       return state.filter(item => {
-        if (item._id === action._id) {
+        if (item.id === action.id) {
           return false
         } else {
           return true
@@ -40,7 +40,7 @@ const itemReducer = (state, action) => {
       })
     case 'EDIT_ITEM':
       return state.map(item => {
-        if (item._id === action._id) {
+        if (item.id === action.id) {
           return {
             ...item,
             itemName: action.itemName,
@@ -54,7 +54,7 @@ const itemReducer = (state, action) => {
       })
     case 'DECREASE_ORDER_AMOUNT':
       return state.map(item => {
-        if (item._id === action._id) {
+        if (item.id === action.id) {
           return { ...item, order: item.order - 1 }
         } else {
           return item
@@ -62,7 +62,7 @@ const itemReducer = (state, action) => {
       })
     case 'INCREASE_ORDER_AMOUNT':
       return state.map(item => {
-        if (item._id === action._id) {
+        if (item.id === action.id) {
           return { ...item, order: item.order + 1 }
         } else {
           return item
@@ -70,7 +70,7 @@ const itemReducer = (state, action) => {
       })
     case 'TOGGLE_EDIT':
       return state.map(item => {
-        if (item._id === action._id) {
+        if (item.id === action.id) {
           return {
             ...item,
             showEditForm: !item.showEditForm

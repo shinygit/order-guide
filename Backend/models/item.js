@@ -7,18 +7,11 @@ const item = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: { notEmpty: true }
       },
-      supplier: {
-        type: DataTypes.STRING
-      },
       buildTo: {
         type: DataTypes.INTEGER
       },
       orderAmount: {
         type: DataTypes.INTEGER
-      },
-      orderDate: {
-        type: DataTypes.DATEONLY,
-        validate: { notEmpty: true, isDate: true }
       },
       itemID: {
         type: DataTypes.UUID,
@@ -28,8 +21,9 @@ const item = (sequelize, DataTypes) => {
     { timestamps: false }
   )
   Item.associate = models => {
-    Item.belongsTo(models.User)
+    Item.belongsTo(models.Order)
     Item.belongsTo(models.Location)
+    Item.belongsTo(models.Supplier)
   }
   return Item
 }

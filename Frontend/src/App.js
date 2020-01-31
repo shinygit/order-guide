@@ -42,8 +42,11 @@ const App = () => {
     }
   }, [])
 
+  const GET_NEWEST_ORDER_DATE =
+  const GET_ITEMS_BY_DATE=
+
   const [currentDate, setCurrentDate] = useState('')
-  useEffect(() => {
+  /* useEffect(() => {
     async function getInitialItems () {
       setIsLoading(true)
       await api.getNewestOrderDate().then(date => {
@@ -55,7 +58,7 @@ const App = () => {
       })
     }
     getInitialItems()
-  }, [currentDate])
+  }, [currentDate]) */
   const [isLoading, setIsLoading] = useState(false)
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, [])
@@ -95,8 +98,8 @@ const App = () => {
   }, [getCurrentLocations])
 
   const handleDelete = editItemForm => {
-    api.deleteItemById(editItemForm._id).then(res => {
-      dispatchItems({ type: 'DELETE_ITEM', _id: editItemForm._id })
+    api.deleteItemById(editItemForm.id).then(res => {
+      dispatchItems({ type: 'DELETE_ITEM', id: editItemForm.id })
     })
   }
   const [newItemToggle, setNewItemToggle] = useState(false)

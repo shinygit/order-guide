@@ -1,15 +1,15 @@
 import React, { useRef, useEffect } from 'react'
 import api from '../api/items'
 
-const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
+const ChangeOrderAmount = ({ id, orderAmount, dispatchItems }) => {
   const changed = useRef(false)
   const apiTimer = useRef(false)
   const handleDecrease = () => {
-    dispatchItems({ type: 'DECREASE_ORDER_AMOUNT', _id: _id })
+    dispatchItems({ type: 'DECREASE_ORDER_AMOUNT', id: id })
     changed.current = true
   }
   const handleIncrease = () => {
-    dispatchItems({ type: 'INCREASE_ORDER_AMOUNT', _id: _id })
+    dispatchItems({ type: 'INCREASE_ORDER_AMOUNT', id: id })
     changed.current = true
   }
   useEffect(() => {
@@ -17,7 +17,7 @@ const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
       clearTimeout(apiTimer.current)
       let pendingApiCall = () => {
         api
-          .updateItemById(_id, { order: orderAmount })
+          .updateItemById(id, { order: orderAmount })
           .then(res => {
             console.log(res.data.item.order)
             pendingApiCall = false
@@ -30,10 +30,10 @@ const ChangeOrderAmount = ({ _id, orderAmount, dispatchItems }) => {
       }
       pendingApiCall()
     }
-  }, [_id, orderAmount])
+  }, [id, orderAmount])
   return (
     <>
-      <button className={`${_id} decrease`} onClick={() => handleDecrease()}>
+      <button className={`${id} decrease`} onClick={() => handleDecrease()}>
         -
       </button>
       {orderAmount}
