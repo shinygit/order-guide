@@ -26,6 +26,8 @@ import Button from '@material-ui/core/Button'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import userReducer from './reducers/userReducer'
 
+import gql from 'graphql-tag'
+
 const company = 'testCompany'
 export const UserContext = createContext()
 
@@ -42,8 +44,14 @@ const App = () => {
     }
   }, [])
 
-  const GET_NEWEST_ORDER_DATE =
-  const GET_ITEMS_BY_DATE=
+  const GET_LATEST_ORDER = gql`
+    query order($orderDepth: int!) {
+      order(orderDepth: $orderDepth) {
+        orderDates
+      }
+    }
+  `
+  //  const GET_ITEMS_BY_DATE=
 
   const [currentDate, setCurrentDate] = useState('')
   /* useEffect(() => {

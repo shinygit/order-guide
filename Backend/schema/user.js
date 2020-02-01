@@ -19,6 +19,6 @@ export default gql`
     id: ID!
     username: String!
     email: String!
-    items: [Item!]
+    orders: [Order!]
   }
 `

@@ -137,6 +137,23 @@ const createUsersWithMessages = async date => {
               supplierId: 1
             }
           ]
+        },
+        {
+          orderDate: '2020-01-05',
+          items: [
+            {
+              itemName: 'Good Book',
+              buildTo: 5,
+              locationId: 1,
+              supplierId: 1
+            },
+            {
+              itemName: 'Bad Book',
+              buildTo: 5,
+              locationId: 1,
+              supplierId: 1
+            }
+          ]
         }
       ]
     },

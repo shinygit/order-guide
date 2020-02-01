@@ -1,6 +1,7 @@
 const { gql } = require('apollo-server-express')
 import userSchema from './user'
 import itemSchema from './item'
+import orderSchema from './order'
 const linkSchema = gql`
   type Query {
     _: Boolean
@@ -12,4 +13,4 @@ const linkSchema = gql`
     _: Boolean
   }
 `
-export default [linkSchema, userSchema, itemSchema]
+export default [linkSchema, userSchema, itemSchema, orderSchema]

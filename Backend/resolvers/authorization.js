@@ -12,3 +12,13 @@ export const isItemOwner = async (parent, { id }, { models, me }) => {
   }
   return skip
 }
+
+export const isOrderOwner = async (parent, { id }, { models, me }) => {
+  console.log(id)
+  const order = await models.Order.findByPk(id, { raw: true })
+
+  if (order.userId !== me.id) {
+    throw new ForbiddenError('Not authenticated as owner')
+  }
+  return skip
+}
