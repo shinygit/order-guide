@@ -38,6 +38,8 @@ export default gql`
     orderDate: String!
     itemId: String!
     userId: User!
+    "Returns previous orders"
+    previousOrders(count: Int): [Int]
   }
 
   extend type Subscription {

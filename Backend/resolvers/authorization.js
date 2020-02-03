@@ -14,7 +14,6 @@ export const isItemOwner = async (parent, { id }, { models, me }) => {
 }
 
 export const isOrderOwner = async (parent, { id }, { models, me }) => {
-  console.log(id)
   const order = await models.Order.findByPk(id, { raw: true })
 
   if (order.userId !== me.id) {

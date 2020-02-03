@@ -48,16 +48,16 @@ export default {
       }
       return { token: createToken(user, secret, '365d') }
     }
-  },
+  }
 
-  User: {
+  /*   User: {
     items: async (user, args, { loaders }) => {
-      /* return await models.Item.findAll({
+       return await models.Item.findAll({
         where: {
           userId: user.id
         }
-      }) */
+      }) 
       return await loaders.item.load(user.id)
     }
-  }
+  } */
 }
