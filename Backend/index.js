@@ -94,7 +94,7 @@ const createUsersWithMessages = async date => {
           orderDate: '2020-01-05',
           items: [
             {
-              itemName: 'Published the Road to learn React',
+              itemName: 'SHOULD NEVER SEE THIS',
               buildTo: 2,
               location: { locationName: 'floor' },
               supplier: { supplierName: 'stuff store' }
@@ -126,15 +126,19 @@ const createUsersWithMessages = async date => {
           items: [
             {
               itemName: 'Good Book',
+              orderAmount: 2,
               buildTo: 2,
               locationId: 1,
-              supplierId: 1
+              supplierId: 1,
+              itemId: '8b41c801-dce8-4899-b0a2-498ccc25df90'
             },
             {
               itemName: 'Bad Book',
+              orderAmount: 2,
               buildTo: 2,
               locationId: 1,
-              supplierId: 1
+              supplierId: 1,
+              itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
             }
           ]
         },
@@ -143,15 +147,40 @@ const createUsersWithMessages = async date => {
           items: [
             {
               itemName: 'Good Book',
+              orderAmount: 3,
               buildTo: 5,
               locationId: 1,
-              supplierId: 1
+              supplierId: 1,
+              itemId: '8b41c801-dce8-4899-b0a2-498ccc25df90'
             },
             {
               itemName: 'Bad Book',
+              orderAmount: 3,
               buildTo: 5,
               locationId: 1,
-              supplierId: 1
+              supplierId: 1,
+              itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
+            }
+          ]
+        },
+        {
+          orderDate: '2020-01-10',
+          items: [
+            {
+              itemName: 'Good Book',
+              orderAmount: 4,
+              buildTo: 5,
+              locationId: 1,
+              supplierId: 1,
+              itemId: '8b41c801-dce8-4899-b0a2-498ccc25df90'
+            },
+            {
+              itemName: 'Bad Book',
+              orderAmount: 4,
+              buildTo: 5,
+              locationId: 1,
+              supplierId: 1,
+              itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
             }
           ]
         }

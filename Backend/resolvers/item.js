@@ -78,6 +78,35 @@ export default {
   Item: {
     userId: async (item, args, { loaders }) => {
       return await loaders.user.load(item.userId)
+    },
+    previousOrders: async (item, { count }, { models }) => {
+      const previous = await models.Item.findAll({
+        attributes: ['id', 'orderAmount'],
+        where: {
+          itemId: item.itemId
+        },
+        include: [
+          {
+            attributes: [],
+            model: models.Order
+          }
+        ],
+        order: [[models.Order, 'orderDate', 'desc']],
+        raw: true
+      })
+      const index = previous.findIndex(x => x.id === item.id)
+      const sliced = previous.slice(index + 1, index + count + 1)
+      const array = sliced.map(a => a.orderAmount)
+      while (array.length < count) {
+        array.push(0)
+      }
+      return array
+      /*       const lastWeek = previous[index + 1]
+      const twoWeeksAgo = previous[index + 2]
+      return [
+        lastWeek ? lastWeek.orderAmount : 0,
+        twoWeeksAgo ? twoWeeksAgo.orderAmount : 0
+      ] */
     }
   },
   Subscription: {
