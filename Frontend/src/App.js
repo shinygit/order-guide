@@ -5,7 +5,7 @@ import React, {
   useReducer,
   createContext
 } from 'react'
-
+import { useQuery } from '@apollo/react-hooks'
 import './App.css'
 // import { initialItems } from './testData/initialItems'
 import api from './api/items'
@@ -27,6 +27,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import userReducer from './reducers/userReducer'
 
 import gql from 'graphql-tag'
+import { NetworkStatus } from 'apollo-client'
 
 const company = 'testCompany'
 export const UserContext = createContext()
@@ -45,28 +46,41 @@ const App = () => {
   }, [])
 
   const GET_LATEST_ORDER = gql`
-    query order($orderDepth: int!) {
-      order(orderDepth: $orderDepth) {
-        orderDates
+    query Orders($orderDepth: Int!) {
+      orders(orderDepth: $orderDepth) {
+        orderDate
+        items {
+          id
+          itemName
+          orderAmount
+          supplier
+          location
+          buildTo
+          previousOrders(count: 2)
+        }
       }
     }
   `
-  //  const GET_ITEMS_BY_DATE=
 
+  const { loading, error, data, refetch } = useQuery(GET_LATEST_ORDER, {
+    variables: { orderDepth: 1 },
+    notifyOnNetworkStatusChange: true
+  })
+  console.log(data)
   const [currentDate, setCurrentDate] = useState('')
-  /* useEffect(() => {
-    async function getInitialItems () {
-      setIsLoading(true)
-      await api.getNewestOrderDate().then(date => {
-        setCurrentDate(date.data)
-        api.getItemsByDate(date.data).then(items => {
-          dispatchItems({ type: 'LOAD_ITEMS', items: items.data.data })
-          setIsLoading(false)
-        })
-      })
+  useEffect(() => {
+    if (loading) setIsLoading(true)
+    if (NetworkStatus === 4) setIsLoading(true)
+    if (data) {
+      setCurrentDate(data.orders[0].orderDate)
+      dispatchItems({ type: 'LOAD_ITEMS', items: data.orders[0].items })
+      setIsLoading(false)
     }
-    getInitialItems()
-  }, [currentDate]) */
+  }, [data])
+  useEffect(() => {
+    refetch()
+  }, [currentDate])
+
   const [isLoading, setIsLoading] = useState(false)
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
   const [items, dispatchItems] = useReducer(itemReducer, [])

@@ -5,9 +5,12 @@ export const isAuthenticated = (parent, args, { me }) =>
   me ? skip : new ForbiddenError('Not authenticated as user.')
 
 export const isItemOwner = async (parent, { id }, { models, me }) => {
-  const item = await models.Item.findByPk(id, { raw: true })
-
-  if (item.userId !== me.id) {
+  const item = await models.Item.findByPk(id, {
+    raw: true,
+    nest: true,
+    include: [{ model: models.Order, attributes: ['userId'] }]
+  })
+  if (item.order.userId !== me.id) {
     throw new ForbiddenError('Not authenticated as owner')
   }
   return skip

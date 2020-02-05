@@ -79,6 +79,14 @@ export default {
     userId: async (item, args, { loaders }) => {
       return await loaders.user.load(item.userId)
     },
+    supplier: async (item, args, { models }) => {
+      let supplier = await models.Supplier.findByPk(item.supplierId)
+      return supplier.supplierName
+    },
+    location: async (item, args, { models }) => {
+      let location = await models.Location.findByPk(item.locationId)
+      return location.locationName
+    },
     previousOrders: async (item, { count }, { models }) => {
       const previous = await models.Item.findAll({
         attributes: ['id', 'orderAmount'],

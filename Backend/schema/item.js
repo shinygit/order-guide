@@ -31,10 +31,10 @@ export default gql`
   type Item {
     id: ID!
     itemName: String!
-    supplier: String!
-    location: String!
+    supplier: String
+    location: String
     buildTo: Int!
-    orderAmount: Int
+    orderAmount: Int!
     orderDate: String!
     itemId: String!
     userId: User!
