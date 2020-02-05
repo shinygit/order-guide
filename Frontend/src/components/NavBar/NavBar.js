@@ -1,35 +1,24 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../../App'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { Query } from 'react-apollo'
+import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 const GET_CURRENT_USER = gql`
   {
-    viewer {
-      login
-      name
+    me {
+      username
     }
   }
 `
-
 const NavBar = () => {
-  const { user, dispatchUser } = useContext(UserContext)
+  const { loading, error, data } = useQuery(GET_CURRENT_USER)
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
   return (
     <div>
-      <Query query={GET_CURRENT_USER}>
-        {({ data, loading }) => {
-          const { viewer } = data
-          if (loading || !viewer) {
-            return <div>Loading...</div>
-          }
-          return (
-            <div>
-              <p>Currently logged in as: {viewer.name}</p>
-            </div>
-          )
-        }}
-      </Query>
+      <div>
+        <p>Currently logged in as: {data.me.username}</p>
+      </div>
       <div>
         <Link to='/login'>
           <button>Login</button>
@@ -41,9 +30,7 @@ const NavBar = () => {
           <button>Home</button>
         </Link>
         <Link to='/'>
-          <button onClick={() => dispatchUser({ type: 'LOGOUT' })}>
-            Logout
-          </button>
+          <button>Logout</button>
         </Link>
       </div>
     </div>

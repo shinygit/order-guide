@@ -178,8 +178,8 @@ const createUsersWithMessages = async date => {
               itemName: 'Bad Book',
               orderAmount: 4,
               buildTo: 5,
-              locationId: 1,
-              supplierId: 1,
+              location: { locationName: 'not floor' },
+              supplier: { supplierName: 'not stuff store' },
               itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
             }
           ]

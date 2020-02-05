@@ -7,6 +7,7 @@ const areEqual = (prevProps, nextProps) => {
   return prevProps.item === nextProps.item
 }
 const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
+  console.log(item)
   return (
     <tr>
       <TdEdit>
@@ -16,12 +17,12 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
       </TdEdit>
       <Td>{item.itemName}</Td>
       <MinTd>{item.buildTo}</MinTd>
-      <MinTd>{item.previousOrders.twoWeeksAgo}</MinTd>
-      <MinTd>{item.previousOrders.lastWeek}</MinTd>
+      <MinTd>{item.previousOrders[1]}</MinTd>
+      <MinTd>{item.previousOrders[0]}</MinTd>
       <MinTd>
         <ChangeOrderAmount
           id={item.id}
-          orderAmount={item.order}
+          orderAmount={item.orderAmount}
           dispatchItems={dispatchItems}
         />
       </MinTd>

@@ -1,4 +1,12 @@
 import userResolver from './user'
 import itemResolver from './item'
 import orderResolver from './order'
-export default [userResolver, itemResolver, orderResolver]
+import supplierResolver from './supplier'
+import locationResolver from './location'
+export default [
+  userResolver,
+  itemResolver,
+  orderResolver,
+  supplierResolver,
+  locationResolver
+]

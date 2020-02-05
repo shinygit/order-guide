@@ -89,8 +89,8 @@ const EditItemForm = ({
           onChange={handleChangeInput}
         />
       </Td>
-      <Td>{item.previousOrders.twoWeeksAgo}</Td>
-      <Td>{item.previousOrders.lastWeek}</Td>
+      <Td>{item.previousOrders[1]}</Td>
+      <Td>{item.previousOrders[0]}</Td>
       <Td>
         <ChangeOrderAmount
           id={item.id}
