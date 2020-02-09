@@ -7,7 +7,6 @@ const areEqual = (prevProps, nextProps) => {
   return prevProps.item === nextProps.item
 }
 const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
-  console.log(item)
   return (
     <tr>
       <TdEdit>

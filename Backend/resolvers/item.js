@@ -46,16 +46,39 @@ export default {
       isAuthenticated,
       isItemOwner,
       async (parent, { id, input }, { models }) => {
-        return await models.Item.update(
-          { itemName: input.itemName },
-          { where: { id: id }, returning: true }
-        ).then(res => {
-          let item = res[1][0].dataValues
-          pubsub.publish(EVENTS.ITEM.CHANGED, {
-            itemChanged: { item }
-          })
-          return item
+        const item = await models.Item.findOne({
+          where: { id: id }
         })
+        if (input.supplier) {
+          let supplier = await models.Supplier.findOne({
+            where: { supplierName: input.supplier }
+          })
+          if (!supplier) {
+            supplier = await models.Supplier.create({
+              supplierName: input.supplier
+            })
+          }
+          input.supplier = supplier.id
+        }
+        if (input.location) {
+          let location = await models.Location.findOne({
+            where: { locationName: input.location }
+          })
+          if (!location) {
+            location = await models.Location.create({
+              locationName: input.location
+            })
+          }
+          input.location = location.id
+        }
+
+        await item.update({
+          itemName: input.itemName,
+          buildTo: input.buildTo,
+          supplierId: input.supplier,
+          locationId: input.location
+        })
+        return item
       }
     ),
     updateItemOrderAmount: combineResolvers(
