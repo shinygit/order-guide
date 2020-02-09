@@ -4,6 +4,8 @@ import ChangeOrderAmount from './ChangeOrderAmount'
 import deleteImage from '../assets/images/15107-illustration-of-a-red-close-button-pv.png'
 import SaveIcon from '@material-ui/icons/Save'
 import api from '../api/items'
+import { EDIT_ITEM } from '../Queries/item'
+import { useMutation } from '@apollo/react-hooks'
 
 const EditItemForm = ({
   item,
@@ -13,6 +15,7 @@ const EditItemForm = ({
   handleDelete,
   handleEdit
 }) => {
+  const [edit, { loading, error }] = useMutation(EDIT_ITEM)
   const [editItemForm, setEditItemForm] = useState({
     id: item.id,
     itemName: item.itemName,
@@ -29,23 +32,18 @@ const EditItemForm = ({
     })
   }
 
-  const handleSubmit = event => {
-    if (editItemForm) {
-      api.updateItemById(editItemForm.id, editItemForm).then(res => {
-        console.log(res)
-        handleEdit(item.id)
-        dispatchItems({
-          type: 'EDIT_ITEM',
-          id: res.data.item.id,
-          itemName: res.data.item.itemName,
-          buildTo: res.data.item.buildTo,
-          supplier: res.data.item.supplier,
-          location: res.data.item.location,
-          order: res.data.item.order,
-          showEditForm: res.data.item.showEditForm
-        })
-      })
-    }
+  const handleSubmit = () => {
+    edit({
+      variables: {
+        id: editItemForm.id,
+        input: {
+          itemName: editItemForm.itemName,
+          buildTo: parseInt(editItemForm.buildTo),
+          supplier: editItemForm.supplier,
+          location: editItemForm.location
+        }
+      }
+    })
   }
 
   useEffect(
@@ -83,7 +81,7 @@ const EditItemForm = ({
       </Td>
       <Td>
         <Input
-          type='text'
+          type='number'
           name='buildTo'
           value={editItemForm.buildTo}
           onChange={handleChangeInput}

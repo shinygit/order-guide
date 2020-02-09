@@ -28,12 +28,13 @@ import userReducer from './reducers/userReducer'
 
 import gql from 'graphql-tag'
 import { NetworkStatus } from 'apollo-client'
+import { GET_LATEST_ORDER } from './Queries/item'
 
 const company = 'testCompany'
 export const UserContext = createContext()
 
 const App = () => {
-  const [user, dispatchUser] = useReducer(userReducer, {
+  /*   const [user, dispatchUser] = useReducer(userReducer, {
     isAuthenticated: false,
     id: null,
     name: null,
@@ -43,46 +44,28 @@ const App = () => {
     if (localStorage.token) {
       dispatchUser({ type: 'RESUME', payload: localStorage.token })
     }
-  }, [])
-
-  const GET_LATEST_ORDER = gql`
-    query Orders($orderDepth: Int!) {
-      orders(orderDepth: $orderDepth) {
-        orderDate
-        items {
-          id
-          itemName
-          orderAmount
-          supplier
-          location
-          buildTo
-          previousOrders(count: 2)
-        }
-      }
-    }
-  `
+  }, []) */
 
   const { loading, error, data, refetch } = useQuery(GET_LATEST_ORDER, {
-    variables: { orderDepth: 1 },
-    notifyOnNetworkStatusChange: true
+    variables: { orderDepth: 1 }
   })
-  console.log(data)
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
     if (loading) setIsLoading(true)
-    if (NetworkStatus === 4) setIsLoading(true)
     if (data) {
       setCurrentDate(data.orders[0].orderDate)
       dispatchItems({ type: 'LOAD_ITEMS', items: data.orders[0].items })
       setIsLoading(false)
     }
-  }, [data])
+    console.log('effect used')
+  })
   useEffect(() => {
     refetch()
   }, [currentDate])
 
   const [isLoading, setIsLoading] = useState(false)
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
+
   const [items, dispatchItems] = useReducer(itemReducer, [])
   const [searchTerm, setSearchTerm] = useState('')
   const getCurrentSuppliers = useCallback(() => {
@@ -131,70 +114,67 @@ const App = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, 'ALL')
 
   return (
-    <UserContext.Provider value={{ user, dispatchUser }}>
-      <Router>
-        <NavBar />
-        <Switch>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/register'>
-            <Register />
-          </Route>
-          <Route exact path='/'>
-            <div>
-              <OrderMenu
-                setCurrentDate={setCurrentDate}
-                currentDate={currentDate}
-              />
-              <SearchForm
+    <Router>
+      <NavBar />
+      <Switch>
+        <Route path='/login'>
+          <Login />
+        </Route>
+        <Route path='/register'>
+          <Register />
+        </Route>
+        <Route exact path='/'>
+          <div>
+            <OrderMenu
+              setCurrentDate={setCurrentDate}
+              currentDate={currentDate}
+            />
+            <SearchForm
+              items={items}
+              dispatchFilter={dispatchFilter}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+              setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+            />
+            <SortMenu dispatchItems={dispatchItems} items={items} />
+            <Button onClick={() => toggleNewItem()}>New Item</Button>
+            <br />
+            <FilterMenu
+              filter={filter}
+              dispatchFilter={dispatchFilter}
+              suppliers={suppliers}
+              locations={locations}
+              itemsCurrentlyFiltered={itemsCurrentlyFiltered}
+              setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+            />
+            {newItemToggle && (
+              <AddItemForm
                 items={items}
-                dispatchFilter={dispatchFilter}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                itemsCurrentlyFiltered={itemsCurrentlyFiltered}
-                setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
-              />
-              <SortMenu dispatchItems={dispatchItems} items={items} />
-              <Button onClick={() => toggleNewItem()}>New Item</Button>
-              <br />
-              <FilterMenu
-                filter={filter}
-                dispatchFilter={dispatchFilter}
+                dispatchItems={dispatchItems}
                 suppliers={suppliers}
                 locations={locations}
-                itemsCurrentlyFiltered={itemsCurrentlyFiltered}
-                setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
+                company={company}
+                currentDate={currentDate}
               />
-              {newItemToggle && (
-                <AddItemForm
-                  items={items}
-                  dispatchItems={dispatchItems}
-                  suppliers={suppliers}
-                  locations={locations}
-                  user={user}
-                  company={company}
-                  currentDate={currentDate}
-                />
-              )}
-              {isLoading ? (
-                <h1>Loading...</h1>
-              ) : (
-                <ListItems
-                  filter={filter}
-                  searchTerm={searchTerm}
-                  items={items}
-                  dispatchItems={dispatchItems}
-                  suppliers={suppliers}
-                  locations={locations}
-                  handleDelete={handleDelete}
-                />
-              )}
-            </div>
-          </Route>
-        </Switch>
-      </Router>
-    </UserContext.Provider>
+            )}
+            {isLoading ? (
+              <h1>Loading...</h1>
+            ) : (
+              <ListItems
+                filter={filter}
+                searchTerm={searchTerm}
+                items={items}
+                dispatchItems={dispatchItems}
+                suppliers={suppliers}
+                locations={locations}
+                handleDelete={handleDelete}
+              />
+            )}
+          </div>
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 export default App

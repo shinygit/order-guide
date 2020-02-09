@@ -2,6 +2,10 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
+
+import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
+
 const ListItems = ({
   items,
   handleDelete,
@@ -31,12 +35,14 @@ const ListItems = ({
   if (Array.isArray(filter)) {
     itemsToDisplay = filter
   }
-  const handleEdit = useCallback(
-    id => {
-      dispatchItems({ type: 'TOGGLE_EDIT', id: id })
-    },
-    [dispatchItems]
-  )
+
+  const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
+    mutation toggleShowEditItemForm($itemId: ID!) {
+      toggleShowEditItemForm(id: $itemId) @client
+    }
+  `
+  const [toggle, { loading, error }] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
+  const handleEdit = id => toggle({ variables: { itemId: id } })
   return (
     <Div>
       <Table>
