@@ -84,38 +84,11 @@ sequelize.sync({ force: isTest }).then(async () => {
 })
 
 const createUsersWithMessages = async date => {
-  await models.User.create(
-    {
-      username: 'rwieruch',
-      email: 'hello@robin.com',
-      password: 'rwieruch',
-      orders: [
-        {
-          orderDate: '2020-01-05',
-          items: [
-            {
-              itemName: 'SHOULD NEVER SEE THIS',
-              buildTo: 2,
-              location: { locationName: 'floor' },
-              supplier: { supplierName: 'stuff store' }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      include: [
-        {
-          model: models.Order,
-          include: [
-            { model: models.Item, include: [models.Location, models.Supplier] }
-          ]
-        }
-      ]
-    }
-  )
-
-  await models.User.create(
+  const loc1 = await models.Location.create({ locationName: 'floor' })
+  const loc2 = await models.Location.create({ locationName: 'not floor' })
+  const sup1 = await models.Supplier.create({ supplierName: 'good store' })
+  const sup2 = await models.Supplier.create({ supplierName: 'not good store' })
+  const user = await models.User.create(
     {
       username: 'ddavids',
       email: 'hello@david.com',
@@ -136,8 +109,8 @@ const createUsersWithMessages = async date => {
               itemName: 'Bad Book',
               orderAmount: 2,
               buildTo: 2,
-              locationId: 1,
-              supplierId: 1,
+              locationId: 2,
+              supplierId: 2,
               itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
             }
           ]
@@ -157,8 +130,8 @@ const createUsersWithMessages = async date => {
               itemName: 'Bad Book',
               orderAmount: 3,
               buildTo: 5,
-              locationId: 1,
-              supplierId: 1,
+              locationId: 2,
+              supplierId: 2,
               itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
             }
           ]
@@ -178,23 +151,37 @@ const createUsersWithMessages = async date => {
               itemName: 'Bad Book',
               orderAmount: 4,
               buildTo: 5,
-              location: { locationName: 'not floor' },
-              supplier: { supplierName: 'not stuff store' },
+              locationId: 2,
+              supplierId: 2,
               itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
             }
           ]
         }
       ]
     },
-    {
+    { include: { model: models.Order, include: [{ model: models.Item }] } }
+  )
+  loc1.setUser(user)
+  loc2.setUser(user)
+  sup1.setUser(user)
+  sup2.setUser(user)
+}
+
+/*   {
       include: [
         {
           model: models.Order,
           include: [
-            { model: models.Item, include: [models.Location, models.Supplier] }
+            {
+              model: models.Item,
+              include: [
+                { model: models.Location, include: [models.User] },
+                { model: models.Supplier, include: [models.User] }
+              ]
+            }
           ]
-        }
+        },
+        models.Location,
+        models.Supplier
       ]
-    }
-  )
-}
+    } */

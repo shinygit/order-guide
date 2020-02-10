@@ -12,6 +12,7 @@ const supplier = (sequelize, DataTypes) => {
   )
   Supplier.associate = models => {
     Supplier.hasMany(models.Item)
+    Supplier.belongsTo(models.User)
   }
   return Supplier
 }
