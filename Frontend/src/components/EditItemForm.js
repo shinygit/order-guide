@@ -4,18 +4,19 @@ import ChangeOrderAmount from './ChangeOrderAmount'
 import deleteImage from '../assets/images/15107-illustration-of-a-red-close-button-pv.png'
 import SaveIcon from '@material-ui/icons/Save'
 import api from '../api/items'
-import { EDIT_ITEM } from '../Queries/item'
+import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
+import { produce } from 'immer'
 
 const EditItemForm = ({
   item,
   dispatchItems,
   suppliers,
   locations,
-  handleDelete,
   handleEdit
 }) => {
   const [edit, { loading, error }] = useMutation(EDIT_ITEM)
+  const [deleteItem, { deleteLoading, deleteError }] = useMutation(DELETE_ITEM)
   const [editItemForm, setEditItemForm] = useState({
     id: item.id,
     itemName: item.itemName,
@@ -29,6 +30,27 @@ const EditItemForm = ({
     setEditItemForm({
       ...editItemForm,
       [event.target.name]: event.target.value
+    })
+  }
+  const handleDelete = id => {
+    deleteItem({
+      variables: { id: id },
+      update: client => {
+        const previous = client.readQuery({
+          query: GET_LATEST_ORDER,
+          variables: { orderDepth: 1 }
+        })
+        const { items } = previous.orders[0]
+        const next = produce(previous, draft => {
+          draft.orders[0].items = items.filter(item => item.id !== id)
+        })
+
+        client.writeQuery({
+          query: GET_LATEST_ORDER,
+          variables: { orderDepth: 1 },
+          data: next
+        })
+      }
     })
   }
 
@@ -45,7 +67,6 @@ const EditItemForm = ({
       }
     })
   }
-
   useEffect(
     () =>
       setEditItemForm({
@@ -125,10 +146,7 @@ const EditItemForm = ({
         </datalist>
       </Td>
       <Td>
-        <ButtonDelete
-          type='button'
-          onClick={() => handleDelete(editItemForm)}
-        />
+        <ButtonDelete type='button' onClick={() => handleDelete(item.id)} />
       </Td>
     </tr>
   )

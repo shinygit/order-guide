@@ -12,6 +12,7 @@ const location = (sequelize, DataTypes) => {
   )
   Location.associate = models => {
     Location.hasMany(models.Item)
+    Location.belongsTo(models.User)
   }
   return Location
 }

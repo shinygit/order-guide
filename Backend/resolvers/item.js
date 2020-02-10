@@ -51,22 +51,24 @@ export default {
         })
         if (input.supplier) {
           let supplier = await models.Supplier.findOne({
-            where: { supplierName: input.supplier }
+            where: { supplierName: input.supplier, userId: me.id }
           })
           if (!supplier) {
             supplier = await models.Supplier.create({
-              supplierName: input.supplier
+              supplierName: input.supplier,
+              userId: me.id
             })
           }
           input.supplier = supplier.id
         }
         if (input.location) {
           let location = await models.Location.findOne({
-            where: { locationName: input.location }
+            where: { locationName: input.location, userId: me.id }
           })
           if (!location) {
             location = await models.Location.create({
-              locationName: input.location
+              locationName: input.location,
+              userId: me.id
             })
           }
           input.location = location.id
