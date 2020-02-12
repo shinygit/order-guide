@@ -1,33 +1,31 @@
 import React, { useState } from 'react'
+import { CREATE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
+import { useMutation } from '@apollo/react-hooks'
+import produce from 'immer'
 
-import api from '../api/items'
-import uuid from 'uuid'
+const AddItemForm = ({ suppliers, locations }) => {
+  const [createItem] = useMutation(CREATE_ITEM, {
+    update(client, { data: { createItem } }) {
+      const queryResults = client.readQuery({
+        query: GET_LATEST_ORDER,
+        variables: { orderDepth: 1 }
+      })
 
-const AddItemForm = ({
-  items,
-  dispatchItems,
-  suppliers,
-  locations,
-  currentDate,
-  user,
-  company
-}) => {
+      client.writeQuery({
+        query: GET_LATEST_ORDER,
+        variables: { orderDepth: 1 },
+        data: produce(queryResults, draft => {
+          draft.orders[0].items.push(createItem)
+        })
+      })
+    }
+  })
+
   const [itemForm, setItemForm] = useState({
     itemName: '',
     supplier: '',
     location: '',
-    buildTo: '',
-    order: 0,
-    showEditForm: false,
-    isLocked: false,
-    submittedForWeek: currentDate,
-    itemID: uuid(),
-    user: '',
-    company: '',
-    previousOrders: {
-      lastWeek: 0,
-      twoWeeksAgo: 0
-    }
+    buildTo: ''
   })
   const handleChangeInput = event => {
     setItemForm({
@@ -38,43 +36,23 @@ const AddItemForm = ({
 
   const handleSubmit = event => {
     event.preventDefault()
-    if (itemForm) {
-      api.insertItem(itemForm).then(res => {
-        dispatchItems({
-          type: 'ADD_ITEM',
-          id: res.data.id,
+
+    createItem({
+      variables: {
+        input: {
           itemName: itemForm.itemName,
           supplier: itemForm.supplier,
           location: itemForm.location,
-          buildTo: itemForm.buildTo,
-          order: itemForm.order,
-          showEditForm: itemForm.showEditForm,
-          isLocked: itemForm.isLocked,
-          submittedForWeek: itemForm.submittedForWeek,
-          itemID: itemForm.itemID,
-          user: res.data.user,
-          company: itemForm.company,
-          previousOrders: itemForm.previousOrders
-        })
-        setItemForm({
-          itemName: '',
-          supplier: '',
-          location: '',
-          buildTo: '',
-          order: 0,
-          showEditForm: false,
-          isLocked: false,
-          submittedForWeek: currentDate,
-          itemID: uuid(),
-          user: user,
-          company: company,
-          previousOrders: {
-            lastWeek: 0,
-            twoWeeksAgo: 0
-          }
-        })
-      })
-    }
+          buildTo: parseInt(itemForm.buildTo)
+        }
+      }
+    })
+    setItemForm({
+      itemName: '',
+      supplier: '',
+      location: '',
+      buildTo: ''
+    })
   }
 
   return (

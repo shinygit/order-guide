@@ -36,6 +36,9 @@ export default {
     },
 
     signIn: async (parent, { login, password }, { models, secret }) => {
+      console.log('why')
+      console.log(login)
+      console.log(password)
       const user = await models.User.findByLogin(login)
 
       if (!user) {

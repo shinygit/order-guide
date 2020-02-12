@@ -17,7 +17,7 @@ app.use(cors())
 const getMe = async req => {
   const token = req.headers['x-token']
 
-  if (token) {
+  if (token != 'undefined') {
     try {
       return await jwt.verify(token, process.env.SECRET)
     } catch (e) {
@@ -120,7 +120,7 @@ const createUsersWithMessages = async date => {
           items: [
             {
               itemName: 'Good Book',
-              orderAmount: 3,
+
               buildTo: 5,
               locationId: 1,
               supplierId: 1,

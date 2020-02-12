@@ -14,6 +14,21 @@ export const EDIT_ITEM = gql`
     }
   }
 `
+export const CREATE_ITEM = gql`
+  mutation createItem($input: CreateItemInput!) {
+    createItem(input: $input) {
+      id
+      itemName
+      orderAmount
+      supplier
+      location
+      buildTo
+      previousOrders(count: 2)
+      showEditForm @client
+    }
+  }
+`
+
 export const DELETE_ITEM = gql`
   mutation deleteItem($id: ID!) {
     deleteItem(id: $id)
