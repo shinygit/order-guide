@@ -27,10 +27,44 @@ export default {
     createItem: combineResolvers(
       isAuthenticated,
       async (parent, { input }, { me, models }) => {
+        if (input.supplier) {
+          let supplier = await models.Supplier.findOne({
+            where: { supplierName: input.supplier, userId: me.id }
+          })
+          if (!supplier) {
+            supplier = await models.Supplier.create({
+              supplierName: input.supplier,
+              userId: me.id
+            })
+          }
+          input.supplier = supplier.id
+        }
+        if (input.location) {
+          let location = await models.Location.findOne({
+            where: { locationName: input.location, userId: me.id }
+          })
+          if (!location) {
+            location = await models.Location.create({
+              locationName: input.location,
+              userId: me.id
+            })
+          }
+          input.location = location.id
+        }
+        const order = await models.Order.findAll({
+          limit: 1,
+          order: [['orderDate', 'desc']],
+          where: {
+            userId: me.id
+          },
+          raw: true
+        })
         const item = await models.Item.create({
           itemName: input.itemName,
-          orderDate: input.orderDate,
-          userId: me.id
+          buildTo: input.buildTo,
+          locationId: input.location,
+          supplierId: input.supplier,
+          orderId: order[0].id
         })
         return item
       }

@@ -11,7 +11,8 @@ const item = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       orderAmount: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        defaultValue: null
       },
       itemId: {
         type: DataTypes.UUID,

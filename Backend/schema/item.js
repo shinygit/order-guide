@@ -1,13 +1,10 @@
 import { gql } from 'apollo-server-express'
 export default gql`
   input CreateItemInput {
-    itemName: String
-    supplier: String
-    location: String
-    buildTo: Int
-    orderAmount: Int
-    orderDate: String
-    itemId: String
+    itemName: String!
+    supplier: String!
+    location: String!
+    buildTo: Int!
   }
   input UpdateItemInput {
     itemName: String
@@ -34,7 +31,7 @@ export default gql`
     supplier: String
     location: String
     buildTo: Int!
-    orderAmount: Int!
+    orderAmount: Int
     orderDate: String!
     itemId: String!
     userId: User!

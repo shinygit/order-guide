@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import api from '../../api/users'
+import { Link } from 'react-router-dom'
+import gql from 'graphql-tag'
+
+// const REGISTER_USER = gql``
 
 const Register = () => {
-  const history = useHistory()
   const [registerForm, setRegisterForm] = useState({
     name: '',
     email: '',
@@ -27,16 +28,6 @@ const Register = () => {
       ...registerForm,
       isSubmitting: true
     })
-    api
-      .register(newUser)
-      .then(res => history.push('/login'))
-      .catch(err =>
-        setRegisterForm({
-          ...registerForm,
-          isSubmitting: false,
-          errors: err
-        })
-      )
   }
 
   const newUser = {

@@ -10,6 +10,9 @@ const GET_CURRENT_USER = gql`
     }
   }
 `
+const logOut = () => {
+  localStorage.clear()
+}
 const NavBar = () => {
   const { loading, error, data } = useQuery(GET_CURRENT_USER)
   if (loading) return 'Loading...'
@@ -29,8 +32,8 @@ const NavBar = () => {
         <Link to='/'>
           <button>Home</button>
         </Link>
-        <Link to='/'>
-          <button>Logout</button>
+        <Link to='/login'>
+          <button onClick={logOut}>Logout</button>
         </Link>
       </div>
     </div>

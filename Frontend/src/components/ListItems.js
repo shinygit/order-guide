@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
@@ -41,7 +41,7 @@ const ListItems = ({
       toggleShowEditItemForm(id: $itemId) @client
     }
   `
-  const [toggle, { loading, error }] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
+  const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleEdit = id => toggle({ variables: { itemId: id } })
   return (
     <Div>

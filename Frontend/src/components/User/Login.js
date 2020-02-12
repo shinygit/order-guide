@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
-import { UserContext } from '../../App'
+import jwt_decode from 'jwt-decode'
 
 const LOGIN = gql`
   mutation signIn($login: String!, $password: String!) {
@@ -13,12 +13,10 @@ const LOGIN = gql`
 `
 
 const Login = () => {
-  const { dispatchUser } = useContext(UserContext)
   const [login, { loading, error }] = useMutation(LOGIN)
   const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const handleSubmit = async event => {
     event.preventDefault()
     const result = await login({
@@ -28,10 +26,9 @@ const Login = () => {
     })
     if (result) {
       const token = result.data.signIn.token
-      dispatchUser({
-        type: 'LOGIN',
-        payload: token
-      })
+      localStorage.setItem('id', jwt_decode(token).id)
+      localStorage.setItem('user', jwt_decode(token).username)
+      localStorage.setItem('token', token)
       history.push('/')
     }
   }

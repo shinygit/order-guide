@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import deleteImage from '../assets/images/15107-illustration-of-a-red-close-button-pv.png'
 import SaveIcon from '@material-ui/icons/Save'
-import api from '../api/items'
 import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
@@ -15,8 +14,8 @@ const EditItemForm = ({
   locations,
   handleEdit
 }) => {
-  const [edit, { loading, error }] = useMutation(EDIT_ITEM)
-  const [deleteItem, { deleteLoading, deleteError }] = useMutation(DELETE_ITEM)
+  const [edit] = useMutation(EDIT_ITEM)
+  const [deleteItem] = useMutation(DELETE_ITEM)
   const [editItemForm, setEditItemForm] = useState({
     id: item.id,
     itemName: item.itemName,

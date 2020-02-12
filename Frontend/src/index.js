@@ -12,6 +12,8 @@ import * as serviceWorker from './serviceWorker'
 import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 
+import { BrowserRouter as Router } from 'react-router-dom'
+
 const httpLink = new HttpLink({
   uri: 'http://localhost:3001/graphql',
   headers: { 'x-token': localStorage.token }
@@ -23,6 +25,7 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
+      return null
     })
   }
 
@@ -45,7 +48,9 @@ cache.writeData({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <LoginOrCreateAccount />
+    <Router>
+      <LoginOrCreateAccount />
+    </Router>
   </ApolloProvider>,
 
   document.getElementById('root')
