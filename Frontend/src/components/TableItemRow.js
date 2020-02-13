@@ -6,7 +6,7 @@ import CreateTwoToneIcon from '@material-ui/icons/CreateTwoTone'
 const areEqual = (prevProps, nextProps) => {
   return prevProps.item === nextProps.item
 }
-const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
+const TableItemRow = React.memo(({ item, handleEdit }) => {
   return (
     <tr>
       <TdEdit>
@@ -19,11 +19,7 @@ const TableItemRow = React.memo(({ dispatchItems, item, handleEdit }) => {
       <MinTd>{item.previousOrders[1]}</MinTd>
       <MinTd>{item.previousOrders[0]}</MinTd>
       <MinTd>
-        <ChangeOrderAmount
-          id={item.id}
-          orderAmount={item.orderAmount}
-          dispatchItems={dispatchItems}
-        />
+        <ChangeOrderAmount id={item.id} orderAmount={item.orderAmount} />
       </MinTd>
       <Td>{item.supplier}</Td>
       <Td>{item.location}</Td>

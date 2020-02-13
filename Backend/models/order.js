@@ -11,6 +11,7 @@ const order = (sequelize, DataTypes) => {
   )
   Order.associate = models => {
     Order.hasMany(models.Item)
+    Order.belongsTo(models.User)
   }
   return Order
 }

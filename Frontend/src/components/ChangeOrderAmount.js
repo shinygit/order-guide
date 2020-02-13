@@ -1,14 +1,29 @@
-import React, { useRef, useEffect } from 'react'
+import React from 'react'
+import { useMutation } from '@apollo/react-hooks'
+import { UPDATE_ITEM_ORDER_AMOUNT } from '../Queries/item'
 
-const ChangeOrderAmount = ({ id, orderAmount, dispatchItems }) => {
-  const handleDecrease = () => {}
-  const handleIncrease = () => {}
+const ChangeOrderAmount = ({ id, orderAmount }) => {
+  const [updateItemOrderAmount] = useMutation(UPDATE_ITEM_ORDER_AMOUNT)
+  const handleDecrease = () => {
+    updateItemOrderAmount({
+      variables: {
+        id: id,
+        orderAmount: orderAmount - 1
+      }
+    })
+  }
+  const handleIncrease = () => {
+    updateItemOrderAmount({
+      variables: {
+        id: id,
+        orderAmount: orderAmount + 1
+      }
+    })
+  }
 
   return (
     <>
-      <button className={`${id} decrease`} onClick={() => handleDecrease()}>
-        -
-      </button>
+      <button onClick={() => handleDecrease()}>-</button>
       {orderAmount}
       <button onClick={() => handleIncrease()}>+</button>
     </>

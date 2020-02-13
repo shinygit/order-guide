@@ -2,16 +2,17 @@ import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import './App.css'
 // import { initialItems } from './testData/initialItems'
-import api from './api/items'
+
 import ListItems from './components/ListItems'
 import AddItemForm from './components/AddItemForm'
-import itemReducer from './reducers/itemReducer'
+
 import filterReducer from './reducers/filterReducer'
 import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
 import SortMenu from './components/SortMenu'
 import OrderMenu from './components/OrderMenu'
 import NavBar from './components/NavBar/NavBar'
+import { client } from './index'
 
 import Button from '@material-ui/core/Button'
 
@@ -20,28 +21,29 @@ import { GET_LATEST_ORDER } from './Queries/item'
 const company = 'testCompany'
 
 const App = () => {
-  /*   const [user, dispatchUser] = useReducer(userReducer, {
-    isAuthenticated: false,
-    id: null,
-    name: null,
-    token: null
-  })
-  useEffect(() => {
-    if (localStorage.token) {
-      dispatchUser({ type: 'RESUME', payload: localStorage.token })
-    }
-  }, []) */
-
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 }
   })
-  const [currentDate, setCurrentDate] = useState('')
+  const [items, setItems] = useState([])
+  const [currentDate, setCurrentDate] = useState()
+  console.log(
+    client.readQuery({
+      query: GET_LATEST_ORDER,
+      variables: { orderDepth: 1 }
+    })
+  )
   useEffect(() => {
     if (loading) setIsLoading(true)
     if (data) {
       setCurrentDate(data.orders[0].orderDate)
-      dispatchItems({ type: 'LOAD_ITEMS', items: data.orders[0].items })
+      setItems(data.orders[0].items)
       setIsLoading(false)
+      console.log(
+        client.readQuery({
+          query: GET_LATEST_ORDER,
+          variables: { orderDepth: 1 }
+        })
+      )
     }
   }, [loading, data])
   useEffect(() => {
@@ -51,7 +53,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [itemsCurrentlyFiltered, setItemsCurrentlyFiltered] = useState(false)
 
-  const [items, dispatchItems] = useReducer(itemReducer, [])
   const [searchTerm, setSearchTerm] = useState('')
   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = []
@@ -87,11 +88,6 @@ const App = () => {
     setLocations(getCurrentLocations())
   }, [getCurrentLocations])
 
-  const handleDelete = editItemForm => {
-    api.deleteItemById(editItemForm.id).then(res => {
-      dispatchItems({ type: 'DELETE_ITEM', id: editItemForm.id })
-    })
-  }
   const [newItemToggle, setNewItemToggle] = useState(false)
   const toggleNewItem = () => {
     setNewItemToggle(!newItemToggle)
@@ -111,7 +107,7 @@ const App = () => {
           itemsCurrentlyFiltered={itemsCurrentlyFiltered}
           setItemsCurrentlyFiltered={setItemsCurrentlyFiltered}
         />
-        <SortMenu dispatchItems={dispatchItems} items={items} />
+        <SortMenu items={items} />
         <Button onClick={() => toggleNewItem()}>New Item</Button>
         <br />
         <FilterMenu
@@ -125,7 +121,6 @@ const App = () => {
         {newItemToggle && (
           <AddItemForm
             items={items}
-            dispatchItems={dispatchItems}
             suppliers={suppliers}
             locations={locations}
             company={company}
@@ -139,10 +134,8 @@ const App = () => {
             filter={filter}
             searchTerm={searchTerm}
             items={items}
-            dispatchItems={dispatchItems}
             suppliers={suppliers}
             locations={locations}
-            handleDelete={handleDelete}
           />
         )}
       </div>

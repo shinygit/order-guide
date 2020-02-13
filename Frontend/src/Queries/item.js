@@ -35,6 +35,15 @@ export const DELETE_ITEM = gql`
   }
 `
 
+export const UPDATE_ITEM_ORDER_AMOUNT = gql`
+  mutation updateItemOrderAmount($id: ID!, $orderAmount: Int!) {
+    updateItemOrderAmount(id: $id, orderAmount: $orderAmount) {
+      id
+      orderAmount
+    }
+  }
+`
+
 export const GET_LATEST_ORDER = gql`
   query Orders($orderDepth: Int!) {
     orders(orderDepth: $orderDepth) {
