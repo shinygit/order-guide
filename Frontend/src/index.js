@@ -13,6 +13,7 @@ import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 
 import { BrowserRouter as Router } from 'react-router-dom'
+import { GET_LATEST_ORDER } from './Queries/item.js'
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -31,6 +32,7 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
 
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
+
 const Link = ApolloLink.from([onErrorLink, httpLink])
 const cache = new InMemoryCache({ freezeResults: true })
 export const client = new ApolloClient({
@@ -43,6 +45,13 @@ export const client = new ApolloClient({
 cache.writeData({
   data: {
     isLoggedIn: !!localStorage.getItem('token')
+  }
+})
+cache.writeQuery({
+  query: GET_LATEST_ORDER,
+  variables: { orderDepth: 1 },
+  data: {
+    orders: [{ orderDate: null, items: [], __typename: 'Order' }]
   }
 })
 

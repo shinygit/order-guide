@@ -1,12 +1,21 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
+import { useMutation } from '@apollo/react-hooks'
 
-// const REGISTER_USER = gql``
+const REGISTER_USER = gql`
+  mutation signUp($username: String!, $email: String!, $password: String!) {
+    signUp(username: $username, email: $email, password: $password) {
+      token
+    }
+  }
+`
 
 const Register = () => {
+  const history = useHistory()
+  const [signUp] = useMutation(REGISTER_USER)
   const [registerForm, setRegisterForm] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
     password2: '',
@@ -22,19 +31,34 @@ const Register = () => {
       [event.target.id]: event.target.value
     })
   }
-  const handleSubmit = event => {
+
+  const handleSubmit = async event => {
     event.preventDefault()
+    if (registerForm.password !== registerForm.password2) {
+      setRegisterForm({
+        ...registerForm,
+        errors: { password2: 'Passwords must match.' }
+      })
+      console.log(errors.password2)
+      return
+    }
     setRegisterForm({
       ...registerForm,
       isSubmitting: true
     })
-  }
+    const result = await signUp({
+      variables: {
+        username: registerForm.username,
+        email: registerForm.email,
+        password: registerForm.password
+      }
+    }).catch(e => {
+      console.log(e)
+    })
 
-  const newUser = {
-    name: registerForm.name,
-    email: registerForm.email,
-    password: registerForm.password,
-    password2: registerForm.password2
+    if (result) {
+      history.push('/login')
+    }
   }
 
   return (
@@ -46,12 +70,12 @@ const Register = () => {
         <div>
           <input
             onChange={handleChangeInput}
-            value={registerForm.name}
-            error={errors.name}
-            id='name'
+            value={registerForm.username}
+            error={errors.username}
+            id='username'
             type='text'
           />
-          <label htmlFor='name'>Name</label>
+          <label htmlFor='username'>username</label>
         </div>
         <div>
           <input

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { client } from '../../index'
 
 const GET_CURRENT_USER = gql`
   {
@@ -12,6 +13,7 @@ const GET_CURRENT_USER = gql`
 `
 const logOut = () => {
   localStorage.clear()
+  client.cache.reset()
 }
 const NavBar = () => {
   const { loading, error, data } = useQuery(GET_CURRENT_USER)
