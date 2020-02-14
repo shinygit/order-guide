@@ -16,8 +16,7 @@ app.use(cors())
 
 const getMe = async req => {
   const token = req.headers['x-token']
-
-  if (token != 'undefined') {
+  if (token) {
     try {
       return await jwt.verify(token, process.env.SECRET)
     } catch (e) {
@@ -166,22 +165,3 @@ const createUsersWithMessages = async date => {
   sup1.setUser(user)
   sup2.setUser(user)
 }
-
-/*   {
-      include: [
-        {
-          model: models.Order,
-          include: [
-            {
-              model: models.Item,
-              include: [
-                { model: models.Location, include: [models.User] },
-                { model: models.Supplier, include: [models.User] }
-              ]
-            }
-          ]
-        },
-        models.Location,
-        models.Supplier
-      ]
-    } */
