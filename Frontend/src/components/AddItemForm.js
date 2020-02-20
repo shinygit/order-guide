@@ -5,18 +5,25 @@ import produce from 'immer'
 
 const AddItemForm = ({ suppliers, locations }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
-    update(client, { data: { createItem } }) {
+    update (client, { data: { createItem } }) {
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 }
       })
-
+      console.log(createItem)
+      const results = {
+        ...queryResults,
+        orders: [
+          {
+            ...queryResults.orders[0],
+            items: [...queryResults.orders[0].items, createItem]
+          }
+        ]
+      }
       client.writeQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 },
-        data: produce(queryResults, draft => {
-          draft.orders[0].items.push(createItem)
-        })
+        data: results
       })
     }
   })

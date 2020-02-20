@@ -13,6 +13,7 @@ export const typeDefs = gql`
 
   extend type Mutation {
     toggleShowEditItemForm(id: ID!): Boolean!
+    setItemFilter(filterType: String!, filterName: String!): Boolean!
   }
 `
 
@@ -28,7 +29,6 @@ export const resolvers = {
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 }
       })
-      console.log(queryResults)
       const { items } = queryResults.orders[0]
       client.writeQuery({
         query: GET_LATEST_ORDER,
@@ -41,6 +41,11 @@ export const resolvers = {
             return item
           })
         })
+      })
+    },
+    setFilter: (_, { filterType, filterName }, { client }) => {
+      client.writeData({
+        data: { itemFilter: { filterType: filterType, filterName: filterName } }
       })
     }
   }

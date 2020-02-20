@@ -79,7 +79,7 @@ export default {
     updateItem: combineResolvers(
       isAuthenticated,
       isItemOwner,
-      async (parent, { id, input }, { models }) => {
+      async (parent, { id, input }, { me, models }) => {
         const item = await models.Item.findOne({
           where: { id: id }
         })

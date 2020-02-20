@@ -1,36 +1,22 @@
-import React, { useEffect } from 'react'
-import Fuse from 'fuse.js'
-const SearchForm = ({
-  items,
-  dispatchFilter,
-  searchTerm,
-  setSearchTerm,
-  itemsCurrentlyFiltered,
-  setItemsCurrentlyFiltered
-}) => {
+import React, { useState, useEffect } from 'react'
+import { useApolloClient } from '@apollo/react-hooks'
+
+const SearchForm = () => {
+  const client = useApolloClient()
+  const [searchTerm, setSearchTerm] = useState('')
   const handleChange = event => {
     setSearchTerm(event.target.value)
   }
   useEffect(() => {
-    setItemsCurrentlyFiltered(false)
-  }, [setItemsCurrentlyFiltered, searchTerm])
-
-  useEffect(() => {
-    const fuse = new Fuse(items, { keys: ['itemName'] })
-    let fuseResults = []
-    if (searchTerm === '') {
-      fuseResults = 'ALL'
-    } else if (searchTerm.includes(' ')) {
-      fuseResults = fuse.search(searchTerm)
-    } else {
-      fuseResults = items.filter(item =>
-        item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    }
-    if (itemsCurrentlyFiltered === false) {
-      dispatchFilter({ type: 'FILTER_SEARCH', results: fuseResults })
-    }
-  }, [searchTerm, items, dispatchFilter, itemsCurrentlyFiltered])
+    client.writeData({
+      data: {
+        filter: {
+          searchTerm: searchTerm,
+          __typename: 'Filter'
+        }
+      }
+    })
+  }, [searchTerm])
   return (
     <div>
       <input

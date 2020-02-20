@@ -44,7 +44,13 @@ export const client = new ApolloClient({
 
 cache.writeData({
   data: {
-    isLoggedIn: !!localStorage.getItem('token')
+    isLoggedIn: !!localStorage.getItem('token'),
+    filter: {
+      searchTerm: '',
+      filterType: 'ALL',
+      filterName: 'ALL',
+      __typename: 'Filter'
+    }
   }
 })
 cache.writeQuery({
