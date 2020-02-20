@@ -21,14 +21,19 @@ const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
   }
 `
 const ListItems = ({ items, suppliers, locations }) => {
-  const uncheckedItems = useRef(null)
   const { data } = useQuery(FILTER_QUERY)
   const { searchTerm, filterName, filterType } = data.filter
+
+  const uncheckedItems = useRef([])
   if (filterType === 'UNCHECKED') {
-    uncheckedItems.current = items.filter(item => {
-      if (item.orderAmount === null) return true
+    items.map(item => {
+      if (item.orderAmount === null) uncheckedItems.current.push(item)
     })
   }
+  if (filterType !== 'UNCHECKED') {
+    uncheckedItems.current = []
+  }
+
   const fuse = new Fuse(items, { keys: ['itemName'] })
   const fuseResults = fuse.search(searchTerm)
 
@@ -37,7 +42,12 @@ const ListItems = ({ items, suppliers, locations }) => {
       return fuseResults.includes(item)
     }
     if (filterName === 'ALL' && filterType === 'ALL') return true
-    if (item.orderAmount === null && filterType === 'UNCHECKED') return true
+    if (
+      filterType === 'UNCHECKED' &&
+      uncheckedItems.current.filter(e => e.id === item.id).length > 0
+    ) {
+      return true
+    }
 
     if (Object.values(item).includes(filterType && filterName)) return true
   })
