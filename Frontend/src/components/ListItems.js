@@ -1,48 +1,60 @@
-import React from 'react'
+import React, { useCallback, useRef } from 'react'
 import styled from 'styled-components'
 import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
-
 import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import Fuse from 'fuse.js'
 
-const ListItems = ({
-  items,
-  handleDelete,
-  filter,
-  sort,
-  dispatchItems,
-  dispatchSort,
-  suppliers,
-  locations,
-  searchTerm
-}) => {
-  let itemsToDisplay = items.filter(item => {
-    if (filter === 'ALL') {
-      return true
+const FILTER_QUERY = gql`
+  query activeFilters {
+    filter {
+      searchTerm
+      filterName
+      filterType
     }
-    if (Array.isArray(filter) && filter.includes(item)) {
-      return true
-    }
-    if (item.supplier === filter.supplier) {
-      return true
-    }
-    if (item.location === filter.location) {
-      return true
-    }
-    return false
-  })
-  if (Array.isArray(filter)) {
-    itemsToDisplay = filter
   }
+`
+const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
+  mutation toggleShowEditItemForm($itemId: ID!) {
+    toggleShowEditItemForm(id: $itemId) @client
+  }
+`
+const ListItems = ({ items, suppliers, locations }) => {
+  const uncheckedItems = useRef(null)
+  const { data } = useQuery(FILTER_QUERY)
+  const { searchTerm, filterName, filterType } = data.filter
+  if (filterType === 'UNCHECKED') {
+    uncheckedItems.current = items.filter(item => {
+      if (item.orderAmount === null) return true
+    })
+  }
+  const fuse = new Fuse(items, { keys: ['itemName'] })
+  const fuseResults = fuse.search(searchTerm)
 
-  const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
-    mutation toggleShowEditItemForm($itemId: ID!) {
-      toggleShowEditItemForm(id: $itemId) @client
+  const filteredItems = items.filter(item => {
+    if (searchTerm !== '') {
+      return fuseResults.includes(item)
     }
-  `
+    if (filterName === 'ALL' && filterType === 'ALL') return true
+    if (item.orderAmount === null && filterType === 'UNCHECKED') return true
+
+    if (Object.values(item).includes(filterType && filterName)) return true
+  })
+  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
+    if (a.supplier > b.supplier) return 1
+    if (a.supplier < b.supplier) return -1
+    if (a.location > b.location) return 1
+    if (a.location < b.location) return -1
+    if (a.itemName > b.itemName) return 1
+    if (a.itemName < b.itemName) return -1
+    return 0
+  })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
-  const handleEdit = id => toggle({ variables: { itemId: id } })
+  const handleEdit = useCallback(
+    id => toggle({ variables: { itemId: id } }),
+    []
+  )
   return (
     <Div>
       <Table>
@@ -63,10 +75,8 @@ const ListItems = ({
                 <EditItemForm
                   key={item.id}
                   item={item}
-                  dispatchItems={dispatchItems}
                   suppliers={suppliers}
                   locations={locations}
-                  handleDelete={handleDelete}
                   handleEdit={handleEdit}
                 />
               )
@@ -75,7 +85,6 @@ const ListItems = ({
                 <TableItemRow
                   key={item.id}
                   item={item}
-                  dispatchItems={dispatchItems}
                   handleEdit={handleEdit}
                 />
               )

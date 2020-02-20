@@ -1,21 +1,25 @@
 import React, { useState } from 'react'
-import api from '../api/items'
+
 import moment from 'moment'
 
+import { useMutation } from '@apollo/react-hooks'
+import { CREATE_NEW_ORDER_DATE } from '../Queries/order'
+
 const OrderMenu = ({ setCurrentDate, currentDate }) => {
+  const [newOrder] = useMutation(CREATE_NEW_ORDER_DATE)
   const [orderDateForm, setOrderDateForm] = useState('')
 
   const handleChangeInput = event => {
     setOrderDateForm(event.target.value)
   }
   const handleSubmit = async event => {
-    await api.createNewOrderDate(orderDateForm)
+    console.log(orderDateForm)
+    await newOrder({ variables: { orderDate: orderDateForm } })
     setCurrentDate('')
     setOrderDateForm('')
     event.preventDefault()
   }
   const deleteOrderDate = async () => {
-    await api.deleteManyItemsByDate(currentDate)
     setCurrentDate('')
   }
   return (
@@ -27,7 +31,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
           New order date:
           <input
             type='date'
-            name='itemName'
+            name='orderDate'
             value={orderDateForm}
             onChange={handleChangeInput}
           />

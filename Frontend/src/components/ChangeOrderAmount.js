@@ -9,6 +9,14 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
       variables: {
         id: id,
         orderAmount: orderAmount - 1
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        updateItemOrderAmount: {
+          __typename: 'Item',
+          id: id,
+          orderAmount: orderAmount - 1
+        }
       }
     })
   }
@@ -17,6 +25,14 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
       variables: {
         id: id,
         orderAmount: orderAmount + 1
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        updateItemOrderAmount: {
+          __typename: 'Item',
+          id: id,
+          orderAmount: orderAmount + 1
+        }
       }
     })
   }

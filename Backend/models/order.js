@@ -10,7 +10,7 @@ const order = (sequelize, DataTypes) => {
     { timestamps: false }
   )
   Order.associate = models => {
-    Order.hasMany(models.Item)
+    Order.hasMany(models.Item, { onDelete: 'CASCADE' })
     Order.belongsTo(models.User)
   }
   return Order

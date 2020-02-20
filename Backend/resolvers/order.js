@@ -19,10 +19,22 @@ export default {
     )
   },
   Mutation: {
-    createNewOrder: combineResolvers(
+    deleteOrder: combineResolvers(
       isAuthenticated,
       async (parent, { orderDate }, { me, models }) => {
         orderDate = new Date(orderDate)
+        const count = await models.Order.destroy({
+          where: { orderDate: orderDate, userId: me.id }
+        }).error(x => {
+          console.log(x)
+          return false
+        })
+        return !!count
+      }
+    ),
+    createNewOrder: combineResolvers(
+      isAuthenticated,
+      async (parent, { orderDate }, { me, models }) => {
         const exists = await models.Order.findOne({
           where: { orderDate: orderDate, userId: me.id }
         })

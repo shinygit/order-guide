@@ -22,7 +22,7 @@ const item = (sequelize, DataTypes) => {
     { timestamps: false }
   )
   Item.associate = models => {
-    Item.belongsTo(models.Order)
+    Item.belongsTo(models.Order, { onDelete: 'CASCADE' })
     Item.belongsTo(models.Location)
     Item.belongsTo(models.Supplier)
   }

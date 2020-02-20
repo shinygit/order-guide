@@ -1,28 +1,60 @@
 import React, { useState } from 'react'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Button from '@material-ui/core/Button'
-const FilterMenu = ({
-  suppliers,
-  locations,
-  filter,
-  dispatchFilter,
-  setItemsCurrentlyFiltered
-}) => {
-  const [activeFilterButtonClass, setActiveFilterButtonClass] = useState('ALL')
+import { useApolloClient } from '@apollo/react-hooks'
+
+const FilterMenu = ({ suppliers, locations }) => {
+  const client = useApolloClient()
+  const [activeFilterButtonClass, setActiveFilterButtonClass] = useState(
+    'all-filter-button'
+  )
   const handleShowSupplier = supplier => {
-    setItemsCurrentlyFiltered(true)
     setActiveFilterButtonClass(`${supplier.supplier}-filter-button`)
-    dispatchFilter({ type: 'FILTER_SUPPLIER', supplier: supplier })
+    client.writeData({
+      data: {
+        filter: {
+          filterType: 'supplier',
+          filterName: supplier.supplier,
+          __typename: 'Filter'
+        }
+      }
+    })
   }
   const handleShowAll = () => {
-    setItemsCurrentlyFiltered(false)
     setActiveFilterButtonClass('all-filter-button')
-    dispatchFilter({ type: 'SHOW_ALL' })
+    client.writeData({
+      data: {
+        filter: {
+          filterType: 'ALL',
+          filterName: 'ALL',
+          __typename: 'Filter'
+        }
+      }
+    })
+  }
+  const handleShowUnchecked = () => {
+    setActiveFilterButtonClass('unchecked-filter-button')
+    client.writeData({
+      data: {
+        filter: {
+          filterType: 'UNCHECKED',
+          filterName: 'UNCHECKED',
+          __typename: 'Filter'
+        }
+      }
+    })
   }
   const handleShowLocation = location => {
     setActiveFilterButtonClass(`${location.location}-filter-button`)
-    setItemsCurrentlyFiltered(true)
-    dispatchFilter({ type: 'FILTER_LOCATION', location: location })
+    client.writeData({
+      data: {
+        filter: {
+          filterType: 'location',
+          filterName: location.location,
+          __typename: 'Filter'
+        }
+      }
+    })
   }
   return (
     <>
@@ -38,6 +70,19 @@ const FilterMenu = ({
         onClick={() => handleShowAll()}
       >
         ALL
+      </Button>
+      <Button
+        className='unchecked-filter-button'
+        color='primary'
+        variant={
+          activeFilterButtonClass === 'unchecked-filter-button'
+            ? 'contained'
+            : 'outlined'
+        }
+        key='UNCHECKED'
+        onClick={() => handleShowUnchecked()}
+      >
+        Unchecked
       </Button>
       <br />
       <ButtonGroup>

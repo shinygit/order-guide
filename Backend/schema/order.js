@@ -4,7 +4,8 @@ export default gql`
     orders(orderDepth: Int!): [Order!]
   }
   extend type Mutation {
-    createNewOrder(orderDate: String!): Boolean
+    createNewOrder(orderDate: String!): Boolean!
+    deleteOrder(orderDate: String!): Boolean!
   }
   type Order {
     orderDate: String!

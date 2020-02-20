@@ -65,6 +65,7 @@ const EditItemForm = ({
         }
       }
     })
+    handleEdit(item.id)
   }
   useEffect(
     () =>
