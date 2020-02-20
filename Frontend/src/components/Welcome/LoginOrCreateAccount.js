@@ -14,7 +14,11 @@ const IS_LOGGED_IN = gql`
 export default function IsLoggedIn() {
   const history = useHistory()
   const { data } = useQuery(IS_LOGGED_IN)
-  if (!data.isLoggedIn && history.location.pathname !== '/login') {
+  if (
+    !data.isLoggedIn &&
+    history.location.pathname !== '/login' &&
+    history.location.pathname !== '/register'
+  ) {
     return <Redirect to='/login' />
   }
   return (

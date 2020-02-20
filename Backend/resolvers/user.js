@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken'
 import { UserInputError, AuthenticationError } from 'apollo-server-core'
 import { createUserStarterOrderAndItems } from '../user/utils/createNewUserItems'
 const createToken = async (user, secret, expiresIn) => {
-  const { id, email, username } = user
-  return await jwt.sign({ id, email, username }, secret, { expiresIn })
+  const { id, email } = user
+  return await jwt.sign({ id, email }, secret, { expiresIn })
 }
 
 export default {
@@ -25,7 +25,6 @@ export default {
   Mutation: {
     signUp: async (parent, { email, password }, { models, secret }) => {
       const user = await models.User.create({
-        username,
         email,
         password
       })

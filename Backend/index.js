@@ -16,7 +16,7 @@ app.use(cors())
 
 const getMe = async req => {
   const token = req.headers['x-token']
-  if (token) {
+  if (token !== 'undefined') {
     try {
       return await jwt.verify(token, process.env.SECRET)
     } catch (e) {
@@ -53,7 +53,6 @@ const server = new ApolloServer({
     }
     if (req) {
       const me = await getMe(req)
-
       return {
         models,
         me,
@@ -89,7 +88,6 @@ const createUsersWithMessages = async date => {
   const sup2 = await models.Supplier.create({ supplierName: 'not good store' })
   const user = await models.User.create(
     {
-      username: 'ddavids',
       email: 'hello@david.com',
       password: '12345678',
       orders: [

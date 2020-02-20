@@ -27,7 +27,7 @@ const Login = () => {
     if (result) {
       const token = result.data.signIn.token
       localStorage.setItem('id', jwt_decode(token).id)
-      localStorage.setItem('user', jwt_decode(token).username)
+      localStorage.setItem('email', jwt_decode(token).email)
       localStorage.setItem('token', token)
       history.push('/')
     }

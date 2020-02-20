@@ -19,7 +19,6 @@ const httpLink = new HttpLink({
   uri: 'http://localhost:3001/graphql',
   headers: { 'x-token': localStorage.token }
 })
-
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {

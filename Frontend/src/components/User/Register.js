@@ -4,8 +4,8 @@ import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 
 const REGISTER_USER = gql`
-  mutation signUp($username: String!, $email: String!, $password: String!) {
-    signUp(username: $username, email: $email, password: $password) {
+  mutation signUp($email: String!, $password: String!) {
+    signUp(email: $email, password: $password) {
       token
     }
   }
@@ -15,7 +15,6 @@ const Register = () => {
   const history = useHistory()
   const [signUp] = useMutation(REGISTER_USER)
   const [registerForm, setRegisterForm] = useState({
-    username: '',
     email: '',
     password: '',
     password2: '',
@@ -39,7 +38,6 @@ const Register = () => {
         ...registerForm,
         errors: { password2: 'Passwords must match.' }
       })
-      console.log(errors.password2)
       return
     }
     setRegisterForm({
@@ -48,7 +46,6 @@ const Register = () => {
     })
     const result = await signUp({
       variables: {
-        username: registerForm.username,
         email: registerForm.email,
         password: registerForm.password
       }
@@ -67,16 +64,6 @@ const Register = () => {
         Already have an account? <Link to='/login'>Login.</Link>
       </p>
       <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            onChange={handleChangeInput}
-            value={registerForm.username}
-            error={errors.username}
-            id='username'
-            type='text'
-          />
-          <label htmlFor='username'>username</label>
-        </div>
         <div>
           <input
             onChange={handleChangeInput}
