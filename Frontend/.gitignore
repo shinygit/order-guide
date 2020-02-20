@@ -8,8 +8,8 @@
 
 # testing
 /coverage
-# /src/testData/
-/src/testData/otherInitialItems.js
+
+
 
 # production
 /build

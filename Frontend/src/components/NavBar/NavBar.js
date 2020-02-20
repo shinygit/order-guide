@@ -7,7 +7,7 @@ import { client } from '../../index'
 const GET_CURRENT_USER = gql`
   {
     me {
-      username
+      email
     }
   }
 `
@@ -22,7 +22,7 @@ const NavBar = () => {
   return (
     <div>
       <div>
-        <p>Currently logged in as: {data.me.username}</p>
+        <p>Currently logged in as: {data.me.email}</p>
       </div>
       <div>
         <Link to='/login'>
