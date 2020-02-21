@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import jwt_decode from 'jwt-decode'
+import { client } from '../..'
 
 const LOGIN = gql`
   mutation signIn($login: String!, $password: String!) {
@@ -26,9 +27,14 @@ const Login = () => {
     })
     if (result) {
       const token = result.data.signIn.token
+      localStorage.setItem('token', token)
       localStorage.setItem('id', jwt_decode(token).id)
       localStorage.setItem('email', jwt_decode(token).email)
-      localStorage.setItem('token', token)
+      client.writeData({
+        data: {
+          isLoggedIn: true
+        }
+      })
       history.push('/')
     }
   }

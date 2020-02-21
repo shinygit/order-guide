@@ -51,7 +51,7 @@ const ListItems = ({ items, suppliers, locations }) => {
 
     if (Object.values(item).includes(filterType && filterName)) return true
   })
-  const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
+  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
     if (a.supplier > b.supplier) return 1
     if (a.supplier < b.supplier) return -1
     if (a.location > b.location) return 1

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import moment from 'moment'
 
 import { useMutation } from '@apollo/react-hooks'
-import { CREATE_NEW_ORDER_DATE } from '../Queries/order'
+import { CREATE_NEW_ORDER_DATE, DELETE_ORDER_DATE } from '../Queries/order'
 
 const OrderMenu = ({ setCurrentDate, currentDate }) => {
   const [newOrder] = useMutation(CREATE_NEW_ORDER_DATE)
@@ -13,7 +13,6 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
     setOrderDateForm(event.target.value)
   }
   const handleSubmit = async event => {
-    console.log(orderDateForm)
     await newOrder({ variables: { orderDate: orderDateForm } })
     setCurrentDate('')
     setOrderDateForm('')
