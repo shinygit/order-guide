@@ -19,9 +19,6 @@ const App = () => {
   })
   const [items, setItems] = useState([])
   const [currentDate, setCurrentDate] = useState()
-  console.log(loading)
-  console.log(data)
-  console.log('error: ' + error)
   useEffect(() => {
     if (data) {
       setCurrentDate(data.orders[0].orderDate)

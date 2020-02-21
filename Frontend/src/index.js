@@ -13,7 +13,6 @@ import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 
 import { BrowserRouter as Router } from 'react-router-dom'
-import { GET_LATEST_ORDER } from './Queries/item.js'
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -41,25 +40,18 @@ export const client = new ApolloClient({
   resolvers
 })
 
-cache.writeData({
-  data: {
-    isLoggedIn: !!localStorage.getItem('token'),
-    filter: {
-      searchTerm: '',
-      filterType: 'ALL',
-      filterName: 'ALL',
-      __typename: 'Filter'
-    }
+const data = {
+  isLoggedIn: !!localStorage.getItem('token'),
+  filter: {
+    searchTerm: '',
+    filterType: 'ALL',
+    filterName: 'ALL',
+    __typename: 'Filter'
   }
-})
-cache.writeQuery({
-  query: GET_LATEST_ORDER,
-  variables: { orderDepth: 1 },
-  data: {
-    orders: [{ orderDate: null, items: [], __typename: 'Order' }]
-  }
-})
+}
+cache.writeData({ data })
 
+client.onResetStore(() => cache.writeData({ data }))
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
