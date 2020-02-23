@@ -1,6 +1,6 @@
 import { combineResolvers } from 'graphql-resolvers'
 import { isAuthenticated, isOrderOwner } from './authorization'
-import { UserInputError } from 'apollo-server-core'
+import { UserInputError } from 'apollo-server-express'
 
 export default {
   Query: {
@@ -22,7 +22,6 @@ export default {
     deleteOrder: combineResolvers(
       isAuthenticated,
       async (parent, { orderDate }, { me, models }) => {
-        orderDate = new Date(orderDate)
         const count = await models.Order.destroy({
           where: { orderDate: orderDate, userId: me.id }
         }).error(x => {
@@ -36,7 +35,8 @@ export default {
       isAuthenticated,
       async (parent, { orderDate }, { me, models }) => {
         const exists = await models.Order.findOne({
-          where: { orderDate: orderDate, userId: me.id }
+          where: { orderDate: orderDate, userId: me.id },
+          raw: true
         })
         if (exists) throw new UserInputError('Order date already exists.')
         const currentOrder = await models.Order.findAll({
@@ -45,6 +45,11 @@ export default {
           where: { userId: me.id },
           raw: true
         })
+        if (currentOrder[0].orderDate > orderDate) {
+          throw new UserInputError(
+            'New order date must be more recent than the last order.'
+          )
+        }
         const newOrder = await models.Order.create({
           orderDate: orderDate,
           userId: me.id
@@ -61,13 +66,8 @@ export default {
             orderId: newOrder.id
           }
         })
-        return models.Item.bulkCreate(newOrderItems)
-          .then(x => {
-            return true
-          })
-          .error(x => {
-            return false
-          })
+        models.Item.bulkCreate(newOrderItems)
+        return true
       }
     )
   },

@@ -6,19 +6,22 @@ import { useMutation } from '@apollo/react-hooks'
 import { CREATE_NEW_ORDER_DATE, DELETE_ORDER_DATE } from '../Queries/order'
 
 const OrderMenu = ({ setCurrentDate, currentDate }) => {
-  const [newOrder] = useMutation(CREATE_NEW_ORDER_DATE)
+  const [createNewOrder] = useMutation(CREATE_NEW_ORDER_DATE)
+  const [deleteOrder] = useMutation(DELETE_ORDER_DATE)
   const [orderDateForm, setOrderDateForm] = useState('')
-
   const handleChangeInput = event => {
     setOrderDateForm(event.target.value)
   }
   const handleSubmit = async event => {
-    await newOrder({ variables: { orderDate: orderDateForm } })
+    event.preventDefault()
+    await createNewOrder({
+      variables: { orderDate: orderDateForm }
+    })
     setCurrentDate('')
     setOrderDateForm('')
-    event.preventDefault()
   }
   const deleteOrderDate = async () => {
+    await deleteOrder({ variables: { orderDate: currentDate } })
     setCurrentDate('')
   }
   return (
