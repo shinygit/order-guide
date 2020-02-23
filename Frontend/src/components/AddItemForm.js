@@ -5,7 +5,7 @@ import produce from 'immer'
 
 const AddItemForm = ({ suppliers, locations }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
-    update(client, { data: { createItem } }) {
+    update (client, { data: { createItem } }) {
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 }
@@ -77,7 +77,7 @@ const AddItemForm = ({ suppliers, locations }) => {
       <label>
         Build To:
         <input
-          type='text'
+          type='number'
           name='buildTo'
           value={itemForm.buildTo}
           onChange={handleChangeInput}

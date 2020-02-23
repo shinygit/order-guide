@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { UserInputError, AuthenticationError } from 'apollo-server-core'
+import { UserInputError, AuthenticationError } from 'apollo-server-express'
 import { createUserStarterOrderAndItems } from '../user/utils/createNewUserItems'
 const createToken = async (user, secret, expiresIn) => {
   const { id, email } = user

@@ -4,4 +4,8 @@ export const CREATE_NEW_ORDER_DATE = gql`
     createNewOrder(orderDate: $orderDate)
   }
 `
-// export const DELETE_ORDER_DATE = gql``
+export const DELETE_ORDER_DATE = gql`
+  mutation deleteOrder($orderDate: String!) {
+    deleteOrder(orderDate: $orderDate)
+  }
+`
