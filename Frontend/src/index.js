@@ -13,6 +13,9 @@ import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 
 import { BrowserRouter as Router } from 'react-router-dom'
+if (module.hot) {
+  module.hot.accept()
+}
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:3001/graphql',
