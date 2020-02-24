@@ -13,6 +13,8 @@ import Button from '@material-ui/core/Button'
 
 import { GET_LATEST_ORDER } from './Queries/item'
 
+import styled from 'styled-components'
+
 const App = () => {
   const { loading, data, refetch, error } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 }
@@ -68,7 +70,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <Wrapper>
       <NavBar />
       <div>
         <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
@@ -89,7 +91,11 @@ const App = () => {
           />
         )}
       </div>
-    </>
+    </Wrapper>
   )
 }
+const Wrapper = styled.section`
+  padding: 0.25em;
+  background: papayawhip;
+`
 export default App
