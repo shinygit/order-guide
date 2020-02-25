@@ -76,11 +76,11 @@ const App = () => {
         <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
         <SearchForm />
         <Button onClick={() => toggleNewItem()}>New Item</Button>
-        <br />
-        <FilterMenu suppliers={suppliers} locations={locations} />
         {newItemToggle && (
           <AddItemForm suppliers={suppliers} locations={locations} />
         )}
+        <br />
+        <FilterMenu suppliers={suppliers} locations={locations} />
         {loading ? (
           <h1>Loading...</h1>
         ) : (
@@ -96,6 +96,5 @@ const App = () => {
 }
 const Wrapper = styled.section`
   padding: 0.25em;
-  background: papayawhip;
 `
 export default App

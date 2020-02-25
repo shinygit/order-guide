@@ -5,6 +5,7 @@ import EditItemForm from './EditItemForm'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import Fuse from 'fuse.js'
+import { ORDER_DATES } from '../Queries/order'
 
 const FILTER_QUERY = gql`
   query activeFilters {
@@ -20,6 +21,7 @@ const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
     toggleShowEditItemForm(id: $itemId) @client
   }
 `
+
 const ListItems = ({ items, suppliers, locations }) => {
   const { data } = useQuery(FILTER_QUERY)
   const { searchTerm, filterName, filterType } = data.filter
@@ -65,6 +67,9 @@ const ListItems = ({ items, suppliers, locations }) => {
     id => toggle({ variables: { itemId: id } }),
     []
   )
+  const { data: orderDates } = useQuery(ORDER_DATES, {
+    variables: { orderDepth: 3 }
+  })
   return (
     <Div>
       <Table>
@@ -73,8 +78,16 @@ const ListItems = ({ items, suppliers, locations }) => {
             <Th />
             <Th>Item</Th>
             <MinTh>Build To</MinTh>
-            <MinTh>Two Weeks Ago</MinTh>
-            <MinTh>Last Week</MinTh>
+            {orderDates && (
+              <MinTh>
+                {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
+              </MinTh>
+            )}
+            {orderDates && (
+              <MinTh>
+                {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
+              </MinTh>
+            )}
             <MinTh>Order</MinTh>
             <Th>Supplier</Th>
             <Th>Location</Th>
@@ -110,6 +123,7 @@ const Th = styled.th`
   position: sticky;
   top: 0;
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  padding: 2px;
 `
 
 const MinTh = styled(Th)`
@@ -120,7 +134,7 @@ const Table = styled.table`
   white-space: nowrap;
   margin: 0px auto;
   margin-top: 10px;
-  width: 90%;
+  width: 100%;
   border-spacing: 0px;
   background: #fff;
   box-shadow: 0 1px 0 0 rgba(22, 29, 37, 0.05);

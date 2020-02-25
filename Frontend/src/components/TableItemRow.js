@@ -8,7 +8,7 @@ const areEqual = (prevProps, nextProps) => {
 }
 const TableItemRow = React.memo(({ item, handleEdit }) => {
   return (
-    <tr>
+    <Tr>
       <TdEdit>
         <CreateTwoToneIcon onClick={() => handleEdit(item.id)}>
           Edit
@@ -23,9 +23,12 @@ const TableItemRow = React.memo(({ item, handleEdit }) => {
       </MinTd>
       <Td>{item.supplier}</Td>
       <Td>{item.location}</Td>
-    </tr>
+    </Tr>
   )
 }, areEqual)
+const Tr = styled.tr`
+  border: 1px solid grey;
+`
 const Td = styled.td`
   border: 1px solid grey;
   padding: 4px;
