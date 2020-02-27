@@ -3,14 +3,14 @@ import { CREATE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import produce from 'immer'
 
-const AddItemForm = ({ suppliers, locations }) => {
+const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
-    update (client, { data: { createItem } }) {
+    update(client, { data: { createItem } }) {
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 }
       })
-      console.log(createItem)
+
       const results = {
         ...queryResults,
         orders: [
@@ -60,6 +60,7 @@ const AddItemForm = ({ suppliers, locations }) => {
       location: '',
       buildTo: ''
     })
+    toggleNewItem()
   }
 
   return (
