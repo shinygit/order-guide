@@ -44,7 +44,7 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
 
   return (
     <>
-      <button onClick={() => handleDecrease()}>
+      <button className='align-middle' onClick={() => handleDecrease()}>
         <svg
           className='h-6 w-6'
           xmlns='http://www.w3.org/2000/svg'
@@ -54,8 +54,8 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
         </svg>
       </button>
 
-      {orderAmount}
-      <button onClick={() => handleIncrease()}>
+      <span className='text-xl'>{orderAmount}</span>
+      <button className='align-middle' onClick={() => handleIncrease()}>
         <svg
           className='h-6 w-6'
           xmlns='http://www.w3.org/2000/svg'

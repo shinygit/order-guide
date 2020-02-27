@@ -70,12 +70,19 @@ const App = () => {
       <NavBar />
       <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
       <SearchForm />
-      <button onClick={() => toggleNewItem()}>New Item</button>
       {newItemToggle && (
-        <AddItemForm suppliers={suppliers} locations={locations} />
+        <AddItemForm
+          suppliers={suppliers}
+          locations={locations}
+          toggleNewItem={toggleNewItem}
+        />
       )}
       <br />
-      <FilterMenu suppliers={suppliers} locations={locations} />
+      <FilterMenu
+        suppliers={suppliers}
+        locations={locations}
+        toggleNewItem={toggleNewItem}
+      />
       {loading ? (
         <h1>Loading...</h1>
       ) : (
