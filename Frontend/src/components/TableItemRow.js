@@ -10,9 +10,7 @@ const TableItemRow = React.memo(({ item, handleEdit }) => {
   return (
     <Tr>
       <TdEdit>
-        <CreateTwoToneIcon onClick={() => handleEdit(item.id)}>
-          Edit
-        </CreateTwoToneIcon>
+        <CreateTwoToneIcon onClick={() => handleEdit(item.id)} />
       </TdEdit>
       <Td>{item.itemName}</Td>
       <MinTd>{item.buildTo}</MinTd>
@@ -36,6 +34,9 @@ const Td = styled.td`
 `
 const MinTd = styled(Td)`
   width: 1px;
+  > * {
+    vertical-align: middle;
+  }
 `
 const TdEdit = styled(Td)`
 width 25px`

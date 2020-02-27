@@ -94,7 +94,7 @@ const App = () => {
     </Wrapper>
   )
 }
-const Wrapper = styled.section`
+const Wrapper = styled.div`
   padding: 0.25em;
 `
 export default App

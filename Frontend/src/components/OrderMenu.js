@@ -31,7 +31,6 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
     await deleteOrder({ variables: { orderDate: currentDate } })
     setCurrentDate('')
   }
-  console.log(error)
   return (
     <Div>
       <Form onSubmit={handleSubmit}>
