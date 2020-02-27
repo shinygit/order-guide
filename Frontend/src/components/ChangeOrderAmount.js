@@ -1,6 +1,9 @@
 import React from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { UPDATE_ITEM_ORDER_AMOUNT } from '../Queries/item'
+import AddIcon from '@material-ui/icons/Add'
+
+import RemoveIcon from '@material-ui/icons/Remove'
 
 const ChangeOrderAmount = ({ id, orderAmount }) => {
   const getNextOrderAmount = orderAmount => {
@@ -44,9 +47,10 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
 
   return (
     <>
-      <button onClick={() => handleDecrease()}>-</button>
+      <RemoveIcon onClick={() => handleDecrease()} />
+
       {orderAmount}
-      <button onClick={() => handleIncrease()}>+</button>
+      <AddIcon onClick={() => handleIncrease()} />
     </>
   )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { client } from '../../index'
@@ -23,7 +24,7 @@ const NavBar = () => {
     return (
       <div>
         <div>
-          <p>Currently logged in as: {data.me.email}</p>
+          <p>{data.me.email}</p>
         </div>
         <div>
           <Link to='/login'>

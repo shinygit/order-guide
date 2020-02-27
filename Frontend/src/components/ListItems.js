@@ -53,7 +53,7 @@ const ListItems = ({ items, suppliers, locations }) => {
 
     if (Object.values(item).includes(filterType && filterName)) return true
   })
-  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
+  const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
     if (a.supplier > b.supplier) return 1
     if (a.supplier < b.supplier) return -1
     if (a.location > b.location) return 1
@@ -73,25 +73,25 @@ const ListItems = ({ items, suppliers, locations }) => {
   return (
     <Div>
       <Table>
+        <tr>
+          <Th />
+          <Th>Item</Th>
+          <MinTh>Build To</MinTh>
+          {orderDates && (
+            <MinTh>
+              {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
+            </MinTh>
+          )}
+          {orderDates && (
+            <MinTh>
+              {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
+            </MinTh>
+          )}
+          <MinTh>Order</MinTh>
+          <Th>Supplier</Th>
+          <Th>Location</Th>
+        </tr>
         <tbody>
-          <tr>
-            <Th />
-            <Th>Item</Th>
-            <MinTh>Build To</MinTh>
-            {orderDates && (
-              <MinTh>
-                {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
-              </MinTh>
-            )}
-            {orderDates && (
-              <MinTh>
-                {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
-              </MinTh>
-            )}
-            <MinTh>Order</MinTh>
-            <Th>Supplier</Th>
-            <Th>Location</Th>
-          </tr>
           {itemsToDisplay.map(item => {
             if (item.showEditForm) {
               return (
@@ -119,11 +119,8 @@ const ListItems = ({ items, suppliers, locations }) => {
   )
 }
 const Th = styled.th`
-  background: white;
   position: sticky;
   top: 0;
-  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
-  padding: 2px;
 `
 
 const MinTh = styled(Th)`
@@ -132,14 +129,16 @@ const MinTh = styled(Th)`
 
 const Table = styled.table`
   white-space: nowrap;
-  margin: 0px auto;
-  margin-top: 10px;
   width: 100%;
   border-spacing: 0px;
   background: #fff;
-  box-shadow: 0 1px 0 0 rgba(22, 29, 37, 0.05);
+  border-collapse: collapse;
 `
 const Div = styled.div`
-  max-width: 100vw;
+  max-width: 95vw;
+  margin: 0 auto;
+  box-shadow: 5px 5px 5px #999;
+  border: 1px solid grey;
+  margin-top: 10px;
 `
 export default ListItems

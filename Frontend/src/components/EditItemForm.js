@@ -22,7 +22,7 @@ const EditItemForm = ({
     buildTo: item.buildTo,
     supplier: item.supplier,
     location: item.location,
-    order: item.order,
+    order: item.orderAmount,
     showEditForm: item.showEditForm
   })
   const handleChangeInput = event => {
@@ -75,7 +75,7 @@ const EditItemForm = ({
         buildTo: item.buildTo,
         supplier: item.supplier,
         location: item.location,
-        order: item.order,
+        orderAmount: item.orderAmount,
         showEditForm: false
       }),
     [item]
@@ -113,7 +113,7 @@ const EditItemForm = ({
       <Td>
         <ChangeOrderAmount
           id={item.id}
-          orderAmount={item.order}
+          orderAmount={item.orderAmount}
           dispatchItems={dispatchItems}
         />
       </Td>
