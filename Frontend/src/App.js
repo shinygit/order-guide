@@ -9,11 +9,7 @@ import SearchForm from './components/SearchForm'
 import OrderMenu from './components/OrderMenu'
 import NavBar from './components/NavBar/NavBar'
 
-import Button from '@material-ui/core/Button'
-
 import { GET_LATEST_ORDER } from './Queries/item'
-
-import styled from 'styled-components'
 
 const App = () => {
   const { loading, data, refetch, error } = useQuery(GET_LATEST_ORDER, {
@@ -70,31 +66,22 @@ const App = () => {
   }
 
   return (
-    <Wrapper>
+    <div>
       <NavBar />
-      <div>
-        <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
-        <SearchForm />
-        <Button onClick={() => toggleNewItem()}>New Item</Button>
-        {newItemToggle && (
-          <AddItemForm suppliers={suppliers} locations={locations} />
-        )}
-        <br />
-        <FilterMenu suppliers={suppliers} locations={locations} />
-        {loading ? (
-          <h1>Loading...</h1>
-        ) : (
-          <ListItems
-            items={items}
-            suppliers={suppliers}
-            locations={locations}
-          />
-        )}
-      </div>
-    </Wrapper>
+      <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
+      <SearchForm />
+      <button onClick={() => toggleNewItem()}>New Item</button>
+      {newItemToggle && (
+        <AddItemForm suppliers={suppliers} locations={locations} />
+      )}
+      <br />
+      <FilterMenu suppliers={suppliers} locations={locations} />
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <ListItems items={items} suppliers={suppliers} locations={locations} />
+      )}
+    </div>
   )
 }
-const Wrapper = styled.div`
-  padding: 0.25em;
-`
 export default App
