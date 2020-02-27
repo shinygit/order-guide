@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
-import deleteImage from '../assets/images/15107-illustration-of-a-red-close-button-pv.png'
-import SaveIcon from '@material-ui/icons/Save'
 import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
@@ -25,7 +22,7 @@ const EditItemForm = ({
     order: item.orderAmount,
     showEditForm: item.showEditForm
   })
-  const handleChangeInput = event => {
+  const handleChangeinput = event => {
     setEditItemForm({
       ...editItemForm,
       [event.target.name]: event.target.value
@@ -83,87 +80,70 @@ const EditItemForm = ({
 
   return (
     <tr>
-      <Td>
-        <SaveIcon
+      <td>
+        <button
           onClick={() => {
             handleSubmit()
           }}
-        >
-          Edit
-        </SaveIcon>
-      </Td>
-      <Td>
-        <Input
+        />
+      </td>
+      <td>
+        <input
           type='text'
           name='itemName'
           value={editItemForm.itemName}
-          onChange={handleChangeInput}
+          onChange={handleChangeinput}
         />
-      </Td>
-      <Td>
-        <Input
+      </td>
+      <td>
+        <input
           type='number'
           name='buildTo'
           value={editItemForm.buildTo}
-          onChange={handleChangeInput}
+          onChange={handleChangeinput}
         />
-      </Td>
-      <Td>{item.previousOrders[1]}</Td>
-      <Td>{item.previousOrders[0]}</Td>
-      <Td>
+      </td>
+      <td>{item.previousOrders[1]}</td>
+      <td>{item.previousOrders[0]}</td>
+      <td>
         <ChangeOrderAmount
           id={item.id}
           orderAmount={item.orderAmount}
           dispatchItems={dispatchItems}
         />
-      </Td>
-      <Td>
-        <Input
+      </td>
+      <td>
+        <input
           type='text'
           name='supplier'
           list='suppliersList'
           value={editItemForm.supplier}
-          onChange={handleChangeInput}
+          onChange={handleChangeinput}
         />
         <datalist id='suppliersList'>
           {suppliers.map(item => (
             <option key={item} value={item} />
           ))}
         </datalist>
-      </Td>
-      <Td>
-        <Input
+      </td>
+      <td>
+        <input
           type='text'
           name='location'
           list='locationsList'
           value={editItemForm.location}
-          onChange={handleChangeInput}
+          onChange={handleChangeinput}
         />
         <datalist id='locationsList'>
           {locations.map(item => (
             <option key={item} value={item} />
           ))}
         </datalist>
-      </Td>
-      <Td>
-        <ButtonDelete type='button' onClick={() => handleDelete(item.id)} />
-      </Td>
+      </td>
+      <td>
+        <button onClick={() => handleDelete(item.id)} />
+      </td>
     </tr>
   )
 }
 export default EditItemForm
-const Td = styled.td`
-  border: 1px solid grey;
-  padding: 4px;
-  text-align: left;
-`
-const Input = styled.input`
-  box-sizing: border-box;
-`
-const ButtonDelete = styled.button`
-  background-image: url(${deleteImage});
-  background-size: contain;
-  border: 1px solid #000;
-  width: 20px;
-  height: 20px;
-`

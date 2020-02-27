@@ -1,5 +1,4 @@
 import React, { useCallback, useRef } from 'react'
-import styled from 'styled-components'
 import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
 import gql from 'graphql-tag'
@@ -71,25 +70,21 @@ const ListItems = ({ items, suppliers, locations }) => {
     variables: { orderDepth: 3 }
   })
   return (
-    <Div>
-      <Table>
+    <div>
+      <table>
         <tr>
-          <Th />
-          <Th>Item</Th>
-          <MinTh>Build To</MinTh>
+          <th />
+          <th>Item</th>
+          <th>Build To</th>
           {orderDates && (
-            <MinTh>
-              {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
-            </MinTh>
+            <th>{orderDates.orders[2].orderDate.slice(5).replace('-', '/')}</th>
           )}
           {orderDates && (
-            <MinTh>
-              {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
-            </MinTh>
+            <th>{orderDates.orders[1].orderDate.slice(5).replace('-', '/')}</th>
           )}
-          <MinTh>Order</MinTh>
-          <Th>Supplier</Th>
-          <Th>Location</Th>
+          <th>Order</th>
+          <th>Supplier</th>
+          <th>Location</th>
         </tr>
         <tbody>
           {itemsToDisplay.map(item => {
@@ -114,31 +109,9 @@ const ListItems = ({ items, suppliers, locations }) => {
             }
           })}
         </tbody>
-      </Table>
-    </Div>
+      </table>
+    </div>
   )
 }
-const Th = styled.th`
-  position: sticky;
-  top: 0;
-`
 
-const MinTh = styled(Th)`
-  border: 1px solid grey;
-`
-
-const Table = styled.table`
-  white-space: nowrap;
-  width: 100%;
-  border-spacing: 0px;
-  background: #fff;
-  border-collapse: collapse;
-`
-const Div = styled.div`
-  max-width: 95vw;
-  margin: 0 auto;
-  box-shadow: 5px 5px 5px #999;
-  border: 1px solid grey;
-  margin-top: 10px;
-`
 export default ListItems

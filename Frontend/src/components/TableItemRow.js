@@ -1,44 +1,25 @@
 import React from 'react'
-import styled from 'styled-components'
 import ChangeOrderAmount from './ChangeOrderAmount'
-import CreateTwoToneIcon from '@material-ui/icons/CreateTwoTone'
 
 const areEqual = (prevProps, nextProps) => {
   return prevProps.item === nextProps.item
 }
 const TableItemRow = React.memo(({ item, handleEdit }) => {
   return (
-    <Tr>
-      <TdEdit>
-        <CreateTwoToneIcon onClick={() => handleEdit(item.id)} />
-      </TdEdit>
-      <Td>{item.itemName}</Td>
-      <MinTd>{item.buildTo}</MinTd>
-      <MinTd>{item.previousOrders[1]}</MinTd>
-      <MinTd>{item.previousOrders[0]}</MinTd>
-      <MinTd>
+    <tr>
+      <td>
+        <button onClick={() => handleEdit(item.id)} />
+      </td>
+      <td>{item.itemName}</td>
+      <td>{item.buildTo}</td>
+      <td>{item.previousOrders[1]}</td>
+      <td>{item.previousOrders[0]}</td>
+      <td>
         <ChangeOrderAmount id={item.id} orderAmount={item.orderAmount} />
-      </MinTd>
-      <Td>{item.supplier}</Td>
-      <Td>{item.location}</Td>
-    </Tr>
+      </td>
+      <td>{item.supplier}</td>
+      <td>{item.location}</td>
+    </tr>
   )
 }, areEqual)
-const Tr = styled.tr`
-  border: 1px solid grey;
-`
-const Td = styled.td`
-  border: 1px solid grey;
-  padding: 4px;
-  text-align: center;
-`
-const MinTd = styled(Td)`
-  width: 1px;
-  > * {
-    vertical-align: middle;
-  }
-`
-const TdEdit = styled(Td)`
-width 25px`
-
 export default TableItemRow

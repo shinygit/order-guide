@@ -1,27 +1,25 @@
 import React, { useState } from 'react'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import Button from '@material-ui/core/Button'
 import { useApolloClient } from '@apollo/react-hooks'
 
 const FilterMenu = ({ suppliers, locations }) => {
   const client = useApolloClient()
-  const [activeFilterButtonClass, setActiveFilterButtonClass] = useState(
+  const [activeFilterbuttonClass, setActiveFilterbuttonClass] = useState(
     'all-filter-button'
   )
   const handleShowSupplier = supplier => {
-    setActiveFilterButtonClass(`${supplier.supplier}-filter-button`)
+    setActiveFilterbuttonClass(`${supplier}-filter-button`)
     client.writeData({
       data: {
         filter: {
           filterType: 'supplier',
-          filterName: supplier.supplier,
+          filterName: supplier,
           __typename: 'Filter'
         }
       }
     })
   }
   const handleShowAll = () => {
-    setActiveFilterButtonClass('all-filter-button')
+    setActiveFilterbuttonClass('all-filter-button')
     client.writeData({
       data: {
         filter: {
@@ -33,7 +31,7 @@ const FilterMenu = ({ suppliers, locations }) => {
     })
   }
   const handleShowUnchecked = () => {
-    setActiveFilterButtonClass('unchecked-filter-button')
+    setActiveFilterbuttonClass('unchecked-filter-button')
     client.writeData({
       data: {
         filter: {
@@ -45,12 +43,12 @@ const FilterMenu = ({ suppliers, locations }) => {
     })
   }
   const handleShowLocation = location => {
-    setActiveFilterButtonClass(`${location.location}-filter-button`)
+    setActiveFilterbuttonClass(`${location}-filter-button`)
     client.writeData({
       data: {
         filter: {
           filterType: 'location',
-          filterName: location.location,
+          filterName: location,
           __typename: 'Filter'
         }
       }
@@ -58,11 +56,11 @@ const FilterMenu = ({ suppliers, locations }) => {
   }
   return (
     <>
-      <Button
+      <button
         className='all-filter-button'
         color='primary'
         variant={
-          activeFilterButtonClass === 'all-filter-button'
+          activeFilterbuttonClass === 'all-filter-button'
             ? 'contained'
             : 'outlined'
         }
@@ -70,12 +68,12 @@ const FilterMenu = ({ suppliers, locations }) => {
         onClick={() => handleShowAll()}
       >
         ALL
-      </Button>
-      <Button
+      </button>
+      <button
         className='unchecked-filter-button'
         color='primary'
         variant={
-          activeFilterButtonClass === 'unchecked-filter-button'
+          activeFilterbuttonClass === 'unchecked-filter-button'
             ? 'contained'
             : 'outlined'
         }
@@ -83,43 +81,43 @@ const FilterMenu = ({ suppliers, locations }) => {
         onClick={() => handleShowUnchecked()}
       >
         Unchecked
-      </Button>
+      </button>
       <br />
-      <ButtonGroup>
+      <buttonGroup>
         {suppliers.map(supplier => (
-          <Button
+          <button
             className={`${supplier}-filter-button`}
             color='primary'
             variant={
-              activeFilterButtonClass === `${supplier}-filter-button`
+              activeFilterbuttonClass === `${supplier}-filter-button`
                 ? 'contained'
                 : 'outlined'
             }
             key={supplier}
-            onClick={() => handleShowSupplier({ supplier })}
+            onClick={() => handleShowSupplier(supplier)}
           >
             {supplier}
-          </Button>
+          </button>
         ))}
-      </ButtonGroup>
+      </buttonGroup>
       <br />
-      <ButtonGroup>
+      <buttonGroup>
         {locations.map(location => (
-          <Button
+          <button
             className={`${location}-filter-button`}
             color='primary'
             variant={
-              activeFilterButtonClass === `${location}-filter-button`
+              activeFilterbuttonClass === `${location}-filter-button`
                 ? 'contained'
                 : 'outlined'
             }
             key={location}
-            onClick={() => handleShowLocation({ location })}
+            onClick={() => handleShowLocation(location)}
           >
             {location}
-          </Button>
+          </button>
         ))}
-      </ButtonGroup>
+      </buttonGroup>
     </>
   )
 }
