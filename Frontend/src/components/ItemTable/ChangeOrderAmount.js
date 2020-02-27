@@ -1,6 +1,6 @@
 import React from 'react'
 import { useMutation } from '@apollo/react-hooks'
-import { UPDATE_ITEM_ORDER_AMOUNT } from '../Queries/item'
+import { UPDATE_ITEM_ORDER_AMOUNT } from '../../Queries/item'
 
 const ChangeOrderAmount = ({ id, orderAmount }) => {
   const getNextOrderAmount = orderAmount => {
@@ -44,10 +44,26 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
 
   return (
     <>
-      <button onClick={() => handleDecrease()} />
+      <button onClick={() => handleDecrease()}>
+        <svg
+          className='h-6 w-6'
+          xmlns='http://www.w3.org/2000/svg'
+          viewBox='0 0 24 24'
+        >
+          <path d='M19 13H5v-2h14v2z' />
+        </svg>
+      </button>
 
       {orderAmount}
-      <button onClick={() => handleIncrease()} />
+      <button onClick={() => handleIncrease()}>
+        <svg
+          className='h-6 w-6'
+          xmlns='http://www.w3.org/2000/svg'
+          viewBox='0 0 24 24'
+        >
+          <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
+        </svg>
+      </button>
     </>
   )
 }

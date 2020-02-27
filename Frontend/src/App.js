@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-import ListItems from './components/ListItems'
+import ListItems from './components/ItemTable/ListItems'
 import AddItemForm from './components/AddItemForm'
 
 import FilterMenu from './components/FilterMenu'
@@ -66,7 +66,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='flex-col bg-blue-100 p-3'>
       <NavBar />
       <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
       <SearchForm />
