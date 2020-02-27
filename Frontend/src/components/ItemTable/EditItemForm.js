@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
-import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
+import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
 
@@ -87,7 +87,7 @@ const EditItemForm = ({
           }}
         />
       </td>
-      <td>
+      <td className='border border-gray-700 text-center px-1'>
         <input
           type='text'
           name='itemName'
@@ -95,7 +95,7 @@ const EditItemForm = ({
           onChange={handleChangeinput}
         />
       </td>
-      <td>
+      <td className='border border-gray-700 text-center'>
         <input
           type='number'
           name='buildTo'
@@ -103,16 +103,20 @@ const EditItemForm = ({
           onChange={handleChangeinput}
         />
       </td>
-      <td>{item.previousOrders[1]}</td>
-      <td>{item.previousOrders[0]}</td>
-      <td>
+      <td className='border border-gray-700 text-center'>
+        {item.previousOrders[1]}
+      </td>
+      <td className='border border-gray-700 text-center'>
+        {item.previousOrders[0]}
+      </td>
+      <td className='border border-gray-700 text-center'>
         <ChangeOrderAmount
           id={item.id}
           orderAmount={item.orderAmount}
           dispatchItems={dispatchItems}
         />
       </td>
-      <td>
+      <td className='border border-gray-700 text-center px-1'>
         <input
           type='text'
           name='supplier'
@@ -126,7 +130,7 @@ const EditItemForm = ({
           ))}
         </datalist>
       </td>
-      <td>
+      <td className='border border-gray-700 text-center px-1'>
         <input
           type='text'
           name='location'
@@ -140,7 +144,7 @@ const EditItemForm = ({
           ))}
         </datalist>
       </td>
-      <td>
+      <td className='border border-gray-700 text-center'>
         <button onClick={() => handleDelete(item.id)} />
       </td>
     </tr>

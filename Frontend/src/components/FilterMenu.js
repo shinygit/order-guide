@@ -56,68 +56,64 @@ const FilterMenu = ({ suppliers, locations }) => {
   }
   return (
     <>
-      <button
-        className='all-filter-button'
-        color='primary'
-        variant={
-          activeFilterbuttonClass === 'all-filter-button'
-            ? 'contained'
-            : 'outlined'
-        }
-        key='ALL'
-        onClick={() => handleShowAll()}
-      >
-        ALL
-      </button>
-      <button
-        className='unchecked-filter-button'
-        color='primary'
-        variant={
-          activeFilterbuttonClass === 'unchecked-filter-button'
-            ? 'contained'
-            : 'outlined'
-        }
-        key='UNCHECKED'
-        onClick={() => handleShowUnchecked()}
-      >
-        Unchecked
-      </button>
-      <br />
-      <buttonGroup>
+      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
+        <button
+          className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded +
+              ${
+                activeFilterbuttonClass === 'all-filter-button'
+                  ? 'bg-gray-600 text-gray-200'
+                  : 'bg-gray-400'
+              }`}
+          key='ALL'
+          onClick={() => handleShowAll()}
+        >
+          ALL
+        </button>
+        <button
+          className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded +
+              ${
+                activeFilterbuttonClass === 'unchecked-filter-button'
+                  ? 'bg-gray-600 text-gray-200'
+                  : 'bg-gray-400'
+              }`}
+          key='UNCHECKED'
+          onClick={() => handleShowUnchecked()}
+        >
+          Unchecked
+        </button>
+      </div>
+      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         {suppliers.map(supplier => (
           <button
-            className={`${supplier}-filter-button`}
-            color='primary'
-            variant={
-              activeFilterbuttonClass === `${supplier}-filter-button`
-                ? 'contained'
-                : 'outlined'
-            }
+            className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded +
+              ${
+                activeFilterbuttonClass === `${supplier}-filter-button`
+                  ? 'bg-gray-600 text-gray-200'
+                  : 'bg-gray-400'
+              }`}
             key={supplier}
             onClick={() => handleShowSupplier(supplier)}
           >
             {supplier}
           </button>
         ))}
-      </buttonGroup>
-      <br />
-      <buttonGroup>
+      </div>
+      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         {locations.map(location => (
           <button
-            className={`${location}-filter-button`}
-            color='primary'
-            variant={
-              activeFilterbuttonClass === `${location}-filter-button`
-                ? 'contained'
-                : 'outlined'
-            }
+            className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded +
+              ${
+                activeFilterbuttonClass === `${location}-filter-button`
+                  ? 'bg-gray-600 text-gray-200'
+                  : 'bg-gray-400'
+              }`}
             key={location}
             onClick={() => handleShowLocation(location)}
           >
             {location}
           </button>
         ))}
-      </buttonGroup>
+      </div>
     </>
   )
 }

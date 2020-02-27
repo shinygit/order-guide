@@ -4,7 +4,7 @@ import EditItemForm from './EditItemForm'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import Fuse from 'fuse.js'
-import { ORDER_DATES } from '../Queries/order'
+import { ORDER_DATES } from '../../Queries/order'
 
 const FILTER_QUERY = gql`
   query activeFilters {
@@ -70,22 +70,30 @@ const ListItems = ({ items, suppliers, locations }) => {
     variables: { orderDepth: 3 }
   })
   return (
-    <div>
-      <table>
-        <tr>
-          <th />
-          <th>Item</th>
-          <th>Build To</th>
-          {orderDates && (
-            <th>{orderDates.orders[2].orderDate.slice(5).replace('-', '/')}</th>
-          )}
-          {orderDates && (
-            <th>{orderDates.orders[1].orderDate.slice(5).replace('-', '/')}</th>
-          )}
-          <th>Order</th>
-          <th>Supplier</th>
-          <th>Location</th>
-        </tr>
+    <div className='rounded border border-gray-700 bg-blue-200 shadow-inner p-2'>
+      <table className='table-fixed m-auto'>
+        <thead>
+          <tr>
+            <th className='w-5' />
+            <th className='px-4 py-2 border-r border-l border-gray-700'>
+              Item
+            </th>
+            <th className='px-4 py-2 border-r border-gray-700'>Build To</th>
+            {orderDates && (
+              <th className='px-4 py-2 border-r border-gray-700'>
+                {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
+              </th>
+            )}
+            {orderDates && (
+              <th className='px-4 py-2 border-r border-gray-700'>
+                {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
+              </th>
+            )}
+            <th className='px-4 py-2 border-r border-gray-700'>Order</th>
+            <th className='px-4 py-2 border-r border-gray-700'>Supplier</th>
+            <th className='px-4 py-2 border-r border-gray-700'>Location</th>
+          </tr>
+        </thead>
         <tbody>
           {itemsToDisplay.map(item => {
             if (item.showEditForm) {
