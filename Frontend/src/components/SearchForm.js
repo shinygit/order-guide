@@ -28,8 +28,6 @@ const SearchForm = () => {
         value={searchTerm}
         onChange={handleChange}
       />
-      <br />
-      <ul />
     </div>
   )
 }

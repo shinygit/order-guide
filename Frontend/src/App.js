@@ -77,7 +77,6 @@ const App = () => {
           toggleNewItem={toggleNewItem}
         />
       )}
-      <br />
       <FilterMenu
         suppliers={suppliers}
         locations={locations}
