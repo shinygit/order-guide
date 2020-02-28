@@ -58,7 +58,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
     <>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         <button
-          className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded 
+          className={`w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'all-filter-button'
                   ? 'bg-gray-600 text-gray-200'
@@ -70,7 +70,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
           ALL
         </button>
         <button
-          className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded 
+          className={`w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'unchecked-filter-button'
                   ? 'bg-gray-600 text-gray-200'
@@ -82,7 +82,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
           Unchecked
         </button>
         <button
-          className='flex-none w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
+          className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
           onClick={() => toggleNewItem()}
         >
           New Item
@@ -91,7 +91,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         {suppliers.map(supplier => (
           <button
-            className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded 
+            className={`w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === `${supplier}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
@@ -107,7 +107,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         {locations.map(location => (
           <button
-            className={`flex-none w-auto p-4 mx-1 border border-gray-900 rounded 
+            className={`w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === `${location}-filter-button`
                   ? 'bg-gray-600 text-gray-200'

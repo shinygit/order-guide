@@ -25,38 +25,74 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
       setErrorMessage(error.message.split('GraphQL error: ')[1])
     }
   }
+  const [deleteConfirmCount, setDeleteConfirmCount] = useState(0)
   const deleteOrderDate = async () => {
-    await deleteOrder({ variables: { orderDate: currentDate } })
-    setCurrentDate('')
+    if (deleteConfirmCount === 3) {
+      await deleteOrder({ variables: { orderDate: currentDate } })
+      setDeleteConfirmCount(0)
+      setCurrentDate('')
+    } else {
+      setDeleteConfirmCount(deleteConfirmCount + 1)
+    }
+  }
+  const cancelDelete = () => {
+    setDeleteConfirmCount(0)
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>New order date:</label>{' '}
-        </div>
-        <div>
-          <input
-            type='date'
-            name='orderDate'
-            value={orderDateForm}
-            onChange={handleChangeInput}
-            error={error}
-            required
-          />
-        </div>
+    <div className='flex justify-between mb-10'>
+      <form className='flex flex-col w-56' onSubmit={handleSubmit}>
+        <label className='font-semibold text-xl'>New order date:</label>{' '}
+        <input
+          className='bg-white focus:outline-none 
+        focus:shadow-outline border border-gray-300
+         rounded-lg py-2 px-4 mb-1 w-48'
+          type='date'
+          name='orderDate'
+          value={orderDateForm}
+          onChange={handleChangeInput}
+          required
+        />
         <div>
           {error && errorMessage && (
-            <div onClick={() => setErrorMessage()}>{error && errorMessage}</div>
+            <div
+              className='bg-red-200 text-red-700 font-bold border-2 border-red-800'
+              onClick={() => setErrorMessage()}
+            >
+              {error && errorMessage}
+            </div>
           )}
         </div>
-
-        <div>
-          <button type='submit'>Create new order</button>
-        </div>
+        <button
+          className='w-48 p-2 border border-gray-900 rounded bg-gray-100'
+          type='submit'
+        >
+          Create new order
+        </button>
       </form>
-      <span>Current order date: {moment.utc(currentDate).format('L')}</span>
-      <button onClick={deleteOrderDate}>Delete this order</button>
+      <div className='flex flex-col'>
+        <span className='font-semibold text-2xl'>
+          Current order date: {moment.utc(currentDate).format('L')}
+        </span>
+        <button
+          className='w-auto p-2 border border-gray-900 rounded bg-gray-100 ml-auto'
+          onClick={deleteOrderDate}
+        >
+          Delete this order
+        </button>
+        {!!deleteConfirmCount && (
+          <>
+            <span className='ml-auto text-red-600'>
+              Click {4 - deleteConfirmCount} more times to delete.
+            </span>
+            <button
+              className='w-auto p-2 border border-gray-900 rounded bg-gray-100 ml-auto'
+              onClick={cancelDelete}
+            >
+              Cancel
+            </button>
+          </>
+        )}
+      </div>
     </div>
   )
 }

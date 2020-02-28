@@ -43,8 +43,8 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
   }
 
   return (
-    <>
-      <button className='align-middle' onClick={() => handleDecrease()}>
+    <div className='flex justify-around'>
+      <button className='' onClick={() => handleDecrease()}>
         <svg
           className='h-6 w-6'
           xmlns='http://www.w3.org/2000/svg'
@@ -55,7 +55,7 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
       </button>
 
       <span className='text-xl'>{orderAmount}</span>
-      <button className='align-middle' onClick={() => handleIncrease()}>
+      <button className='' onClick={() => handleIncrease()}>
         <svg
           className='h-6 w-6'
           xmlns='http://www.w3.org/2000/svg'
@@ -64,7 +64,7 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
           <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' />
         </svg>
       </button>
-    </>
+    </div>
   )
 }
 export default ChangeOrderAmount

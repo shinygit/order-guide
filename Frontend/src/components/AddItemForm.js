@@ -64,30 +64,31 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Item Name:
+    <form className='flex' onSubmit={handleSubmit}>
+      <div className='flex flex-col mx-1 w-1/4'>
+        <label className=''>Item Name:</label>
         <input
+          className='border py-2 px-3 text-gray-900'
           type='text'
           name='itemName'
           value={itemForm.itemName}
           onChange={handleChangeInput}
         />
-      </label>
-      <br />
-      <label>
-        Build To:
+      </div>
+      <div className='flex flex-col mx-1 w-1/12'>
+        <label>Build To: </label>
         <input
+          className='border py-2 px-3 text-gray-900'
           type='number'
           name='buildTo'
           value={itemForm.buildTo}
           onChange={handleChangeInput}
         />
-      </label>
-      <br />
-      <label>
-        Supplier
+      </div>
+      <div className='flex flex-col mx-1 w-1/4'>
+        <label>Supplier:</label>
         <input
+          className='border py-2 px-3 text-gray-900'
           type='text'
           name='supplier'
           list='suppliersList'
@@ -99,11 +100,11 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
             <option key={item} value={item} />
           ))}
         </datalist>
-      </label>
-      <br />
-      <label>
-        Location
+      </div>
+      <div className='flex flex-col mx-1 w-1/4'>
+        <label>Location:</label>
         <input
+          className='border py-2 px-3 text-gray-900'
           type='text'
           name='location'
           list='locationList'
@@ -115,8 +116,13 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
             <option key={item} value={item} />
           ))}
         </datalist>
-      </label>
-      <button type='submit'>Add Item</button>
+      </div>
+      <button
+        className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
+        type='submit'
+      >
+        Add Item
+      </button>
     </form>
   )
 }

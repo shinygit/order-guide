@@ -70,7 +70,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     variables: { orderDepth: 3 }
   })
   return (
-    <div className='rounded border border-gray-700 bg-blue-200 shadow-inner p-2'>
+    <div className='rounded border border-gray-700 bg-yellow-100 shadow-inner p-2'>
       <table className='table-fixed m-auto'>
         <thead>
           <tr>
