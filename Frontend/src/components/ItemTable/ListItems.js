@@ -52,7 +52,7 @@ const ListItems = ({ items, suppliers, locations }) => {
 
     if (Object.values(item).includes(filterType && filterName)) return true
   })
-  const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
+  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
     if (a.supplier > b.supplier) return 1
     if (a.supplier < b.supplier) return -1
     if (a.location > b.location) return 1
@@ -79,16 +79,16 @@ const ListItems = ({ items, suppliers, locations }) => {
               Item
             </th>
             <th className='px-4 py-2 border-r border-gray-700'>Build To</th>
-            {orderDates && (
+            {(orderDates && orderDates.orders[2] && (
               <th className='px-4 py-2 border-r border-gray-700'>
                 {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
               </th>
-            )}
-            {orderDates && (
+            )) || <th className='px-4 py-2 border-r border-gray-700'>--/--</th>}
+            {(orderDates && orderDates.orders[1] && (
               <th className='px-4 py-2 border-r border-gray-700'>
                 {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
               </th>
-            )}
+            )) || <th className='px-4 py-2 border-r border-gray-700'>--/--</th>}
             <th className='px-4 py-2 border-r border-gray-700'>Order</th>
             <th className='px-4 py-2 border-r border-gray-700'>Supplier</th>
             <th className='px-4 py-2 border-r border-gray-700'>Location</th>

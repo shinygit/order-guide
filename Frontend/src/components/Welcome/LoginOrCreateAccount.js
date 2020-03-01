@@ -11,7 +11,7 @@ const IS_LOGGED_IN = gql`
     isLoggedIn @client
   }
 `
-export default function IsLoggedIn() {
+export default function IsLoggedIn () {
   const history = useHistory()
   const { data } = useQuery(IS_LOGGED_IN)
   if (

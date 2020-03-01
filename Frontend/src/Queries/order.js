@@ -10,7 +10,7 @@ export const DELETE_ORDER_DATE = gql`
   }
 `
 export const ORDER_DATES = gql`
-  query Orders($orderDepth: Int!) {
+  query orderDates($orderDepth: Int!) {
     orders(orderDepth: $orderDepth) {
       orderDate
     }

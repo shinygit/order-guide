@@ -17,7 +17,8 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
     event.preventDefault()
     try {
       await createNewOrder({
-        variables: { orderDate: orderDateForm }
+        variables: { orderDate: orderDateForm },
+        refetchQueries: ['orderDates']
       })
       setCurrentDate('')
       setOrderDateForm('')
@@ -43,7 +44,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
       <form className='flex flex-col w-56' onSubmit={handleSubmit}>
         <label className='font-semibold text-xl'>New order date:</label>{' '}
         <input
-          className='bg-white focus:outline-none 
+          className='bg-white focus:outline-none
         focus:shadow-outline border border-gray-300
          rounded-lg py-2 px-4 mb-1 w-48'
           type='date'
