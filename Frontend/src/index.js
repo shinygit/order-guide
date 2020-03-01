@@ -9,6 +9,7 @@ import { resolvers, typeDefs } from './resolvers/Item.js'
 import LoginOrCreateAccount from './components/Welcome/LoginOrCreateAccount'
 import * as serviceWorker from './serviceWorker'
 import { onError } from 'apollo-link-error'
+import { setContext } from 'apollo-link-context'
 import { ApolloLink } from 'apollo-link'
 
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -17,9 +18,19 @@ if (module.hot) {
 }
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:3001/graphql',
-  headers: { 'x-token': localStorage.token }
+  uri: 'http://localhost:3001/graphql'
 })
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token')
+  return {
+    headers: {
+      ...headers,
+      'x-token': token ? `${token}` : ''
+    }
+  }
+})
+
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {
@@ -32,7 +43,7 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
-const Link = ApolloLink.from([onErrorLink, httpLink])
+const Link = ApolloLink.from([onErrorLink, authLink, httpLink])
 const cache = new InMemoryCache({ freezeResults: true })
 export const client = new ApolloClient({
   link: Link,

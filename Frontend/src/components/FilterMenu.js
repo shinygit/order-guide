@@ -91,7 +91,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         {suppliers.map(supplier => (
           <button
-            className={`w-auto p-4 mx-1 border border-gray-900 rounded 
+            className={`w-auto p-4 mx-1 border border-gray-900 rounded
               ${
                 activeFilterbuttonClass === `${supplier}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
