@@ -1,6 +1,7 @@
 const cors = require('cors')
 const express = require('express')
 const http = require('http')
+const path = require('path')
 const jwt = require('jsonwebtoken')
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const Sequelize = require('sequelize')
@@ -52,7 +53,6 @@ const server = new ApolloServer({
       return { models }
     }
     if (req) {
-      console.log(req)
       const me = await getMe(req)
       return {
         models,
@@ -68,6 +68,10 @@ const server = new ApolloServer({
 })
 
 server.applyMiddleware({ app, path: '/graphql' })
+app.use(express.static(path.join(__dirname, '../Frontend', 'build')))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Frontend', 'build', 'index.html'))
+})
 
 const httpServer = http.createServer(app)
 server.installSubscriptionHandlers(httpServer)
@@ -77,7 +81,7 @@ sequelize.sync({ force: isTest }).then(async () => {
   if (isTest) {
     createUsersWithMessages(new Date())
   }
-  httpServer.listen({ port: 3001 }, () => {
+  httpServer.listen({ port: process.env.PORT || 3001 }, () => {
     console.log('Apollo Server on http://localhost:3001/graphql')
   })
 })
