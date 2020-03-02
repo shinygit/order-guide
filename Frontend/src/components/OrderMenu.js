@@ -29,7 +29,10 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
   const [deleteConfirmCount, setDeleteConfirmCount] = useState(0)
   const deleteOrderDate = async () => {
     if (deleteConfirmCount === 3) {
-      await deleteOrder({ variables: { orderDate: currentDate } })
+      await deleteOrder({
+        variables: { orderDate: currentDate },
+        refetchQueries: ['orderDates']
+      })
       setDeleteConfirmCount(0)
       setCurrentDate('')
     } else {
