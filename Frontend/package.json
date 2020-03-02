@@ -73,5 +73,6 @@
     "plugins": [
       "babel-plugin-styled-components"
     ]
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
