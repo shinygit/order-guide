@@ -17,7 +17,7 @@ require('dotenv').config()
 if (module.hot) {
   module.hot.accept()
 }
-const port = process.env.PORT || 3001
+let port = process.env.PORT || 3000
 const httpLink = new HttpLink({
   uri: `http://localhost:${port}/graphql`
 })
