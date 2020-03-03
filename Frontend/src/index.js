@@ -17,9 +17,10 @@ require('dotenv').config()
 if (module.hot) {
   module.hot.accept()
 }
-console.log(process.env)
+
 const httpLink = new HttpLink({
-  uri: `http://localhost:${process.env.PORT || 3001}/graphql`
+  uri: `https://order-guide.herokuapp.com/graphql`
+  // uri: `http://localhost:${process.env.PORT || 3001}/graphql`
 })
 
 const authLink = setContext((_, { headers }) => {
