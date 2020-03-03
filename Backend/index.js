@@ -1,5 +1,4 @@
 const cors = require('cors')
-require('dotenv').config()
 const express = require('express')
 const http = require('http')
 const path = require('path')
@@ -12,6 +11,7 @@ import schema from './schema'
 import resolvers from './resolvers'
 import models, { sequelize } from './models'
 import item from './schema/item'
+require('dotenv').config()
 
 const app = express()
 app.use(cors())
