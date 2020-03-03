@@ -16,7 +16,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 if (module.hot) {
   module.hot.accept()
 }
-const port = process.env.PORT || 3001
+const port = process.env.PORT
 const httpLink = new HttpLink({
   uri: `http://localhost:${port}/graphql`
 })
