@@ -9,7 +9,7 @@
     "test": "mocha --require @babel/register './**/*.spec.js'",
     "heroku-postbuild": "npm run build && cd Frontend && npm install --only=dev && npm install && npm run build",
     "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel . --out-dir build --ignore 'Frontend','node_modules'",
+    "build-babel": "babel Backend --out-dir build",
     "build": "npm run build-babel"
   },
   "author": "",
