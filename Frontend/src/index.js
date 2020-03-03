@@ -1,4 +1,3 @@
-require('dotenv').config()
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './assets/styles/main.css'
@@ -14,6 +13,7 @@ import { setContext } from 'apollo-link-context'
 import { ApolloLink } from 'apollo-link'
 
 import { BrowserRouter as Router } from 'react-router-dom'
+require('dotenv').config()
 if (module.hot) {
   module.hot.accept()
 }
