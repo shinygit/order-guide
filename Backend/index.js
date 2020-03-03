@@ -81,7 +81,7 @@ sequelize.sync({ force: isTest }).then(async () => {
   if (isTest) {
     createUsersWithMessages(new Date())
   }
-  httpServer.listen({ port: process.env.PORT || 3001 }, () => {
+  httpServer.listen({ port: process.env.PORT }, () => {
     console.log('Apollo Server on http://localhost:3001/graphql')
   })
 })
