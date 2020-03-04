@@ -83,7 +83,11 @@ const ListItems = ({ items, suppliers, locations }) => {
               <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
                 {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
               </th>
-            )) || <th className='px-4 py-2 border-r border-gray-700'>--/--</th>}
+            )) || (
+              <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
+                --/--
+              </th>
+            )}
             {(orderDates && orderDates.orders[1] && (
               <th className='px-4 py-2 border-r border-gray-700'>
                 {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
