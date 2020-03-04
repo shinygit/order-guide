@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./build/index.js",
-    "test-server": "TEST=TEST nodemon --exec babel-node Backend/index.js",
+    "test-server": "TEST=TEST nodemon --ignore 'Frontend/' --exec babel-node Backend/index.js",
     "test": "mocha --require @babel/register './**/*.spec.js'",
     "heroku-postbuild": "npm run build && cd Frontend && npm install --only=dev && npm install && npm run build",
     "clean": "rm -rf build && mkdir build",
