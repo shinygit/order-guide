@@ -7,7 +7,7 @@ const areEqual = (prevProps, nextProps) => {
 const TableItemRow = React.memo(({ item, handleEdit }) => {
   return (
     <tr>
-      <td className=''>
+      <td className='hidden md:block'>
         <button onClick={() => handleEdit(item.id)}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -22,7 +22,7 @@ const TableItemRow = React.memo(({ item, handleEdit }) => {
         {item.itemName}
       </td>
       <td className='border border-gray-700 text-center'>{item.buildTo}</td>
-      <td className='border border-gray-700 text-center'>
+      <td className='hidden md:block border border-gray-700 text-center'>
         {item.previousOrders[1]}
       </td>
       <td className='border border-gray-700 text-center'>
@@ -31,10 +31,10 @@ const TableItemRow = React.memo(({ item, handleEdit }) => {
       <td className='border border-gray-700 text-center'>
         <ChangeOrderAmount id={item.id} orderAmount={item.orderAmount} />
       </td>
-      <td className='border border-gray-700 text-center px-1'>
+      <td className='hidden md:block border border-gray-700 text-center px-1'>
         {item.supplier}
       </td>
-      <td className='border border-gray-700 text-center px-1'>
+      <td className='hidden md:block border border-gray-700 text-center px-1'>
         {item.location}
       </td>
     </tr>
