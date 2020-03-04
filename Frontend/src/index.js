@@ -18,7 +18,7 @@ if (module.hot) {
 }
 
 const httpLink = new HttpLink({
-  uri: `http://localhost:3001/graphql`
+  uri: `https://order-guide.herokuapp.com/graphql`
 })
 
 const authLink = setContext((_, { headers }) => {
