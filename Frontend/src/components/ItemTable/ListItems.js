@@ -71,7 +71,7 @@ const ListItems = ({ items, suppliers, locations }) => {
   })
   return (
     <div className='rounded border border-gray-700 bg-yellow-100 shadow-inner p-2'>
-      <table className='table-fixed m-auto'>
+      <table className='table-fixed m-auto text-lg'>
         <thead>
           <tr>
             <th className='w-5 hidden md:table-cell' />
