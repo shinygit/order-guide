@@ -74,13 +74,13 @@ const ListItems = ({ items, suppliers, locations }) => {
       <table className='table-fixed m-auto'>
         <thead>
           <tr>
-            <th className='w-5 hidden md:block' />
+            <th className='w-5 hidden md:table-cell' />
             <th className='px-4 py-2 border-r border-l border-gray-700'>
               Item
             </th>
             <th className='px-4 py-2 border-r border-gray-700'>Build To</th>
             {(orderDates && orderDates.orders[2] && (
-              <th className='hidden md:block px-4 py-2 border-r border-gray-700'>
+              <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
                 {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
               </th>
             )) || <th className='px-4 py-2 border-r border-gray-700'>--/--</th>}
@@ -90,10 +90,10 @@ const ListItems = ({ items, suppliers, locations }) => {
               </th>
             )) || <th className='px-4 py-2 border-r border-gray-700'>--/--</th>}
             <th className='px-4 py-2 border-r border-gray-700'>Order</th>
-            <th className='hidden md:block px-4 py-2 border-r border-gray-700'>
+            <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
               Supplier
             </th>
-            <th className='hidden md:block px-4 py-2 border-r border-gray-700'>
+            <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
               Location
             </th>
           </tr>
