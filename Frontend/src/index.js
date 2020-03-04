@@ -13,14 +13,12 @@ import { setContext } from 'apollo-link-context'
 import { ApolloLink } from 'apollo-link'
 
 import { BrowserRouter as Router } from 'react-router-dom'
-require('dotenv').config()
 if (module.hot) {
   module.hot.accept()
 }
 
 const httpLink = new HttpLink({
-  uri: `https://order-guide.herokuapp.com/graphql`
-  // uri: `http://localhost:${process.env.PORT || 3001}/graphql`
+  uri: `http://localhost:3001/graphql`
 })
 
 const authLink = setContext((_, { headers }) => {
