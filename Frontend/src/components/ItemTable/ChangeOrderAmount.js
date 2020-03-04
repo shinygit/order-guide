@@ -54,7 +54,7 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
         </svg>
       </button>
 
-      <span className='text-xl'>{orderAmount}</span>
+      <span className=''>{orderAmount}</span>
       <button className='' onClick={() => handleIncrease()}>
         <svg
           className='h-6 w-6'
