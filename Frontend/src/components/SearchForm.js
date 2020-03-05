@@ -30,7 +30,7 @@ const SearchForm = () => {
         onChange={handleChange}
         onKeyPress={event => {
           if (event.key === 'Enter') {
-            document.getElementById('searchField').blur()
+            event.target.blur()
           }
         }}
       />
