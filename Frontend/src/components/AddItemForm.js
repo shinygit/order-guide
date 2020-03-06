@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { CREATE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
-import produce from 'immer'
 
 const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
