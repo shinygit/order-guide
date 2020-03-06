@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-import { UserInputError, AuthenticationError } from 'apollo-server-express'
 import { createUserStarterOrderAndItems } from '../user/utils/createNewUserItems'
 const createToken = async (user, secret, expiresIn) => {
   const { id, email } = user
@@ -7,6 +6,19 @@ const createToken = async (user, secret, expiresIn) => {
 }
 
 export default {
+  LoginResults: {
+    __resolveType(parent, context, info) {
+      if (parent.emailError || parent.passwordError) {
+        return 'LoginError'
+      }
+
+      if (parent.token) {
+        return 'Token'
+      }
+
+      return null
+    }
+  },
   Query: {
     users: async (parent, args, { models }) => {
       return await models.User.findAll()
@@ -36,12 +48,12 @@ export default {
       const user = await models.User.findByLogin(login)
 
       if (!user) {
-        throw new UserInputError('No user found with this login credentials.')
+        return { emailError: 'Invalid Email' }
       }
       const isValid = await user.validatePassword(password)
 
       if (!isValid) {
-        throw new AuthenticationError('Invalid password.')
+        return { passwordError: 'Incorrect password.' }
       }
       return { token: createToken(user, secret, '365d') }
     }
