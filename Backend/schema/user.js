@@ -9,7 +9,7 @@ export default gql`
   }
 
   extend type Mutation {
-    signUp(email: String!, password: String!): Token!
+    signUp(email: String!, password: String!): RegisterErrors
     signIn(login: String!, password: String!): LoginResults!
   }
 
@@ -21,6 +21,10 @@ export default gql`
     id: ID!
     email: String!
     orders: [Order!]
+  }
+  type RegisterErrors {
+    emailError: String
+    passwordError: String
   }
 
   type LoginError {
