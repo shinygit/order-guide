@@ -29,6 +29,7 @@ const ListItems = ({ items, suppliers, locations }) => {
   if (filterType === 'UNCHECKED') {
     items.map(item => {
       if (item.orderAmount === null) uncheckedItems.current.push(item)
+      return null
     })
   }
   if (filterType !== 'UNCHECKED') {
@@ -51,6 +52,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     }
 
     if (Object.values(item).includes(filterType && filterName)) return true
+    return false
   })
   const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
     if (a.supplier > b.supplier) return 1
@@ -64,7 +66,7 @@ const ListItems = ({ items, suppliers, locations }) => {
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleEdit = useCallback(
     id => toggle({ variables: { itemId: id } }),
-    []
+    [toggle]
   )
   const { data: orderDates } = useQuery(ORDER_DATES, {
     variables: { orderDepth: 3 }
