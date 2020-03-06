@@ -51,16 +51,11 @@ const Login = () => {
   return (
     <div className='flex justify-center pt-10 bg-gray-100 h-screen'>
       <div className='w-full max-w-xs'>
-        <p className='text-center mb-1'>
-          Don't have an account?{' '}
-          <Link className='font-bold text-blue-500' to='/register'>
-            Register.
-          </Link>
-        </p>
         <form
           className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
           onSubmit={handleSubmit}
         >
+          <p className='text-center mb-1'>Please log in.</p>
           <div className='mb-4'>
             <label
               className='block text-gray-700 text-sm font-bold mb-2'
@@ -108,6 +103,12 @@ const Login = () => {
               {loading ? 'Loading...' : 'Login'}
             </button>
           </div>
+          <p className='text-center mt-1'>
+            Don't have an account?{' '}
+            <Link className='font-bold text-blue-500' to='/register'>
+              Register.
+            </Link>
+          </p>
         </form>
       </div>
     </div>

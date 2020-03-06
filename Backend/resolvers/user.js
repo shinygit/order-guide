@@ -19,6 +19,20 @@ export default {
       return null
     }
   },
+  RegisterResults: {
+    __resolveType(parent, context, info) {
+      console.log(parent)
+      if (parent.emailError || parent.passwordError) {
+        return 'RegisterErrors'
+      }
+
+      if (parent.email) {
+        return 'User'
+      }
+
+      return null
+    }
+  },
   Query: {
     users: async (parent, args, { models }) => {
       return await models.User.findAll()
@@ -50,7 +64,7 @@ export default {
       }).catch(e => console.log(e))
       if (!user) return { emailError: 'There was a problem with your email.' }
       if (user) await createUserStarterOrderAndItems(user, models)
-      // return { token: createToken(user, secret, '365d') }
+      return { email: user.dataValues.email }
     },
 
     signIn: async (parent, { login, password }, { models, secret }) => {
