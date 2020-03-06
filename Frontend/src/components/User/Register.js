@@ -6,8 +6,13 @@ import { useMutation } from '@apollo/react-hooks'
 const REGISTER_USER = gql`
   mutation signUp($email: String!, $password: String!) {
     signUp(email: $email, password: $password) {
-      emailError
-      passwordError
+      ... on RegisterErrors {
+        emailError
+        passwordError
+      }
+      ... on User {
+        email
+      }
     }
   }
 `
@@ -57,6 +62,7 @@ const Register = () => {
       })
       console.log(e)
     })
+    console.log(result)
     if (result.data.signUp.emailError || result.data.signUp.passwordError) {
       setRegisterForm({
         ...registerForm,
@@ -64,9 +70,9 @@ const Register = () => {
         isSubmitting: false
       })
     }
-    /* if (result) {
+    if (result.data.signUp.email) {
       history.push('/login')
-    } */
+    }
   }
 
   return (
@@ -93,7 +99,8 @@ const Register = () => {
                 setRegisterForm({
                   ...registerForm,
                   errors: {}
-                })}
+                })
+              }
               value={registerForm.email}
               id='email'
               type='text'
@@ -110,7 +117,8 @@ const Register = () => {
                 setRegisterForm({
                   ...registerForm,
                   errors: {}
-                })}
+                })
+              }
               value={registerForm.password}
               id='password'
               type='password'
@@ -127,7 +135,8 @@ const Register = () => {
                 setRegisterForm({
                   ...registerForm,
                   errors: {}
-                })}
+                })
+              }
               value={registerForm.password2}
               id='password2'
               type='password'
