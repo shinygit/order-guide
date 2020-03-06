@@ -8,16 +8,23 @@ import { client } from '../..'
 const LOGIN = gql`
   mutation signIn($login: String!, $password: String!) {
     signIn(login: $login, password: $password) {
-      token
+      ... on LoginError {
+        emailError
+        passwordError
+      }
+      ... on Token {
+        token
+      }
     }
   }
 `
 
 const Login = () => {
-  const [login, { loading, error }] = useMutation(LOGIN)
+  const [login, { loading }] = useMutation(LOGIN)
   const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState({})
   const handleSubmit = async event => {
     event.preventDefault()
     const result = await login({
@@ -25,7 +32,8 @@ const Login = () => {
     }).catch(e => {
       console.log(e)
     })
-    if (result) {
+
+    if (result.data.signIn.token) {
       const token = result.data.signIn.token
       localStorage.setItem('token', token)
       localStorage.setItem('id', jwt_decode(token).id)
@@ -36,6 +44,8 @@ const Login = () => {
         }
       })
       history.push('/')
+    } else {
+      setLoginError(result.data.signIn)
     }
   }
   return (
@@ -59,7 +69,9 @@ const Login = () => {
               Email
             </label>
             <input
-              className={emailFormStyle}
+              className={`${formStyle} ${
+                loginError.emailError ? formErrorStyle : ''
+              }`}
               onChange={({ target }) => setEmail(target.value)}
               value={email}
               id='email'
@@ -74,15 +86,18 @@ const Login = () => {
               Password
             </label>
             <input
-              className={passwordFormStyle}
+              className={`${formStyle} ${
+                loginError.passwordError ? formErrorStyle : ''
+              }`}
               onChange={({ target }) => setPassword(target.value)}
+              onFocus={() => setLoginError({})}
               value={password}
               id='password'
               type='password'
             />
           </div>
           <p className='text-red-500 text-s italic'>
-            {error && error.message.split('GraphQL error: ')[1]}
+            {loginError.emailError || loginError.passwordError}
           </p>
           <div>
             <button
@@ -98,8 +113,7 @@ const Login = () => {
     </div>
   )
 }
-const emailFormStyle =
-  'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-60'
-const passwordFormStyle =
+const formErrorStyle = 'bg-red-100 border-red-500'
+const formStyle =
   'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-60'
 export default Login
