@@ -41,6 +41,7 @@ const user = (sequelize, DataTypes) => {
   }
 
   User.findByLogin = async login => {
+    login = login.toLowerCase()
     const user = await User.findOne({
       where: { email: login }
     })

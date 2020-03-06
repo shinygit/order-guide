@@ -36,6 +36,7 @@ export default {
 
   Mutation: {
     signUp: async (parent, { email, password }, { models, secret }) => {
+      email = email.toLowerCase()
       const user = await models.User.create({
         email,
         password
