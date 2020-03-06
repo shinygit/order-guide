@@ -1,4 +1,5 @@
 const uuid = require('uuid')
+import Sequelize from 'sequelize'
 import { combineResolvers } from 'graphql-resolvers'
 import { isAuthenticated, isItemOwner } from './authorization'
 import pubsub, { EVENTS } from '../subscription'
@@ -29,7 +30,10 @@ export default {
       async (parent, { input }, { me, models }) => {
         if (input.supplier) {
           let supplier = await models.Supplier.findOne({
-            where: { supplierName: input.supplier, userId: me.id }
+            where: {
+              supplierName: { [Sequelize.Op.iLike]: input.supplier },
+              userId: me.id
+            }
           })
           if (!supplier) {
             supplier = await models.Supplier.create({
@@ -41,7 +45,10 @@ export default {
         }
         if (input.location) {
           let location = await models.Location.findOne({
-            where: { locationName: input.location, userId: me.id }
+            where: {
+              locationName: { [Sequelize.Op.iLike]: input.location },
+              userId: me.id
+            }
           })
           if (!location) {
             location = await models.Location.create({
@@ -85,8 +92,18 @@ export default {
         })
         if (input.supplier) {
           let supplier = await models.Supplier.findOne({
-            where: { supplierName: input.supplier, userId: me.id }
+            where: {
+              supplierName: { [Sequelize.Op.iLike]: input.supplier },
+              userId: me.id
+            }
           })
+          if (supplier) {
+            if (supplier.SupplierName != input.supplier) {
+              await supplier.update({
+                supplierName: input.supplier
+              })
+            }
+          }
           if (!supplier) {
             supplier = await models.Supplier.create({
               supplierName: input.supplier,
@@ -97,8 +114,18 @@ export default {
         }
         if (input.location) {
           let location = await models.Location.findOne({
-            where: { locationName: input.location, userId: me.id }
+            where: {
+              locationName: { [Sequelize.Op.iLike]: input.location },
+              userId: me.id
+            }
           })
+          if (location) {
+            if (location.LocationName != input.location) {
+              await location.update({
+                locationName: input.location
+              })
+            }
+          }
           if (!location) {
             location = await models.Location.create({
               locationName: input.location,
