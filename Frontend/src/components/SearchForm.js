@@ -16,7 +16,7 @@ const SearchForm = () => {
         }
       }
     })
-  }, [searchTerm])
+  }, [searchTerm, client])
   return (
     <div>
       <input
