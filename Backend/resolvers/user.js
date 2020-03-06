@@ -36,13 +36,21 @@ export default {
 
   Mutation: {
     signUp: async (parent, { email, password }, { models, secret }) => {
+      if (password.length < 8)
+        return { passwordError: 'Password must be at least 8 characters long' }
       email = email.toLowerCase()
+      const userExists = await models.User.findOne({
+        where: { email: email }
+      })
+      if (userExists)
+        return { emailError: 'An account with that email already exists.' }
       const user = await models.User.create({
         email,
         password
-      })
-      await createUserStarterOrderAndItems(user, models)
-      return { token: createToken(user, secret, '365d') }
+      }).catch(e => console.log(e))
+      if (!user) return { emailError: 'There was a problem with your email.' }
+      if (user) await createUserStarterOrderAndItems(user, models)
+      // return { token: createToken(user, secret, '365d') }
     },
 
     signIn: async (parent, { login, password }, { models, secret }) => {

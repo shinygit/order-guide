@@ -6,7 +6,8 @@ import { useMutation } from '@apollo/react-hooks'
 const REGISTER_USER = gql`
   mutation signUp($email: String!, $password: String!) {
     signUp(email: $email, password: $password) {
-      token
+      emailError
+      passwordError
     }
   }
 `
@@ -22,7 +23,7 @@ const Register = () => {
     errors: {}
   })
 
-  const { errors } = registerForm
+  // const { errors } = registerForm
 
   const handleChangeInput = event => {
     setRegisterForm({
@@ -36,7 +37,7 @@ const Register = () => {
     if (registerForm.password !== registerForm.password2) {
       setRegisterForm({
         ...registerForm,
-        errors: { password2: 'Passwords must match.' }
+        errors: { passwordError: 'Passwords must match.' }
       })
       return
     }
@@ -56,10 +57,16 @@ const Register = () => {
       })
       console.log(e)
     })
-
-    if (result) {
-      history.push('/login')
+    if (result.data.signUp.emailError || result.data.signUp.passwordError) {
+      setRegisterForm({
+        ...registerForm,
+        errors: result.data.signUp,
+        isSubmitting: false
+      })
     }
+    /* if (result) {
+      history.push('/login')
+    } */
   }
 
   return (
@@ -78,10 +85,16 @@ const Register = () => {
           <div className='mb-4'>
             <label htmlFor='email'>Email</label>
             <input
-              className={formField}
+              className={`${formFieldStyle} ${
+                registerForm.errors.emailError ? formErrorStyle : ''
+              }`}
               onChange={handleChangeInput}
+              onFocus={() =>
+                setRegisterForm({
+                  ...registerForm,
+                  errors: {}
+                })}
               value={registerForm.email}
-              error={errors.email}
               id='email'
               type='text'
             />
@@ -89,10 +102,16 @@ const Register = () => {
           <div className='mb-4'>
             <label htmlFor='password'>Password</label>
             <input
-              className={formField}
+              className={`${formFieldStyle} ${
+                registerForm.errors.passwordError ? formErrorStyle : ''
+              }`}
               onChange={handleChangeInput}
+              onFocus={() =>
+                setRegisterForm({
+                  ...registerForm,
+                  errors: {}
+                })}
               value={registerForm.password}
-              error={errors.password}
               id='password'
               type='password'
             />
@@ -100,14 +119,24 @@ const Register = () => {
           <div className='mb-6'>
             <label htmlFor='password'>Confirm Password</label>
             <input
-              className={formField}
+              className={`${formFieldStyle} ${
+                registerForm.errors.passwordError ? formErrorStyle : ''
+              }`}
               onChange={handleChangeInput}
+              onFocus={() =>
+                setRegisterForm({
+                  ...registerForm,
+                  errors: {}
+                })}
               value={registerForm.password2}
-              error={errors.password2}
               id='password2'
               type='password'
             />
           </div>
+          <p className='text-red-500 text-s italic'>
+            {registerForm.errors.emailError ||
+              registerForm.errors.passwordError}
+          </p>
           <div>
             <button
               className='bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
@@ -122,8 +151,7 @@ const Register = () => {
     </div>
   )
 }
-
-const formField =
+const formErrorStyle = 'bg-red-100 border-red-500'
+const formFieldStyle =
   'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-60'
-
 export default Register
