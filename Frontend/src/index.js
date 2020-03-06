@@ -4,7 +4,10 @@ import './assets/styles/main.css'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import {
+  InMemoryCache,
+  IntrospectionFragmentMatcher
+} from 'apollo-cache-inmemory'
 import { resolvers, typeDefs } from './resolvers/Item.js'
 import LoginOrCreateAccount from './components/Welcome/LoginOrCreateAccount'
 import * as serviceWorker from './serviceWorker'
@@ -42,9 +45,15 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   }
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
-
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData: {
+    __schema: {
+      types: [] // no types provided
+    }
+  }
+})
 const Link = ApolloLink.from([onErrorLink, authLink, httpLink])
-const cache = new InMemoryCache({ freezeResults: true })
+const cache = new InMemoryCache({ fragmentMatcher, freezeResults: true })
 export const client = new ApolloClient({
   link: Link,
   cache,
