@@ -12,7 +12,7 @@ import NavBar from './components/NavBar/NavBar'
 import { GET_LATEST_ORDER } from './Queries/item'
 
 const App = () => {
-  const { loading, data, refetch, error } = useQuery(GET_LATEST_ORDER, {
+  const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 }
   })
   const [items, setItems] = useState([])
