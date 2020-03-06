@@ -69,7 +69,6 @@ const App = () => {
     <div className='flex-col bg-blue-100 p-3'>
       <NavBar />
       <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
-      <SearchForm />
       {newItemToggle && (
         <AddItemForm
           suppliers={suppliers}
@@ -82,6 +81,7 @@ const App = () => {
         locations={locations}
         toggleNewItem={toggleNewItem}
       />
+      <SearchForm />
       {loading ? (
         <h1>Loading...</h1>
       ) : (
