@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/react-hooks'
 
 const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
-    update(client, { data: { createItem } }) {
+    update (client, { data: { createItem } }) {
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 }
@@ -26,7 +26,7 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
       })
     }
   })
-
+  const [itemFormErrors, setItemFormErrors] = useState({})
   const [itemForm, setItemForm] = useState({
     itemName: '',
     supplier: '',
@@ -42,7 +42,30 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
 
   const handleSubmit = event => {
     event.preventDefault()
-
+    if (!itemForm.itemName) {
+      return setItemFormErrors({
+        ...itemFormErrors,
+        itemName: 'An item must have a name.'
+      })
+    }
+    if (!itemForm.buildTo) {
+      return setItemFormErrors({
+        ...itemFormErrors,
+        buildTo: 'An item must have a build to amount.'
+      })
+    }
+    if (!itemForm.supplier) {
+      return setItemFormErrors({
+        ...itemFormErrors,
+        supplier: 'An item must have a supplier.'
+      })
+    }
+    if (!itemForm.location) {
+      return setItemFormErrors({
+        ...itemFormErrors,
+        location: 'An item must have a location.'
+      })
+    }
     createItem({
       variables: {
         input: {
@@ -67,32 +90,38 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
       <div className='flex flex-col mx-1 w-1/4'>
         <label className=''>Item Name:</label>
         <input
-          className='border py-2 px-3 text-gray-900'
+          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.itemName &&
+            itemFormFieldError}`}
           type='text'
           name='itemName'
           value={itemForm.itemName}
           onChange={handleChangeInput}
+          onFocus={() => setItemFormErrors({})}
         />
       </div>
       <div className='flex flex-col mx-1 w-1/12'>
         <label>Build To: </label>
         <input
-          className='border py-2 px-3 text-gray-900'
+          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.buildTo &&
+            itemFormFieldError}`}
           type='number'
           name='buildTo'
           value={itemForm.buildTo}
           onChange={handleChangeInput}
+          onFocus={() => setItemFormErrors({})}
         />
       </div>
       <div className='flex flex-col mx-1 w-1/4'>
         <label>Supplier:</label>
         <input
-          className='border py-2 px-3 text-gray-900'
+          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.supplier &&
+            itemFormFieldError}`}
           type='text'
           name='supplier'
           list='suppliersList'
           value={itemForm.supplier}
           onChange={handleChangeInput}
+          onFocus={() => setItemFormErrors({})}
         />
         <datalist id='suppliersList'>
           {suppliers.map(item => (
@@ -103,12 +132,14 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
       <div className='flex flex-col mx-1 w-1/4'>
         <label>Location:</label>
         <input
-          className='border py-2 px-3 text-gray-900'
+          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.location &&
+            itemFormFieldError}`}
           type='text'
           name='location'
           list='locationList'
           value={itemForm.location}
           onChange={handleChangeInput}
+          onFocus={() => setItemFormErrors({})}
         />
         <datalist id='locationList'>
           {locations.map(item => (
@@ -126,3 +157,5 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
   )
 }
 export default AddItemForm
+
+const itemFormFieldError = 'bg-red-100 border-red-500'
