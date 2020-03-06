@@ -21,9 +21,9 @@ const SearchForm = () => {
     <div>
       <input
         id='searchField'
-        className='bg-white focus:outline-none 
+        className='bg-white focus:outline-none
         focus:shadow-outline border border-gray-300
-         rounded-lg py-2 px-4 block w-full'
+         rounded-lg py-2 px-4 block w-full mb-1'
         type='text'
         placeholder='Search...'
         value={searchTerm}
