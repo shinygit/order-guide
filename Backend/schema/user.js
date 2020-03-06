@@ -1,5 +1,7 @@
 import { gql } from 'apollo-server-express'
 export default gql`
+  union LoginResults = Token | LoginError
+
   extend type Query {
     me: User
     user(id: ID!): User
@@ -8,7 +10,7 @@ export default gql`
 
   extend type Mutation {
     signUp(email: String!, password: String!): Token!
-    signIn(login: String!, password: String!): Token!
+    signIn(login: String!, password: String!): LoginResults!
   }
 
   type Token {
@@ -19,5 +21,10 @@ export default gql`
     id: ID!
     email: String!
     orders: [Order!]
+  }
+
+  type LoginError {
+    emailError: String
+    passwordError: String
   }
 `
