@@ -52,7 +52,7 @@ export default {
     signUp: async (parent, { email, password }, { models, secret }) => {
       if (password.length < 8)
         return { passwordError: 'Password must be at least 8 characters long' }
-      email = email.toLowerCase()
+      email = email.toLowerCase().trim()
       const userExists = await models.User.findOne({
         where: { email: email }
       })

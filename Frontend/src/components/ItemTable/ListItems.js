@@ -5,16 +5,8 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import Fuse from 'fuse.js'
 import { ORDER_DATES } from '../../Queries/order'
+import { FILTER_QUERY } from '../../Queries/filter'
 
-const FILTER_QUERY = gql`
-  query activeFilters {
-    filter {
-      searchTerm @client
-      filterName @client
-      filterType @client
-    }
-  }
-`
 const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
   mutation toggleShowEditItemForm($itemId: ID!) {
     toggleShowEditItemForm(id: $itemId) @client
@@ -64,10 +56,9 @@ const ListItems = ({ items, suppliers, locations }) => {
     return 0
   })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
-  const handleEdit = useCallback(
-    id => toggle({ variables: { itemId: id } }),
-    [toggle]
-  )
+  const handleEdit = useCallback(id => toggle({ variables: { itemId: id } }), [
+    toggle
+  ])
   const { data: orderDates } = useQuery(ORDER_DATES, {
     variables: { orderDepth: 3 }
   })
