@@ -11,6 +11,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
     client.writeData({
       data: {
         filter: {
+          searchTerm: '',
           filterType: 'supplier',
           filterName: supplier,
           __typename: 'Filter'
@@ -23,6 +24,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
     client.writeData({
       data: {
         filter: {
+          searchTerm: '',
           filterType: 'ALL',
           filterName: 'ALL',
           __typename: 'Filter'
@@ -35,6 +37,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
     client.writeData({
       data: {
         filter: {
+          searchTerm: '',
           filterType: 'UNCHECKED',
           filterName: 'UNCHECKED',
           __typename: 'Filter'
@@ -47,6 +50,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
     client.writeData({
       data: {
         filter: {
+          searchTerm: '',
           filterType: 'location',
           filterName: location,
           __typename: 'Filter'
@@ -63,7 +67,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
                 activeFilterbuttonClass === 'all-filter-button'
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-              }`}
+          }`}
           key='ALL'
           onClick={() => handleShowAll()}
         >
@@ -75,7 +79,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
                 activeFilterbuttonClass === 'unchecked-filter-button'
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-              }`}
+          }`}
           key='UNCHECKED'
           onClick={() => handleShowUnchecked()}
         >
@@ -96,7 +100,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
                 activeFilterbuttonClass === `${supplier}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-              }`}
+            }`}
             key={supplier}
             onClick={() => handleShowSupplier(supplier)}
           >
@@ -112,7 +116,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
                 activeFilterbuttonClass === `${location}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-              }`}
+            }`}
             key={location}
             onClick={() => handleShowLocation(location)}
           >
