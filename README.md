@@ -6,7 +6,7 @@ Users will be able to login with a shared account and view required inventory or
 
 ## Getting Started
 
-To use simply go to <someurl i dont know yet .com> and make an account. Your account will be prepopulated with some example items.
+To use simply go to order-guide.herokuapp.com and make an account. Your account will be prepopulated with some example items.
 
 ## Built With
 
