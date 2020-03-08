@@ -21,6 +21,9 @@ export default function IsLoggedIn () {
   ) {
     return <Redirect to='/login' />
   }
+  if (data.isLoggedIn && history.location.pathname !== '/') {
+    return <Redirect to='/' />
+  }
   return (
     <Switch>
       <Route path='/login'>
@@ -29,7 +32,7 @@ export default function IsLoggedIn () {
       <Route path='/register'>
         <Register />
       </Route>
-      <Route exact path='/'>
+      <Route path='/'>
         <App />
       </Route>
     </Switch>
