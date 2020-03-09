@@ -68,7 +68,7 @@ export default {
     },
 
     signIn: async (parent, { login, password }, { models, secret }) => {
-      const user = await models.User.findByLogin(login)
+      const user = await models.User.findByLogin(login.trim())
 
       if (!user) {
         return { emailError: 'Invalid Email' }
