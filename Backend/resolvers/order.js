@@ -33,11 +33,10 @@ export default {
           where: { orderId: currentOrder[0].id },
           raw: true
         })
-        console.log(currentOrder.length)
-        console.log(hasItems.length)
         if (currentOrder.length > 1) safeToDelete = true
         if (hasItems.length === 0) safeToDelete = true
-        if (!safeToDelete) return false
+        if (!safeToDelete)
+          throw new UserInputError('Last order still has items.')
         const count = await models.Order.destroy({
           where: { orderDate: orderDate, userId: me.id }
         }).error(x => {
