@@ -35,7 +35,7 @@ const NavBar = () => {
           </span>
         </div>
         <ul className='flex mr-5 text-gray-100 font-semibold'>
-          <li className='mr-6 p-1 border-b-2 border-orange-500'>
+          <li className='mr-6 p-1 border-b-2 border-yellow-200'>
             <Link to='/'>Home</Link>
           </li>
           <li className='mr-6 p-1'>
@@ -50,4 +50,4 @@ const NavBar = () => {
 }
 
 export default NavBar
-//<p className='text-xl text-gray-100 font-semibold'>{data.me.email}</p>
+// <p className='text-xl text-gray-100 font-semibold'>{data.me.email}</p>
