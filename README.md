@@ -18,5 +18,3 @@ To use simply go to order-guide.herokuapp.com and make an account. Your account 
 - Apollo
 
 ## Current Features
-
-- Sort
