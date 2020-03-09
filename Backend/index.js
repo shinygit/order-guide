@@ -11,6 +11,7 @@ import schema from './schema'
 import resolvers from './resolvers'
 import models, { sequelize } from './models'
 import item from './schema/item'
+import createUsersWithTestOrders from './tests/createUsersWithTestOrders'
 require('dotenv').config()
 
 const app = express()
@@ -80,92 +81,9 @@ server.installSubscriptionHandlers(httpServer)
 const isTest = !!process.env.TEST
 sequelize.sync({ force: isTest }).then(async () => {
   if (isTest) {
-    createUsersWithMessages(new Date())
+    createUsersWithTestOrders()
   }
   httpServer.listen({ port: process.env.PORT || 3001 }, () => {
     console.log('Apollo Server on http://localhost:3001/graphql')
   })
 })
-
-const createUsersWithMessages = async date => {
-  const loc1 = await models.Location.create({ locationName: 'floor' })
-  const loc2 = await models.Location.create({ locationName: 'not floor' })
-  const sup1 = await models.Supplier.create({ supplierName: 'good store' })
-  const sup2 = await models.Supplier.create({ supplierName: 'not good store' })
-  const user = await models.User.create(
-    {
-      email: 'hello@david.com',
-      password: '12345678',
-      orders: [
-        {
-          orderDate: '2020-01-01',
-          items: [
-            {
-              itemName: 'Good Book',
-              orderAmount: 2,
-              buildTo: 2,
-              locationId: 1,
-              supplierId: 1,
-              itemId: '8b41c801-dce8-4899-b0a2-498ccc25df90'
-            },
-            {
-              itemName: 'Bad Book',
-              orderAmount: 2,
-              buildTo: 2,
-              locationId: 2,
-              supplierId: 2,
-              itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
-            }
-          ]
-        },
-        {
-          orderDate: '2020-01-05',
-          items: [
-            {
-              itemName: 'Good Book',
-
-              buildTo: 5,
-              locationId: 1,
-              supplierId: 1,
-              itemId: '8b41c801-dce8-4899-b0a2-498ccc25df90'
-            },
-            {
-              itemName: 'Bad Book',
-              orderAmount: 3,
-              buildTo: 5,
-              locationId: 2,
-              supplierId: 2,
-              itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
-            }
-          ]
-        },
-        {
-          orderDate: '2020-01-10',
-          items: [
-            {
-              itemName: 'Good Book',
-              orderAmount: 4,
-              buildTo: 5,
-              locationId: 1,
-              supplierId: 1,
-              itemId: '8b41c801-dce8-4899-b0a2-498ccc25df90'
-            },
-            {
-              itemName: 'Bad Book',
-              orderAmount: 4,
-              buildTo: 5,
-              locationId: 2,
-              supplierId: 2,
-              itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
-            }
-          ]
-        }
-      ]
-    },
-    { include: { model: models.Order, include: [{ model: models.Item }] } }
-  )
-  loc1.setUser(user)
-  loc2.setUser(user)
-  sup1.setUser(user)
-  sup2.setUser(user)
-}
