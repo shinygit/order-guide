@@ -16,7 +16,7 @@ const App = () => {
     variables: { orderDepth: 1 }
   })
   const [items, setItems] = useState([])
-  const [currentDate, setCurrentDate] = useState('0000-00-00')
+  const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
     if (
       data &&
