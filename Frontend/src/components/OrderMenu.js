@@ -12,7 +12,6 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('')
 
-  console.log(deleteError)
   const handleChangeInput = event => {
     setOrderDateForm(event.target.value)
   }
