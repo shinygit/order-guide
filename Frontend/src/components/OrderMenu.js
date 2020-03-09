@@ -7,9 +7,12 @@ import { CREATE_NEW_ORDER_DATE, DELETE_ORDER_DATE } from '../Queries/order'
 
 const OrderMenu = ({ setCurrentDate, currentDate }) => {
   const [createNewOrder, { error }] = useMutation(CREATE_NEW_ORDER_DATE)
-  const [deleteOrder] = useMutation(DELETE_ORDER_DATE)
+  const [deleteOrder, { error: deleteError }] = useMutation(DELETE_ORDER_DATE)
   const [orderDateForm, setOrderDateForm] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [deleteErrorMessage, setDeleteErrorMessage] = useState('')
+
+  console.log(deleteError)
   const handleChangeInput = event => {
     setOrderDateForm(event.target.value)
   }
@@ -29,12 +32,17 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
   const [deleteConfirmCount, setDeleteConfirmCount] = useState(0)
   const deleteOrderDate = async () => {
     if (deleteConfirmCount === 3) {
-      await deleteOrder({
-        variables: { orderDate: currentDate },
-        refetchQueries: ['orderDates']
-      })
-      setDeleteConfirmCount(0)
-      setCurrentDate('')
+      try {
+        await deleteOrder({
+          variables: { orderDate: currentDate },
+          refetchQueries: ['orderDates']
+        })
+        setDeleteConfirmCount(0)
+        setCurrentDate('')
+      } catch (error) {
+        setDeleteErrorMessage(error.message.split('GraphQL error: ')[1])
+        setDeleteConfirmCount(0)
+      }
     } else {
       if (currentDate) {
         setDeleteConfirmCount(deleteConfirmCount + 1)
@@ -79,6 +87,16 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
         <span className='font-semibold text-2xl'>
           Current order date: {moment.utc(currentDate).format('L')}
         </span>
+        <div>
+          {deleteError && deleteErrorMessage && (
+            <div
+              className='bg-red-200 text-red-700 font-bold border-2 border-red-800'
+              onClick={() => setDeleteErrorMessage()}
+            >
+              {deleteError && deleteErrorMessage}
+            </div>
+          )}
+        </div>
         <button
           className='w-auto p-2 border border-gray-900 rounded bg-gray-100 ml-auto'
           onClick={deleteOrderDate}
