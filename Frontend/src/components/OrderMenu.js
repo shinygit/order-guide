@@ -20,7 +20,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
         variables: { orderDate: orderDateForm },
         refetchQueries: ['orderDates']
       })
-      setCurrentDate('')
+      setCurrentDate('0000-00-00')
       setOrderDateForm('')
     } catch (error) {
       setErrorMessage(error.message.split('GraphQL error: ')[1])
@@ -36,7 +36,9 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
       setDeleteConfirmCount(0)
       setCurrentDate('')
     } else {
-      setDeleteConfirmCount(deleteConfirmCount + 1)
+      if (currentDate) {
+        setDeleteConfirmCount(deleteConfirmCount + 1)
+      }
     }
   }
   const cancelDelete = () => {

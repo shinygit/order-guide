@@ -22,6 +22,22 @@ export default {
     deleteOrder: combineResolvers(
       isAuthenticated,
       async (parent, { orderDate }, { me, models }) => {
+        let safeToDelete = false
+        const currentOrder = await models.Order.findAll({
+          order: [['orderDate', 'desc']],
+          limit: 2,
+          where: { userId: me.id },
+          raw: true
+        })
+        const hasItems = await models.Item.findAll({
+          where: { orderId: currentOrder[0].id },
+          raw: true
+        })
+        console.log(currentOrder.length)
+        console.log(hasItems.length)
+        if (currentOrder.length > 1) safeToDelete = true
+        if (hasItems.length === 0) safeToDelete = true
+        if (!safeToDelete) return false
         const count = await models.Order.destroy({
           where: { orderDate: orderDate, userId: me.id }
         }).error(x => {
@@ -34,6 +50,7 @@ export default {
     createNewOrder: combineResolvers(
       isAuthenticated,
       async (parent, { orderDate }, { me, models }) => {
+        let theyDeletedAllTheOrders = false
         const exists = await models.Order.findOne({
           where: { orderDate: orderDate, userId: me.id },
           raw: true
@@ -45,6 +62,15 @@ export default {
           where: { userId: me.id },
           raw: true
         })
+
+        if (!currentOrder[0]) {
+          theyDeletedAllTheOrders = true
+          const newOrder = await models.Order.create({
+            orderDate: orderDate,
+            userId: me.id
+          })
+        }
+        if (theyDeletedAllTheOrders) return true
         if (currentOrder[0].orderDate > orderDate) {
           throw new UserInputError(
             'New order date must be more recent than the last order.'
