@@ -1,26 +1,49 @@
 const Sequelize = require('sequelize')
 const item = (sequelize, DataTypes) => {
-  const Item = sequelize.define(
-    'item',
-    {
-      itemName: {
-        type: DataTypes.STRING,
-        validate: { notEmpty: true }
-      },
-      buildTo: {
-        type: DataTypes.INTEGER
-      },
-      orderAmount: {
-        type: DataTypes.INTEGER,
-        defaultValue: null
-      },
-      itemId: {
-        type: DataTypes.UUID,
-        defaultValue: Sequelize.UUIDV4
-      }
+  const Item = sequelize.define('item', {
+    itemName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: true }
     },
-    { timestamps: false }
-  )
+    buildTo: {
+      type: DataTypes.INTEGER
+    },
+    orderAmount: {
+      type: DataTypes.INTEGER
+    },
+    quantityOnHand: {
+      type: DataTypes.INTEGER
+    },
+    unitPriceInPennies: {
+      type: DataTypes.INTEGER
+    },
+    isMarketPrice: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
+    productNumber: {
+      type: DataTypes.STRING
+    },
+    unitSize: {
+      type: DataTypes.STRING
+    },
+    quantityReceived: {
+      type: DataTypes.INTEGER
+    },
+    itemNote: {
+      type: DataTypes.TEXT
+    },
+    specialNote: {
+      type: DataTypes.TEXT
+    },
+    itemId: {
+      type: DataTypes.UUID,
+      defaultValue: Sequelize.UUIDV4,
+      isUUID: 4
+    }
+  })
   Item.associate = models => {
     Item.belongsTo(models.Order, { onDelete: 'CASCADE' })
     Item.belongsTo(models.Location)
