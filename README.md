@@ -1,12 +1,16 @@
-# Order Guide
+# Build-To Order Guide
 
 This project is to simplify following a build-to order guide.
 
-Users are able to login view required inventory orders for the current week.
+## Features
+
+- Filters based on current state of items. Such as if the inventory has been check or if a supplier needs to be chosen. As well as sorting by location and supplier.
+- Records history of orders, prices and suppliers.
+- Responsive design. Easily take inventory on a phone with one hand. But view all the information you need when working on a larger screen.
 
 ## Getting Started
 
-To use simply go to order-guide.herokuapp.com and make an account. Your account will be prepopulated with some example items. This app is in Alpha at best and almost certainly the account will not exist soon so mess around and feel free to share ideas but don't use in production.
+To try go to order-guide.herokuapp.com and make an account. Your account will be prepopulated with some example items. This project is in very early stages at best and almost certainly the account will not exist soon so mess around and feel free to share ideas but don't use in production. No reason to use a real email.
 
 ## Built With
 
@@ -16,10 +20,4 @@ To use simply go to order-guide.herokuapp.com and make an account. Your account 
 - GraphQL
 - Postgres
 - Apollo
-
-## Current Features
-
-- Filter Items by
-  - Location
-  - Supplier
-  - Current Status
+- Tailwind
