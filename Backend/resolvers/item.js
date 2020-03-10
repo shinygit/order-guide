@@ -139,7 +139,13 @@ export default {
           itemName: input.itemName,
           buildTo: input.buildTo,
           supplierId: input.supplier,
-          locationId: input.location
+          locationId: input.location,
+          unitPriceInPennies: input.unitPriceInPennies,
+          isMarketPrice: input.isMarketPrice,
+          productNumber: input.productNumber,
+          unitSize: input.unitSize,
+          itemNote: input.itemNote,
+          specialNote: input.specialNote
         })
         return item
       }
@@ -195,12 +201,6 @@ export default {
         array.push(0)
       }
       return array
-      /*       const lastWeek = previous[index + 1]
-      const twoWeeksAgo = previous[index + 2]
-      return [
-        lastWeek ? lastWeek.orderAmount : 0,
-        twoWeeksAgo ? twoWeeksAgo.orderAmount : 0
-      ] */
     }
   },
   Subscription: {

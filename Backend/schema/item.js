@@ -11,9 +11,16 @@ export default gql`
     supplier: String
     location: String
     buildTo: Int
+    quantityOnHand: Int
+    quantityReceived: Int
     orderAmount: Int
-    orderDate: String
     itemId: String
+    unitPriceInPennies: Int
+    isMarketPrice: Boolean
+    productNumber: String
+    unitSize: String
+    itemNote: String
+    specialNote: String
   }
   extend type Query {
     items: [Item!]!
@@ -30,12 +37,18 @@ export default gql`
     itemName: String!
     supplier: String
     location: String
-    buildTo: Int!
+    buildTo: Int
+    quantityOnHand: Int
+    quantityReceived: Int
     orderAmount: Int
-    orderDate: String!
     itemId: String!
     userId: User!
-    "Returns previous orders"
+    unitPriceInPennies: Int
+    isMarketPrice: Boolean
+    productNumber: String
+    unitSize: String
+    itemNote: String
+    specialNote: String
     previousOrders(count: Int): [Int]
   }
 
