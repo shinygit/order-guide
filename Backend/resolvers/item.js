@@ -145,7 +145,8 @@ export default {
           productNumber: input.productNumber,
           unitSize: input.unitSize,
           itemNote: input.itemNote,
-          specialNote: input.specialNote
+          specialNote: input.specialNote,
+          receivingNote: input.receivingNote
         })
         return item
       }

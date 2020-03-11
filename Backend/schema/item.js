@@ -21,6 +21,7 @@ export default gql`
     unitSize: String
     itemNote: String
     specialNote: String
+    receivingNote: String
   }
   extend type Query {
     items: [Item!]!
@@ -49,6 +50,7 @@ export default gql`
     unitSize: String
     itemNote: String
     specialNote: String
+    receivingNote: String
     previousOrders(count: Int): [Int]
   }
 

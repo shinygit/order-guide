@@ -55,6 +55,16 @@ export const GET_LATEST_ORDER = gql`
         supplier
         location
         buildTo
+        quantityOnHand
+        quantityReceived
+        orderAmount
+        unitPriceInPennies
+        isMarketPrice
+        productNumber
+        unitSize
+        itemNote
+        specialNote
+        receivingNote
         previousOrders(count: 2)
         showEditForm @client
       }

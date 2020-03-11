@@ -38,6 +38,9 @@ const item = (sequelize, DataTypes) => {
     specialNote: {
       type: DataTypes.TEXT
     },
+    receivingNote: {
+      type: DataTypes.TEXT
+    },
     itemId: {
       type: DataTypes.UUID,
       defaultValue: Sequelize.UUIDV4,
