@@ -190,6 +190,7 @@ export default async () => {
               quantityReceived: 0,
               itemNote: "Don't get this book every week.",
               specialNote: null,
+              receivingNote: 'Sent back, was a really bad book',
               itemId: '4018d0fc-a835-4e99-82ad-b088a300375f'
             }
           ]
