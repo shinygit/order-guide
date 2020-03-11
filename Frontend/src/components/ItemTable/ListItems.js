@@ -8,8 +8,8 @@ import { ORDER_DATES } from '../../Queries/order'
 import { FILTER_QUERY } from '../../Queries/filter'
 
 const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
-  mutation toggleShowEditItemForm($itemId: ID!) {
-    toggleShowEditItemForm(id: $itemId) @client
+  mutation toggleShowExpandedItemForm($itemId: ID!) {
+    toggleShowExpandedItemForm(id: $itemId) @client
   }
 `
 
@@ -46,7 +46,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     if (Object.values(item).includes(filterType && filterName)) return true
     return false
   })
-  const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
+  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
     if (a.supplier > b.supplier) return 1
     if (a.supplier < b.supplier) return -1
     if (a.location > b.location) return 1
