@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { client } from '../../index'
@@ -11,11 +11,13 @@ const GET_CURRENT_USER = gql`
     }
   }
 `
-const logOut = () => {
-  localStorage.clear()
-  client.resetStore()
-}
 const NavBar = () => {
+  const history = useHistory()
+  const logOut = () => {
+    history.push('/login')
+    localStorage.clear()
+    client.resetStore()
+  }
   const { loading, error, data } = useQuery(GET_CURRENT_USER)
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
