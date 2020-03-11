@@ -16,7 +16,7 @@ export default gql`
     orderAmount: Int
     itemId: String
     unitPriceInPennies: Int
-    isMarketPrice: Boolean
+    isMarketPrice: Boolean!
     productNumber: String
     unitSize: String
     itemNote: String
@@ -45,7 +45,7 @@ export default gql`
     itemId: String!
     userId: User!
     unitPriceInPennies: Int
-    isMarketPrice: Boolean
+    isMarketPrice: Boolean!
     productNumber: String
     unitSize: String
     itemNote: String

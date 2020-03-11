@@ -8,7 +8,7 @@ const ClipboardDown = () => {
       version='1.1'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <title>icon 36 clipboard download</title>
+      <title>Expand</title>
       <desc>Created with Sketch.</desc>
       <defs />
 

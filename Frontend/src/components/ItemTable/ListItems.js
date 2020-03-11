@@ -8,8 +8,8 @@ import { ORDER_DATES } from '../../Queries/order'
 import { FILTER_QUERY } from '../../Queries/filter'
 
 const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
-  mutation toggleShowExpandedItemForm($itemId: ID!) {
-    toggleShowExpandedItemForm(id: $itemId) @client
+  mutation toggleShowEditItemForm($itemId: ID!) {
+    toggleShowEditItemForm(id: $itemId) @client
   }
 `
 
@@ -46,7 +46,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     if (Object.values(item).includes(filterType && filterName)) return true
     return false
   })
-  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
+  const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
     if (a.supplier > b.supplier) return 1
     if (a.supplier < b.supplier) return -1
     if (a.location > b.location) return 1
@@ -56,9 +56,10 @@ const ListItems = ({ items, suppliers, locations }) => {
     return 0
   })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
-  const handleEdit = useCallback(id => toggle({ variables: { itemId: id } }), [
-    toggle
-  ])
+  const handleToggleEdit = useCallback(
+    id => toggle({ variables: { itemId: id } }),
+    [toggle]
+  )
   const { data: orderDates } = useQuery(ORDER_DATES, {
     variables: { orderDepth: 3 }
   })
@@ -68,29 +69,37 @@ const ListItems = ({ items, suppliers, locations }) => {
         <thead>
           <tr>
             <th className='w-5 hidden md:table-cell' />
-            <th className='px-4 py-2 border-r border-l border-gray-700'>
+            <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Item
             </th>
-            <th className='px-4 py-2 border-r border-gray-700'>Build To</th>
+            <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              Build To
+            </th>
             {(orderDates && orderDates.orders[2] && (
-              <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
+              <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
               </th>
             )) || (
-              <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
+              <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 --/--
               </th>
             )}
             {(orderDates && orderDates.orders[1] && (
-              <th className='px-4 py-2 border-r border-gray-700'>
+              <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
               </th>
-            )) || <th className='px-4 py-2 border-r border-gray-700'>--/--</th>}
-            <th className='px-4 py-2 border-r border-gray-700'>Order</th>
-            <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
+            )) || (
+              <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+                --/--
+              </th>
+            )}
+            <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              Order
+            </th>
+            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Supplier
             </th>
-            <th className='hidden md:table-cell px-4 py-2 border-r border-gray-700'>
+            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Location
             </th>
           </tr>
@@ -104,7 +113,7 @@ const ListItems = ({ items, suppliers, locations }) => {
                   item={item}
                   suppliers={suppliers}
                   locations={locations}
-                  handleEdit={handleEdit}
+                  handleToggleEdit={handleToggleEdit}
                 />
               )
             } else {
@@ -112,7 +121,7 @@ const ListItems = ({ items, suppliers, locations }) => {
                 <TableItemRow
                   key={item.id}
                   item={item}
-                  handleEdit={handleEdit}
+                  handleToggleEdit={handleToggleEdit}
                 />
               )
             }

@@ -7,7 +7,7 @@ import ClipboardUp from './icons/ClipboardUp'
 const areEqual = (prevProps, nextProps) => {
   return prevProps.item === nextProps.item
 }
-const TableItemRow = React.memo(({ item, handleEdit }) => {
+const TableItemRow = React.memo(({ item, handleToggleEdit }) => {
   const [expanded, setExpanded] = useState(false)
   return (
     <>
@@ -38,7 +38,13 @@ const TableItemRow = React.memo(({ item, handleEdit }) => {
           {item.location}
         </td>
       </tr>
-      {expanded && <TableItemRowExpanded item={item} />}
+      {expanded && (
+        <TableItemRowExpanded
+          item={item}
+          handleToggleEdit={handleToggleEdit}
+          setExpanded={setExpanded}
+        />
+      )}
     </>
   )
 }, areEqual)

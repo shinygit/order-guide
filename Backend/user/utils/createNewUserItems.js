@@ -5,7 +5,7 @@ export const createUserStarterOrderAndItems = async (user, models) => {
     buildTo: 2,
     quanityOnHand: 1,
     unitPriceInPennies: 245,
-    isMarketPrice: false,
+    isMarketPrice: true,
     productNumber: '9u12012h',
     unitSize: '1 Gallon',
     quantityReceived: 0,

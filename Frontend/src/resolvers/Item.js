@@ -12,7 +12,7 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    toggleShowExpandedItemForm(id: ID!): Boolean!
+    toggleShowEditItemForm(id: ID!): Boolean!
     setItemFilter(filterType: String!, filterName: String!): Boolean!
   }
 `
@@ -24,7 +24,7 @@ export const resolvers = {
     }
   },
   Mutation: {
-    toggleShowExpandedItemForm: (_, { id }, { client }) => {
+    toggleShowEditItemForm: (_, { id }, { client }) => {
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 }
