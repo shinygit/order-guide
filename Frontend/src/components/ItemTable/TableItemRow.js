@@ -1,21 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import TableItemRowExpanded from './TableItemRowExpanded'
 import ClipboardDown from './icons/ClipboardDown'
 import ClipboardUp from './icons/ClipboardUp'
+import { useMutation } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
-const areEqual = (prevProps, nextProps) => {
-  return prevProps.item === nextProps.item
-}
-const TableItemRow = React.memo(({ item, handleToggleEdit }) => {
-  const [expanded, setExpanded] = useState(false)
+const TOGGLE_EXPANDED_ITEM = gql`
+  mutation toggleShowExpandedItem($itemId: ID!) {
+    toggleShowExpandedItem(id: $itemId) @client
+  }
+`
+
+const TableItemRow = ({ item, handleToggleEdit }) => {
+  const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
+  const handleToggleShowExpandedItem = id =>
+    toggleExpanded({ variables: { itemId: id } })
   return (
     <>
       <tr>
         <td className='hidden md:table-cell'>
-          <button onClick={() => setExpanded(!expanded)}>
-            {!expanded && <ClipboardDown />}
-            {expanded && <ClipboardUp />}
+          <button onClick={() => handleToggleShowExpandedItem(item.id)}>
+            {!item.isExpanded && <ClipboardDown />}
+            {item.isExpanded && <ClipboardUp />}
           </button>
         </td>
         <td className='border border-gray-700 text-center px-1'>
@@ -38,14 +45,10 @@ const TableItemRow = React.memo(({ item, handleToggleEdit }) => {
           {item.location}
         </td>
       </tr>
-      {expanded && (
-        <TableItemRowExpanded
-          item={item}
-          handleToggleEdit={handleToggleEdit}
-          setExpanded={setExpanded}
-        />
+      {item.isExpanded && (
+        <TableItemRowExpanded item={item} handleToggleEdit={handleToggleEdit} />
       )}
     </>
   )
-}, areEqual)
+}
 export default TableItemRow

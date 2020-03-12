@@ -186,7 +186,9 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         <th colSpan='2' className={tableCell}>
           Product Number
         </th>
-        <td className={tableCell}>{item.productNumber}</td>
+        <td colSpan='2' className={tableCell}>
+          {item.productNumber}
+        </td>
       </tr>
       <tr>
         <td>

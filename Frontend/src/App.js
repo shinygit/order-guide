@@ -64,7 +64,6 @@ const App = () => {
   const toggleNewItem = () => {
     setNewItemToggle(!newItemToggle)
   }
-
   return (
     <div className='flex-col bg-blue-100 p-3'>
       <NavBar />

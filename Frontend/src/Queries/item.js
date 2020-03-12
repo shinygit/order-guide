@@ -67,6 +67,7 @@ export const GET_LATEST_ORDER = gql`
         receivingNote
         previousOrders(count: 2)
         showEditForm @client
+        isExpanded @client
       }
     }
   }
