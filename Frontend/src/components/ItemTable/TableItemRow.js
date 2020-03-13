@@ -6,16 +6,11 @@ import ClipboardUp from './icons/ClipboardUp'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
-const TOGGLE_EXPANDED_ITEM = gql`
-  mutation toggleShowExpandedItem($itemId: ID!) {
-    toggleShowExpandedItem(id: $itemId) @client
-  }
-`
-
-const TableItemRow = ({ item, handleToggleEdit }) => {
-  const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
-  const handleToggleShowExpandedItem = id =>
-    toggleExpanded({ variables: { itemId: id } })
+const TableItemRow = ({
+  item,
+  handleToggleEdit,
+  handleToggleShowExpandedItem
+}) => {
   return (
     <>
       <tr>

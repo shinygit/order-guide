@@ -67,10 +67,10 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           location: editItemForm.location,
           productNumber: editItemForm.productNumber,
           unitSize: editItemForm.unitSize,
-          unitPriceInPennies: editItemForm.unitPriceInPennies,
+          unitPriceInPennies: parseInt(editItemForm.unitPriceInPennies),
           isMarketPrice: !!editItemForm.isMarketPrice,
-          quantityOnHand: editItemForm.quantityOnHand,
-          quantityReceived: editItemForm.quantityReceived,
+          quantityOnHand: parseInt(editItemForm.quantityOnHand),
+          quantityReceived: parseInt(editItemForm.quantityReceived),
           itemNote: editItemForm.itemNote,
           specialNote: editItemForm.specialNote,
           receivingNote: editItemForm.receivingNote
@@ -105,16 +105,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
   return (
     <>
       <tr>
-        <td>
-          <button
-            onClick={() => {
-              handleToggleEdit(item.id)
-            }}
-          >
-            <ClipboardUp />
-          </button>
-        </td>
-        <td className='border border-gray-700 text-center px-1'>
+        <td />
+        <td className={tableCell}>
           <input
             className='w-32 bg-gray-200'
             type='text'
@@ -123,25 +115,21 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             onChange={handleChangeinput}
           />
         </td>
-        <td className='border border-gray-700 text-center'>
+        <td className={tableCell}>
           <input
-            className='w-16 bg-gray-200'
+            className='w-12 bg-gray-200'
             type='number'
             name='buildTo'
             value={editItemForm.buildTo}
             onChange={handleChangeinput}
           />
         </td>
-        <td className='border border-gray-700 text-center'>
-          {item.previousOrders[1]}
-        </td>
-        <td className='border border-gray-700 text-center'>
-          {item.previousOrders[0]}
-        </td>
-        <td className='border border-gray-700 text-center'>
+        <td className={tableCell}>{item.previousOrders[1]}</td>
+        <td className={tableCell}>{item.previousOrders[0]}</td>
+        <td className={tableCell}>
           <ChangeOrderAmount id={item.id} orderAmount={item.orderAmount} />
         </td>
-        <td className='border border-gray-700 text-center'>
+        <td className={tableCell}>
           <input
             className='w-32 bg-gray-200'
             type='text'
@@ -156,7 +144,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             ))}
           </datalist>
         </td>
-        <td className='border border-gray-700 text-center'>
+        <td className={tableCell}>
           <input
             className='w-32 bg-gray-200'
             type='text'
@@ -180,7 +168,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
               handleToggleEdit(item.id)
             }}
           >
-            Cancel
+            Canc
           </button>
         </td>
         <th colSpan='2' className={tableCell}>

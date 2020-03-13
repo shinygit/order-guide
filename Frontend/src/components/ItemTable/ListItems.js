@@ -13,6 +13,12 @@ const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
   }
 `
 
+const TOGGLE_EXPANDED_ITEM = gql`
+  mutation toggleShowExpandedItem($itemId: ID!) {
+    toggleShowExpandedItem(id: $itemId) @client
+  }
+`
+
 const ListItems = ({ items, suppliers, locations }) => {
   const { data } = useQuery(FILTER_QUERY)
   const { searchTerm, filterName, filterType } = data.filter
@@ -46,7 +52,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     if (Object.values(item).includes(filterType && filterName)) return true
     return false
   })
-  const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
+  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
     if (a.supplier > b.supplier) return 1
     if (a.supplier < b.supplier) return -1
     if (a.location > b.location) return 1
@@ -63,6 +69,11 @@ const ListItems = ({ items, suppliers, locations }) => {
   const { data: orderDates } = useQuery(ORDER_DATES, {
     variables: { orderDepth: 3 }
   })
+
+  const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
+  const handleToggleShowExpandedItem = id =>
+    toggleExpanded({ variables: { itemId: id } })
+
   return (
     <div className='rounded border border-gray-700 bg-yellow-100 shadow-inner p-2'>
       <table className='table-fixed m-auto text-lg'>
@@ -122,6 +133,7 @@ const ListItems = ({ items, suppliers, locations }) => {
                   key={item.id}
                   item={item}
                   handleToggleEdit={handleToggleEdit}
+                  handleToggleShowExpandedItem={handleToggleShowExpandedItem}
                 />
               )
             }
