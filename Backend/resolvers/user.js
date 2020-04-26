@@ -19,7 +19,7 @@ export default {
       return null
     }
   },
-  RegisterResults: {
+  /*   RegisterResults: {
     __resolveType(parent, context, info) {
       console.log(parent)
       if (parent.emailError || parent.passwordError) {
@@ -32,7 +32,7 @@ export default {
 
       return null
     }
-  },
+  }, */
   Query: {
     users: async (parent, args, { models }) => {
       return await models.User.findAll()
@@ -51,18 +51,28 @@ export default {
   Mutation: {
     signUp: async (parent, { email, password }, { models, secret }) => {
       if (password.length < 8)
-        return { passwordError: 'Password must be at least 8 characters long' }
+        return {
+          __typename: 'RegisterErrors',
+          passwordError: 'Password must be at least 8 characters long'
+        }
       email = email.toLowerCase().trim()
       const userExists = await models.User.findOne({
         where: { email: email }
       })
       if (userExists)
-        return { emailError: 'An account with that email already exists.' }
+        return {
+          __typename: 'RegisterErrors',
+          emailError: 'An account with that email already exists.'
+        }
       const user = await models.User.create({
         email,
         password
       }).catch(e => console.log(e))
-      if (!user) return { emailError: 'There was a problem with your email.' }
+      if (!user)
+        return {
+          __typename: 'RegisterErrors',
+          emailError: 'There was a problem with your email.'
+        }
       if (user) await createUserStarterOrderAndItems(user, models)
       return { email: user.dataValues.email }
     },
@@ -78,7 +88,7 @@ export default {
       if (!isValid) {
         return { passwordError: 'Incorrect password.' }
       }
-      return { token: createToken(user, secret, '365d') }
+      return { token: createToken(user, secret, '3d') }
     }
   }
 

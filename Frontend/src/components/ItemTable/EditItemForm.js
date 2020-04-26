@@ -3,7 +3,11 @@ import ChangeOrderAmount from './ChangeOrderAmount'
 import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
-import ClipboardUp from './icons/ClipboardUp'
+
+const parseToEmptyString = value => {
+  if (value !== 0 && !value) return ''
+  return value
+}
 
 const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
   const [edit] = useMutation(EDIT_ITEM)
@@ -30,6 +34,12 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
     setEditItemForm({
       ...editItemForm,
       [event.target.name]: event.target.value
+    })
+  }
+  const handleToggleMarketPrice = () => {
+    setEditItemForm({
+      ...editItemForm,
+      isMarketPrice: !editItemForm.isMarketPrice
     })
   }
   const handleDelete = (id, itemName) => {
@@ -108,7 +118,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         <td />
         <td className={tableCell}>
           <input
-            className='w-32 bg-gray-200'
+            className={`${editInput} w-full`}
             type='text'
             name='itemName'
             value={editItemForm.itemName}
@@ -117,10 +127,10 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         </td>
         <td className={tableCell}>
           <input
-            className='w-12 bg-gray-200'
+            className={`${editInput} w-12`}
             type='number'
             name='buildTo'
-            value={editItemForm.buildTo}
+            value={parseToEmptyString(editItemForm.buildTo)}
             onChange={handleChangeinput}
           />
         </td>
@@ -131,11 +141,11 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         </td>
         <td className={tableCell}>
           <input
-            className='w-32 bg-gray-200'
+            className={`${editInput} w-full`}
             type='text'
             name='supplier'
             list='suppliersList'
-            value={editItemForm.supplier}
+            value={parseToEmptyString(editItemForm.supplier)}
             onChange={handleChangeinput}
           />
           <datalist id='suppliersList'>
@@ -146,11 +156,11 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         </td>
         <td className={tableCell}>
           <input
-            className='w-32 bg-gray-200'
+            className={`${editInput} w-full`}
             type='text'
             name='location'
             list='locationsList'
-            value={editItemForm.location}
+            value={parseToEmptyString(editItemForm.location)}
             onChange={handleChangeinput}
           />
           <datalist id='locationsList'>
@@ -175,7 +185,13 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           Product Number
         </th>
         <td colSpan='2' className={tableCell}>
-          {item.productNumber}
+          <input
+            className={`${editInput} w-full`}
+            type='text'
+            name='productNumber'
+            value={parseToEmptyString(editItemForm.productNumber)}
+            onChange={handleChangeinput}
+          />
         </td>
       </tr>
       <tr>
@@ -185,7 +201,15 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         <th colSpan='2' className={tableCell}>
           Unit Size
         </th>
-        <td className={tableCell}>{item.unitSize}</td>
+        <td className={tableCell}>
+          <input
+            className={`${editInput} w-full`}
+            type='text'
+            name='unitSize'
+            value={parseToEmptyString(editItemForm.unitSize)}
+            onChange={handleChangeinput}
+          />
+        </td>
       </tr>
       <tr>
         <td />
@@ -193,29 +217,64 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           Price
         </th>
         <td className={tableCell}>
-          {(item.unitPriceInPennies / 100).toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD'
-          })}
+          $
+          <input
+            className={`${editInput} w-24`}
+            type='number'
+            name='unitPriceInPennies'
+            value={parseToEmptyString(editItemForm.unitPriceInPennies)}
+            onChange={handleChangeinput}
+          />
         </td>
         <th colSpan='2' className={tableCell}>
           Market Price?
         </th>
-        <td className={tableCell}>{(item.isMarketPrice && 'Yes') || 'No'}</td>
+        <td className={tableCell}>
+          <button
+            className={`${editInput} w-12`}
+            onClick={handleToggleMarketPrice}
+          >
+            {(editItemForm.isMarketPrice && 'Yes') || 'No'}
+          </button>
+        </td>
       </tr>
       <tr>
-        <td />
+        <td>
+          <button
+            onClick={() => {
+              handleDelete(item.id)
+            }}
+          >
+            Del
+          </button>
+        </td>
         <th colSpan='2' className={tableCell}>
           Quantity on hand
         </th>
-        <td className={tableCell}>{item.quantityOnHand}</td>
+        <td className={tableCell}>
+          <input
+            className={`${editInput} w-12`}
+            type='text'
+            name='quantityOnHand'
+            value={parseToEmptyString(editItemForm.quantityOnHand)}
+            onChange={handleChangeinput}
+          />
+        </td>
       </tr>
       <tr>
         <td />
         <th colSpan='2' className={tableCell}>
           Quantity Received
         </th>
-        <td className={tableCell}>{item.quantityReceived}</td>
+        <td className={tableCell}>
+          <input
+            className={`${editInput} w-12`}
+            type='text'
+            name='quantityReceived'
+            value={parseToEmptyString(editItemForm.quantityReceived)}
+            onChange={handleChangeinput}
+          />
+        </td>
       </tr>
       <tr>
         <td />
@@ -223,7 +282,12 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           Item Note
         </th>
         <td colSpan='5' className={tableCell}>
-          {item.itemNote}
+          <textarea
+            className={`${editInput} w-full`}
+            name='itemNote'
+            value={parseToEmptyString(editItemForm.itemNote)}
+            onChange={handleChangeinput}
+          />
         </td>
       </tr>
       <tr>
@@ -232,7 +296,12 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           Special Note
         </th>
         <td colSpan='5' className={tableCell}>
-          {item.specialNote}
+          <textarea
+            className={`${editInput} w-full`}
+            name='specialNote'
+            value={parseToEmptyString(editItemForm.specialNote)}
+            onChange={handleChangeinput}
+          />
         </td>
       </tr>
       <tr>
@@ -241,7 +310,12 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           Receiving Note
         </th>
         <td colSpan='5' className={tableCell}>
-          {item.receivingNote}
+          <textarea
+            className={`${editInput} w-full`}
+            name='receivingNote'
+            value={parseToEmptyString(editItemForm.receivingNote)}
+            onChange={handleChangeinput}
+          />
         </td>
       </tr>
       <tr>
@@ -253,6 +327,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
 export default EditItemForm
 
 const tableCell = 'border border-gray-700 text-center'
+const editInput = 'bg-gray-200 border border-gray-700'
 
 const whatIdontwantasinput =
   'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-2 mb-1 w-32'
