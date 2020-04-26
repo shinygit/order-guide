@@ -5,10 +5,20 @@ export const EDIT_ITEM = gql`
     updateItem(id: $id, input: $input) {
       id
       itemName
-      orderAmount
       supplier
       location
       buildTo
+      quantityOnHand
+      quantityReceived
+      orderAmount
+      itemId
+      unitPriceInPennies
+      isMarketPrice
+      productNumber
+      unitSize
+      itemNote
+      specialNote
+      receivingNote
       previousOrders(count: 2)
       showEditForm @client
     }

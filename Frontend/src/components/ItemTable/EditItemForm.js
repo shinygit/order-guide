@@ -242,7 +242,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         <td>
           <button
             onClick={() => {
-              handleDelete(item.id)
+              handleDelete(item.id, item.itemName)
             }}
           >
             Del
