@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks'
 const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
     update (client, { data: { createItem } }) {
+      console.log(createItem)
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 }

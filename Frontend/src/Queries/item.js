@@ -33,8 +33,19 @@ export const CREATE_ITEM = gql`
       supplier
       location
       buildTo
+      quantityOnHand
+      quantityReceived
+      orderAmount
+      unitPriceInPennies
+      isMarketPrice
+      productNumber
+      unitSize
+      itemNote
+      specialNote
+      receivingNote
       previousOrders(count: 2)
       showEditForm @client
+      isExpanded @client
     }
   }
 `

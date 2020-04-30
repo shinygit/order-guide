@@ -71,7 +71,14 @@ export default {
           buildTo: input.buildTo,
           locationId: input.location,
           supplierId: input.supplier,
-          orderId: order[0].id
+          orderId: order[0].id,
+          unitPriceInPennies: 0,
+          isMarketPrice: false,
+          productNumber: '',
+          unitSize: '',
+          itemNote: '',
+          specialNote: '',
+          receivingNote: ''
         })
         return item
       }
