@@ -88,7 +88,7 @@ export default {
       if (!isValid) {
         return { passwordError: 'Incorrect password.' }
       }
-      return { token: createToken(user, secret, '3d') }
+      return { token: createToken(user, secret, '365d') }
     }
   }
 

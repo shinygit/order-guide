@@ -21,7 +21,7 @@ if (module.hot) {
 }
 
 const httpLink = new HttpLink({
-  uri: `/graphql`
+  uri: '/graphql'
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -33,7 +33,6 @@ const authLink = setContext((_, { headers }) => {
     }
   }
 })
-
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) => {
@@ -42,6 +41,15 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
       )
       return null
     })
+  }
+  if (graphQLErrors) {
+    for (const err of graphQLErrors) {
+      switch (err.extensions.code) {
+        case 'UNAUTHENTICATED':
+          console.log('err')
+          localStorage.clear()
+      }
+    }
   }
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
