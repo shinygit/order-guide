@@ -50,7 +50,7 @@ const NavBar = () => {
     )
   } else {
     return (
-      <Link onClick={logOut} to='/login'>
+      <Link onClick={logOut()} to='/login'>
         Logout
       </Link>
     )
