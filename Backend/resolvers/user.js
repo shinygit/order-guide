@@ -19,7 +19,7 @@ export default {
       return null
     }
   },
-  /*   RegisterResults: {
+  RegisterResults: {
     __resolveType(parent, context, info) {
       console.log(parent)
       if (parent.emailError || parent.passwordError) {
@@ -32,7 +32,7 @@ export default {
 
       return null
     }
-  }, */
+  },
   Query: {
     users: async (parent, args, { models }) => {
       return await models.User.findAll()
