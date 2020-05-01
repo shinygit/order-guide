@@ -36,6 +36,14 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
       [event.target.name]: event.target.value
     })
   }
+
+  const handleChangePriceInput = event => {
+    setEditItemForm({
+      ...editItemForm,
+      unitPriceInPennies: event.target.value * 100
+    })
+  }
+
   const handleToggleMarketPrice = () => {
     setEditItemForm({
       ...editItemForm,
@@ -222,8 +230,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             className={`${editInput} w-24`}
             type='number'
             name='unitPriceInPennies'
-            value={parseToEmptyString(editItemForm.unitPriceInPennies)}
-            onChange={handleChangeinput}
+            value={parseToEmptyString(editItemForm.unitPriceInPennies) / 100}
+            onChange={handleChangePriceInput}
           />
         </td>
         <th colSpan='2' className={tableCell}>
