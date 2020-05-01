@@ -20,8 +20,8 @@ const NavBar = () => {
   }
   const { loading, error, data } = useQuery(GET_CURRENT_USER)
   if (loading) return 'Loading...'
-  if (error) return `Error! ${error.message}`
-  if (data && data.me && data.me.email) {
+  else if (error) return `Error! ${error.message}`
+  else if (data && data.me && data.me.email) {
     return (
       <div className='flex justify-between items-center py-3 bg-blue-800'>
         <div className='flex flex-row items-center'>
@@ -48,7 +48,13 @@ const NavBar = () => {
         </ul>
       </div>
     )
-  } else return null
+  } else {
+    return (
+      <Link onClick={logOut} to='/login'>
+        Logout
+      </Link>
+    )
+  }
 }
 
 export default NavBar
