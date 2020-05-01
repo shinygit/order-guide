@@ -79,7 +79,7 @@ const httpServer = http.createServer(app)
 server.installSubscriptionHandlers(httpServer)
 
 const isTest = !!process.env.TEST
-sequelize.sync({ force: isTest }).then(async () => {
+sequelize.sync({ force: isTest, alter: !isTest }).then(async () => {
   if (isTest) {
     createUsersWithTestOrders()
   }
