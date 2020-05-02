@@ -70,7 +70,6 @@ export const client = new ApolloClient({
 })
 
 const data = {
-  isLoggedIn: !!localStorage.getItem('token'),
   filter: {
     searchTerm: '',
     filterType: 'ALL',

@@ -3,10 +3,6 @@ import { GET_LATEST_ORDER } from '../Queries/item'
 import produce from 'immer'
 
 export const typeDefs = gql`
-  extend type Query {
-    isLoggedIn: Boolean!
-  }
-
   extend type Item {
     showEditForm: Boolean!
     isExpanded: Boolean!

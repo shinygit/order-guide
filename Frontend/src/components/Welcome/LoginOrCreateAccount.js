@@ -6,22 +6,17 @@ import Login from '../User/Login'
 import Register from '../User/Register'
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
 
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`
 export default function IsLoggedIn () {
   const history = useHistory()
-  const { data } = useQuery(IS_LOGGED_IN)
+  const token = localStorage.getItem('token')
   if (
-    !data.isLoggedIn &&
+    !token &&
     history.location.pathname !== '/login' &&
     history.location.pathname !== '/register'
   ) {
     return <Redirect to='/login' />
   }
-  if (data.isLoggedIn && history.location.pathname !== '/') {
+  if (token && history.location.pathname !== '/') {
     return <Redirect to='/' />
   }
   return (

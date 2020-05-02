@@ -38,11 +38,6 @@ const Login = () => {
       localStorage.setItem('token', token)
       localStorage.setItem('id', jwt_decode(token).id)
       localStorage.setItem('email', jwt_decode(token).email)
-      client.writeData({
-        data: {
-          isLoggedIn: true
-        }
-      })
       history.push('/')
     } else {
       setLoginError(result.data.signIn)
