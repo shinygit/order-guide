@@ -76,6 +76,7 @@ const App = () => {
         />
       )}
       <FilterMenu
+        items={items}
         suppliers={suppliers}
         locations={locations}
         toggleNewItem={toggleNewItem}

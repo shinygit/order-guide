@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
 
-const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
+const FilterMenu = ({ suppliers, locations, toggleNewItem, items }) => {
   const client = useApolloClient()
+
+  const uncheckedCount = items.reduce(
+    (acc, item) => (item.orderAmount === null ? ++acc : acc),
+    0
+  )
   const [activeFilterbuttonClass, setActiveFilterbuttonClass] = useState(
     'all-filter-button'
   )
@@ -83,7 +88,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem }) => {
           key='UNCHECKED'
           onClick={() => handleShowUnchecked()}
         >
-          Unchecked
+          Unchecked({uncheckedCount})
         </button>
         <button
           className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
