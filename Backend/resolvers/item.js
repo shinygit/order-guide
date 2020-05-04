@@ -150,6 +150,8 @@ export default {
           unitPriceInPennies: input.unitPriceInPennies,
           isMarketPrice: input.isMarketPrice,
           productNumber: input.productNumber,
+          quantityOnHand: input.quantityOnHand,
+          quantityReceived: input.quantityReceived,
           unitSize: input.unitSize,
           itemNote: input.itemNote,
           specialNote: input.specialNote,
