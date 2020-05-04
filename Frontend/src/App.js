@@ -80,6 +80,7 @@ const App = () => {
         suppliers={suppliers}
         locations={locations}
         toggleNewItem={toggleNewItem}
+        newItemToggle={newItemToggle}
       />
       <SearchForm />
       {loading ? (

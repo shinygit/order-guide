@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
 
-const FilterMenu = ({ suppliers, locations, toggleNewItem, items }) => {
+const FilterMenu = ({
+  suppliers,
+  locations,
+  toggleNewItem,
+  newItemToggle,
+  items
+}) => {
   const client = useApolloClient()
 
   const uncheckedCount = items.reduce(
@@ -94,7 +100,7 @@ const FilterMenu = ({ suppliers, locations, toggleNewItem, items }) => {
           className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
           onClick={() => toggleNewItem()}
         >
-          New Item
+          {newItemToggle ? 'Cancel' : 'New Item'}
         </button>
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
