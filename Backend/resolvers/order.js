@@ -88,6 +88,7 @@ export default {
           return {
             ...item,
             orderAmount: null,
+            specialNote: null,
             orderId: newOrder.id
           }
         })
