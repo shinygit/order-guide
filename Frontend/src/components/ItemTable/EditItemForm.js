@@ -142,6 +142,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             onChange={handleChangeinput}
           />
         </td>
+        <td className={tableCell}>{item.unitSize}</td>
         <td className={tableCell}>{item.previousOrders[1]}</td>
         <td className={tableCell}>{item.previousOrders[0]}</td>
         <td className={tableCell}>
