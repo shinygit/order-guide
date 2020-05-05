@@ -25,6 +25,9 @@ const TableItemRow = ({
         </td>
         <td className='border border-gray-700 text-center'>{item.buildTo}</td>
         <td className='hidden md:table-cell border border-gray-700 text-center'>
+          {item.unitSize}
+        </td>
+        <td className='hidden md:table-cell border border-gray-700 text-center'>
           {item.previousOrders[1]}
         </td>
         <td className='border border-gray-700 text-center'>

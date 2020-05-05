@@ -86,6 +86,9 @@ const ListItems = ({ items, suppliers, locations }) => {
             <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Build To
             </th>
+            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              Size
+            </th>
             {(orderDates && orderDates.orders[2] && (
               <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
