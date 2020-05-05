@@ -16,7 +16,7 @@ const TableItemRow = ({
       <tr>
         <td className='hidden md:table-cell'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
-            {!item.isExpanded && <ClipboardDown />}
+            {!item.isExpanded && <ClipboardDown bold={item.specialNote} />}
             {item.isExpanded && <ClipboardUp />}
           </button>
         </td>
