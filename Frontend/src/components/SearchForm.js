@@ -26,7 +26,7 @@ const SearchForm = () => {
         id='searchField'
         className='bg-white focus:outline-none
         focus:shadow-outline border border-gray-300
-         rounded-lg py-2 px-4 block w-full mb-1'
+         rounded-lg py-2 px-4 block w-full lg:w-1/2 mb-1'
         type='text'
         placeholder='Search...'
         value={searchTerm}
