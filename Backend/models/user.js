@@ -27,7 +27,7 @@ const user = (sequelize, DataTypes) => {
   })
 
   User.prototype.generatePasswordHash = async function() {
-    const saltRounds = 10
+    const saltRounds = 12
     return await bcrypt.hash(this.password, saltRounds)
   }
   User.prototype.validatePassword = async function(password) {
