@@ -8,16 +8,23 @@ const getDatabase = () => {
     return process.env.DATABASE_URI
   }
 }
-const sequelize = new Sequelize(getDatabase())
+const sequelize = new Sequelize(getDatabase(), {
+  pool: {
+    max: 1,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+})
 const models = {
   User: sequelize.import('./user'),
   Item: sequelize.import('./item'),
   Location: sequelize.import('./location'),
   Supplier: sequelize.import('./supplier'),
-  Order: sequelize.import('./order')
+  Order: sequelize.import('./order'),
 }
 
-Object.keys(models).forEach(key => {
+Object.keys(models).forEach((key) => {
   if ('associate' in models[key]) {
     models[key].associate(models)
   }
