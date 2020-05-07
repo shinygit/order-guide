@@ -3,7 +3,8 @@ import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import Fuse from 'fuse.js'
+import fuzzysort from 'fuzzysort'
+
 import { ORDER_DATES } from '../../Queries/order'
 import { FILTER_QUERY } from '../../Queries/filter'
 
@@ -25,7 +26,7 @@ const ListItems = ({ items, suppliers, locations }) => {
 
   const uncheckedItems = useRef([])
   if (filterType === 'UNCHECKED') {
-    items.map(item => {
+    items.map((item) => {
       if (item.orderAmount === null) uncheckedItems.current.push(item)
       return null
     })
@@ -34,17 +35,16 @@ const ListItems = ({ items, suppliers, locations }) => {
     uncheckedItems.current = []
   }
 
-  const fuse = new Fuse(items, { keys: ['itemName'] })
-  const fuseResults = fuse.search(searchTerm)
+  const searchResults = fuzzysort.go(searchTerm, items, { key: 'itemName' })
 
-  const filteredItems = items.filter(item => {
+  const filteredItems = items.filter((item) => {
     if (searchTerm !== '') {
-      return fuseResults.includes(item)
+      return searchResults.includes(item)
     }
     if (filterName === 'ALL' && filterType === 'ALL') return true
     if (
       filterType === 'UNCHECKED' &&
-      uncheckedItems.current.filter(e => e.id === item.id).length > 0
+      uncheckedItems.current.filter((e) => e.id === item.id).length > 0
     ) {
       return true
     }
@@ -63,7 +63,7 @@ const ListItems = ({ items, suppliers, locations }) => {
   })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleToggleEdit = useCallback(
-    id => toggle({ variables: { itemId: id } }),
+    (id) => toggle({ variables: { itemId: id } }),
     [toggle]
   )
   const { data: orderDates } = useQuery(ORDER_DATES, {
@@ -71,7 +71,7 @@ const ListItems = ({ items, suppliers, locations }) => {
   })
 
   const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
-  const handleToggleShowExpandedItem = id =>
+  const handleToggleShowExpandedItem = (id) =>
     toggleExpanded({ variables: { itemId: id } })
 
   return (
@@ -119,7 +119,7 @@ const ListItems = ({ items, suppliers, locations }) => {
           </tr>
         </thead>
         <tbody>
-          {itemsToDisplay.map(item => {
+          {itemsToDisplay.map((item) => {
             if (item.showEditForm) {
               return (
                 <EditItemForm
