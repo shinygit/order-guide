@@ -13,7 +13,7 @@ import { GET_LATEST_ORDER } from './Queries/item'
 
 const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
-    variables: { orderDepth: 1 }
+    variables: { orderDepth: 1 },
   })
   const [items, setItems] = useState([])
   const [currentDate, setCurrentDate] = useState('')
@@ -33,7 +33,7 @@ const App = () => {
   }, [currentDate, refetch])
 
   const getCurrentSuppliers = useCallback(() => {
-    const currentSuppliers = [...new Set(items.map(item => item.supplier))]
+    const currentSuppliers = [...new Set(items.map((item) => item.supplier))]
     return currentSuppliers.sort()
   }, [items])
 
@@ -45,7 +45,7 @@ const App = () => {
 
   const getCurrentLocations = useCallback(() => {
     const currentLocations = []
-    items.forEach(item => {
+    items.forEach((item) => {
       if (currentLocations.includes(item.location)) {
       } else {
         currentLocations.push(item.location)
@@ -84,7 +84,7 @@ const App = () => {
       />
       <SearchForm />
       {loading ? (
-        <h1>Loading...</h1>
+        <h1 className='text-6xl'>Loading...</h1>
       ) : (
         <ListItems items={items} suppliers={suppliers} locations={locations} />
       )}
