@@ -12,11 +12,11 @@ export default {
           limit: orderDepth,
           order: [['orderDate', 'desc']],
           where: {
-            userId: me.id
-          }
+            userId: me.id,
+          },
         })
       }
-    )
+    ),
   },
   Mutation: {
     deleteOrder: combineResolvers(
@@ -27,19 +27,19 @@ export default {
           order: [['orderDate', 'desc']],
           limit: 2,
           where: { userId: me.id },
-          raw: true
+          raw: true,
         })
         const hasItems = await models.Item.findAll({
           where: { orderId: currentOrder[0].id },
-          raw: true
+          raw: true,
         })
         if (currentOrder.length > 1) safeToDelete = true
         if (hasItems.length === 0) safeToDelete = true
         if (!safeToDelete)
           throw new UserInputError('Last order still has items.')
         const count = await models.Order.destroy({
-          where: { orderDate: orderDate, userId: me.id }
-        }).error(x => {
+          where: { orderDate: orderDate, userId: me.id },
+        }).error((x) => {
           console.log(x)
           return false
         })
@@ -52,21 +52,21 @@ export default {
         let theyDeletedAllTheOrders = false
         const exists = await models.Order.findOne({
           where: { orderDate: orderDate, userId: me.id },
-          raw: true
+          raw: true,
         })
         if (exists) throw new UserInputError('Order date already exists.')
         const currentOrder = await models.Order.findAll({
           order: [['orderDate', 'desc']],
           limit: 1,
           where: { userId: me.id },
-          raw: true
+          raw: true,
         })
 
         if (!currentOrder[0]) {
           theyDeletedAllTheOrders = true
           const newOrder = await models.Order.create({
             orderDate: orderDate,
-            userId: me.id
+            userId: me.id,
           })
         }
         if (theyDeletedAllTheOrders) return true
@@ -77,25 +77,47 @@ export default {
         }
         const newOrder = await models.Order.create({
           orderDate: orderDate,
-          userId: me.id
+          userId: me.id,
         })
         const items = await models.Item.findAll({
           where: { orderId: currentOrder[0].id },
-          raw: true
+          raw: true,
         })
-        const newOrderItems = items.map(item => {
-          delete item.id
-          return {
-            ...item,
-            orderAmount: null,
-            specialNote: null,
-            orderId: newOrder.id
+        const setSupplierIfMarketPrice = async (item) => {
+          if (item.isMarketPrice === false) {
+            return item.supplierId
           }
-        })
-        models.Item.bulkCreate(newOrderItems)
+          if (item.isMarketPrice === true) {
+            let marketPriceId = await models.Supplier.findOne({
+              where: { userId: me.id, supplierName: 'Market Price' },
+            })
+            if (!marketPriceId) {
+              const mp = await models.Supplier.create({
+                supplierName: 'Market Price',
+                userId: me.id,
+              })
+              marketPriceId = mp
+            }
+            return marketPriceId.id
+          }
+        }
+        const newOrderItems = Promise.all(
+          items.map(async (item) => {
+            delete item.id
+            return {
+              ...item,
+              orderAmount: null,
+              specialNote: null,
+              supplierId: await setSupplierIfMarketPrice(item),
+              orderId: newOrder.id,
+            }
+          })
+        )
+        console.log(await newOrderItems)
+        models.Item.bulkCreate(await newOrderItems)
         return true
       }
-    )
+    ),
   },
 
   Order: {
@@ -105,9 +127,9 @@ export default {
     items: async (order, args, { models }) => {
       return await models.Item.findAll({
         where: {
-          orderId: order.id
-        }
+          orderId: order.id,
+        },
       })
-    }
-  }
+    },
+  },
 }

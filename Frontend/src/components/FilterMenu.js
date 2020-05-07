@@ -14,10 +14,15 @@ const FilterMenu = ({
     (acc, item) => (item.orderAmount === null ? ++acc : acc),
     0
   )
+  const marketPriceCount = items.reduce(
+    (acc, item) => (item.supplier === 'Market Price' ? ++acc : acc),
+    0
+  )
+
   const [activeFilterbuttonClass, setActiveFilterbuttonClass] = useState(
     'all-filter-button'
   )
-  const handleShowSupplier = supplier => {
+  const handleShowSupplier = (supplier) => {
     setActiveFilterbuttonClass(`${supplier}-filter-button`)
     client.writeData({
       data: {
@@ -56,7 +61,7 @@ const FilterMenu = ({
       }
     })
   }
-  const handleShowLocation = location => {
+  const handleShowLocation = (location) => {
     setActiveFilterbuttonClass(`${location}-filter-button`)
     client.writeData({
       data: {
@@ -96,6 +101,20 @@ const FilterMenu = ({
         >
           Unchecked({uncheckedCount})
         </button>
+
+        <button
+          className={`w-auto p-4 mx-1 border border-gray-900 rounded
+              ${
+                activeFilterbuttonClass === `${'Market Price'}-filter-button`
+                  ? 'bg-gray-600 text-gray-200'
+                  : 'bg-gray-400'
+          }`}
+          key='Market Price'
+          onClick={() => handleShowSupplier('Market Price')}
+        >
+          {`${'Market Price'}(${marketPriceCount})`}
+        </button>
+
         <button
           className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
           onClick={() => toggleNewItem()}
@@ -104,23 +123,27 @@ const FilterMenu = ({
         </button>
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
-        {suppliers.map(supplier => (
-          <button
-            className={`w-auto p-4 mx-1 border border-gray-900 rounded
+        {suppliers.map((supplier) => {
+          if (supplier !== 'Market Price') {
+            return (
+              <button
+                className={`w-auto p-4 mx-1 border border-gray-900 rounded
               ${
                 activeFilterbuttonClass === `${supplier}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-            }`}
-            key={supplier}
-            onClick={() => handleShowSupplier(supplier)}
-          >
-            {supplier}
-          </button>
-        ))}
+                }`}
+                key={supplier}
+                onClick={() => handleShowSupplier(supplier)}
+              >
+                {supplier}
+              </button>
+            )
+          }
+        })}
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
-        {locations.map(location => (
+        {locations.map((location) => (
           <button
             className={`w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
