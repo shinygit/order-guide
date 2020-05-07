@@ -3,6 +3,7 @@ import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
+import Fuse from 'fuse.js'
 import fuzzysort from 'fuzzysort'
 
 import { ORDER_DATES } from '../../Queries/order'
@@ -35,11 +36,13 @@ const ListItems = ({ items, suppliers, locations }) => {
     uncheckedItems.current = []
   }
 
+  const fuse = new Fuse(items, { keys: ['itemName'] })
+  const fuseResults = fuse.search(searchTerm)
   const searchResults = fuzzysort.go(searchTerm, items, { key: 'itemName' })
 
   const filteredItems = items.filter((item) => {
     if (searchTerm !== '') {
-      return searchResults.includes(item)
+      return searchResults.map((x, i) => searchResults[i].obj).includes(item)
     }
     if (filterName === 'ALL' && filterType === 'ALL') return true
     if (
