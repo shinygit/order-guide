@@ -4,12 +4,18 @@ const order = (sequelize, DataTypes) => {
     {
       orderDate: {
         type: DataTypes.DATEONLY,
-        validate: { notEmpty: true, isDate: true }
-      }
+        allowNull: false,
+        validate: { notEmpty: true, isDate: true },
+      },
+      isLocked: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+      },
     },
     { timestamps: false }
   )
-  Order.associate = models => {
+  Order.associate = (models) => {
     Order.hasMany(models.Item)
     Order.belongsTo(models.User)
   }
