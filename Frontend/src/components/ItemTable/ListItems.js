@@ -3,7 +3,6 @@ import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import Fuse from 'fuse.js'
 import fuzzysort from 'fuzzysort'
 
 import { ORDER_DATES } from '../../Queries/order'
@@ -36,8 +35,6 @@ const ListItems = ({ items, suppliers, locations }) => {
     uncheckedItems.current = []
   }
 
-  const fuse = new Fuse(items, { keys: ['itemName'] })
-  const fuseResults = fuse.search(searchTerm)
   const searchResults = fuzzysort.go(searchTerm, items, { key: 'itemName' })
 
   const filteredItems = items.filter((item) => {
@@ -55,7 +52,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     if (Object.values(item).includes(filterType && filterName)) return true
     return false
   })
-  const itemsToDisplay = filteredItems.slice().sort(function(a, b) {
+  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
     if (a.supplier > b.supplier) return 1
     if (a.supplier < b.supplier) return -1
     if (a.location > b.location) return 1
@@ -70,7 +67,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     [toggle]
   )
   const { data: orderDates } = useQuery(ORDER_DATES, {
-    variables: { orderDepth: 3 },
+    variables: { orderDepth: 3 }
   })
 
   const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
