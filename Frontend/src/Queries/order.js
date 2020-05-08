@@ -12,6 +12,8 @@ export const DELETE_ORDER_DATE = gql`
 export const ORDER_DATES = gql`
   query orderDates($orderDepth: Int!) {
     orders(orderDepth: $orderDepth) {
+      id
+      isLocked
       orderDate
     }
   }

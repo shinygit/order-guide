@@ -19,6 +19,18 @@ export default {
     ),
   },
   Mutation: {
+    toggleOrderLock: combineResolvers(
+      isAuthenticated,
+      async (parent, { orderDate }, { me, models }) => {
+        const currentOrder = await models.Order.findOne({
+          where: { orderDate: orderDate, userId: me.id },
+        })
+        currentOrder.isLocked = !currentOrder.isLocked
+        await currentOrder.save()
+        return currentOrder
+      }
+    ),
+
     deleteOrder: combineResolvers(
       isAuthenticated,
       async (parent, { orderDate }, { me, models }) => {

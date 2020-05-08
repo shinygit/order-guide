@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import moment from 'moment'
-
+import OrderLock from './OrderLock/OrderLock.js'
 import { useMutation } from '@apollo/react-hooks'
 import { CREATE_NEW_ORDER_DATE, DELETE_ORDER_DATE } from '../Queries/order'
 
@@ -12,15 +12,15 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [deleteErrorMessage, setDeleteErrorMessage] = useState('')
 
-  const handleChangeInput = event => {
+  const handleChangeInput = (event) => {
     setOrderDateForm(event.target.value)
   }
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     try {
       await createNewOrder({
         variables: { orderDate: orderDateForm },
-        refetchQueries: ['orderDates']
+        refetchQueries: ['orderDates'],
       })
       setCurrentDate('0000-00-00')
       setOrderDateForm('')
@@ -34,7 +34,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
       try {
         await deleteOrder({
           variables: { orderDate: currentDate },
-          refetchQueries: ['orderDates']
+          refetchQueries: ['orderDates'],
         })
         setDeleteConfirmCount(0)
         setCurrentDate('')
@@ -82,6 +82,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
           Create new order
         </button>
       </form>
+      <OrderLock />
       <div className='flex flex-col'>
         <span className='font-semibold text-2xl'>
           Current order date: {moment.utc(currentDate).format('L')}

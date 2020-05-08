@@ -68,6 +68,7 @@ export const UPDATE_ITEM_ORDER_AMOUNT = gql`
 export const GET_LATEST_ORDER = gql`
   query Orders($orderDepth: Int!) {
     orders(orderDepth: $orderDepth) {
+      id
       orderDate
       items {
         id
