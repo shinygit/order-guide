@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import jwt_decode from 'jwt-decode'
-import { client } from '../..'
 
 const LOGIN = gql`
   mutation signIn($login: String!, $password: String!) {
@@ -25,11 +24,11 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState({})
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const result = await login({
-      variables: { login: email, password: password }
-    }).catch(e => {
+      variables: { login: email, password: password },
+    }).catch((e) => {
       console.log(e)
     })
 

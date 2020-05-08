@@ -17,12 +17,11 @@ const TOGGLE_ORDER_LOCK = gql`
 
 const OrderLock = () => {
   const [toggleOrderLock] = useMutation(TOGGLE_ORDER_LOCK)
-  const { loading, error, data } = useQuery(ORDER_DATES, {
+  const { data } = useQuery(ORDER_DATES, {
     variables: {
       orderDepth: 1,
     },
   })
-  if (data) console.log(data.orders[0].orderDate)
   const handleToggleOrderLock = () => {
     if (data) {
       if (data.orders[0].isLocked) {

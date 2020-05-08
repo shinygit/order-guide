@@ -6,7 +6,7 @@ const FilterMenu = ({
   locations,
   toggleNewItem,
   newItemToggle,
-  items
+  items,
 }) => {
   const client = useApolloClient()
 
@@ -30,9 +30,9 @@ const FilterMenu = ({
           searchTerm: '',
           filterType: 'supplier',
           filterName: supplier,
-          __typename: 'Filter'
-        }
-      }
+          __typename: 'Filter',
+        },
+      },
     })
   }
   const handleShowAll = () => {
@@ -43,9 +43,9 @@ const FilterMenu = ({
           searchTerm: '',
           filterType: 'ALL',
           filterName: 'ALL',
-          __typename: 'Filter'
-        }
-      }
+          __typename: 'Filter',
+        },
+      },
     })
   }
   const handleShowUnchecked = () => {
@@ -56,9 +56,9 @@ const FilterMenu = ({
           searchTerm: '',
           filterType: 'UNCHECKED',
           filterName: 'UNCHECKED',
-          __typename: 'Filter'
-        }
-      }
+          __typename: 'Filter',
+        },
+      },
     })
   }
   const handleShowLocation = (location) => {
@@ -69,9 +69,9 @@ const FilterMenu = ({
           searchTerm: '',
           filterType: 'location',
           filterName: location,
-          __typename: 'Filter'
-        }
-      }
+          __typename: 'Filter',
+        },
+      },
     })
   }
   return (
@@ -91,7 +91,7 @@ const FilterMenu = ({
                 activeFilterbuttonClass === 'all-filter-button'
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-          }`}
+              }`}
           key='ALL'
           onClick={() => handleShowAll()}
         >
@@ -103,7 +103,7 @@ const FilterMenu = ({
                 activeFilterbuttonClass === 'unchecked-filter-button'
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-          }`}
+              }`}
           key='UNCHECKED'
           onClick={() => handleShowUnchecked()}
         >
@@ -116,7 +116,7 @@ const FilterMenu = ({
                 activeFilterbuttonClass === `${'Market Price'}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-          }`}
+              }`}
           key='Market Price'
           onClick={() => handleShowSupplier('Market Price')}
         >
@@ -133,14 +133,14 @@ const FilterMenu = ({
                 activeFilterbuttonClass === `${supplier}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-                }`}
+              }`}
                 key={supplier}
                 onClick={() => handleShowSupplier(supplier)}
               >
                 {supplier}
               </button>
             )
-          }
+          } else return null
         })}
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
@@ -151,7 +151,7 @@ const FilterMenu = ({
                 activeFilterbuttonClass === `${location}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
                   : 'bg-gray-400'
-            }`}
+              }`}
             key={location}
             onClick={() => handleShowLocation(location)}
           >

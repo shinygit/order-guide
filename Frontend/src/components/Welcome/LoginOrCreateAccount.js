@@ -1,12 +1,10 @@
 import React from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import App from '../../App'
 import Login from '../User/Login'
 import Register from '../User/Register'
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
 
-export default function IsLoggedIn () {
+export default function IsLoggedIn() {
   const history = useHistory()
   const token = localStorage.getItem('token')
   if (

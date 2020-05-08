@@ -6,7 +6,7 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import {
   InMemoryCache,
-  IntrospectionFragmentMatcher
+  IntrospectionFragmentMatcher,
 } from 'apollo-cache-inmemory'
 import { resolvers, typeDefs } from './resolvers/Item.js'
 import LoginOrCreateAccount from './components/Welcome/LoginOrCreateAccount'
@@ -21,7 +21,7 @@ if (module.hot) {
 }
 
 const httpLink = new HttpLink({
-  uri: '/graphql'
+  uri: '/graphql',
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -29,8 +29,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      'x-token': token ? `${token}` : ''
-    }
+      'x-token': token ? `${token}` : '',
+    },
   }
 })
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
@@ -46,8 +46,9 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
     for (const err of graphQLErrors) {
       switch (err.extensions.code) {
         case 'UNAUTHENTICATED':
-          console.log('err')
           localStorage.clear()
+          break
+        default:
       }
     }
   }
@@ -56,9 +57,9 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: {
     __schema: {
-      types: [] // no types provided
-    }
-  }
+      types: [], // no types provided
+    },
+  },
 })
 const Link = ApolloLink.from([onErrorLink, authLink, httpLink])
 const cache = new InMemoryCache({ fragmentMatcher, freezeResults: true })
@@ -66,7 +67,7 @@ export const client = new ApolloClient({
   link: Link,
   cache,
   typeDefs,
-  resolvers
+  resolvers,
 })
 
 const data = {
@@ -74,8 +75,8 @@ const data = {
     searchTerm: '',
     filterType: 'ALL',
     filterName: 'ALL',
-    __typename: 'Filter'
-  }
+    __typename: 'Filter',
+  },
 }
 cache.writeData({ data })
 

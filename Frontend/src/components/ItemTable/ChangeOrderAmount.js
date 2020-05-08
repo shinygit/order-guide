@@ -4,7 +4,7 @@ import { UPDATE_ITEM_ORDER_AMOUNT } from '../../Queries/item'
 import { ORDER_DATES } from '../../Queries/order'
 
 const ChangeOrderAmount = ({ id, orderAmount }) => {
-  const { loading, error, data } = useQuery(ORDER_DATES, {
+  const { data } = useQuery(ORDER_DATES, {
     variables: {
       orderDepth: 1,
     },

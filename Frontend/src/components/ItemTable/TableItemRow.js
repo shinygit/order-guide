@@ -3,8 +3,6 @@ import ChangeOrderAmount from './ChangeOrderAmount'
 import TableItemRowExpanded from './TableItemRowExpanded'
 import ClipboardDown from './icons/ClipboardDown'
 import ClipboardUp from './icons/ClipboardUp'
-import { useMutation } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 
 const TableItemRow = ({
   item,

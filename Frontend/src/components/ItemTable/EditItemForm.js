@@ -4,7 +4,7 @@ import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
 
-const parseToEmptyString = value => {
+const parseToEmptyString = (value) => {
   if (value !== 0 && !value) return ''
   return value
 }
@@ -28,48 +28,48 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
     itemNote: item.itemNote,
     specialNote: item.specialNote,
     receivingNote: item.receivingNote,
-    showEditForm: item.showEditForm
+    showEditForm: item.showEditForm,
   })
-  const handleChangeinput = event => {
+  const handleChangeinput = (event) => {
     setEditItemForm({
       ...editItemForm,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
-  const handleChangePriceInput = event => {
+  const handleChangePriceInput = (event) => {
     setEditItemForm({
       ...editItemForm,
-      unitPriceInPennies: event.target.value * 100
+      unitPriceInPennies: event.target.value * 100,
     })
   }
 
   const handleToggleMarketPrice = () => {
     setEditItemForm({
       ...editItemForm,
-      isMarketPrice: !editItemForm.isMarketPrice
+      isMarketPrice: !editItemForm.isMarketPrice,
     })
   }
   const handleDelete = (id, itemName) => {
     if (window.confirm(`Are you sure you want to delete ${itemName}`)) {
       deleteItem({
         variables: { id: id },
-        update: client => {
+        update: (client) => {
           const previous = client.readQuery({
             query: GET_LATEST_ORDER,
-            variables: { orderDepth: 1 }
+            variables: { orderDepth: 1 },
           })
           const { items } = previous.orders[0]
-          const next = produce(previous, draft => {
-            draft.orders[0].items = items.filter(item => item.id !== id)
+          const next = produce(previous, (draft) => {
+            draft.orders[0].items = items.filter((item) => item.id !== id)
           })
 
           client.writeQuery({
             query: GET_LATEST_ORDER,
             variables: { orderDepth: 1 },
-            data: next
+            data: next,
           })
-        }
+        },
       })
     }
   }
@@ -91,9 +91,9 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           quantityReceived: parseInt(editItemForm.quantityReceived),
           itemNote: editItemForm.itemNote,
           specialNote: editItemForm.specialNote,
-          receivingNote: editItemForm.receivingNote
-        }
-      }
+          receivingNote: editItemForm.receivingNote,
+        },
+      },
     })
     handleToggleEdit(item.id)
   }
@@ -115,7 +115,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         itemNote: item.itemNote,
         specialNote: item.specialNote,
         receivingNote: item.receivingNote,
-        showEditForm: false
+        showEditForm: false,
       }),
     [item]
   )
@@ -158,7 +158,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             onChange={handleChangeinput}
           />
           <datalist id='suppliersList'>
-            {suppliers.map(item => (
+            {suppliers.map((item) => (
               <option key={item} value={item} />
             ))}
           </datalist>
@@ -173,7 +173,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             onChange={handleChangeinput}
           />
           <datalist id='locationsList'>
-            {locations.map(item => (
+            {locations.map((item) => (
               <option key={item} value={item} />
             ))}
           </datalist>
@@ -337,6 +337,3 @@ export default EditItemForm
 
 const tableCell = 'border border-gray-700 text-center'
 const editInput = 'bg-gray-200 border border-gray-700'
-
-const whatIdontwantasinput =
-  'bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-2 mb-1 w-32'
