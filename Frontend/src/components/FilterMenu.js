@@ -78,6 +78,14 @@ const FilterMenu = ({
     <>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         <button
+          className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
+          onClick={() => toggleNewItem()}
+        >
+          {newItemToggle ? 'Cancel' : 'New Item'}
+        </button>
+      </div>
+      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
+        <button
           className={`w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'all-filter-button'
@@ -113,13 +121,6 @@ const FilterMenu = ({
           onClick={() => handleShowSupplier('Market Price')}
         >
           {`${'Market Price'}(${marketPriceCount})`}
-        </button>
-
-        <button
-          className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
-          onClick={() => toggleNewItem()}
-        >
-          {newItemToggle ? 'Cancel' : 'New Item'}
         </button>
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
