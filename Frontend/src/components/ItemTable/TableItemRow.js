@@ -9,7 +9,7 @@ import gql from 'graphql-tag'
 const TableItemRow = ({
   item,
   handleToggleEdit,
-  handleToggleShowExpandedItem
+  handleToggleShowExpandedItem,
 }) => {
   return (
     <>
@@ -22,6 +22,9 @@ const TableItemRow = ({
         </td>
         <td className='border border-gray-700 text-center px-1'>
           {item.itemName}
+        </td>
+        <td className='hidden lg:table-cell border border-gray-700 text-center'>
+          {item.productNumber}
         </td>
         <td className='border border-gray-700 text-center'>{item.buildTo}</td>
         <td className='hidden md:table-cell border border-gray-700 text-center'>
