@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import moment from 'moment'
-import OrderLock from './OrderLock/OrderLock.js'
 import { useMutation } from '@apollo/react-hooks'
 import { CREATE_NEW_ORDER_DATE, DELETE_ORDER_DATE } from '../Queries/order'
 
@@ -82,8 +81,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
           Create new order
         </button>
       </form>
-      <OrderLock />
-      <div className='flex flex-col'>
+      <div className='flex flex-col justify-end'>
         <span className='font-semibold text-2xl'>
           Current order date: {moment.utc(currentDate).format('L')}
         </span>
