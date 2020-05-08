@@ -22,17 +22,20 @@ const OrderLock = () => {
       orderDepth: 1,
     },
   })
+  if (data) console.log(data.orders[0].orderDate)
   const handleToggleOrderLock = () => {
-    if (data?.orders[0].isLocked) {
-      if (window.confirm('Are you sure you wish to unlock this order?')) {
+    if (data) {
+      if (data.orders[0].isLocked) {
+        if (window.confirm('Are you sure you wish to unlock this order?')) {
+          toggleOrderLock({
+            variables: { orderDate: data.orders[0].orderDate },
+          })
+        }
+      } else {
         toggleOrderLock({
-          variables: { orderDate: data?.orders[0]?.orderDate },
+          variables: { orderDate: data.orders[0].orderDate },
         })
       }
-    } else {
-      toggleOrderLock({
-        variables: { orderDate: data?.orders[0]?.orderDate },
-      })
     }
   }
   return (

@@ -47,7 +47,6 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
       },
     })
   }
-  console.log(!data?.orders[0].isLocked)
   return (
     <div className='flex justify-around'>
       {!data?.orders[0].isLocked && (
