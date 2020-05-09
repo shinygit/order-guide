@@ -5,6 +5,7 @@ export const FILTER_QUERY = gql`
       searchTerm @client
       filterName @client
       filterType @client
+      hideAllZeroOrderAmount @client
     }
   }
 `

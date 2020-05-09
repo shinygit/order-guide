@@ -75,6 +75,7 @@ const data = {
     searchTerm: '',
     filterType: 'ALL',
     filterName: 'ALL',
+    hideAllZeroOrderAmount: false,
     __typename: 'Filter',
   },
 }

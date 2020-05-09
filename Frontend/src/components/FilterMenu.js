@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
 import OrderLock from './OrderLock/OrderLock.js'
+import OrderModeToggle from './OrderModeToggle/OrderModeToggle'
 
 const FilterMenu = ({
   suppliers,
@@ -79,6 +80,7 @@ const FilterMenu = ({
     <>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         <OrderLock />
+        <OrderModeToggle />
         <button
           className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
           onClick={() => toggleNewItem()}

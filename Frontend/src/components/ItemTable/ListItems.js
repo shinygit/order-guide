@@ -22,7 +22,12 @@ const TOGGLE_EXPANDED_ITEM = gql`
 
 const ListItems = ({ items, suppliers, locations }) => {
   const { data } = useQuery(FILTER_QUERY)
-  const { searchTerm, filterName, filterType } = data.filter
+  const {
+    searchTerm,
+    filterName,
+    filterType,
+    hideAllZeroOrderAmount,
+  } = data.filter
 
   const uncheckedItems = useRef([])
   if (filterType === 'UNCHECKED') {
@@ -52,22 +57,31 @@ const ListItems = ({ items, suppliers, locations }) => {
     if (Object.values(item).includes(filterType && filterName)) return true
     return false
   })
-  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
-    if (a.supplier > b.supplier) return 1
-    if (a.supplier < b.supplier) return -1
-    if (a.location > b.location) return 1
-    if (a.location < b.location) return -1
-    if (a.itemName > b.itemName) return 1
-    if (a.itemName < b.itemName) return -1
-    return 0
+  const hideAllZeroOrderAmountItems = filteredItems.filter((item) => {
+    if (hideAllZeroOrderAmount) {
+      if (item.orderAmount === 0) return false
+      return true
+    }
+    return true
   })
+  const itemsToDisplay = hideAllZeroOrderAmountItems
+    .slice()
+    .sort(function(a, b) {
+      if (a.supplier > b.supplier) return 1
+      if (a.supplier < b.supplier) return -1
+      if (a.location > b.location) return 1
+      if (a.location < b.location) return -1
+      if (a.itemName > b.itemName) return 1
+      if (a.itemName < b.itemName) return -1
+      return 0
+    })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleToggleEdit = useCallback(
     (id) => toggle({ variables: { itemId: id } }),
     [toggle]
   )
   const { data: orderDates } = useQuery(ORDER_DATES, {
-    variables: { orderDepth: 3 }
+    variables: { orderDepth: 3 },
   })
 
   const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
