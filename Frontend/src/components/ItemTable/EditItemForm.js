@@ -73,8 +73,9 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
       })
     }
   }
-
   const handleSubmit = () => {
+    if (!editItemForm.supplier.trim()) return
+    if (!editItemForm.location.trim()) return
     edit({
       variables: {
         id: editItemForm.id,
