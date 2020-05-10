@@ -60,8 +60,11 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
           </svg>
         </button>
       )}
-
-      <span className=''>{orderAmount}</span>
+      {data?.orders[0].isLocked ? (
+        <span className='font-black text-2xl'>{orderAmount}</span>
+      ) : (
+        <span className=''>{orderAmount}</span>
+      )}
       {!data?.orders[0].isLocked && (
         <button className='' onClick={() => handleIncrease()}>
           <svg
