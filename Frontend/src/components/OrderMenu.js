@@ -30,16 +30,22 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
   const [deleteConfirmCount, setDeleteConfirmCount] = useState(0)
   const deleteOrderDate = async () => {
     if (deleteConfirmCount === 3) {
-      try {
-        await deleteOrder({
-          variables: { orderDate: currentDate },
-          refetchQueries: ['orderDates'],
-        })
-        setDeleteConfirmCount(0)
-        setCurrentDate('')
-      } catch (error) {
-        setDeleteErrorMessage(error.message.split('GraphQL error: ')[1])
-        setDeleteConfirmCount(0)
+      if (
+        window.confirm(
+          'Are you sure you wish to delete this order? This is unrecoverable and you will lose any items you have added since your last order!'
+        )
+      ) {
+        try {
+          await deleteOrder({
+            variables: { orderDate: currentDate },
+            refetchQueries: ['orderDates'],
+          })
+          setDeleteConfirmCount(0)
+          setCurrentDate('')
+        } catch (error) {
+          setDeleteErrorMessage(error.message.split('GraphQL error: ')[1])
+          setDeleteConfirmCount(0)
+        }
       }
     } else {
       if (currentDate) {

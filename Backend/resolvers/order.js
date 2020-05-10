@@ -49,6 +49,8 @@ export default {
         if (hasItems.length === 0) safeToDelete = true
         if (!safeToDelete)
           throw new UserInputError('Last order still has items.')
+        if (hasItems.some((item) => item.orderAmount > 0))
+          throw new UserInputError('All items must be 0 or unchecked.')
         const count = await models.Order.destroy({
           where: { orderDate: orderDate, userId: me.id },
         }).error((x) => {
