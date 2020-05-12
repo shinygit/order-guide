@@ -87,7 +87,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
           Create new order
         </button>
       </form>
-      <div className='flex flex-col justify-end'>
+      <div className='flex flex-col'>
         <span className='font-semibold text-2xl'>
           Current order date: {moment.utc(currentDate).format('L')}
         </span>
