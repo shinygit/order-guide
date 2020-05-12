@@ -123,8 +123,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
 
   return (
     <>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <td className={tableCell}>
           <input
             className={`${editInput} w-full`}
@@ -134,6 +134,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             onChange={handleChangeinput}
           />
         </td>
+        <td className={tableCell}>{item.unitSize}</td>
+        <td />
         <td className={tableCell}>
           <input
             className={`${editInput} w-12`}
@@ -143,7 +145,6 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
             onChange={handleChangeinput}
           />
         </td>
-        <td className={tableCell}>{item.unitSize}</td>
         <td className={tableCell}>{item.previousOrders[1]}</td>
         <td className={tableCell}>{item.previousOrders[0]}</td>
         <td className={tableCell}>
@@ -181,8 +182,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         </td>
         <td />
       </tr>
-      <tr>
-        <td>
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100'>
           <button
             onClick={() => {
               handleToggleEdit(item.id)
@@ -204,8 +205,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           />
         </td>
       </tr>
-      <tr>
-        <td>
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100'>
           <button onClick={handleSubmit}>Save</button>
         </td>
         <th colSpan='2' className={tableCell}>
@@ -221,8 +222,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           />
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Price
         </th>
@@ -248,8 +249,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           </button>
         </td>
       </tr>
-      <tr>
-        <td>
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100'>
           <button
             onClick={() => {
               handleDelete(item.id, item.itemName)
@@ -271,8 +272,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           />
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Quantity Received
         </th>
@@ -286,8 +287,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           />
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Item Note
         </th>
@@ -300,8 +301,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           />
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Special Note
         </th>
@@ -314,8 +315,8 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
           />
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Receiving Note
         </th>

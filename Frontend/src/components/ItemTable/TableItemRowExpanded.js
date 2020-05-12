@@ -3,8 +3,8 @@ import React from 'react'
 const TableItemRowExpanded = ({ item, handleToggleEdit }) => {
   return (
     <>
-      <tr>
-        <td>
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100'>
           <button onClick={() => handleToggleEdit(item.id)}>Edit</button>
         </td>
         <th colSpan='2' className={tableCell}>
@@ -14,22 +14,22 @@ const TableItemRowExpanded = ({ item, handleToggleEdit }) => {
           {item.productNumber}
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Unit Size
         </th>
         <td className={tableCell}>{item.unitSize}</td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Price
         </th>
         <td className={tableCell}>
           {(item.unitPriceInPennies / 100).toLocaleString('en-US', {
             style: 'currency',
-            currency: 'USD'
+            currency: 'USD',
           })}
         </td>
         <th colSpan='2' className={tableCell}>
@@ -37,22 +37,22 @@ const TableItemRowExpanded = ({ item, handleToggleEdit }) => {
         </th>
         <td className={tableCell}>{(item.isMarketPrice && 'Yes') || 'No'}</td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Quantity on hand
         </th>
         <td className={tableCell}>{item.quantityOnHand}</td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Quantity Received
         </th>
         <td className={tableCell}>{item.quantityReceived}</td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Item Note
         </th>
@@ -60,8 +60,8 @@ const TableItemRowExpanded = ({ item, handleToggleEdit }) => {
           {item.itemNote}
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Special Note
         </th>
@@ -69,8 +69,8 @@ const TableItemRowExpanded = ({ item, handleToggleEdit }) => {
           {item.specialNote}
         </td>
       </tr>
-      <tr>
-        <td />
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Receiving Note
         </th>

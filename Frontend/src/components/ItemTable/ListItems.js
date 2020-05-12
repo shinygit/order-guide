@@ -90,21 +90,21 @@ const ListItems = ({ items, suppliers, locations }) => {
 
   return (
     <div className='rounded border border-gray-700 bg-yellow-100 shadow-inner p-2'>
-      <table className='table-fixed m-auto text-lg'>
+      <table className='table-auto m-auto text-lg lg:w-10/12'>
         <thead>
           <tr>
-            <th className='w-5 hidden md:table-cell' />
+            <th className='hidden md:table-cell' />
             <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Item
+            </th>
+            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              Size
             </th>
             <th className='hidden lg:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Product #
             </th>
             <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Build To
-            </th>
-            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
-              Size
             </th>
             {(orderDates && orderDates.orders[2] && (
               <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>

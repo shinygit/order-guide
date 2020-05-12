@@ -11,8 +11,8 @@ const TableItemRow = ({
 }) => {
   return (
     <>
-      <tr>
-        <td className='hidden md:table-cell'>
+      <tr className='odd:bg-gray-200 even:bg-white'>
+        <td className='hidden md:table-cell bg-yellow-100'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
             {!item.isExpanded && <ClipboardDown bold={item.specialNote} />}
             {item.isExpanded && <ClipboardUp />}
@@ -21,13 +21,13 @@ const TableItemRow = ({
         <td className='border border-gray-700 text-center px-1'>
           {item.itemName}
         </td>
+        <td className='hidden md:table-cell border border-gray-700 text-center'>
+          {item.unitSize}
+        </td>
         <td className='hidden lg:table-cell border border-gray-700 text-center'>
           {item.productNumber}
         </td>
         <td className='border border-gray-700 text-center'>{item.buildTo}</td>
-        <td className='hidden md:table-cell border border-gray-700 text-center'>
-          {item.unitSize}
-        </td>
         <td className='hidden md:table-cell border border-gray-700 text-center'>
           {item.previousOrders[1]}
         </td>
@@ -44,6 +44,12 @@ const TableItemRow = ({
           {item.location}
         </td>
       </tr>
+      {!item.isExpanded && item.specialNote && (
+        <tr>
+          <td />
+          <td>{item.specialNote}</td>
+        </tr>
+      )}
       {item.isExpanded && (
         <TableItemRowExpanded item={item} handleToggleEdit={handleToggleEdit} />
       )}

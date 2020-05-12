@@ -61,7 +61,7 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
         </button>
       )}
       {data?.orders[0].isLocked ? (
-        <span className='font-black text-2xl'>{orderAmount}</span>
+        <span className='font-bold text-2xl'>{orderAmount}</span>
       ) : (
         <span className=''>{orderAmount}</span>
       )}
