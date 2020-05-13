@@ -9,7 +9,7 @@ import {
   IntrospectionFragmentMatcher,
 } from 'apollo-cache-inmemory'
 import { resolvers, typeDefs } from './resolvers/Item.js'
-import LoginOrCreateAccount from './components/Welcome/LoginOrCreateAccount'
+import Routes from './components/Welcome/Routes'
 import * as serviceWorker from './serviceWorker'
 import { onError } from 'apollo-link-error'
 import { setContext } from 'apollo-link-context'
@@ -85,7 +85,7 @@ client.onResetStore(() => cache.writeData({ data }))
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
-      <LoginOrCreateAccount />
+      <Routes />
     </Router>
   </ApolloProvider>,
 
