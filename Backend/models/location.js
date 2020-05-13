@@ -5,6 +5,7 @@ const location = (sequelize, DataTypes) => {
       locationName: {
         type: DataTypes.STRING,
         unique: false,
+        allowNull: false,
         validate: { notEmpty: true }
       }
     },
