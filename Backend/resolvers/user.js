@@ -17,7 +17,7 @@ export default {
       }
 
       return null
-    }
+    },
   },
   RegisterResults: {
     __resolveType(parent, context, info) {
@@ -31,21 +31,15 @@ export default {
       }
 
       return null
-    }
+    },
   },
   Query: {
-    users: async (parent, args, { models }) => {
-      return await models.User.findAll()
-    },
-    user: async (parent, { id }, { models }) => {
-      return await models.User.findByPk(id)
-    },
     me: async (parent, args, { models, me }) => {
       if (!me) {
         return null
       }
       return await models.User.findByPk(me.id)
-    }
+    },
   },
 
   Mutation: {
@@ -53,25 +47,25 @@ export default {
       if (password.length < 8)
         return {
           __typename: 'RegisterErrors',
-          passwordError: 'Password must be at least 8 characters long'
+          passwordError: 'Password must be at least 8 characters long',
         }
       email = email.toLowerCase().trim()
       const userExists = await models.User.findOne({
-        where: { email: email }
+        where: { email: email },
       })
       if (userExists)
         return {
           __typename: 'RegisterErrors',
-          emailError: 'An account with that email already exists.'
+          emailError: 'An account with that email already exists.',
         }
       const user = await models.User.create({
         email,
-        password
-      }).catch(e => console.log(e))
+        password,
+      }).catch((e) => console.log(e))
       if (!user)
         return {
           __typename: 'RegisterErrors',
-          emailError: 'There was a problem with your email.'
+          emailError: 'There was a problem with your email.',
         }
       if (user) await createUserStarterOrderAndItems(user, models)
       return { email: user.dataValues.email }
@@ -89,8 +83,8 @@ export default {
         return { passwordError: 'Incorrect password.' }
       }
       return { token: createToken(user, secret, '365d') }
-    }
-  }
+    },
+  },
 
   /*   User: {
     items: async (user, args, { loaders }) => {
