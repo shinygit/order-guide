@@ -17,7 +17,7 @@ require('dotenv').config()
 const app = express()
 app.use(cors())
 
-const getMe = async req => {
+const getMe = async (req) => {
   const token = req.headers['x-token']
   if (token) {
     try {
@@ -31,21 +31,21 @@ const batchUsers = async (keys, models) => {
   const users = await models.User.findAll({
     where: {
       id: {
-        [Sequelize.Op.in]: keys
-      }
-    }
+        [Sequelize.Op.in]: keys,
+      },
+    },
   })
-  return keys.map(key => users.find(user => user.id === key))
+  return keys.map((key) => users.find((user) => user.id === key))
 }
 const batchItems = async (keys, models) => {
   const items = await models.Item.findAll({
     where: {
       userId: {
-        [Sequelize.Op.in]: keys
-      }
-    }
+        [Sequelize.Op.in]: keys,
+      },
+    },
   })
-  return keys.map(key => items.filter(item => item.userId === key))
+  return keys.map((key) => items.filter((item) => item.userId === key))
 }
 const server = new ApolloServer({
   typeDefs: schema,
@@ -61,12 +61,12 @@ const server = new ApolloServer({
         me,
         secret: process.env.SECRET,
         loaders: {
-          user: new DataLoader(keys => batchUsers(keys, models)),
-          item: new DataLoader(keys => batchItems(keys, models))
-        }
+          user: new DataLoader((keys) => batchUsers(keys, models)),
+          item: new DataLoader((keys) => batchItems(keys, models)),
+        },
       }
     }
-  }
+  },
 })
 
 server.applyMiddleware({ app, path: '/graphql' })
