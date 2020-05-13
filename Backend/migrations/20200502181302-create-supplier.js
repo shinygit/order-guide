@@ -22,7 +22,7 @@ module.exports = {
           'Wednesday',
           'Thursday',
           'Friday',
-          'Satuday'
+          'Saturday'
         ),
       },
       salesPersonName: {

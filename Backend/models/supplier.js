@@ -14,7 +14,7 @@ const supplier = (sequelize, DataTypes) => {
         'Wednesday',
         'Thursday',
         'Friday',
-        'Satuday'
+        'Saturday'
       ),
     },
     salesPersonName: {
