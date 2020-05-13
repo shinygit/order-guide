@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { client } from '../../index'
@@ -13,6 +13,7 @@ const GET_CURRENT_USER = gql`
 `
 const NavBar = () => {
   const history = useHistory()
+  const location = useLocation()
   const logOut = () => {
     history.push('/login')
     localStorage.clear()
@@ -37,8 +38,26 @@ const NavBar = () => {
           </span>
         </div>
         <ul className='flex mr-5 text-gray-100 font-semibold'>
-          <li className='mr-6 p-1 border-b-2 border-yellow-100'>
+          <li
+            className={`mr-6 p-1 border-yellow-100 ${
+              location.pathname === '/' ? 'border-b-2' : null
+            }`}
+          >
             <Link to='/'>Home</Link>
+          </li>
+          <li
+            className={`mr-6 p-1 border-yellow-100 ${
+              location.pathname === '/suppliers' ? 'border-b-2' : null
+            }`}
+          >
+            <Link to='/suppliers'>Suppliers</Link>
+          </li>
+          <li
+            className={`mr-6 p-1 border-yellow-100 ${
+              location.pathname === '/manual' ? 'border-b-2' : null
+            }`}
+          >
+            <Link to='/manual'>Manual</Link>
           </li>
           <li className='mr-6 p-1'>
             <Link onClick={logOut} to='/login'>

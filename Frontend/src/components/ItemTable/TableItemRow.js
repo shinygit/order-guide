@@ -47,7 +47,7 @@ const TableItemRow = ({
       {!item.isExpanded && item.specialNote && (
         <tr>
           <td />
-          <td>{item.specialNote}</td>
+          <td colSpan='9'>{item.specialNote}</td>
         </tr>
       )}
       {item.isExpanded && (
