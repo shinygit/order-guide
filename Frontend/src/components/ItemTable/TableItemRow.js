@@ -3,12 +3,20 @@ import ChangeOrderAmount from './ChangeOrderAmount'
 import TableItemRowExpanded from './TableItemRowExpanded'
 import ClipboardDown from './icons/ClipboardDown'
 import ClipboardUp from './icons/ClipboardUp'
+import MarketPriceSupplierSelector from './MarketPriceSupplierSelector'
+import { ORDER_DATES } from '../../Queries/order'
+import { useQuery } from '@apollo/react-hooks'
 
 const TableItemRow = ({
   item,
   handleToggleEdit,
   handleToggleShowExpandedItem,
 }) => {
+  const { data } = useQuery(ORDER_DATES, {
+    variables: {
+      orderDepth: 1,
+    },
+  })
   return (
     <>
       <tr className='odd:bg-gray-200 even:bg-white'>
@@ -41,21 +49,25 @@ const TableItemRow = ({
           <ChangeOrderAmount id={item.id} orderAmount={item.orderAmount} />
         </td>
         <td className='hidden md:table-cell border border-gray-700 text-center px-1'>
-          {item.supplier}
+          {item.isMarketPrice && !data?.orders[0].isLocked ? (
+            <MarketPriceSupplierSelector item={item} />
+          ) : (
+            item.supplier
+          )}
         </td>
         <td className='hidden md:table-cell border border-gray-700 text-center px-1'>
           {item.location}
         </td>
       </tr>
-      {!item.isExpanded && item.specialNote && (
+      {!item.isExpanded && item.specialNote ? (
         <tr>
           <td />
           <td colSpan='9'>{item.specialNote}</td>
         </tr>
-      )}
-      {item.isExpanded && (
+      ) : null}
+      {item.isExpanded ? (
         <TableItemRowExpanded item={item} handleToggleEdit={handleToggleEdit} />
-      )}
+      ) : null}
     </>
   )
 }
