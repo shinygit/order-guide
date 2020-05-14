@@ -17,12 +17,24 @@ const MarketPriceSupplierSelector = ({ item }) => {
 
   const handleSupplierChange = (e) => {
     setSelectedSupplier(e.target.value)
-    updateItem({
-      variables: {
-        id: item.id,
-        input: { isMarketPrice: item.isMarketPrice, supplier: e.target.value },
-      },
-    })
+    if (e.target.value === '') {
+      updateItem({
+        variables: {
+          id: item.id,
+          input: { isMarketPrice: item.isMarketPrice, supplier: null },
+        },
+      })
+    } else {
+      updateItem({
+        variables: {
+          id: item.id,
+          input: {
+            isMarketPrice: item.isMarketPrice,
+            supplier: e.target.value,
+          },
+        },
+      })
+    }
   }
   if (!loadingSuppliersData)
     return (
@@ -31,6 +43,7 @@ const MarketPriceSupplierSelector = ({ item }) => {
         value={selectedSupplier}
         onChange={handleSupplierChange}
       >
+        <option key='unset' value={null}></option>
         {listOfSuppliers.map((supplierName) => (
           <option key={supplierName} value={supplierName}>
             {supplierName}

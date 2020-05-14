@@ -74,15 +74,16 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
     }
   }
   const handleSubmit = () => {
-    if (!editItemForm.supplier.trim()) return
-    if (!editItemForm.location.trim()) return
+    if (!editItemForm.location.trim()) {
+      return console.log('dont forget you silently error empty location')
+    }
     edit({
       variables: {
         id: editItemForm.id,
         input: {
           itemName: editItemForm.itemName,
           buildTo: parseInt(editItemForm.buildTo),
-          supplier: editItemForm.supplier,
+          supplier: editItemForm.supplier === '' ? null : editItemForm.supplier,
           location: editItemForm.location,
           productNumber: editItemForm.productNumber,
           unitSize: editItemForm.unitSize,
