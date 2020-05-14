@@ -22,9 +22,10 @@ const UPDATE_SUPPLIER = gql`
 
 const SupplierEdit = ({ suppliers, selectedCard }) => {
   const daysOfTheWeek = [
+    { value: '', label: '' },
     { value: 'Monday', label: 'Monday' },
     { value: 'Tuesday', label: 'Tuesday' },
-    { value: 'Wedmesdau', label: 'Wednesday' },
+    { value: 'Wednesday', label: 'Wednesday' },
     { value: 'Thursday', label: 'Thursday' },
     { value: 'Friday', label: 'Friday' },
     { value: 'Saturday', label: 'Saturday' },
@@ -37,10 +38,10 @@ const SupplierEdit = ({ suppliers, selectedCard }) => {
 
   const [supplierForm, setSupplierForm] = useState({
     supplierName: supplier.supplierName,
-    deliveryDay: supplier.deliveryDay,
-    salesPersonName: supplier.salesPersonName,
-    salesPersonPhoneNumber: supplier.salesPersonPhoneNumber,
-    officePhoneNumber: supplier.officePhoneNumber,
+    deliveryDay: supplier.deliveryDay || '',
+    salesPersonName: supplier.salesPersonName || '',
+    salesPersonPhoneNumber: supplier.salesPersonPhoneNumber || '',
+    officePhoneNumber: supplier.officePhoneNumber || '',
   })
 
   const [formErrors, setFormErrors] = useState('')
@@ -48,10 +49,10 @@ const SupplierEdit = ({ suppliers, selectedCard }) => {
   useEffect(() => {
     setSupplierForm({
       supplierName: supplier.supplierName,
-      deliveryDay: supplier.deliveryDay,
-      salesPersonName: supplier.salesPersonName,
-      salesPersonPhoneNumber: supplier.salesPersonPhoneNumber,
-      officePhoneNumber: supplier.officePhoneNumber,
+      deliveryDay: supplier.deliveryDay || '',
+      salesPersonName: supplier.salesPersonName || '',
+      salesPersonPhoneNumber: supplier.salesPersonPhoneNumber || '',
+      officePhoneNumber: supplier.officePhoneNumber || '',
     })
   }, [selectedCard, supplier])
   const handleChangeInput = (event) => {
@@ -72,13 +73,20 @@ const SupplierEdit = ({ suppliers, selectedCard }) => {
   }
   const handleSave = () => {
     updateSupplier({
-      variables: { id: supplier.id, input: { ...supplierForm } },
+      variables: {
+        id: supplier.id,
+        input: {
+          ...supplierForm,
+          deliveryDay:
+            supplierForm.deliveryDay === '' ? null : supplierForm.deliveryDay,
+        },
+      },
     }).then(setFormErrors(data?.updateSupplier.error))
   }
 
   const handleDelete = () => {}
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col w-4/12'>
       <label>
         Supplier Name:
         <input
