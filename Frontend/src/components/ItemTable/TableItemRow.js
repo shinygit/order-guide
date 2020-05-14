@@ -14,8 +14,11 @@ const TableItemRow = ({
       <tr className='odd:bg-gray-200 even:bg-white'>
         <td className='hidden md:table-cell bg-yellow-100'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
-            {!item.isExpanded && <ClipboardDown bold={item.specialNote} />}
-            {item.isExpanded && <ClipboardUp />}
+            {item.isExpanded ? (
+              <ClipboardUp />
+            ) : (
+              <ClipboardDown bold={item.specialNote} />
+            )}
           </button>
         </td>
         <td className='border border-gray-700 text-center px-1'>
