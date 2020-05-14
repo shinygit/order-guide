@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { GET_SUPPLIERS } from '../../Queries/supplier'
 
 const UPDATE_SUPPLIER = gql`
   mutation UpdateSupplier($id: ID!, $input: supplierInput!) {
@@ -19,8 +20,26 @@ const UPDATE_SUPPLIER = gql`
     }
   }
 `
+const DELETE_SUPPLIER = gql`
+  mutation DeleteSupplier($id: ID!) {
+    deleteSupplier(id: $id) {
+      ... on supplierError {
+        error
+      }
+      ... on Supplier {
+        id
+        supplierName
+        deliveryDay
+        salesPersonName
+        salesPersonPhoneNumber
+        officePhoneNumber
+      }
+    }
+  }
+`
 
-const SupplierEdit = ({ suppliers, selectedCard }) => {
+const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
+  const [formErrors, setFormErrors] = useState('')
   const daysOfTheWeek = [
     { value: '', label: '' },
     { value: 'Monday', label: 'Monday' },
@@ -33,6 +52,22 @@ const SupplierEdit = ({ suppliers, selectedCard }) => {
   ]
 
   const [updateSupplier, { data }] = useMutation(UPDATE_SUPPLIER)
+  const [deleteSupplier, { data: deleteData }] = useMutation(DELETE_SUPPLIER, {
+    update: (cache, { data: { deleteSupplier } }) => {
+      if (deleteSupplier.id) {
+        setSelectedCard('')
+        const data = cache.readQuery({ query: GET_SUPPLIERS })
+        const newSuppliers = data.suppliers.filter(
+          (supplier) => supplier.id !== selectedCard
+        )
+        const newData = { ...data, suppliers: [...newSuppliers] }
+        cache.writeQuery({
+          query: GET_SUPPLIERS,
+          data: newData,
+        })
+      }
+    },
+  })
 
   const supplier = suppliers.find((supplier) => supplier.id === selectedCard)
 
@@ -43,8 +78,6 @@ const SupplierEdit = ({ suppliers, selectedCard }) => {
     salesPersonPhoneNumber: supplier.salesPersonPhoneNumber || '',
     officePhoneNumber: supplier.officePhoneNumber || '',
   })
-
-  const [formErrors, setFormErrors] = useState('')
 
   useEffect(() => {
     setSupplierForm({
@@ -71,8 +104,8 @@ const SupplierEdit = ({ suppliers, selectedCard }) => {
     })
     setFormErrors('')
   }
-  const handleSave = () => {
-    updateSupplier({
+  const handleSave = async () => {
+    const result = await updateSupplier({
       variables: {
         id: supplier.id,
         input: {
@@ -81,10 +114,19 @@ const SupplierEdit = ({ suppliers, selectedCard }) => {
             supplierForm.deliveryDay === '' ? null : supplierForm.deliveryDay,
         },
       },
-    }).then(setFormErrors(data?.updateSupplier.error))
+    })
+    if (result.data.updateSupplier.error) {
+      setFormErrors(result.data.updateSupplier.error)
+    }
+
+    if (!result.data.updateSupplier.error) setFormErrors('')
   }
 
-  const handleDelete = () => {}
+  const handleDelete = async () => {
+    const result = await deleteSupplier({ variables: { id: supplier.id } })
+    if (result.data.deleteSupplier.error)
+      setFormErrors(result.data.deleteSupplier.error)
+  }
   return (
     <div className='flex flex-col w-4/12'>
       <label>

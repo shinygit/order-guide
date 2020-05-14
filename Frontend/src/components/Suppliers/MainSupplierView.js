@@ -34,6 +34,7 @@ const MainSupplierView = () => {
             <SupplierEdit
               suppliers={data.suppliers}
               selectedCard={selectedCard}
+              setSelectedCard={setSelectedCard}
             />
           ) : null}
         </div>

@@ -24,7 +24,39 @@ export default {
       })
       return { __typename: 'Supplier', ...newSupplier.dataValues }
     },
-    // deleteSupplier: async (parent, { id }, { me, models }) => {
+    deleteSupplier: async (parent, { id }, { me, models }) => {
+      const latestOrder = await models.Order.findOne({
+        where: {
+          userId: me.id,
+        },
+        order: [['orderDate', 'DESC']],
+      })
+      console.log(latestOrder.id)
+      const hasItems = await models.Item.findOne({
+        where: {
+          supplierId: id,
+          orderId: latestOrder.id,
+        },
+      })
+      if (hasItems)
+        return {
+          __typename: 'supplierError',
+          error: 'The most current order is using this supplier.',
+        }
+      const supplier = await models.Supplier.findOne({
+        where: {
+          id: id,
+          userId: me.id,
+        },
+      })
+      if (!supplier)
+        return {
+          __typename: 'supplierError',
+          error: 'This supplier does not exist.',
+        }
+      if (supplier) supplier.destroy()
+      return { __typename: 'Supplier', ...supplier.dataValues }
+    },
     updateSupplier: async (parent, { id, input }, { me, models }) => {
       const supplier = await models.Supplier.findOne({
         where: {

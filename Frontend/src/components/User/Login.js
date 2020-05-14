@@ -19,7 +19,7 @@ const LOGIN = gql`
 `
 
 const Login = () => {
-  const [login, { loading }] = useMutation(LOGIN)
+  const [login, { loading, data }] = useMutation(LOGIN)
   const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -31,7 +31,6 @@ const Login = () => {
     }).catch((e) => {
       console.log(e)
     })
-
     if (result.data.signIn.token) {
       const token = result.data.signIn.token
       localStorage.setItem('token', token)
