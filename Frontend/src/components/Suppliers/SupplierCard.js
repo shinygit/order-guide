@@ -2,7 +2,7 @@ import React from 'react'
 
 const SupplierCard = ({ supplier, selectedCard, setSelectedCard }) => {
   return (
-    <div className='max-w-sm'>
+    <div className='w-6/12 max-w-sm'>
       <div
         onClick={() => setSelectedCard(supplier.id)}
         className={`flex flex-col border-4 rounded p-1 m-2 hover:bg-gray-100 hover:shadow-lg ${

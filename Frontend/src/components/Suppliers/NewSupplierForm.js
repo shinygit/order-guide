@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { GET_SUPPLIERS } from '../../Queries/supplier'
 
 const CREATE_NEW_SUPPLIER = gql`
   mutation CreateSupplier($input: supplierInput) {
@@ -21,7 +22,15 @@ const CREATE_NEW_SUPPLIER = gql`
 `
 
 const NewSupplierForm = () => {
-  const [createSupplier, { data }] = useMutation(CREATE_NEW_SUPPLIER)
+  const [createSupplier, { data }] = useMutation(CREATE_NEW_SUPPLIER, {
+    update(cache, { data: { createSupplier } }) {
+      const { suppliers } = cache.readQuery({ query: GET_SUPPLIERS })
+      cache.writeQuery({
+        query: GET_SUPPLIERS,
+        data: { suppliers: suppliers.concat([createSupplier]) },
+      })
+    },
+  })
   const [isActive, setIsActive] = useState(false)
   const [newSupplierForm, setNewSupplierForm] = useState({
     supplierName: '',

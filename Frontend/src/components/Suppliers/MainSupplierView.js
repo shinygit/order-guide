@@ -4,20 +4,7 @@ import SupplierCard from './SupplierCard'
 import SupplierEdit from './SupplierEdit'
 import NewSupplierForm from './NewSupplierForm'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
-
-const GET_SUPPLIERS = gql`
-  query Suppliers {
-    suppliers {
-      id
-      supplierName
-      deliveryDay
-      salesPersonName
-      salesPersonPhoneNumber
-      officePhoneNumber
-    }
-  }
-`
+import { GET_SUPPLIERS } from '../../Queries/supplier'
 
 const MainSupplierView = () => {
   const { loading, data } = useQuery(GET_SUPPLIERS)
@@ -25,11 +12,11 @@ const MainSupplierView = () => {
 
   if (loading) return <span>LOADING...</span>
   return (
-    <div className='flex-col bg-blue-100 p-3'>
+    <div className='flex flex-col bg-blue-100 p-3'>
       <NavBar />
+
       <div className='flex'>
-        <div className='flex-col flex-grow justify-between'>
-          <NewSupplierForm />
+        <div className='w-8/12 flex flex-row flex-wrap'>
           {data.suppliers.map((supplier) => {
             return (
               <SupplierCard
@@ -41,12 +28,15 @@ const MainSupplierView = () => {
             )
           })}
         </div>
-        {selectedCard ? (
-          <SupplierEdit
-            suppliers={data.suppliers}
-            selectedCard={selectedCard}
-          />
-        ) : null}
+        <div className='flex flex-col'>
+          <NewSupplierForm />
+          {selectedCard ? (
+            <SupplierEdit
+              suppliers={data.suppliers}
+              selectedCard={selectedCard}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   )
