@@ -95,6 +95,7 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
     })
   }
   const handleCancel = () => {
+    setSelectedCard('')
     setSupplierForm({
       supplierName: supplier.supplierName,
       deliveryDay: supplier.deliveryDay,
