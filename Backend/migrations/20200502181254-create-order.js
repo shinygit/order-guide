@@ -26,9 +26,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      orderPlacedWithSupplier: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-      },
     })
   },
 
