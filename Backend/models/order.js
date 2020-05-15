@@ -10,13 +10,12 @@ const order = (sequelize, DataTypes) => {
       defaultValue: false,
       allowNull: false,
     },
-    orderPlacedWithSupplier: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-    },
   })
   Order.associate = (models) => {
     Order.hasMany(models.Item)
     Order.belongsTo(models.User)
+    // Order.belongsTo(models.Supplier_Order)
+    Order.belongsToMany(models.Supplier, { through: models.Supplier_Order })
   }
   return Order
 }

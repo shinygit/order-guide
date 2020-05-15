@@ -31,6 +31,8 @@ const supplier = (sequelize, DataTypes) => {
   Supplier.associate = (models) => {
     Supplier.hasMany(models.Item)
     Supplier.belongsTo(models.User)
+    //Supplier.belongsTo(models.Supplier_Order)
+    Supplier.belongsToMany(models.Order, { through: models.Supplier_Order })
   }
   return Supplier
 }

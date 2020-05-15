@@ -17,8 +17,72 @@ export default {
         })
       }
     ),
+    isOrderPlacedWithSupplierId: combineResolvers(
+      isAuthenticated,
+      async (parent, { supplierId, orderId }, { me, models }) => {
+        const [supplier, order] = await Promise.all([
+          await models.Supplier.findOne({
+            where: {
+              id: supplierId,
+              userId: me.id,
+            },
+          }),
+          await models.Order.findOne({
+            where: {
+              id: orderId,
+              userId: me.id,
+            },
+          }),
+        ])
+        if (!supplier) return
+        if (!order) return
+        const isOrderPlaced = await models.Supplier_Order.findOne({
+          where: { supplierId: supplierId, orderId: orderId },
+        })
+
+        if (isOrderPlaced) return isOrderPlaced.wasOrderPlaced
+        return false
+      }
+    ),
   },
   Mutation: {
+    toggleOrderPlacedWithSupplierId: combineResolvers(
+      isAuthenticated,
+      async (parent, { supplierId, orderId }, { me, models }) => {
+        const [supplier, order] = await Promise.all([
+          await models.Supplier.findOne({
+            where: {
+              id: supplierId,
+              userId: me.id,
+            },
+          }),
+          await models.Order.findOne({
+            where: {
+              id: orderId,
+              userId: me.id,
+            },
+          }),
+        ])
+        if (!supplier) return
+        if (!order) return
+        const isOrderPlaced = await models.Supplier_Order.findOne({
+          where: { supplierId: supplierId, orderId: orderId },
+        })
+        if (!isOrderPlaced) {
+          const isOrderPlaced = await models.Supplier_Order.create({
+            supplierId: supplierId,
+            orderId: orderId,
+            wasOrderPlaced: true,
+          })
+          return isOrderPlaced.wasOrderPlaced
+        }
+        if (isOrderPlaced) {
+          isOrderPlaced.wasOrderPlaced = !isOrderPlaced.wasOrderPlaced
+          isOrderPlaced.save()
+          return isOrderPlaced.wasOrderPlaced
+        }
+      }
+    ),
     toggleOrderLock: combineResolvers(
       isAuthenticated,
       async (parent, { orderDate }, { me, models }) => {

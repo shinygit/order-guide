@@ -22,6 +22,7 @@ const models = {
   Location: sequelize.import('./location'),
   Supplier: sequelize.import('./supplier'),
   Order: sequelize.import('./order'),
+  Supplier_Order: sequelize.import('./supplier_order'),
 }
 
 Object.keys(models).forEach((key) => {
