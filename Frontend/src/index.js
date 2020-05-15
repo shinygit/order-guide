@@ -7,6 +7,7 @@ import { HttpLink } from 'apollo-link-http'
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher,
+  defaultDataIdFromObject,
 } from 'apollo-cache-inmemory'
 import { resolvers, typeDefs } from './resolvers/Item.js'
 import Routes from './components/Welcome/Routes'
@@ -61,8 +62,21 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     },
   },
 })
+
+const normalizeSupplierOrder = (object) => {
+  if (object.__typename === 'SupplierOrder') {
+    return `supplier:${object.supplierId}order:${object.orderId}`
+  } else {
+    return defaultDataIdFromObject(object)
+  }
+}
+
 const Link = ApolloLink.from([onErrorLink, authLink, httpLink])
-const cache = new InMemoryCache({ fragmentMatcher, freezeResults: true })
+const cache = new InMemoryCache({
+  dataIdFromObject: normalizeSupplierOrder,
+  fragmentMatcher,
+  freezeResults: true,
+})
 export const client = new ApolloClient({
   link: Link,
   cache,

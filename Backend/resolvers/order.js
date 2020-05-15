@@ -28,9 +28,13 @@ export default {
         const isOrderPlaced = await models.Supplier_Order.findOne({
           where: { supplierId: supplierId, orderId: orderId },
         })
-
-        if (isOrderPlaced) return isOrderPlaced.wasOrderPlaced
-        return false
+        if (isOrderPlaced) return isOrderPlaced.dataValues
+        const newIsOrderPlaced = await models.Supplier_Order.create({
+          supplierId: supplierId,
+          orderId: orderId,
+          wasOrderPlaced: false,
+        })
+        return newIsOrderPlaced.dataValues
       }
     ),
   },
@@ -42,18 +46,10 @@ export default {
         const isOrderPlaced = await models.Supplier_Order.findOne({
           where: { supplierId: supplierId, orderId: orderId },
         })
-        if (!isOrderPlaced) {
-          const isOrderPlaced = await models.Supplier_Order.create({
-            supplierId: supplierId,
-            orderId: orderId,
-            wasOrderPlaced: true,
-          })
-          return isOrderPlaced.wasOrderPlaced
-        }
         if (isOrderPlaced) {
           isOrderPlaced.wasOrderPlaced = !isOrderPlaced.wasOrderPlaced
           isOrderPlaced.save()
-          return isOrderPlaced.wasOrderPlaced
+          return isOrderPlaced.dataValues
         }
       }
     ),

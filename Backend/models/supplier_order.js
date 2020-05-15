@@ -3,6 +3,7 @@ const supplier_order = (sequelize, DataTypes) => {
     wasOrderPlaced: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false,
     },
   })
   Supplier_Order.associate = (models) => {}

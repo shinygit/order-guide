@@ -6,12 +6,23 @@ import { FILTER_QUERY } from '../Queries/filter'
 import { GET_LATEST_ORDER } from '../Queries/item'
 const GET_IS_ORDER_PLACED = gql`
   query IsOrderPlacedWithSupplierId($supplierId: ID!, $orderId: ID!) {
-    isOrderPlacedWithSupplierId(supplierId: $supplierId, orderId: $orderId)
+    isOrderPlacedWithSupplierId(supplierId: $supplierId, orderId: $orderId) {
+      wasOrderPlaced
+      orderId
+      supplierId
+    }
   }
 `
 const TOGGLE_ORDER_PLACED = gql`
   mutation ToggleOrderPlacedWithSupplierId($supplierId: ID!, $orderId: ID!) {
-    toggleOrderPlacedWithSupplierId(supplierId: $supplierId, orderId: $orderId)
+    toggleOrderPlacedWithSupplierId(
+      supplierId: $supplierId
+      orderId: $orderId
+    ) {
+      wasOrderPlaced
+      orderId
+      supplierId
+    }
   }
 `
 
@@ -44,10 +55,10 @@ const OrderPlaceToggle = () => {
       },
     }
   )
-  console.log(orderPlacedData?.isOrderPlacedWithSupplierId)
   const [toggleOrderPlaced, { data: toggleOrderPlacedData }] = useMutation(
     TOGGLE_ORDER_PLACED
   )
+
   const handleChange = () => {
     toggleOrderPlaced({
       variables: {
@@ -62,7 +73,7 @@ const OrderPlaceToggle = () => {
         {supplier.supplierName}
         <input
           type='checkbox'
-          checked={orderPlacedData.isOrderPlacedWithSupplierId}
+          checked={orderPlacedData.isOrderPlacedWithSupplierId.wasOrderPlaced}
           onChange={handleChange}
         />
       </div>
