@@ -1,5 +1,9 @@
 import { combineResolvers } from 'graphql-resolvers'
-import { isAuthenticated, isOrderOwner } from './authorization'
+import {
+  isAuthenticated,
+  isOrderOwner,
+  isOrderSupplierOwner,
+} from './authorization'
 import { UserInputError } from 'apollo-server-express'
 
 export default {
@@ -19,23 +23,8 @@ export default {
     ),
     isOrderPlacedWithSupplierId: combineResolvers(
       isAuthenticated,
+      isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
-        const [supplier, order] = await Promise.all([
-          await models.Supplier.findOne({
-            where: {
-              id: supplierId,
-              userId: me.id,
-            },
-          }),
-          await models.Order.findOne({
-            where: {
-              id: orderId,
-              userId: me.id,
-            },
-          }),
-        ])
-        if (!supplier) return
-        if (!order) return
         const isOrderPlaced = await models.Supplier_Order.findOne({
           where: { supplierId: supplierId, orderId: orderId },
         })
@@ -48,23 +37,8 @@ export default {
   Mutation: {
     toggleOrderPlacedWithSupplierId: combineResolvers(
       isAuthenticated,
+      isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
-        const [supplier, order] = await Promise.all([
-          await models.Supplier.findOne({
-            where: {
-              id: supplierId,
-              userId: me.id,
-            },
-          }),
-          await models.Order.findOne({
-            where: {
-              id: orderId,
-              userId: me.id,
-            },
-          }),
-        ])
-        if (!supplier) return
-        if (!order) return
         const isOrderPlaced = await models.Supplier_Order.findOne({
           where: { supplierId: supplierId, orderId: orderId },
         })
