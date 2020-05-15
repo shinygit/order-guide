@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
 import OrderLock from './OrderLock/OrderLock.js'
 import OrderModeToggle from './OrderModeToggle/OrderModeToggle'
+import OrderPlacedToggle from './OrderPlacedToggle'
 
 const FilterMenu = ({
   suppliers,
@@ -24,7 +25,10 @@ const FilterMenu = ({
   const [activeFilterbuttonClass, setActiveFilterbuttonClass] = useState(
     'all-filter-button'
   )
+  const [activeSupplier, setActiveSupplier] = useState('')
+
   const handleShowSupplier = (supplier) => {
+    if (supplier !== 'Market Price') setActiveSupplier(supplier)
     setActiveFilterbuttonClass(`${supplier}-filter-button`)
     client.writeData({
       data: {
@@ -38,6 +42,7 @@ const FilterMenu = ({
     })
   }
   const handleShowAll = () => {
+    setActiveSupplier('')
     setActiveFilterbuttonClass('all-filter-button')
     client.writeData({
       data: {
@@ -51,6 +56,7 @@ const FilterMenu = ({
     })
   }
   const handleShowUnchecked = () => {
+    setActiveSupplier('')
     setActiveFilterbuttonClass('unchecked-filter-button')
     client.writeData({
       data: {
@@ -64,6 +70,7 @@ const FilterMenu = ({
     })
   }
   const handleShowLocation = (location) => {
+    setActiveSupplier('')
     setActiveFilterbuttonClass(`${location}-filter-button`)
     client.writeData({
       data: {
@@ -81,6 +88,9 @@ const FilterMenu = ({
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         <OrderLock />
         <OrderModeToggle />
+
+        {activeSupplier ? <OrderPlacedToggle /> : null}
+
         <button
           className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
           onClick={() => toggleNewItem()}
