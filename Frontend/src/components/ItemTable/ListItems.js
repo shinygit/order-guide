@@ -90,7 +90,7 @@ const ListItems = ({ items, suppliers, locations }) => {
 
   return (
     <div className='rounded border border-gray-700 bg-yellow-100 shadow-inner p-2'>
-      <table className='table-auto m-auto text-lg lg:w-10/12'>
+      <table className='table-auto m-auto text-lg xl:w-10/12'>
         <thead>
           <tr>
             <th className='hidden md:table-cell' />
