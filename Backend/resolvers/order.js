@@ -25,16 +25,17 @@ export default {
       isAuthenticated,
       isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
-        const isOrderPlaced = await models.Supplier_Order.findOne({
+        const isOrderPlaced = await models.Supplier_Order.findOrCreate({
           where: { supplierId: supplierId, orderId: orderId },
         })
-        if (isOrderPlaced) return isOrderPlaced.dataValues
+        return isOrderPlaced[0].dataValues
+        /*         if (isOrderPlaced) return isOrderPlaced.dataValues
         const newIsOrderPlaced = await models.Supplier_Order.create({
           supplierId: supplierId,
           orderId: orderId,
           wasOrderPlaced: false,
         })
-        return newIsOrderPlaced.dataValues
+        return newIsOrderPlaced.dataValues */
       }
     ),
   },
