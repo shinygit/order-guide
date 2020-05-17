@@ -43,9 +43,10 @@ const OrderPlaceToggle = () => {
   )
   const { suppliers = [] } = supplierData
 
-  const supplier = suppliers.find(
-    (supplier) => supplier.supplierName === filterData.filter.filterName
-  )
+  const supplier = suppliers.find((supplier) => {
+    if (supplier.supplierName === 'Market Price') return false
+    if (supplier.supplierName === filterData.filter.filterName) return true
+  })
   const {
     loading: orderPlacedLoading,
     data: { supplierOrder: { wasOrderPlaced } = {} } = {},
