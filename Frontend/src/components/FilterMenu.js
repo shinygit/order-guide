@@ -147,7 +147,7 @@ const FilterMenu = ({
           if (supplier !== 'Market Price') {
             return (
               <button
-                className={`w-auto p-4 mx-1 my-1 border border-gray-900 rounded
+                className={`transition duration-200 ease-in-out w-auto p-4 mx-1 my-1 border border-gray-900 rounded
               ${
                 activeFilterbuttonClass === `${supplier}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
