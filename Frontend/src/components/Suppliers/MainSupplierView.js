@@ -9,7 +9,7 @@ import { GET_SUPPLIERS } from '../../Queries/supplier'
 const MainSupplierView = () => {
   const { loading, data } = useQuery(GET_SUPPLIERS)
   const [selectedCard, setSelectedCard] = useState('')
-
+  console.log(data)
   if (loading) return <span>LOADING...</span>
   return (
     <div className='flex flex-col bg-blue-100 p-3'>
@@ -18,6 +18,7 @@ const MainSupplierView = () => {
       <div className='flex'>
         <div className='w-8/12 flex flex-row flex-wrap'>
           {data.suppliers.map((supplier) => {
+            if (supplier.supplierName === 'Market Price') return null
             return (
               <SupplierCard
                 key={supplier.id}
