@@ -139,12 +139,15 @@ const FilterMenu = ({
           {`${'Market Price'}(${marketPriceCount})`}
         </button>
       </div>
-      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
+      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+        <span className='block w-full text-center w-full text-center'>
+          Suppliers
+        </span>
         {suppliers.map((supplier) => {
           if (supplier !== 'Market Price') {
             return (
               <button
-                className={`w-auto p-4 mx-1 border border-gray-900 rounded
+                className={`w-auto p-4 mx-1 my-1 border border-gray-900 rounded
               ${
                 activeFilterbuttonClass === `${supplier}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
@@ -159,10 +162,11 @@ const FilterMenu = ({
           } else return null
         })}
       </div>
-      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
+      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+        <span className='w-full text-center'>Locations</span>
         {locations.map((location) => (
           <button
-            className={`transition duration-200 ease-in-out w-auto p-4 mx-1 border border-gray-900 rounded 
+            className={`transition duration-200 ease-in-out w-auto p-4 mx-1 my-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === `${location}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
