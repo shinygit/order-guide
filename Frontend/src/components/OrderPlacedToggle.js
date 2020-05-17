@@ -5,8 +5,8 @@ import { GET_SUPPLIERS } from '../Queries/supplier'
 import { FILTER_QUERY } from '../Queries/filter'
 import { GET_LATEST_ORDER } from '../Queries/item'
 const GET_IS_ORDER_PLACED = gql`
-  query IsOrderPlacedWithSupplierId($supplierId: ID!, $orderId: ID!) {
-    isOrderPlacedWithSupplierId(supplierId: $supplierId, orderId: $orderId) {
+  query SupplierOrder($supplierId: ID!, $orderId: ID!) {
+    supplierOrder(supplierId: $supplierId, orderId: $orderId) {
       wasOrderPlaced
       orderId
       supplierId
@@ -28,33 +28,34 @@ const TOGGLE_ORDER_PLACED = gql`
 
 const OrderPlaceToggle = () => {
   const client = useApolloClient()
-  const { loading: supplierLoading, data: supplierData } = useQuery(
-    GET_SUPPLIERS
-  )
   const { loading: filterLoading, data: filterData } = useQuery(FILTER_QUERY)
 
-  const { suppliers } = supplierData
+  const { loading: loadingLatestOrder, data: latestOrderData } = useQuery(
+    GET_LATEST_ORDER,
+    {
+      variables: {
+        orderDepth: 1,
+      },
+    }
+  )
+  const { loading: supplierLoading, data: supplierData = {} } = useQuery(
+    GET_SUPPLIERS
+  )
+  const { suppliers = [] } = supplierData
+
   const supplier = suppliers.find(
     (supplier) => supplier.supplierName === filterData.filter.filterName
   )
   const {
-    orders: [currentOrder],
-  } = client.readQuery({
-    query: GET_LATEST_ORDER,
+    loading: orderPlacedLoading,
+    data: { supplierOrder: { wasOrderPlaced } = {} } = {},
+  } = useQuery(GET_IS_ORDER_PLACED, {
+    skip: !supplierData || !latestOrderData || !supplier,
     variables: {
-      orderDepth: 1,
+      supplierId: supplier?.id,
+      orderId: latestOrderData?.orders[0].id,
     },
   })
-
-  const { loading: orderPlacedLoading, data: orderPlacedData } = useQuery(
-    GET_IS_ORDER_PLACED,
-    {
-      variables: {
-        supplierId: supplier.id,
-        orderId: currentOrder.id,
-      },
-    }
-  )
   const [toggleOrderPlaced, { data: toggleOrderPlacedData }] = useMutation(
     TOGGLE_ORDER_PLACED
   )
@@ -63,19 +64,20 @@ const OrderPlaceToggle = () => {
     toggleOrderPlaced({
       variables: {
         supplierId: supplier.id,
-        orderId: currentOrder.id,
+        orderId: latestOrderData.orders[0].id,
       },
     })
   }
-  if (!orderPlacedLoading)
+  if (supplier)
     return (
-      <div>
-        {supplier.supplierName}
-        <input
-          type='checkbox'
-          checked={orderPlacedData.isOrderPlacedWithSupplierId.wasOrderPlaced}
-          onChange={handleChange}
-        />
+      <div
+        onClick={handleChange}
+        className={`transition duration-200 ease-in-out flex flex-col justify-center items-center border-4 border border-gray-700 px-3 ${
+          wasOrderPlaced ? 'bg-green-400' : 'bg-orange-300'
+        }`}
+      >
+        Order placed with {supplier?.supplierName}?
+        <div>{wasOrderPlaced ? 'Yes' : 'No'}</div>
       </div>
     )
   return null

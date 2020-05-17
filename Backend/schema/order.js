@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 export default gql`
   extend type Query {
     orders(orderDepth: Int!): [Order!]
-    isOrderPlacedWithSupplierId(supplierId: ID!, orderId: ID!): SupplierOrder!
+    supplierOrder(supplierId: ID!, orderId: ID!): SupplierOrder!
   }
   extend type Mutation {
     createNewOrder(orderDate: String!): Boolean!

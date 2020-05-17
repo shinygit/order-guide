@@ -28,7 +28,9 @@ const FilterMenu = ({
   const [activeSupplier, setActiveSupplier] = useState('')
 
   const handleShowSupplier = (supplier) => {
-    if (supplier !== 'Market Price') setActiveSupplier(supplier)
+    supplier !== 'Market Price'
+      ? setActiveSupplier(supplier)
+      : setActiveSupplier('')
     setActiveFilterbuttonClass(`${supplier}-filter-button`)
     client.writeData({
       data: {
@@ -89,7 +91,7 @@ const FilterMenu = ({
         <OrderLock />
         <OrderModeToggle />
 
-        {activeSupplier ? <OrderPlacedToggle /> : null}
+        <OrderPlacedToggle />
 
         <button
           className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
@@ -160,7 +162,7 @@ const FilterMenu = ({
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         {locations.map((location) => (
           <button
-            className={`w-auto p-4 mx-1 border border-gray-900 rounded 
+            className={`transition duration-200 ease-in-out w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === `${location}-filter-button`
                   ? 'bg-gray-600 text-gray-200'

@@ -21,7 +21,7 @@ export default {
         })
       }
     ),
-    isOrderPlacedWithSupplierId: combineResolvers(
+    supplierOrder: combineResolvers(
       isAuthenticated,
       isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
