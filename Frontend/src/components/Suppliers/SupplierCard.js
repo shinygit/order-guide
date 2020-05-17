@@ -5,10 +5,10 @@ const SupplierCard = ({ supplier, selectedCard, setSelectedCard }) => {
     <div className='w-6/12 max-w-sm'>
       <div
         onClick={() => setSelectedCard(supplier.id)}
-        className={`flex flex-col border-4 rounded p-1 m-2 hover:bg-gray-100 hover:shadow-lg ${
+        className={`flex flex-col border-4 rounded p-1 m-2 ${
           selectedCard === supplier.id
-            ? 'bg-gray-200 border-gray-600 '
-            : 'bg-white border-gray-300 '
+            ? 'bg-gray-200 border-gray-600'
+            : 'bg-white border-gray-300 hover:bg-gray-100 hover:shadow-lg'
         }`}
       >
         <div className='text-3xl '>{supplier.supplierName}</div>
