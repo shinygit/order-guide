@@ -31,7 +31,6 @@ export default {
         },
         order: [['orderDate', 'DESC']],
       })
-      console.log(latestOrder.id)
       const hasItems = await models.Item.findOne({
         where: {
           supplierId: id,
