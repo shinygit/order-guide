@@ -145,7 +145,7 @@ export default {
                 supplierName: 'Market Price',
                 userId: me.id,
               })
-              marketPriceId = mp
+              marketPriceId = mp.dataValues
             }
             return marketPriceId.id
           }
