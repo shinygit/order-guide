@@ -3,6 +3,7 @@ import App from '../../App'
 import Login from '../User/Login'
 import Register from '../User/Register'
 import MainSupplierView from '../Suppliers/MainSupplierView'
+import Manual from '../Manual'
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
 
 export default function Routes() {
@@ -25,6 +26,9 @@ export default function Routes() {
       </Route>
       <Route path='/suppliers'>
         <MainSupplierView />
+      </Route>
+      <Route path='/manual'>
+        <Manual />
       </Route>
       <Route path='/'>
         <App />
