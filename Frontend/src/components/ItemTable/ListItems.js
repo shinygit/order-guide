@@ -53,8 +53,9 @@ const ListItems = ({ items, suppliers, locations }) => {
     ) {
       return true
     }
-
-    if (Object.values(item).includes(filterType && filterName)) return true
+    console.log(item)
+    if (filterType === 'supplier' && item.supplier === filterName) return true
+    if (filterType === 'location' && item.location === filterName) return true
     return false
   })
   const hideAllZeroOrderAmountItems = filteredItems.filter((item) => {
