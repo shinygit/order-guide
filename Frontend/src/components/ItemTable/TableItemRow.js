@@ -62,10 +62,20 @@ const TableItemRow = ({
         </td>
       </tr>
       {!item.isExpanded && item.specialNote ? (
-        <tr>
-          <td />
-          <td colSpan='9'>{item.specialNote}</td>
-        </tr>
+        <>
+          <tr>
+            <td />
+            <td
+              className={`border border-gray-700 ${
+                index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
+              }`}
+              colSpan='9'
+            >
+              Special Note: {item.specialNote}
+            </td>
+          </tr>
+          <tr className='h-1' />
+        </>
       ) : null}
       {item.isExpanded ? (
         <TableItemRowExpanded
