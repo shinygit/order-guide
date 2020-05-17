@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import TableItemRowExpanded from './TableItemRowExpanded'
 import ClipboardDown from './icons/ClipboardDown'
@@ -11,15 +11,17 @@ const TableItemRow = ({
   item,
   handleToggleEdit,
   handleToggleShowExpandedItem,
+  index,
 }) => {
   const { data } = useQuery(ORDER_DATES, {
     variables: {
       orderDepth: 1,
     },
   })
+
   return (
     <>
-      <tr className='odd:bg-gray-200 even:bg-white'>
+      <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
         <td className='hidden md:table-cell bg-yellow-100'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
             {item.isExpanded ? (
@@ -66,7 +68,11 @@ const TableItemRow = ({
         </tr>
       ) : null}
       {item.isExpanded ? (
-        <TableItemRowExpanded item={item} handleToggleEdit={handleToggleEdit} />
+        <TableItemRowExpanded
+          index={index}
+          item={item}
+          handleToggleEdit={handleToggleEdit}
+        />
       ) : null}
     </>
   )

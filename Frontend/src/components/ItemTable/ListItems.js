@@ -136,7 +136,7 @@ const ListItems = ({ items, suppliers, locations }) => {
           </tr>
         </thead>
         <tbody>
-          {itemsToDisplay.map((item) => {
+          {itemsToDisplay.map((item, index) => {
             if (item.showEditForm) {
               return (
                 <EditItemForm
@@ -150,6 +150,7 @@ const ListItems = ({ items, suppliers, locations }) => {
             } else {
               return (
                 <TableItemRow
+                  index={index}
                   key={item.id}
                   item={item}
                   handleToggleEdit={handleToggleEdit}
