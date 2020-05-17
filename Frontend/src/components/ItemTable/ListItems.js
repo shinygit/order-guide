@@ -40,7 +40,10 @@ const ListItems = ({ items, suppliers, locations }) => {
     uncheckedItems.current = []
   }
 
-  const searchResults = fuzzysort.go(searchTerm, items, { key: 'itemName' })
+  const searchResults = fuzzysort.go(searchTerm, items, {
+    key: 'itemName',
+    limit: 10,
+  })
 
   const filteredItems = items.filter((item) => {
     if (searchTerm !== '') {
@@ -53,7 +56,6 @@ const ListItems = ({ items, suppliers, locations }) => {
     ) {
       return true
     }
-    console.log(item)
     if (filterType === 'supplier' && item.supplier === filterName) return true
     if (filterType === 'location' && item.location === filterName) return true
     return false
