@@ -162,7 +162,6 @@ export default {
             }
           })
         )
-        console.log(await newOrderItems)
         models.Item.bulkCreate(await newOrderItems)
         return true
       }
