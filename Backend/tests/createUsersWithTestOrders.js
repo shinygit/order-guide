@@ -1,5 +1,28 @@
 import models from '../models'
+import { v4 as uuidv4 } from 'uuid'
 export default async () => {
+  const items = () => {
+    const lotsofitems = []
+    for (let i = 0; i < 500; i++) {
+      lotsofitems.push({
+        itemName: `Good Book ${i}`,
+        orderAmount: 2,
+        buildTo: 2,
+        quanityOnHand: 1,
+        locationId: 1,
+        supplierId: 1,
+        unitPriceInPennies: 1245,
+        isMarketPrice: false,
+        productNumber: '9u12012h',
+        unitSize: '1 book',
+        quantityReceived: 0,
+        itemNote: 'get this book every week for sure',
+        specialNote: 'last week was a bad book',
+        itemId: uuidv4(),
+      })
+    }
+    return lotsofitems
+  }
   const loc1 = await models.Location.create({ locationName: 'floor' })
   const loc2 = await models.Location.create({ locationName: 'not floor' })
   const sup1 = await models.Supplier.create({
@@ -171,41 +194,7 @@ export default async () => {
         },
         {
           orderDate: '2020-01-29',
-          items: [
-            {
-              itemName: 'Good Book',
-              orderAmount: 2,
-              buildTo: 2,
-              quanityOnHand: 1,
-              locationId: 1,
-              supplierId: 1,
-              unitPriceInPennies: 1245,
-              isMarketPrice: false,
-              productNumber: '9u12012h',
-              unitSize: '1 book',
-              quantityReceived: 0,
-              itemNote: 'get this book every week for sure',
-              specialNote: 'last week was a bad book',
-              itemId: '8b41c801-dce8-4899-b0a2-498ccc25df90',
-            },
-            {
-              itemName: 'Bad Book',
-              orderAmount: 2,
-              buildTo: 2,
-              quanityOnHand: 1,
-              locationId: 2,
-              supplierId: 2,
-              unitPriceInPennies: 1122,
-              isMarketPrice: true,
-              productNumber: '231208-2',
-              unitSize: '1 book',
-              quantityReceived: 0,
-              itemNote: "Don't get this book every week.",
-              specialNote: null,
-              receivingNote: 'Sent back, was a really bad book',
-              itemId: '4018d0fc-a835-4e99-82ad-b088a300375f',
-            },
-          ],
+          items: items(),
         },
       ],
     },
