@@ -74,4 +74,4 @@ const ChangeOrderAmount = ({ id, orderAmount, orderDates }) => {
     </div>
   )
 }
-export default ChangeOrderAmount
+export default React.memo(ChangeOrderAmount)

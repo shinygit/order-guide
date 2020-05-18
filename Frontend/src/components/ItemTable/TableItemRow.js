@@ -86,4 +86,4 @@ const TableItemRow = ({
     </>
   )
 }
-export default TableItemRow
+export default React.memo(TableItemRow)

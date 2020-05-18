@@ -23,4 +23,4 @@ const ClipboardDown = ({ bold }) => {
     </svg>
   )
 }
-export default ClipboardDown
+export default React.memo(ClipboardDown)
