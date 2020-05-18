@@ -3,7 +3,7 @@ import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { GET_SUPPLIERS } from '../Queries/supplier'
 import { FILTER_QUERY } from '../Queries/filter'
-import { GET_LATEST_ORDER } from '../Queries/item'
+import { ORDER_DATES } from '../Queries/order'
 const GET_IS_ORDER_PLACED = gql`
   query SupplierOrder($supplierId: ID!, $orderId: ID!) {
     supplierOrder(supplierId: $supplierId, orderId: $orderId) {
@@ -26,23 +26,21 @@ const TOGGLE_ORDER_PLACED = gql`
   }
 `
 
-const OrderPlaceToggle = () => {
-  const client = useApolloClient()
+const OrderPlaceToggle = ({ orderId }) => {
   const { loading: filterLoading, data: filterData } = useQuery(FILTER_QUERY)
 
-  const { loading: loadingLatestOrder, data: latestOrderData } = useQuery(
-    GET_LATEST_ORDER,
+  /*   const { loading: loadingLatestOrder, data: latestOrderData } = useQuery(
+    ORDER_DATES,
     {
       variables: {
-        orderDepth: 1,
+        orderDepth: 3,
       },
     }
-  )
+  ) */
   const { loading: supplierLoading, data: supplierData = {} } = useQuery(
     GET_SUPPLIERS
   )
   const { suppliers = [] } = supplierData
-
   const supplier = suppliers.find((supplier) => {
     if (supplier.supplierName === 'Market Price') return false
     if (supplier.supplierName === filterData.filter.filterName) return true
@@ -51,10 +49,10 @@ const OrderPlaceToggle = () => {
     loading: orderPlacedLoading,
     data: { supplierOrder: { wasOrderPlaced } = {} } = {},
   } = useQuery(GET_IS_ORDER_PLACED, {
-    skip: !supplierData || !latestOrderData || !supplier,
+    skip: !supplierData || !supplier,
     variables: {
       supplierId: supplier?.id,
-      orderId: latestOrderData?.orders[0].id,
+      orderId: 5,
     },
   })
   const [toggleOrderPlaced, { data: toggleOrderPlacedData }] = useMutation(
@@ -65,7 +63,7 @@ const OrderPlaceToggle = () => {
     toggleOrderPlaced({
       variables: {
         supplierId: supplier.id,
-        orderId: latestOrderData.orders[0].id,
+        orderId: 5,
       },
     })
   }

@@ -15,7 +15,9 @@ const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
   })
+
   const [items, setItems] = useState([])
+
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
     if (
@@ -28,6 +30,7 @@ const App = () => {
       setItems(data.orders[0].items)
     }
   }, [data])
+
   useEffect(() => {
     refetch()
   }, [currentDate, refetch])
@@ -81,6 +84,7 @@ const App = () => {
         locations={locations}
         toggleNewItem={toggleNewItem}
         newItemToggle={newItemToggle}
+        orderId={data?.orders[0]?.id}
       />
       <SearchForm />
       {loading ? (

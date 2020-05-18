@@ -12,13 +12,8 @@ const TableItemRow = ({
   handleToggleEdit,
   handleToggleShowExpandedItem,
   index,
+  orderDates,
 }) => {
-  const { data } = useQuery(ORDER_DATES, {
-    variables: {
-      orderDepth: 1,
-    },
-  })
-
   return (
     <>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
@@ -48,10 +43,14 @@ const TableItemRow = ({
           {item.previousOrders[0]}
         </td>
         <td className='border border-gray-700 text-center'>
-          <ChangeOrderAmount id={item.id} orderAmount={item.orderAmount} />
+          <ChangeOrderAmount
+            id={item.id}
+            orderAmount={item.orderAmount}
+            orderDates={orderDates}
+          />
         </td>
         <td className='hidden md:table-cell border border-gray-700 text-center px-1'>
-          {item.isMarketPrice && !data?.orders[0].isLocked ? (
+          {item.isMarketPrice && !orderDates?.orders[0].isLocked ? (
             <MarketPriceSupplierSelector item={item} />
           ) : (
             item.supplier

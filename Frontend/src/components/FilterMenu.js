@@ -10,6 +10,7 @@ const FilterMenu = ({
   toggleNewItem,
   newItemToggle,
   items,
+  orderId,
 }) => {
   const client = useApolloClient()
 
@@ -91,7 +92,7 @@ const FilterMenu = ({
         <OrderLock />
         <OrderModeToggle />
 
-        <OrderPlacedToggle />
+        <OrderPlacedToggle orderId={orderId} />
 
         <button
           className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'

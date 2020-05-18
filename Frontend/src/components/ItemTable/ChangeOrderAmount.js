@@ -3,12 +3,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import { UPDATE_ITEM_ORDER_AMOUNT } from '../../Queries/item'
 import { ORDER_DATES } from '../../Queries/order'
 
-const ChangeOrderAmount = ({ id, orderAmount }) => {
-  const { data } = useQuery(ORDER_DATES, {
-    variables: {
-      orderDepth: 1,
-    },
-  })
+const ChangeOrderAmount = ({ id, orderAmount, orderDates }) => {
   const getNextOrderAmount = (orderAmount) => {
     if (orderAmount === null) {
       return 0
@@ -49,7 +44,7 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
   }
   return (
     <div className='flex justify-around'>
-      {!data?.orders[0].isLocked && (
+      {!orderDates?.orders[0].isLocked && (
         <button className='' onClick={() => handleDecrease()}>
           <svg
             className='h-6 w-6'
@@ -60,12 +55,12 @@ const ChangeOrderAmount = ({ id, orderAmount }) => {
           </svg>
         </button>
       )}
-      {data?.orders[0].isLocked ? (
+      {orderDates?.orders[0].isLocked ? (
         <span className='font-bold text-2xl'>{orderAmount}</span>
       ) : (
         <span className=''>{orderAmount}</span>
       )}
-      {!data?.orders[0].isLocked && (
+      {!orderDates?.orders[0].isLocked && (
         <button className='' onClick={() => handleIncrease()}>
           <svg
             className='h-6 w-6'

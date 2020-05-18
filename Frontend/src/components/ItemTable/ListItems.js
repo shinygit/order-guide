@@ -40,13 +40,12 @@ const ListItems = ({ items, suppliers, locations }) => {
     uncheckedItems.current = []
   }
 
-  const searchResults = fuzzysort.go(searchTerm, items, {
-    key: 'itemName',
-    limit: 10,
-  })
-
   const filteredItems = items.filter((item) => {
     if (searchTerm !== '') {
+      const searchResults = fuzzysort.go(searchTerm, items, {
+        key: 'itemName',
+        limit: 10,
+      })
       return searchResults.map((x, i) => searchResults[i].obj).includes(item)
     }
     if (filterName === 'ALL' && filterType === 'ALL') return true
@@ -61,7 +60,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     return false
   })
   const hideAllZeroOrderAmountItems = filteredItems.filter((item) => {
-    if (hideAllZeroOrderAmount) {
+    if (hideAllZeroOrderAmount && searchTerm == '') {
       if (item.orderAmount === 0) return false
       return true
     }
@@ -79,17 +78,17 @@ const ListItems = ({ items, suppliers, locations }) => {
       return 0
     })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
-  const handleToggleEdit = useCallback(
-    (id) => toggle({ variables: { itemId: id } }),
-    [toggle]
+  const handleToggleEdit = useCallback((id) =>
+    toggle({ variables: { itemId: id } }, [])
   )
   const { data: orderDates } = useQuery(ORDER_DATES, {
     variables: { orderDepth: 3 },
   })
 
   const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
-  const handleToggleShowExpandedItem = (id) =>
-    toggleExpanded({ variables: { itemId: id } })
+  const handleToggleShowExpandedItem = useCallback((id) =>
+    toggleExpanded({ variables: { itemId: id } }, [])
+  )
 
   return (
     <div className='rounded border border-gray-700 bg-yellow-100 shadow-inner p-2'>
@@ -154,6 +153,7 @@ const ListItems = ({ items, suppliers, locations }) => {
               return (
                 <TableItemRow
                   index={index}
+                  orderDates={orderDates}
                   key={item.id}
                   item={item}
                   handleToggleEdit={handleToggleEdit}
@@ -168,4 +168,4 @@ const ListItems = ({ items, suppliers, locations }) => {
   )
 }
 
-export default ListItems
+export default React.memo(ListItems)
