@@ -37,7 +37,7 @@ const NavBar = () => {
             Build-To Order Guides
           </span>
         </div>
-        <ul className='flex mr-5 text-gray-100 font-semibold'>
+        <ul className='flex flex-wrap mr-5 text-gray-100 font-semibold'>
           <li
             className={`mr-6 p-1 border-yellow-100 ${
               location.pathname === '/' ? 'border-b-2' : null
