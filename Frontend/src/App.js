@@ -10,7 +10,10 @@ import OrderMenu from './components/OrderMenu'
 import NavBar from './components/NavBar/NavBar'
 
 import { GET_LATEST_ORDER } from './Queries/item'
-
+export const LocSupContext = React.createContext({
+  locations: null,
+  suppliers: null,
+})
 const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
@@ -87,11 +90,15 @@ const App = () => {
         orderId={data?.orders[0]?.id}
       />
       <SearchForm />
-      {loading ? (
-        <h1 className='text-6xl'>Loading...</h1>
-      ) : (
-        <ListItems items={items} suppliers={suppliers} locations={locations} />
-      )}
+      <LocSupContext.Provider
+        value={{ locations: locations, suppliers: suppliers }}
+      >
+        {loading ? (
+          <h1 className='text-6xl'>Loading...</h1>
+        ) : (
+          <ListItems items={items} />
+        )}
+      </LocSupContext.Provider>
     </div>
   )
 }

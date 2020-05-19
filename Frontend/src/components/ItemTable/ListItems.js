@@ -20,7 +20,7 @@ const TOGGLE_EXPANDED_ITEM = gql`
   }
 `
 
-const ListItems = ({ items, suppliers, locations }) => {
+const ListItems = ({ items }) => {
   const { data } = useQuery(FILTER_QUERY)
   const {
     searchTerm,
@@ -144,8 +144,6 @@ const ListItems = ({ items, suppliers, locations }) => {
                 <EditItemForm
                   key={item.id}
                   item={item}
-                  suppliers={suppliers}
-                  locations={locations}
                   handleToggleEdit={handleToggleEdit}
                 />
               )

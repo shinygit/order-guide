@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
-
+import { LocSupContext } from '../../App'
 const parseToEmptyString = (value) => {
   if (value !== 0 && !value) return ''
   return value
 }
 
-const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
+const EditItemForm = ({ item, handleToggleEdit }) => {
+  const { locations, suppliers } = useContext(LocSupContext)
   const [edit] = useMutation(EDIT_ITEM)
   const [deleteItem] = useMutation(DELETE_ITEM)
   const [editItemForm, setEditItemForm] = useState({

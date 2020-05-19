@@ -43,7 +43,7 @@ const retryLink = new RetryLink({
     jitter: false,
   },
   attempts: {
-    max: 5,
+    max: 100,
   },
 })
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
