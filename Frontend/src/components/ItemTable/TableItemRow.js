@@ -43,11 +43,7 @@ const TableItemRow = ({
           {item.previousOrders[0]}
         </td>
         <td className='border border-gray-700 text-center'>
-          <ChangeOrderAmount
-            id={item.id}
-            orderAmount={item.orderAmount}
-            orderDates={orderDates}
-          />
+          <ChangeOrderAmount id={item.id} orderDates={orderDates} />
         </td>
         <td className='hidden md:table-cell border border-gray-700 text-center px-1'>
           {item.isMarketPrice && !orderDates?.orders[0].isLocked ? (

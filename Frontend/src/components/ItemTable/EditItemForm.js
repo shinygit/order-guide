@@ -149,7 +149,7 @@ const EditItemForm = ({ item, suppliers, locations, handleToggleEdit }) => {
         <td className={tableCell}>{item.previousOrders[1]}</td>
         <td className={tableCell}>{item.previousOrders[0]}</td>
         <td className={tableCell}>
-          <ChangeOrderAmount id={item.id} orderAmount={item.orderAmount} />
+          <ChangeOrderAmount id={item.id} />
         </td>
         <td className={tableCell}>
           <input

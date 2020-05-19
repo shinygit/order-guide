@@ -79,7 +79,7 @@ const ListItems = ({ items, suppliers, locations }) => {
     })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleToggleEdit = useCallback((id) =>
-    toggle({ variables: { itemId: id } }, [])
+    toggle({ variables: { itemId: id } }, [toggle])
   )
   const { data: orderDates } = useQuery(ORDER_DATES, {
     variables: { orderDepth: 3 },
@@ -87,7 +87,7 @@ const ListItems = ({ items, suppliers, locations }) => {
 
   const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
   const handleToggleShowExpandedItem = useCallback((id) =>
-    toggleExpanded({ variables: { itemId: id } }, [])
+    toggleExpanded({ variables: { itemId: id } }, [toggleExpanded])
   )
 
   return (
@@ -167,5 +167,21 @@ const ListItems = ({ items, suppliers, locations }) => {
     </div>
   )
 }
-
+const areEqual = (prevProps, nextProps) => {
+  const differences = []
+  prevProps.items.forEach((item, i) =>
+    Object.keys(item).forEach((itemKey) => {
+      if (item[itemKey] === nextProps.items[i][itemKey]) differences.push(true)
+      if (
+        item[itemKey] !== nextProps.items[i][itemKey] &&
+        itemKey !== 'orderAmount' &&
+        itemKey !== 'previousOrders'
+      ) {
+        differences.push(false)
+      }
+    })
+  )
+  if (!differences.includes(false)) return false
+  return false
+}
 export default React.memo(ListItems)

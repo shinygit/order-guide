@@ -1,9 +1,22 @@
 import React from 'react'
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks'
 import { UPDATE_ITEM_ORDER_AMOUNT } from '../../Queries/item'
 import { ORDER_DATES } from '../../Queries/order'
+import gql from 'graphql-tag'
 
-const ChangeOrderAmount = ({ id, orderAmount, orderDates }) => {
+const ITEM_ORDER_AMOUNT = gql`
+  fragment item on Item {
+    id
+    orderAmount
+  }
+`
+
+const ChangeOrderAmount = ({ id, orderDates }) => {
+  const client = useApolloClient()
+  const { orderAmount } = client.readFragment({
+    id: `Item:${id}`,
+    fragment: ITEM_ORDER_AMOUNT,
+  })
   const getNextOrderAmount = (orderAmount) => {
     if (orderAmount === null) {
       return 0
