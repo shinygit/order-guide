@@ -12,7 +12,7 @@ const MainSupplierView = () => {
   console.log(data)
   if (loading) return <span>LOADING...</span>
   return (
-    <div className='flex flex-col bg-blue-100 p-3'>
+    <div className='flex flex-col p-3'>
       <NavBar />
 
       <div className='flex'>

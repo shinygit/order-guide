@@ -68,7 +68,7 @@ const App = () => {
     setNewItemToggle(!newItemToggle)
   }
   return (
-    <div className='flex-col bg-blue-100 p-3'>
+    <div className='flex-col p-3'>
       <NavBar />
       <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
       {newItemToggle && (
