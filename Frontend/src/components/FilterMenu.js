@@ -141,8 +141,8 @@ const FilterMenu = ({
         </button>
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
-        <span className='block w-full text-center w-full text-center'>
-          Suppliers
+        <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+          SUPPLIERS
         </span>
         {suppliers.map((supplier) => {
           if (supplier !== 'Market Price') {
@@ -164,7 +164,9 @@ const FilterMenu = ({
         })}
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
-        <span className='w-full text-center'>Locations</span>
+        <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+          LOCATIONS
+        </span>
         {locations.map((location) => (
           <button
             className={`transition duration-200 ease-in-out w-auto p-4 mx-1 my-1 border border-gray-900 rounded 
