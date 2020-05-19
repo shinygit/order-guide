@@ -16,6 +16,7 @@ import { onError } from 'apollo-link-error'
 import { setContext } from 'apollo-link-context'
 import { RetryLink } from 'apollo-link-retry'
 import { ApolloLink } from 'apollo-link'
+import SerializingLink from 'apollo-link-serialize'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 if (module.hot) {
@@ -35,6 +36,7 @@ const authLink = setContext((_, { headers }) => {
     },
   }
 })
+
 const retryLink = new RetryLink({
   delay: {
     initial: 300,
@@ -80,8 +82,15 @@ const normalizeSupplierOrder = (object) => {
     return defaultDataIdFromObject(object)
   }
 }
+const serializeLink = new SerializingLink()
 
-const Link = ApolloLink.from([onErrorLink, authLink, retryLink, httpLink])
+const Link = ApolloLink.from([
+  onErrorLink,
+  authLink,
+  serializeLink,
+  retryLink,
+  httpLink,
+])
 const cache = new InMemoryCache({
   dataIdFromObject: normalizeSupplierOrder,
   fragmentMatcher,

@@ -57,7 +57,8 @@ export const DELETE_ITEM = gql`
 `
 
 export const UPDATE_ITEM_ORDER_AMOUNT = gql`
-  mutation updateItemOrderAmount($id: ID!, $orderAmount: Int!) {
+  mutation updateItemOrderAmount($id: ID!, $orderAmount: Int!)
+    @serialize(key: ["updateOrderAmount"]) {
     updateItemOrderAmount(id: $id, orderAmount: $orderAmount) {
       id
       orderAmount
