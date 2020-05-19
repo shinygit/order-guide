@@ -580,6 +580,14 @@ video {
   height: auto;
 }
 
+body {
+  touch-action: manipulation;
+  --bg-opacity: 1;
+  background-color: #ebf8ff;
+  background-color: rgba(235, 248, 255, var(--bg-opacity));
+  height: 100vh;
+}
+
 .container {
   width: 100%;
 }
@@ -15465,6 +15473,10 @@ video {
 
 .delay-1000 {
   transition-delay: 1000ms;
+}
+
+.body {
+  touch-action: manipulation;
 }
 
 @media (min-width: 640px) {

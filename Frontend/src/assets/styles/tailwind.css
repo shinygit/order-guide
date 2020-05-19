@@ -2,8 +2,18 @@
 
 @tailwind base;
 
+body {
+  @apply body;
+  @apply bg-blue-100;
+  @apply h-screen;
+}
+
 @tailwind components;
 
 /* purgecss end ignore */
 
 @tailwind utilities;
+
+.body {
+  touch-action: manipulation;
+}
