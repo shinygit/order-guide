@@ -14,6 +14,7 @@ import Routes from './components/Welcome/Routes'
 import * as serviceWorker from './serviceWorker'
 import { onError } from 'apollo-link-error'
 import { setContext } from 'apollo-link-context'
+import { RetryLink } from 'apollo-link-retry'
 import { ApolloLink } from 'apollo-link'
 
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -33,6 +34,15 @@ const authLink = setContext((_, { headers }) => {
       'x-token': token ? `${token}` : '',
     },
   }
+})
+const retryLink = new RetryLink({
+  delay: {
+    initial: 300,
+    jitter: false,
+  },
+  attempts: {
+    max: 5,
+  },
 })
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -71,7 +81,7 @@ const normalizeSupplierOrder = (object) => {
   }
 }
 
-const Link = ApolloLink.from([onErrorLink, authLink, httpLink])
+const Link = ApolloLink.from([onErrorLink, authLink, retryLink, httpLink])
 const cache = new InMemoryCache({
   dataIdFromObject: normalizeSupplierOrder,
   fragmentMatcher,
