@@ -4,6 +4,7 @@ import { EDIT_ITEM, DELETE_ITEM, GET_LATEST_ORDER } from '../../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
 import { LocSupContext } from '../../App'
+import FieldSupplierSelector from './FieldSupplierSelector'
 const parseToEmptyString = (value) => {
   if (value !== 0 && !value) return ''
   return value
@@ -31,7 +32,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
     receivingNote: item.receivingNote,
     showEditForm: item.showEditForm,
   })
-  const handleChangeinput = (event) => {
+  const handleChangeInput = (event) => {
     setEditItemForm({
       ...editItemForm,
       [event.target.name]: event.target.value,
@@ -133,7 +134,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             type='text'
             name='itemName'
             value={editItemForm.itemName}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
         <td className={tableCell}>{item.unitSize}</td>
@@ -144,7 +145,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             type='number'
             name='buildTo'
             value={parseToEmptyString(editItemForm.buildTo)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
         <td className={tableCell}>{item.previousOrders[1]}</td>
@@ -153,19 +154,10 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
           <ChangeOrderAmount id={item.id} />
         </td>
         <td className={tableCell}>
-          <input
-            className={`${editInput} w-full`}
-            type='text'
-            name='supplier'
-            list='suppliersList'
-            value={parseToEmptyString(editItemForm.supplier)}
-            onChange={handleChangeinput}
+          <FieldSupplierSelector
+            handleChangeInput={handleChangeInput}
+            currentSupplierSelection={editItemForm.supplier}
           />
-          <datalist id='suppliersList'>
-            {suppliers.map((item) => (
-              <option key={item} value={item} />
-            ))}
-          </datalist>
         </td>
         <td className={tableCell}>
           <input
@@ -174,7 +166,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             name='location'
             list='locationsList'
             value={parseToEmptyString(editItemForm.location)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
           <datalist id='locationsList'>
             {locations.map((item) => (
@@ -203,7 +195,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             type='text'
             name='productNumber'
             value={parseToEmptyString(editItemForm.productNumber)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
       </tr>
@@ -220,7 +212,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             type='text'
             name='unitSize'
             value={parseToEmptyString(editItemForm.unitSize)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
       </tr>
@@ -270,7 +262,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             type='text'
             name='quantityOnHand'
             value={parseToEmptyString(editItemForm.quantityOnHand)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
       </tr>
@@ -285,7 +277,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             type='text'
             name='quantityReceived'
             value={parseToEmptyString(editItemForm.quantityReceived)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
       </tr>
@@ -299,7 +291,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             className={`${editInput} w-full`}
             name='itemNote'
             value={parseToEmptyString(editItemForm.itemNote)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
       </tr>
@@ -313,7 +305,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             className={`${editInput} w-full`}
             name='specialNote'
             value={parseToEmptyString(editItemForm.specialNote)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
       </tr>
@@ -327,7 +319,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             className={`${editInput} w-full`}
             name='receivingNote'
             value={parseToEmptyString(editItemForm.receivingNote)}
-            onChange={handleChangeinput}
+            onChange={handleChangeInput}
           />
         </td>
       </tr>

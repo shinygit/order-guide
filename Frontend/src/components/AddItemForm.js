@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { CREATE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
+import FieldSupplierSelector from './ItemTable/FieldSupplierSelector'
 
 const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
-    update (client, { data: { createItem } }) {
+    update(client, { data: { createItem } }) {
       console.log(createItem)
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
-        variables: { orderDepth: 1 }
+        variables: { orderDepth: 1 },
       })
 
       const results = {
@@ -16,55 +17,50 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
         orders: [
           {
             ...queryResults.orders[0],
-            items: [...queryResults.orders[0].items, createItem]
-          }
-        ]
+            items: [...queryResults.orders[0].items, createItem],
+          },
+        ],
       }
       client.writeQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 },
-        data: results
+        data: results,
       })
-    }
+    },
   })
   const [itemFormErrors, setItemFormErrors] = useState({})
   const [itemForm, setItemForm] = useState({
     itemName: '',
     supplier: '',
     location: '',
-    buildTo: ''
+    buildTo: '',
   })
-  const handleChangeInput = event => {
+  const handleChangeInput = (event) => {
     setItemForm({
       ...itemForm,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault()
     if (!itemForm.itemName) {
       return setItemFormErrors({
         ...itemFormErrors,
-        itemName: 'An item must have a name.'
+        itemName: 'An item must have a name.',
       })
     }
     if (!itemForm.buildTo) {
       return setItemFormErrors({
         ...itemFormErrors,
-        buildTo: 'An item must have a build to amount.'
+        buildTo: 'An item must have a build to amount.',
       })
     }
-    if (!itemForm.supplier) {
-      return setItemFormErrors({
-        ...itemFormErrors,
-        supplier: 'An item must have a supplier.'
-      })
-    }
+
     if (!itemForm.location) {
       return setItemFormErrors({
         ...itemFormErrors,
-        location: 'An item must have a location.'
+        location: 'An item must have a location.',
       })
     }
     createItem({
@@ -73,15 +69,15 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
           itemName: itemForm.itemName,
           supplier: itemForm.supplier,
           location: itemForm.location,
-          buildTo: parseInt(itemForm.buildTo)
-        }
-      }
+          buildTo: parseInt(itemForm.buildTo),
+        },
+      },
     })
     setItemForm({
       itemName: '',
       supplier: '',
       location: '',
-      buildTo: ''
+      buildTo: '',
     })
     toggleNewItem()
   }
@@ -114,21 +110,10 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
       </div>
       <div className='flex flex-col mx-1 w-1/4'>
         <label>Supplier:</label>
-        <input
-          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.supplier &&
-            itemFormFieldError}`}
-          type='text'
-          name='supplier'
-          list='suppliersList'
-          value={itemForm.supplier}
-          onChange={handleChangeInput}
-          onFocus={() => setItemFormErrors({})}
+        <FieldSupplierSelector
+          handleChangeInput={handleChangeInput}
+          currentSupplierSelection={itemForm.supplier}
         />
-        <datalist id='suppliersList'>
-          {suppliers.map(item => (
-            <option key={item} value={item} />
-          ))}
-        </datalist>
       </div>
       <div className='flex flex-col mx-1 w-1/4'>
         <label>Location:</label>
@@ -143,7 +128,7 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
           onFocus={() => setItemFormErrors({})}
         />
         <datalist id='locationList'>
-          {locations.map(item => (
+          {locations.map((item) => (
             <option key={item} value={item} />
           ))}
         </datalist>
