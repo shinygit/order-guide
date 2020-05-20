@@ -8,6 +8,7 @@ export const GET_SUPPLIERS = gql`
       salesPersonName
       salesPersonPhoneNumber
       officePhoneNumber
+      salesPersonEmail
     }
   }
 `

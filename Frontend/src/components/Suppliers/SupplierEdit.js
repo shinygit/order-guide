@@ -16,6 +16,7 @@ const UPDATE_SUPPLIER = gql`
         salesPersonName
         salesPersonPhoneNumber
         officePhoneNumber
+        salesPersonEmail
       }
     }
   }
@@ -33,6 +34,7 @@ const DELETE_SUPPLIER = gql`
         salesPersonName
         salesPersonPhoneNumber
         officePhoneNumber
+        salesPersonEmail
       }
     }
   }
@@ -77,6 +79,7 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
     salesPersonName: supplier.salesPersonName || '',
     salesPersonPhoneNumber: supplier.salesPersonPhoneNumber || '',
     officePhoneNumber: supplier.officePhoneNumber || '',
+    salesPersonEmail: supplier.salesPersonEmail || '',
   })
 
   useEffect(() => {
@@ -86,6 +89,7 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
       salesPersonName: supplier.salesPersonName || '',
       salesPersonPhoneNumber: supplier.salesPersonPhoneNumber || '',
       officePhoneNumber: supplier.officePhoneNumber || '',
+      salesPersonEmail: supplier.salesPersonEmail || '',
     })
   }, [selectedCard, supplier])
   const handleChangeInput = (event) => {
@@ -102,6 +106,7 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
       salesPersonName: supplier.salesPersonName,
       salesPersonPhoneNumber: supplier.salesPersonPhoneNumber,
       officePhoneNumber: supplier.officePhoneNumber,
+      salesPersonEmail: supplier.salesPersonEmail,
     })
     setFormErrors('')
   }
@@ -168,6 +173,15 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
           type='text'
           name='salesPersonPhoneNumber'
           value={supplierForm.salesPersonPhoneNumber}
+          onChange={handleChangeInput}
+        ></input>
+      </label>
+      <label>
+        Sales Person Email:
+        <input
+          type='text'
+          name='salesPersonEmail'
+          value={supplierForm.salesPersonEmail}
           onChange={handleChangeInput}
         ></input>
       </label>

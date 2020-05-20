@@ -9,7 +9,6 @@ import { GET_SUPPLIERS } from '../../Queries/supplier'
 const MainSupplierView = () => {
   const { loading, data } = useQuery(GET_SUPPLIERS)
   const [selectedCard, setSelectedCard] = useState('')
-  console.log(data)
   if (loading) return <span>LOADING...</span>
   return (
     <div className='flex flex-col p-3'>

@@ -26,6 +26,9 @@ const supplier = (sequelize, DataTypes) => {
     officePhoneNumber: {
       type: DataTypes.STRING,
     },
+    salesPersonEmail: {
+      type: DataTypes.STRING,
+    },
   })
 
   Supplier.associate = (models) => {

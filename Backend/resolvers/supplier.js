@@ -76,6 +76,7 @@ export default {
         salesPersonName: input.salesPersonName,
         salesPersonPhoneNumber: input.salesPersonPhoneNumber,
         officePhoneNumber: input.officePhoneNumber,
+        salesPersonEmail: input.salesPersonEmail,
       })
       return { __typename: 'Supplier', ...supplier.dataValues }
     },

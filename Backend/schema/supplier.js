@@ -16,6 +16,7 @@ export default gql`
     salesPersonName: String
     salesPersonPhoneNumber: String
     officePhoneNumber: String
+    salesPersonEmail: String
   }
 
   input supplierInput {
@@ -24,6 +25,7 @@ export default gql`
     salesPersonName: String
     salesPersonPhoneNumber: String
     officePhoneNumber: String
+    salesPersonEmail: String
   }
 
   extend type Mutation {

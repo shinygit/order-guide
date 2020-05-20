@@ -26,18 +26,20 @@ export default async () => {
   const loc1 = await models.Location.create({ locationName: 'floor' })
   const loc2 = await models.Location.create({ locationName: 'not floor' })
   const sup1 = await models.Supplier.create({
-    supplierName: 'good store',
+    supplierName: 'Chucks Place of Goods',
     deliveryDay: 'Thursday',
     salesPersonName: 'Chuck',
-    salesPersonPhoneNumber: '90832-021',
-    officePhoneNumber: '09123-09123-2',
+    salesPersonPhoneNumber: '708-555-4321',
+    officePhoneNumber: '708-555-1234',
+    salesPersonEmail: 'chuckgood@thanks.com',
   })
   const sup2 = await models.Supplier.create({
-    supplierName: 'not good store',
+    supplierName: "Joe's Good Store",
     deliveryDay: 'Tuesday',
     salesPersonName: 'Joe',
-    salesPersonPhoneNumber: '91342234-21',
-    officePhoneNumber: '0913234123-2',
+    salesPersonPhoneNumber: '708-555-4567',
+    officePhoneNumber: '708-555-7654',
+    salesPersonEmail: 'Joegood@thanks.com',
   })
   const user = await models.User.create(
     {
