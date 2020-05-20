@@ -6,6 +6,8 @@ import ClipboardUp from './icons/ClipboardUp'
 import MarketPriceSupplierSelector from './MarketPriceSupplierSelector'
 import { ORDER_DATES } from '../../Queries/order'
 import { useQuery } from '@apollo/react-hooks'
+import useLongPress from '../../hooks/useLongPress'
+import EditItemWindow from './EditItemWindow'
 
 const TableItemRow = ({
   item,
@@ -14,9 +16,17 @@ const TableItemRow = ({
   index,
   orderDates,
 }) => {
+  const [active, setActive] = useState(false)
+  const longPressProps = useLongPress({
+    onLongPress: (ev) => setActive(true),
+  })
   return (
     <>
-      <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
+      <tr
+        {...longPressProps}
+        className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}
+      >
+        <EditItemWindow item={item} active={active} setActive={setActive} />
         <td className='hidden md:table-cell bg-yellow-100'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
             {item.isExpanded ? (
@@ -58,8 +68,8 @@ const TableItemRow = ({
       </tr>
       {!item.isExpanded && item.specialNote ? (
         <>
-          <tr>
-            <td />
+          <tr {...longPressProps}>
+            <td className='hidden md:block' />
             <td
               className={`border border-gray-700 ${
                 index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
