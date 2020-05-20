@@ -11,7 +11,9 @@ const SupplierCard = ({ supplier, selectedCard, setSelectedCard }) => {
             : 'bg-white border-gray-300 shadow hover:bg-gray-100 hover:shadow-lg hover:border-blue-300'
         }`}
       >
-        <div className='text-2xl font-semibold self-center'>Sysco</div>
+        <div className='text-2xl font-semibold self-center'>
+          {supplier.supplierName}
+        </div>
 
         <div className='grid grid-cols-2'>
           <div className='flex flex-col'>
