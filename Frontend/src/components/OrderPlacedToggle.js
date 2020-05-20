@@ -52,7 +52,7 @@ const OrderPlaceToggle = ({ orderId }) => {
     skip: !supplierData || !supplier,
     variables: {
       supplierId: supplier?.id,
-      orderId: latestOrderData?.orders[0].id,
+      orderId: orderId,
     },
   })
   const [toggleOrderPlaced, { data: toggleOrderPlacedData }] = useMutation(
@@ -63,7 +63,7 @@ const OrderPlaceToggle = ({ orderId }) => {
     toggleOrderPlaced({
       variables: {
         supplierId: supplier.id,
-        orderId: latestOrderData?.orders[0].id,
+        orderId: orderId,
       },
     })
   }
