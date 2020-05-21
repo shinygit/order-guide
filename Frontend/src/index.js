@@ -1,4 +1,4 @@
-// import './wdyr'
+//import './wdyr'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './assets/styles/main.css'
@@ -92,8 +92,17 @@ const Link = ApolloLink.from([
   retryLink,
   httpLink,
 ])
+
+const itemRedirect = {
+  item: (_, args, { getCacheKey }) =>
+    getCacheKey({ __typename: 'Item', id: args.id }),
+}
+
 const cache = new InMemoryCache({
   dataIdFromObject: normalizeSupplierOrder,
+  cacheRedirects: {
+    Query: itemRedirect,
+  },
   fragmentMatcher,
   freezeResults: true,
 })

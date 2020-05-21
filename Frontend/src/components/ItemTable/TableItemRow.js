@@ -12,26 +12,28 @@ import { Portal } from 'react-portal'
 import gql from 'graphql-tag'
 
 const GET_ITEM = gql`
-  fragment item on Item {
-    id
-    itemName
-    orderAmount
-    supplier
-    location
-    buildTo
-    quantityOnHand
-    quantityReceived
-    orderAmount
-    unitPriceInPennies
-    isMarketPrice
-    productNumber
-    unitSize
-    itemNote
-    specialNote
-    receivingNote
-    previousOrders(count: 2)
-    showEditForm @client
-    isExpanded @client
+  query Item($id: ID!) {
+    item(id: $id) {
+      id
+      itemName
+      orderAmount
+      supplier
+      location
+      buildTo
+      quantityOnHand
+      quantityReceived
+      orderAmount
+      unitPriceInPennies
+      isMarketPrice
+      productNumber
+      unitSize
+      itemNote
+      specialNote
+      receivingNote
+      previousOrders(count: 2)
+      showEditForm @client
+      isExpanded @client
+    }
   }
 `
 
@@ -42,14 +44,6 @@ const TableItemRow = ({
   index,
   orderDates,
 }) => {
-  const client = useApolloClient()
-  const item = client.readFragment(
-    {
-      id: `Item:${id}`,
-      fragment: GET_ITEM,
-    },
-    true
-  )
   const [active, setActive] = useState(false)
   const longPressProps = useCallback(
     useLongPress({
@@ -58,6 +52,14 @@ const TableItemRow = ({
       },
     })
   )
+
+  const { data: { item } = {}, loading } = useQuery(GET_ITEM, {
+    variables: {
+      id: id,
+    },
+  })
+
+  if (loading) return null
   return (
     <>
       <tr
