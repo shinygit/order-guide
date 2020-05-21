@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { EDIT_ITEM } from '../../Queries/item'
+import { Portal } from 'react-portal'
 
 const EditItemWindow = ({ item, active, setActive }) => {
   const [edit] = useMutation(EDIT_ITEM)
@@ -29,18 +30,36 @@ const EditItemWindow = ({ item, active, setActive }) => {
       [event.target.name]: event.target.value,
     })
   }
-  if (active)
-    return (
-      <td className='fixed w-7/12 h-auto inset-0 p-8 bg-white m-auto flex-col flex'>
+
+  return (
+    <div
+      className={`fixed inset-0 w-full h-screen flex items-center justify-center bg-opacity-75 bg-black`}
+    >
+      <div className='w-11/12 bg-gray-200 shadow-lg rounded-lg p-6 flex flex-col items-center'>
+        <span className='text-lg py-3'>{item.itemName}</span>
+        <span className='text-gray-700 py-3'>Special Note</span>
         <textarea
+          className='w-10/12 justify-between py-3'
           name='specialNote'
           value={editItemForm.specialNote}
           onChange={handleChangeInput}
         />
-        <button onClick={handleSubmit}>Save</button>
-        <button onClick={() => setActive(false)}>Cancel</button>
-      </td>
-    )
-  return null
+        <div className='p-4 flex w-10/12 justify-between pt-10'>
+          <button
+            className='border border-2 rounded w-24 bg-green-100 p-2 border-green-600 text-green-700'
+            onClick={handleSubmit}
+          >
+            Save
+          </button>
+          <button
+            className='border border-2 rounded w-24 bg-gray-100 p-2 border-gray-600 text-gray-700'
+            onClick={() => setActive(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 export default EditItemWindow

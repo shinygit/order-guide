@@ -8,6 +8,7 @@ import { ORDER_DATES } from '../../Queries/order'
 import { useQuery } from '@apollo/react-hooks'
 import useLongPress from '../../hooks/useLongPress'
 import EditItemWindow from './EditItemWindow'
+import { Portal } from 'react-portal'
 
 const TableItemRow = ({
   item,
@@ -18,7 +19,9 @@ const TableItemRow = ({
 }) => {
   const [active, setActive] = useState(false)
   const longPressProps = useLongPress({
-    onLongPress: (ev) => setActive(true),
+    onLongPress: (ev) => {
+      window.matchMedia('(max-width: 640px)').matches && setActive(true)
+    },
   })
   return (
     <>
@@ -26,7 +29,11 @@ const TableItemRow = ({
         {...longPressProps}
         className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}
       >
-        <EditItemWindow item={item} active={active} setActive={setActive} />
+        {active && (
+          <Portal>
+            <EditItemWindow item={item} active={active} setActive={setActive} />
+          </Portal>
+        )}
         <td className='hidden md:table-cell bg-yellow-100'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
             {item.isExpanded ? (
