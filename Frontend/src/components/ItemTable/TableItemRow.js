@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import ChangeOrderAmount from './ChangeOrderAmount'
 import TableItemRowExpanded from './TableItemRowExpanded'
 import ClipboardDown from './icons/ClipboardDown'
@@ -18,11 +18,13 @@ const TableItemRow = ({
   orderDates,
 }) => {
   const [active, setActive] = useState(false)
-  const longPressProps = useLongPress({
-    onLongPress: (ev) => {
-      window.matchMedia('(max-width: 640px)').matches && setActive(true)
-    },
-  })
+  const longPressProps = useCallback(
+    useLongPress({
+      onLongPress: (ev) => {
+        window.matchMedia('(max-width: 640px)').matches && setActive(true)
+      },
+    })
+  )
   return (
     <>
       <tr

@@ -38,12 +38,14 @@ const EditItemWindow = ({ item, active, setActive }) => {
       <div className='w-11/12 bg-gray-200 shadow-lg rounded-lg p-6 flex flex-col items-center'>
         <span className='text-lg py-3'>{item.itemName}</span>
         <span className='text-gray-700 py-3'>Special Note</span>
-        <textarea
-          className='w-10/12 justify-between py-3'
-          name='specialNote'
-          value={editItemForm.specialNote}
-          onChange={handleChangeInput}
-        />
+        <div className='w-10/12 p-2 bg-white'>
+          <textarea
+            className='w-full justify-between resize-none outline-none'
+            name='specialNote'
+            value={editItemForm.specialNote}
+            onChange={handleChangeInput}
+          />
+        </div>
         <div className='p-4 flex w-10/12 justify-between pt-10'>
           <button
             className='border border-2 rounded w-24 bg-green-100 p-2 border-green-600 text-green-700'
