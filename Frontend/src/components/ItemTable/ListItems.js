@@ -78,16 +78,18 @@ const ListItems = ({ items }) => {
       return 0
     })
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
-  const handleToggleEdit = useCallback((id) =>
-    toggle({ variables: { itemId: id } }, [toggle])
+  const handleToggleEdit = useCallback(
+    (id) => toggle({ variables: { itemId: id } }),
+    [toggle]
   )
   const { data: orderDates } = useQuery(ORDER_DATES, {
     variables: { orderDepth: 3 },
   })
 
   const [toggleExpanded] = useMutation(TOGGLE_EXPANDED_ITEM)
-  const handleToggleShowExpandedItem = useCallback((id) =>
-    toggleExpanded({ variables: { itemId: id } }, [toggleExpanded])
+  const handleToggleShowExpandedItem = useCallback(
+    (id) => toggleExpanded({ variables: { itemId: id } }),
+    [toggleExpanded]
   )
 
   return (
@@ -153,7 +155,7 @@ const ListItems = ({ items }) => {
                   index={index}
                   orderDates={orderDates}
                   key={item.id}
-                  item={item}
+                  id={item.id}
                   handleToggleEdit={handleToggleEdit}
                   handleToggleShowExpandedItem={handleToggleShowExpandedItem}
                 />

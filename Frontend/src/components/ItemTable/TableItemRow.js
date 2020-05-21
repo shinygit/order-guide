@@ -5,18 +5,48 @@ import ClipboardDown from './icons/ClipboardDown'
 import ClipboardUp from './icons/ClipboardUp'
 import MarketPriceSupplierSelector from './MarketPriceSupplierSelector'
 import { ORDER_DATES } from '../../Queries/order'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useApolloClient } from '@apollo/react-hooks'
 import useLongPress from '../../hooks/useLongPress'
 import EditItemWindow from './EditItemWindow'
 import { Portal } from 'react-portal'
+import gql from 'graphql-tag'
+
+const GET_ITEM = gql`
+  fragment item on Item {
+    id
+    itemName
+    orderAmount
+    supplier
+    location
+    buildTo
+    quantityOnHand
+    quantityReceived
+    orderAmount
+    unitPriceInPennies
+    isMarketPrice
+    productNumber
+    unitSize
+    itemNote
+    specialNote
+    receivingNote
+    previousOrders(count: 2)
+    showEditForm @client
+    isExpanded @client
+  }
+`
 
 const TableItemRow = ({
-  item,
+  id,
   handleToggleEdit,
   handleToggleShowExpandedItem,
   index,
   orderDates,
 }) => {
+  const client = useApolloClient()
+  const item = client.readFragment({
+    id: `Item:${id}`,
+    fragment: GET_ITEM,
+  })
   const [active, setActive] = useState(false)
   const longPressProps = useCallback(
     useLongPress({
