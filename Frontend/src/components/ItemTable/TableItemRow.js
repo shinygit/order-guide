@@ -43,10 +43,13 @@ const TableItemRow = ({
   orderDates,
 }) => {
   const client = useApolloClient()
-  const item = client.readFragment({
-    id: `Item:${id}`,
-    fragment: GET_ITEM,
-  })
+  const item = client.readFragment(
+    {
+      id: `Item:${id}`,
+      fragment: GET_ITEM,
+    },
+    true
+  )
   const [active, setActive] = useState(false)
   const longPressProps = useCallback(
     useLongPress({

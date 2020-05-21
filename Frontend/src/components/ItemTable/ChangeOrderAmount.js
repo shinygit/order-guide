@@ -13,10 +13,13 @@ const ITEM_ORDER_AMOUNT = gql`
 
 const ChangeOrderAmount = ({ id, orderDates }) => {
   const client = useApolloClient()
-  const { orderAmount } = client.readFragment({
-    id: `Item:${id}`,
-    fragment: ITEM_ORDER_AMOUNT,
-  })
+  const { orderAmount } = client.readFragment(
+    {
+      id: `Item:${id}`,
+      fragment: ITEM_ORDER_AMOUNT,
+    },
+    true
+  )
   const getNextOrderAmount = (orderAmount) => {
     if (orderAmount === null) {
       return 0
