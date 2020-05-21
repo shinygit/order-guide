@@ -65,6 +65,7 @@
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.2.0",
     "@types/jest": "^24.9.1",
+    "@welldone-software/why-did-you-render": "^4.2.2",
     "autoprefixer": "^9.7.6",
     "babel-plugin-styled-components": "^1.10.7",
     "postcss-cli": "^7.1.1",
