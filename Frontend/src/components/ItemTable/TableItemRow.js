@@ -64,7 +64,9 @@ const TableItemRow = ({
     <>
       <tr
         {...longPressProps}
-        className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}
+        className={`h-10 md:h-auto ${
+          index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
+        }`}
       >
         {active && (
           <Portal>
@@ -73,11 +75,7 @@ const TableItemRow = ({
         )}
         <td className='hidden md:table-cell bg-yellow-100'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
-            {item.isExpanded ? (
-              <ClipboardUp />
-            ) : (
-              <ClipboardDown bold={item.specialNote} />
-            )}
+            {item.isExpanded ? <ClipboardUp /> : <ClipboardDown />}
           </button>
         </td>
         <td className='border border-gray-700 text-center px-1'>
