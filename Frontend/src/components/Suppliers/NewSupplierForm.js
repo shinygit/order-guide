@@ -16,6 +16,7 @@ const CREATE_NEW_SUPPLIER = gql`
         salesPersonName
         salesPersonPhoneNumber
         officePhoneNumber
+        salesPersonEmail
       }
     }
   }
