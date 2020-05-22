@@ -31,16 +31,6 @@ export default {
         return isOrderPlaced[0].dataValues
       }
     ),
-    suppliersOrdered: combineResolvers(
-      isAuthenticated,
-      isOrderOwner,
-      async (parent, { orderId }, { me, models }) => {
-        const isOrderPlaced = await models.Supplier_Order.findAll({
-          where: { orderId: orderId },
-        })
-        return isOrderPlaced
-      }
-    ),
   },
   Mutation: {
     toggleOrderPlacedWithSupplierId: combineResolvers(

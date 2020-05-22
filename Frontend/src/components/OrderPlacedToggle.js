@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { GET_SUPPLIERS } from '../Queries/supplier'
 import { FILTER_QUERY } from '../Queries/filter'
 import { ORDER_DATES, GET_IS_ORDER_PLACED } from '../Queries/order'
+import produce from 'immer'
 
 const TOGGLE_ORDER_PLACED = gql`
   mutation ToggleOrderPlacedWithSupplierId($supplierId: ID!, $orderId: ID!) {
@@ -24,11 +25,13 @@ const OrderPlaceToggle = ({ orderId }) => {
   const { loading: supplierLoading, data: supplierData = {} } = useQuery(
     GET_SUPPLIERS
   )
+
   const { suppliers = [] } = supplierData
   const supplier = suppliers.find((supplier) => {
     if (supplier.supplierName === 'Market Price') return false
     if (supplier.supplierName === filterData.filter.filterName) return true
   })
+
   const {
     loading: orderPlacedLoading,
     data: { supplierOrder: { wasOrderPlaced } = {} } = {},
@@ -39,6 +42,7 @@ const OrderPlaceToggle = ({ orderId }) => {
       orderId: orderId,
     },
   })
+
   const [toggleOrderPlaced, { data: toggleOrderPlacedData }] = useMutation(
     TOGGLE_ORDER_PLACED
   )
