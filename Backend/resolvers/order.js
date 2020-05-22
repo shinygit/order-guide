@@ -29,13 +29,16 @@ export default {
           where: { supplierId: supplierId, orderId: orderId },
         })
         return isOrderPlaced[0].dataValues
-        /*         if (isOrderPlaced) return isOrderPlaced.dataValues
-        const newIsOrderPlaced = await models.Supplier_Order.create({
-          supplierId: supplierId,
-          orderId: orderId,
-          wasOrderPlaced: false,
+      }
+    ),
+    suppliersOrdered: combineResolvers(
+      isAuthenticated,
+      isOrderOwner,
+      async (parent, { orderId }, { me, models }) => {
+        const isOrderPlaced = await models.Supplier_Order.findAll({
+          where: { orderId: orderId },
         })
-        return newIsOrderPlaced.dataValues */
+        return isOrderPlaced
       }
     ),
   },

@@ -18,3 +18,12 @@ export const ORDER_DATES = gql`
     }
   }
 `
+export const GET_IS_ORDER_PLACED = gql`
+  query SupplierOrder($supplierId: ID!, $orderId: ID!) {
+    supplierOrder(supplierId: $supplierId, orderId: $orderId) {
+      wasOrderPlaced
+      orderId
+      supplierId
+    }
+  }
+`

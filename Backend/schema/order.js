@@ -3,6 +3,7 @@ export default gql`
   extend type Query {
     orders(orderDepth: Int!): [Order!]
     supplierOrder(supplierId: ID!, orderId: ID!): SupplierOrder!
+    suppliersOrdered(orderId: Int!): [SupplierOrder]!
   }
   extend type Mutation {
     createNewOrder(orderDate: String!): Boolean!

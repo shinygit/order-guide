@@ -3,6 +3,7 @@ import { useApolloClient } from '@apollo/react-hooks'
 import OrderLock from './OrderLock/OrderLock.js'
 import OrderModeToggle from './OrderModeToggle/OrderModeToggle'
 import OrderPlacedToggle from './OrderPlacedToggle'
+import SupplierFilterButtons from './FilterMenu/SupplierFilterButtons'
 
 const FilterMenu = ({
   suppliers,
@@ -86,6 +87,7 @@ const FilterMenu = ({
       },
     })
   }
+
   return (
     <>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
@@ -144,24 +146,12 @@ const FilterMenu = ({
         <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
           SUPPLIERS
         </span>
-        {suppliers.map((supplier) => {
-          if (supplier !== 'Market Price') {
-            return (
-              <button
-                className={`transition duration-200 ease-in-out w-auto p-4 mx-1 my-1 border border-gray-900 rounded
-              ${
-                activeFilterbuttonClass === `${supplier}-filter-button`
-                  ? 'bg-gray-600 text-gray-200'
-                  : 'bg-gray-400'
-              }`}
-                key={supplier}
-                onClick={() => handleShowSupplier(supplier)}
-              >
-                {supplier}
-              </button>
-            )
-          } else return null
-        })}
+
+        <SupplierFilterButtons
+          orderId={orderId}
+          handleShowSupplier={handleShowSupplier}
+          activeFilterbuttonClass={activeFilterbuttonClass}
+        />
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
         <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
@@ -169,7 +159,7 @@ const FilterMenu = ({
         </span>
         {locations.map((location) => (
           <button
-            className={`transition duration-200 ease-in-out w-auto p-4 mx-1 my-1 border border-gray-900 rounded 
+            className={`transition duration-200 ease-in-out w-auto p-4 m-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === `${location}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
