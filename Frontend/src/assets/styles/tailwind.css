@@ -8,6 +8,25 @@ body {
   @apply h-screen;
 }
 
+@keyframes drip {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  25% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
 @tailwind components;
 
 /* purgecss end ignore */
@@ -16,4 +35,24 @@ body {
 
 .body {
   touch-action: manipulation;
+}
+.animation-drip1 {
+  animation-name: drip;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+}
+.animation-drip2 {
+  animation-name: drip;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-delay: 0.1s;
+}
+.animation-drip3 {
+  animation-name: drip;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-delay: 0.2s;
 }

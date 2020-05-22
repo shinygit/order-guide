@@ -18,7 +18,6 @@ const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
   })
-
   const [items, setItems] = useState([])
 
   const [currentDate, setCurrentDate] = useState('')
@@ -94,7 +93,12 @@ const App = () => {
         value={{ locations: locations, suppliers: suppliers }}
       >
         {loading ? (
-          <h1 className='text-6xl'>Loading...</h1>
+          <div className='flex'>
+            <div className='text-6xl'>Loading</div>
+            <div className='text-6xl animation-drip1'>.</div>
+            <div className='text-6xl animation-drip2'>.</div>
+            <div className='text-6xl animation-drip3'>.</div>
+          </div>
         ) : (
           <ListItems items={items} />
         )}
