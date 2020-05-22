@@ -15505,14 +15505,14 @@ body {
   animation-name: drip;
   animation-duration: 3s;
   animation-iteration-count: infinite;
-  animation-timing-function: ease;
+  animation-timing-function: cubic-bezier(0, 1.5, 1, 1);
 }
 
 .animation-drip2 {
   animation-name: drip;
   animation-duration: 3s;
   animation-iteration-count: infinite;
-  animation-timing-function: ease;
+  animation-timing-function: cubic-bezier(0, 1.5, 1, 1);
   animation-delay: 0.1s;
 }
 
@@ -15520,7 +15520,7 @@ body {
   animation-name: drip;
   animation-duration: 3s;
   animation-iteration-count: infinite;
-  animation-timing-function: ease;
+  animation-timing-function: cubic-bezier(0, 1.5, 1, 1);
   animation-delay: 0.2s;
 }
 
