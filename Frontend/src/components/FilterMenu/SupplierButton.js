@@ -12,7 +12,7 @@ const SupplierButton = ({
     loading: orderPlacedLoading,
     data: { supplierOrder: { wasOrderPlaced } = {} } = {},
   } = useQuery(GET_IS_ORDER_PLACED, {
-    skip: !supplier,
+    skip: !supplier || !orderId,
     variables: {
       supplierId: supplier?.id,
       orderId: orderId,

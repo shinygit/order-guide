@@ -1,6 +1,5 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { GET_IS_ORDER_PLACED } from '../../Queries/order'
 import { GET_SUPPLIERS } from '../../Queries/supplier'
 import SupplierButton from './SupplierButton'
 import gql from 'graphql-tag'
@@ -20,6 +19,7 @@ const SupplierFilterButtons = ({
     if (supplier.supplierName !== 'Market Price') {
       return (
         <SupplierButton
+          key={supplier.supplierName}
           orderId={orderId}
           supplier={supplier}
           handleShowSupplier={handleShowSupplier}

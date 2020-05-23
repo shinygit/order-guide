@@ -12,6 +12,19 @@ export default {
       return null
     },
   },
+  SupplierDeleteResults: {
+    __resolveType(parent, context, info) {
+      if (parent.error) {
+        return 'SupplierError'
+      }
+
+      if (parent.id) {
+        return 'Supplier'
+      }
+
+      return null
+    },
+  },
   Query: {
     suppliers: async (parent, args, { me, models }) => {
       return await models.Supplier.findAll({
