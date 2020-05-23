@@ -6,7 +6,7 @@ import { GET_SUPPLIERS } from '../../Queries/supplier'
 const UPDATE_SUPPLIER = gql`
   mutation UpdateSupplier($id: ID!, $input: supplierInput!) {
     updateSupplier(id: $id, input: $input) {
-      ... on supplierError {
+      ... on SupplierError {
         error
       }
       ... on Supplier {
@@ -24,7 +24,7 @@ const UPDATE_SUPPLIER = gql`
 const DELETE_SUPPLIER = gql`
   mutation DeleteSupplier($id: ID!) {
     deleteSupplier(id: $id) {
-      ... on supplierError {
+      ... on SupplierError {
         error
       }
       ... on Supplier {

@@ -1,8 +1,8 @@
 import { gql } from 'apollo-server-express'
 export default gql`
-  union SupplierUpdateResults = Supplier | supplierError
-  union SupplierCreateResults = Supplier | supplierError
-  union SupplierDeleteResults = Supplier | supplierError
+  union SupplierUpdateResults = Supplier | SupplierError
+  union SupplierCreateResults = Supplier | SupplierError
+  union SupplierDeleteResults = Supplier | SupplierError
 
   extend type Query {
     suppliers: [Supplier]
@@ -33,7 +33,7 @@ export default gql`
     deleteSupplier(id: ID!): SupplierDeleteResults!
     updateSupplier(id: ID!, input: supplierInput): SupplierUpdateResults!
   }
-  type supplierError {
+  type SupplierError {
     error: String!
   }
   enum DaysOfWeek {

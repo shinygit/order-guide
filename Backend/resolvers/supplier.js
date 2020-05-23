@@ -1,4 +1,17 @@
 export default {
+  SupplierCreateResults: {
+    __resolveType(parent, context, info) {
+      if (parent.error) {
+        return 'SupplierError'
+      }
+
+      if (parent.id) {
+        return 'Supplier'
+      }
+
+      return null
+    },
+  },
   Query: {
     suppliers: async (parent, args, { me, models }) => {
       return await models.Supplier.findAll({
@@ -16,13 +29,31 @@ export default {
       })
     },
   },
+
   Mutation: {
     createSupplier: async (parent, { input }, { me, models }) => {
+      if (input.supplierName.trim() === '') {
+        return {
+          error: 'A supplier must have a name!',
+        }
+      }
+      const exists = await models.Supplier.findOne({
+        where: {
+          supplierName: input.supplierName,
+          userId: me.id,
+        },
+      })
+      if (exists) {
+        return {
+          error: 'Supplier already exists!',
+        }
+      }
+
       const newSupplier = await models.Supplier.create({
         userId: me.id,
         ...input,
       })
-      return { __typename: 'Supplier', ...newSupplier.dataValues }
+      return newSupplier.dataValues
     },
     deleteSupplier: async (parent, { id }, { me, models }) => {
       const latestOrder = await models.Order.findOne({
@@ -39,7 +70,6 @@ export default {
       })
       if (hasItems)
         return {
-          __typename: 'supplierError',
           error: 'The most current order is using this supplier.',
         }
       const supplier = await models.Supplier.findOne({
@@ -50,11 +80,10 @@ export default {
       })
       if (!supplier)
         return {
-          __typename: 'supplierError',
           error: 'This supplier does not exist.',
         }
       if (supplier) supplier.destroy()
-      return { __typename: 'Supplier', ...supplier.dataValues }
+      return supplier.dataValues
     },
     updateSupplier: async (parent, { id, input }, { me, models }) => {
       const supplier = await models.Supplier.findOne({
@@ -64,10 +93,10 @@ export default {
         },
       })
       if (!supplier)
-        return { __typename: 'supplierError', error: 'No supplier match!' }
+        return { __typename: 'SupplierError', error: 'No supplier match!' }
       if (!input.supplierName)
         return {
-          __typename: 'supplierError',
+          __typename: 'SupplierError',
           error: 'A supplier must have a name!',
         }
       await supplier.update({
