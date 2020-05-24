@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, useApolloClient } from '@apollo/react-hooks'
 import jwt_decode from 'jwt-decode'
 
 const LOGIN = gql`
@@ -19,6 +19,7 @@ const LOGIN = gql`
 `
 
 const Login = () => {
+  const client = useApolloClient()
   const [login, { loading }] = useMutation(LOGIN)
   const history = useHistory()
   const [email, setEmail] = useState('')
@@ -33,6 +34,7 @@ const Login = () => {
     })
     if (result.data.signIn.token) {
       const token = result.data.signIn.token
+      await client.resetStore()
       localStorage.setItem('token', token)
       localStorage.setItem('id', jwt_decode(token).id)
       localStorage.setItem('email', jwt_decode(token).email)
