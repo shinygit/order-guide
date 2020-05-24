@@ -15,9 +15,32 @@ export const LocSupContext = React.createContext({
   suppliers: null,
 })
 const App = () => {
-  const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
+  const { loading, data, refetch, stopPolling } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
+    pollInterval: 5000,
   })
+  function idleTimer() {
+    const idleTimeLength = 1000 * 60 * 5
+    let shouldReload = false
+    let time = false
+    const callback = () => {
+      shouldReload = true
+      stopPolling()
+    }
+    window.onload = resetTimer
+    window.onmousemove = resetTimer
+    window.onmousedown = resetTimer
+    window.ontouchstart = resetTimer
+    window.onclick = resetTimer
+    window.onkeypress = resetTimer
+
+    function resetTimer() {
+      if (shouldReload) window.location.reload()
+      clearTimeout(time)
+      time = setTimeout(callback, idleTimeLength)
+    }
+  }
+  idleTimer()
   const [items, setItems] = useState([])
 
   const [currentDate, setCurrentDate] = useState('')
