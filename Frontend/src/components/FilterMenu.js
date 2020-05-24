@@ -27,12 +27,8 @@ const FilterMenu = ({
   const [activeFilterbuttonClass, setActiveFilterbuttonClass] = useState(
     'all-filter-button'
   )
-  const [activeSupplier, setActiveSupplier] = useState('')
 
   const handleShowSupplier = (supplier) => {
-    supplier !== 'Market Price'
-      ? setActiveSupplier(supplier)
-      : setActiveSupplier('')
     setActiveFilterbuttonClass(`${supplier}-filter-button`)
     client.writeData({
       data: {
@@ -46,7 +42,6 @@ const FilterMenu = ({
     })
   }
   const handleShowAll = () => {
-    setActiveSupplier('')
     setActiveFilterbuttonClass('all-filter-button')
     client.writeData({
       data: {
@@ -60,7 +55,6 @@ const FilterMenu = ({
     })
   }
   const handleShowUnchecked = () => {
-    setActiveSupplier('')
     setActiveFilterbuttonClass('unchecked-filter-button')
     client.writeData({
       data: {
@@ -74,7 +68,6 @@ const FilterMenu = ({
     })
   }
   const handleShowLocation = (location) => {
-    setActiveSupplier('')
     setActiveFilterbuttonClass(`${location}-filter-button`)
     client.writeData({
       data: {

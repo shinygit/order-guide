@@ -2,7 +2,6 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { GET_SUPPLIERS } from '../../Queries/supplier'
 import SupplierButton from './SupplierButton'
-import gql from 'graphql-tag'
 
 const SupplierFilterButtons = ({
   orderId,
@@ -27,6 +26,7 @@ const SupplierFilterButtons = ({
         />
       )
     }
+    return null
   })
 }
 export default SupplierFilterButtons

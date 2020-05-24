@@ -23,7 +23,7 @@ const CREATE_NEW_SUPPLIER = gql`
 `
 
 const NewSupplierForm = () => {
-  const [createSupplier, { data }] = useMutation(CREATE_NEW_SUPPLIER, {
+  const [createSupplier] = useMutation(CREATE_NEW_SUPPLIER, {
     update(cache, { data: { createSupplier } }) {
       if (createSupplier.__typename === 'Supplier') {
         const { suppliers } = cache.readQuery({ query: GET_SUPPLIERS })

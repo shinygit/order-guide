@@ -11,7 +11,7 @@ const parseToEmptyString = (value) => {
 }
 
 const EditItemForm = ({ item, handleToggleEdit }) => {
-  const { locations, suppliers } = useContext(LocSupContext)
+  const { locations } = useContext(LocSupContext)
   const [edit] = useMutation(EDIT_ITEM)
   const [deleteItem] = useMutation(DELETE_ITEM)
   const [editItemForm, setEditItemForm] = useState({

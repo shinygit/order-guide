@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { EDIT_ITEM } from '../../Queries/item'
-import { Portal } from 'react-portal'
 
 const EditItemWindow = ({ item, active, setActive }) => {
   const [edit] = useMutation(EDIT_ITEM)

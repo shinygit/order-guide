@@ -13,7 +13,7 @@ const MarketPriceSupplierSelector = ({ item }) => {
 
   const listOfSuppliers = allSuppliersData.suppliers.map((a) => a.supplierName)
 
-  const [updateItem, { data }] = useMutation(EDIT_ITEM)
+  const [updateItem] = useMutation(EDIT_ITEM)
 
   const handleSupplierChange = (e) => {
     setSelectedSupplier(e.target.value)

@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useMemo } from 'react'
+import { useRef, useCallback, useMemo } from 'react'
 
 export default function useLongPress({
   onClick = () => {},

@@ -53,8 +53,8 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
     { value: 'Sunday', label: 'Sunday' },
   ]
 
-  const [updateSupplier, { data }] = useMutation(UPDATE_SUPPLIER)
-  const [deleteSupplier, { data: deleteData }] = useMutation(DELETE_SUPPLIER, {
+  const [updateSupplier] = useMutation(UPDATE_SUPPLIER)
+  const [deleteSupplier] = useMutation(DELETE_SUPPLIER, {
     update: (cache, { data: { deleteSupplier } }) => {
       if (deleteSupplier.id) {
         setSelectedCard('')

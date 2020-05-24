@@ -1,10 +1,9 @@
 import React from 'react'
-import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { GET_SUPPLIERS } from '../Queries/supplier'
 import { FILTER_QUERY } from '../Queries/filter'
-import { ORDER_DATES, GET_IS_ORDER_PLACED } from '../Queries/order'
-import produce from 'immer'
+import { GET_IS_ORDER_PLACED } from '../Queries/order'
 
 const TOGGLE_ORDER_PLACED = gql`
   mutation ToggleOrderPlacedWithSupplierId($supplierId: ID!, $orderId: ID!) {
@@ -20,16 +19,15 @@ const TOGGLE_ORDER_PLACED = gql`
 `
 
 const OrderPlaceToggle = ({ orderId }) => {
-  const { loading: filterLoading, data: filterData } = useQuery(FILTER_QUERY)
+  const { data: filterData } = useQuery(FILTER_QUERY)
 
-  const { loading: supplierLoading, data: supplierData = {} } = useQuery(
-    GET_SUPPLIERS
-  )
+  const { data: supplierData = {} } = useQuery(GET_SUPPLIERS)
 
   const { suppliers = [] } = supplierData
   const supplier = suppliers.find((supplier) => {
     if (supplier.supplierName === 'Market Price') return false
     if (supplier.supplierName === filterData.filter.filterName) return true
+    return false
   })
 
   const {
@@ -43,9 +41,7 @@ const OrderPlaceToggle = ({ orderId }) => {
     },
   })
 
-  const [toggleOrderPlaced, { data: toggleOrderPlacedData }] = useMutation(
-    TOGGLE_ORDER_PLACED
-  )
+  const [toggleOrderPlaced] = useMutation(TOGGLE_ORDER_PLACED)
 
   const handleChange = () => {
     toggleOrderPlaced({
@@ -60,7 +56,11 @@ const OrderPlaceToggle = ({ orderId }) => {
       <div
         onClick={handleChange}
         className={`transition duration-200 ease-in-out flex flex-col justify-center items-center border-4 border border-gray-700 px-3 ${
-          wasOrderPlaced ? 'bg-green-300' : 'bg-orange-300'
+          orderPlacedLoading
+            ? 'bg-gray-300'
+            : wasOrderPlaced
+            ? 'bg-green-300'
+            : 'bg-orange-300'
         }`}
       >
         Order placed with {supplier?.supplierName}?

@@ -19,7 +19,7 @@ const LOGIN = gql`
 `
 
 const Login = () => {
-  const [login, { loading, data }] = useMutation(LOGIN)
+  const [login, { loading }] = useMutation(LOGIN)
   const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

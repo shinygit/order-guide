@@ -1,7 +1,7 @@
 import React from 'react'
-import { useMutation, useQuery, useApolloClient } from '@apollo/react-hooks'
+import { useMutation, useApolloClient } from '@apollo/react-hooks'
 import { UPDATE_ITEM_ORDER_AMOUNT } from '../../Queries/item'
-import { ORDER_DATES } from '../../Queries/order'
+
 import gql from 'graphql-tag'
 
 const ITEM_ORDER_AMOUNT = gql`

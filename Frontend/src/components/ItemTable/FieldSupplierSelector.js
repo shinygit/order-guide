@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { EDIT_ITEM } from '../../Queries/item'
+import React from 'react'
+import { useQuery } from '@apollo/react-hooks'
 import { GET_SUPPLIERS } from '../../Queries/supplier'
 
 const FieldSupplierSelector = ({

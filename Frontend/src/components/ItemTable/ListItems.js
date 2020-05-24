@@ -60,7 +60,7 @@ const ListItems = ({ items }) => {
     return false
   })
   const hideAllZeroOrderAmountItems = filteredItems.filter((item) => {
-    if (hideAllZeroOrderAmount && searchTerm == '') {
+    if (hideAllZeroOrderAmount && searchTerm === '') {
       if (item.orderAmount === 0) return false
       return true
     }

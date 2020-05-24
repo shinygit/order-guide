@@ -9,7 +9,7 @@ const SupplierButton = ({
   supplier,
 }) => {
   const {
-    loading: orderPlacedLoading,
+    loading,
     data: { supplierOrder: { wasOrderPlaced } = {} } = {},
   } = useQuery(GET_IS_ORDER_PLACED, {
     skip: !supplier || !orderId,
@@ -23,7 +23,11 @@ const SupplierButton = ({
     <div
       key={supplier.supplierName}
       className={`m-1 rounded ${
-        wasOrderPlaced ? 'bg-green-300' : 'bg-orange-300'
+        loading
+          ? 'bg-gray-300'
+          : wasOrderPlaced
+          ? 'bg-green-300'
+          : 'bg-orange-300'
       }`}
     >
       <button
