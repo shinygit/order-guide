@@ -19,7 +19,7 @@ const App = () => {
     variables: { orderDepth: 1 },
   })
   function idleTimer() {
-    const idleTimeLength = 1000
+    const idleTimeLength = 1000 * 60 * 10
     let idleTime = Date.now()
     let timer = false
 
