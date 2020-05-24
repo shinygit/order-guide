@@ -42,7 +42,7 @@ const Login = () => {
     }
   }
   return (
-    <div className='flex justify-center flex-col items-center bg-gray-100 h-max'>
+    <div className='flex justify-center flex-col items-center'>
       <div className='flex justify-between items-center py-3 mb-5 bg-blue-800 w-full'>
         <div className='flex flex-row items-center'>
           <svg

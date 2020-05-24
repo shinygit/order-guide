@@ -25,40 +25,40 @@ const Register = () => {
     password: '',
     password2: '',
     isSubmitting: false,
-    errors: {}
+    errors: {},
   })
 
   // const { errors } = registerForm
 
-  const handleChangeInput = event => {
+  const handleChangeInput = (event) => {
     setRegisterForm({
       ...registerForm,
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     })
   }
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     if (registerForm.password !== registerForm.password2) {
       setRegisterForm({
         ...registerForm,
-        errors: { passwordError: 'Passwords must match.' }
+        errors: { passwordError: 'Passwords must match.' },
       })
       return
     }
     setRegisterForm({
       ...registerForm,
-      isSubmitting: true
+      isSubmitting: true,
     })
     const result = await signUp({
       variables: {
         email: registerForm.email,
-        password: registerForm.password
-      }
-    }).catch(e => {
+        password: registerForm.password,
+      },
+    }).catch((e) => {
       setRegisterForm({
         ...registerForm,
-        isSubmitting: false
+        isSubmitting: false,
       })
       console.log(e)
     })
@@ -67,7 +67,7 @@ const Register = () => {
       setRegisterForm({
         ...registerForm,
         errors: result.data.signUp,
-        isSubmitting: false
+        isSubmitting: false,
       })
     }
     if (result.data.signUp.email) {
@@ -76,7 +76,7 @@ const Register = () => {
   }
 
   return (
-    <div className='flex justify-center flex-col items-center bg-gray-100 h-max'>
+    <div className='flex justify-center flex-col items-center'>
       <div className='flex justify-between items-center py-3 mb-5 bg-blue-800 w-full'>
         <div className='flex flex-row items-center'>
           <svg
@@ -112,8 +112,9 @@ const Register = () => {
               onFocus={() =>
                 setRegisterForm({
                   ...registerForm,
-                  errors: {}
-                })}
+                  errors: {},
+                })
+              }
               value={registerForm.email}
               id='email'
               type='text'
@@ -129,8 +130,9 @@ const Register = () => {
               onFocus={() =>
                 setRegisterForm({
                   ...registerForm,
-                  errors: {}
-                })}
+                  errors: {},
+                })
+              }
               value={registerForm.password}
               id='password'
               type='password'
@@ -146,8 +148,9 @@ const Register = () => {
               onFocus={() =>
                 setRegisterForm({
                   ...registerForm,
-                  errors: {}
-                })}
+                  errors: {},
+                })
+              }
               value={registerForm.password2}
               id='password2'
               type='password'

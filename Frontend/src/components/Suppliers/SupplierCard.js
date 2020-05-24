@@ -2,10 +2,10 @@ import React from 'react'
 
 const SupplierCard = ({ supplier, selectedCard, setSelectedCard }) => {
   return (
-    <div className='w-6/12 max-w-sm text-gray-900'>
+    <div className='max-w-sm text-gray-900'>
       <div
         onClick={() => setSelectedCard(supplier.id)}
-        className={`flex flex-col border-2 rounded p-2 m-2 ${
+        className={`flex flex-col border-2 rounded p-2 ${
           selectedCard === supplier.id
             ? 'bg-gray-200 border-blue-700'
             : 'bg-white border-gray-300 shadow hover:bg-gray-100 hover:shadow-lg hover:border-blue-300'

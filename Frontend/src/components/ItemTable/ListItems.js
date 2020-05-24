@@ -167,21 +167,5 @@ const ListItems = ({ items }) => {
     </div>
   )
 }
-const areEqual = (prevProps, nextProps) => {
-  const differences = []
-  prevProps.items.forEach((item, i) =>
-    Object.keys(item).forEach((itemKey) => {
-      if (item[itemKey] === nextProps.items[i][itemKey]) differences.push(true)
-      if (
-        item[itemKey] !== nextProps.items[i][itemKey] &&
-        itemKey !== 'orderAmount' &&
-        itemKey !== 'previousOrders'
-      ) {
-        differences.push(false)
-      }
-    })
-  )
-  if (!differences.includes(false)) return false
-  return false
-}
+
 export default React.memo(ListItems)
