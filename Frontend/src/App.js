@@ -15,9 +15,8 @@ export const LocSupContext = React.createContext({
   suppliers: null,
 })
 const App = () => {
-  const { loading, data, refetch, stopPolling } = useQuery(GET_LATEST_ORDER, {
+  const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
-    pollInterval: 5000,
   })
   function idleTimer() {
     const idleTimeLength = 1000 * 60 * 5
@@ -25,7 +24,6 @@ const App = () => {
     let time = false
     const callback = () => {
       shouldReload = true
-      stopPolling()
     }
     window.onload = resetTimer
     window.onmousemove = resetTimer
