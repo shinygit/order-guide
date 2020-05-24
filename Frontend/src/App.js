@@ -19,12 +19,16 @@ const App = () => {
     variables: { orderDepth: 1 },
   })
   function idleTimer() {
-    const idleTimeLength = 1000 * 60 * 5
-    let shouldReload = false
-    let time = false
-    const callback = () => {
-      shouldReload = true
+    const idleTimeLength = 1000
+    let idleTime = Date.now()
+    let timer = false
+
+    const triggerReload = () => {
+      window.location.reload()
     }
+
+    const callback = () => {}
+
     window.onload = resetTimer
     window.onmousemove = resetTimer
     window.onmousedown = resetTimer
@@ -33,9 +37,12 @@ const App = () => {
     window.onkeypress = resetTimer
 
     function resetTimer() {
-      if (shouldReload) window.location.reload()
-      clearTimeout(time)
-      time = setTimeout(callback, idleTimeLength)
+      clearTimeout(timer)
+      timer = setTimeout(callback, idleTimeLength)
+
+      let currentTime = Date.now()
+      if (currentTime - idleTime > idleTimeLength) triggerReload()
+      idleTime = Date.now()
     }
   }
   idleTimer()
