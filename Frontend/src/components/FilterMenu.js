@@ -82,7 +82,7 @@ const FilterMenu = ({
   }
 
   return (
-    <>
+    <div className='flex flex-col'>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         <OrderLock />
         <OrderModeToggle />
@@ -135,7 +135,7 @@ const FilterMenu = ({
           {`${'Market Price'}(${marketPriceCount})`}
         </button>
       </div>
-      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+      <div className='md:order-last flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
         <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
           SUPPLIERS
         </span>
@@ -165,7 +165,7 @@ const FilterMenu = ({
           </button>
         ))}
       </div>
-    </>
+    </div>
   )
 }
 export default FilterMenu
