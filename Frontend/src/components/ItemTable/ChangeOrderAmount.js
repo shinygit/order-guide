@@ -23,26 +23,10 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
   const getNextOrderAmount = (orderAmount) => {
     if (orderAmount === null) {
       return 0
-    } else return orderAmount + 1
+    } else return orderAmount - 1
   }
   const [updateItemOrderAmount] = useMutation(UPDATE_ITEM_ORDER_AMOUNT)
   const handleDecrease = () => {
-    updateItemOrderAmount({
-      variables: {
-        id: id,
-        orderAmount: orderAmount - 1,
-      },
-      optimisticResponse: {
-        __typename: 'Mutation',
-        updateItemOrderAmount: {
-          __typename: 'Item',
-          id: id,
-          orderAmount: orderAmount - 1,
-        },
-      },
-    })
-  }
-  const handleIncrease = () => {
     updateItemOrderAmount({
       variables: {
         id: id,
@@ -54,6 +38,22 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
           __typename: 'Item',
           id: id,
           orderAmount: getNextOrderAmount(orderAmount),
+        },
+      },
+    })
+  }
+  const handleIncrease = () => {
+    updateItemOrderAmount({
+      variables: {
+        id: id,
+        orderAmount: orderAmount + 1,
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        updateItemOrderAmount: {
+          __typename: 'Item',
+          id: id,
+          orderAmount: orderAmount + 1,
         },
       },
     })
