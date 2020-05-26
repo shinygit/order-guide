@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 export default gql`
   input CreateItemInput {
     itemName: String!
-    supplier: String!
+    supplier: String
     location: String!
     buildTo: Int!
   }

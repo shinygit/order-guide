@@ -66,11 +66,13 @@ export default {
           },
           raw: true,
         })
+        console.log('------------------------------')
+        console.log(input.supplier)
         const item = await models.Item.create({
           itemName: input.itemName,
           buildTo: input.buildTo,
           locationId: input.location,
-          supplierId: input.supplier,
+          supplierId: input.supplier || null,
           orderId: order[0].id,
           unitPriceInPennies: 0,
           isMarketPrice: false,
