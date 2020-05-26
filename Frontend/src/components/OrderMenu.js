@@ -59,7 +59,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
   return (
     <div className='flex justify-between mb-10'>
       <form className='flex flex-col w-56' onSubmit={handleSubmit}>
-        <label className='font-semibold text-xl'>New order date:</label>{' '}
+        <label className=''>new order date</label>{' '}
         <input
           className='bg-white focus:outline-none
         focus:shadow-outline border border-gray-300
@@ -88,8 +88,9 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
         </button>
       </form>
       <div className='flex flex-col'>
+        <span>current order date</span>
         <span className='font-semibold text-2xl'>
-          Current order date: {moment.utc(currentDate).format('L')}
+          {moment.utc(currentDate).format('L')}
         </span>
         <div>
           {deleteError && deleteErrorMessage && (
