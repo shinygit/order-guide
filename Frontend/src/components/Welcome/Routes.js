@@ -4,7 +4,7 @@ import Login from '../User/Login'
 import Register from '../User/Register'
 import MainSupplierView from '../Suppliers/MainSupplierView'
 import Manual from '../Manual'
-import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
+import { Switch, Route, useHistory } from 'react-router-dom'
 
 export default function Routes() {
   const history = useHistory()
@@ -14,7 +14,7 @@ export default function Routes() {
     history.location.pathname !== '/login' &&
     history.location.pathname !== '/register'
   ) {
-    return <Redirect to='/login' />
+    history.push('/login')
   }
   return (
     <Switch>
