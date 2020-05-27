@@ -19,7 +19,6 @@
     "immer": "^5.3.6",
     "jwt-decode": "^2.2.0",
     "moment": "^2.25.3",
-    "prettier": "^1.19.1",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
