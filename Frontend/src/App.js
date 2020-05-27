@@ -8,7 +8,8 @@ import FilterMenu from './components/FilterMenu'
 import SearchForm from './components/SearchForm'
 import OrderMenu from './components/OrderMenu'
 import NavBar from './components/NavBar/NavBar'
-
+import Loading from './components/Loading'
+import useIdleTimer from './hooks/useIdleTimer'
 import { GET_LATEST_ORDER } from './Queries/item'
 export const LocSupContext = React.createContext({
   locations: null,
@@ -18,34 +19,8 @@ const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
   })
-  function idleTimer() {
-    const idleTimeLength = 1000 * 60 * 10
-    let idleTime = Date.now()
-    let timer = false
 
-    const triggerReload = () => {
-      window.location.reload()
-    }
-
-    const callback = () => {}
-
-    window.onload = resetTimer
-    window.onmousemove = resetTimer
-    window.onmousedown = resetTimer
-    window.ontouchstart = resetTimer
-    window.onclick = resetTimer
-    window.onkeypress = resetTimer
-
-    function resetTimer() {
-      clearTimeout(timer)
-      timer = setTimeout(callback, idleTimeLength)
-
-      let currentTime = Date.now()
-      if (currentTime - idleTime > idleTimeLength) triggerReload()
-      idleTime = Date.now()
-    }
-  }
-  idleTimer()
+  useIdleTimer()
   const [items, setItems] = useState([])
 
   const [currentDate, setCurrentDate] = useState('')
@@ -120,16 +95,7 @@ const App = () => {
       <LocSupContext.Provider
         value={{ locations: locations, suppliers: suppliers }}
       >
-        {loading ? (
-          <div className='flex'>
-            <div className='text-6xl'>Loading</div>
-            <div className='text-6xl animation-drip1'>.</div>
-            <div className='text-6xl animation-drip2'>.</div>
-            <div className='text-6xl animation-drip3'>.</div>
-          </div>
-        ) : (
-          <ListItems items={items} />
-        )}
+        {loading ? <Loading /> : <ListItems items={items} />}
       </LocSupContext.Provider>
     </div>
   )
