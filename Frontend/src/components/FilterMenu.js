@@ -4,6 +4,7 @@ import OrderLock from './OrderLock/OrderLock.js'
 import OrderModeToggle from './OrderModeToggle/OrderModeToggle'
 import OrderPlacedToggle from './OrderPlacedToggle'
 import SupplierFilterButtons from './FilterMenu/SupplierFilterButtons'
+import LocationFilterButtons from './FilterMenu/LocationFilterButtons'
 
 const FilterMenu = ({
   suppliers,
@@ -150,20 +151,11 @@ const FilterMenu = ({
         <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
           LOCATIONS
         </span>
-        {locations.map((location) => (
-          <button
-            className={`transition duration-200 ease-in-out w-auto p-4 m-1 border border-gray-900 rounded 
-              ${
-                activeFilterbuttonClass === `${location}-filter-button`
-                  ? 'bg-gray-600 text-gray-200'
-                  : 'bg-gray-400'
-              }`}
-            key={location}
-            onClick={() => handleShowLocation(location)}
-          >
-            {location}
-          </button>
-        ))}
+        <LocationFilterButtons
+          locations={locations}
+          handleShowLocation={handleShowLocation}
+          activeFilterbuttonClass={activeFilterbuttonClass}
+        />
       </div>
     </div>
   )
