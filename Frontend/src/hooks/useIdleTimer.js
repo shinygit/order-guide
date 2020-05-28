@@ -19,8 +19,6 @@ function useIdleTimer() {
   window.onclick = resetTimer
   window.onkeypress = resetTimer
 
-  console.log(document.visibilityState)
-
   function resetTimer() {
     clearTimeout(timer)
     timer = setTimeout(callback, idleTimeLength)
