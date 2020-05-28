@@ -66,8 +66,6 @@ export default {
           },
           raw: true,
         })
-        console.log('------------------------------')
-        console.log(input.supplier)
         const item = await models.Item.create({
           itemName: input.itemName,
           buildTo: input.buildTo,
