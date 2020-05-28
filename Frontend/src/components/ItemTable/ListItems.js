@@ -41,7 +41,7 @@ const ListItems = ({ items }) => {
   }
 
   const filteredItems = items.filter((item) => {
-    if (searchTerm !== '') {
+    if (searchTerm.length > 2) {
       const searchResults = fuzzysort.go(searchTerm, items, {
         key: 'itemName',
         limit: 10,
@@ -68,7 +68,7 @@ const ListItems = ({ items }) => {
   })
   const itemsToDisplay = hideAllZeroOrderAmountItems
     .slice()
-    .sort(function(a, b) {
+    .sort(function (a, b) {
       if (a.supplier > b.supplier) return 1
       if (a.supplier < b.supplier) return -1
       if (a.location > b.location) return 1
