@@ -23,3 +23,22 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', () => {
+  const query = `mutation {
+    signIn(login:"hello5@david.com", password:"12345678") {
+      ... on Token {
+        token
+      }
+    }
+  }`
+
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3001/graphql',
+    body: { query: query },
+  }).then((res) => {
+    const token = res.body.data.signIn.token
+    window.localStorage.setItem('token', token)
+  })
+})
