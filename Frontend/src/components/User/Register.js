@@ -62,7 +62,6 @@ const Register = () => {
       })
       console.log(e)
     })
-    console.log(result)
     if (result.data.signUp.emailError || result.data.signUp.passwordError) {
       setRegisterForm({
         ...registerForm,
