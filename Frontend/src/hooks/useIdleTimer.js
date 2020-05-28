@@ -9,12 +9,17 @@ function useIdleTimer() {
 
   const callback = () => {}
 
+  document.addEventListener('visibilitychange', function () {
+    resetTimer()
+  })
   window.onload = resetTimer
   window.onmousemove = resetTimer
   window.onmousedown = resetTimer
   window.ontouchstart = resetTimer
   window.onclick = resetTimer
   window.onkeypress = resetTimer
+
+  console.log(document.visibilityState)
 
   function resetTimer() {
     clearTimeout(timer)
