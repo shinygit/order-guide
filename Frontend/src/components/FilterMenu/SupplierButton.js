@@ -9,7 +9,7 @@ const SupplierButton = ({
   supplier,
 }) => {
   const {
-    loading,
+    loading = true,
     data: { supplierOrder: { wasOrderPlaced } = {} } = {},
   } = useQuery(GET_IS_ORDER_PLACED, {
     skip: !supplier || !orderId,
