@@ -137,8 +137,24 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             onChange={handleChangeInput}
           />
         </td>
-        <td className={tableCell}>{item.unitSize}</td>
-        <td />
+        <td className={tableCell}>
+          <input
+            className={`${editInput} w-full`}
+            type='text'
+            name='unitSize'
+            value={parseToEmptyString(editItemForm.unitSize)}
+            onChange={handleChangeInput}
+          />
+        </td>
+        <td className={tableCell}>
+          <input
+            className={`${editInput} w-full hidden lg:table-cell`}
+            type='text'
+            name='productNumber'
+            value={parseToEmptyString(editItemForm.productNumber)}
+            onChange={handleChangeInput}
+          />
+        </td>
         <td className={tableCell}>
           <input
             className={`${editInput} w-12`}
@@ -178,46 +194,8 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
       </tr>
       <tr className='bg-gray-100'>
         <td className='bg-yellow-100'>
-          <button
-            onClick={() => {
-              handleToggleEdit(item.id)
-            }}
-          >
-            Canc
-          </button>
-        </td>
-        <th colSpan='2' className={tableCell}>
-          Product Number
-        </th>
-        <td colSpan='2' className={tableCell}>
-          <input
-            className={`${editInput} w-full`}
-            type='text'
-            name='productNumber'
-            value={parseToEmptyString(editItemForm.productNumber)}
-            onChange={handleChangeInput}
-          />
-        </td>
-      </tr>
-      <tr className='bg-gray-100'>
-        <td className='bg-yellow-100'>
           <button onClick={handleSubmit}>Save</button>
         </td>
-        <th colSpan='2' className={tableCell}>
-          Unit Size
-        </th>
-        <td className={tableCell}>
-          <input
-            className={`${editInput} w-full`}
-            type='text'
-            name='unitSize'
-            value={parseToEmptyString(editItemForm.unitSize)}
-            onChange={handleChangeInput}
-          />
-        </td>
-      </tr>
-      <tr className='bg-gray-100'>
-        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Price
         </th>
@@ -238,21 +216,14 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
           <button
             className={`${editInput} w-12`}
             onClick={handleToggleMarketPrice}
+            data-cy='toggleMarketPriceButton'
           >
             {(editItemForm.isMarketPrice && 'Yes') || 'No'}
           </button>
         </td>
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100'>
-          <button
-            onClick={() => {
-              handleDelete(item.id, item.itemName)
-            }}
-          >
-            Del
-          </button>
-        </td>
+        <td className='bg-yellow-100' />
         <th colSpan='2' className={tableCell}>
           Quantity on hand
         </th>
@@ -267,7 +238,15 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         </td>
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100' />
+        <td className='bg-yellow-100'>
+          <button
+            onClick={() => {
+              handleToggleEdit(item.id)
+            }}
+          >
+            Canc
+          </button>
+        </td>
         <th colSpan='2' className={tableCell}>
           Quantity Received
         </th>
@@ -296,7 +275,15 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         </td>
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100' />
+        <td className='bg-yellow-100'>
+          <button
+            onClick={() => {
+              handleDelete(item.id, item.itemName)
+            }}
+          >
+            Del
+          </button>
+        </td>
         <th colSpan='2' className={tableCell}>
           Special Note
         </th>

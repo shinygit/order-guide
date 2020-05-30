@@ -102,7 +102,7 @@ const ListItems = ({ items }) => {
               Item
             </th>
             <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
-              Size
+              Unit Size
             </th>
             <th className='hidden lg:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Product #

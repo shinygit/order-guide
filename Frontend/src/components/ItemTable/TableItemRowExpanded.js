@@ -8,22 +8,6 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
           <button onClick={() => handleToggleEdit(item.id)}>Edit</button>
         </td>
         <th colSpan='2' className={tableCell}>
-          Product Number
-        </th>
-        <td colSpan='2' className={tableCell}>
-          {item.productNumber}
-        </td>
-      </tr>
-      <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
-        <td className='bg-yellow-100' />
-        <th colSpan='2' className={tableCell}>
-          Unit Size
-        </th>
-        <td className={tableCell}>{item.unitSize}</td>
-      </tr>
-      <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
-        <td className='bg-yellow-100' />
-        <th colSpan='2' className={tableCell}>
           Price
         </th>
         <td className={tableCell}>
