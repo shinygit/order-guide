@@ -1,27 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useApolloClient, useQuery } from '@apollo/react-hooks'
 import { FILTER_QUERY } from '../Queries/filter'
 
 const SearchForm = () => {
+  const [input, setInput] = useState('')
   const {
     data: {
       filter: { searchTerm },
     },
   } = useQuery(FILTER_QUERY)
-  const client = useApolloClient()
 
   const handleChange = (event) => {
+    setInput(event.target.value)
+  }
+
+  useEffect(() => {
     client.writeData({
       data: {
         filter: {
-          searchTerm: event.target.value,
+          searchTerm: input,
           filterType: 'ALL',
           filterName: 'ALL',
           __typename: 'Filter',
         },
       },
     })
-  }
+  }, [input])
+
+  const client = useApolloClient()
+
   return (
     <div>
       <input
