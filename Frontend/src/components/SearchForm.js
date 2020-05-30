@@ -38,7 +38,7 @@ const SearchForm = () => {
          rounded-lg py-2 px-4 block w-full lg:w-1/2 mb-1'
         type='text'
         placeholder='Search... (will show hidden items)'
-        value={searchTerm}
+        value={input}
         onChange={handleChange}
         onKeyPress={(event) => {
           if (event.key === 'Enter') {
