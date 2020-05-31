@@ -41,7 +41,7 @@ const ListItems = ({ items }) => {
   }
 
   const filteredItems = items.filter((item) => {
-    if (searchTerm.length > 2) {
+    if (searchTerm.length > 1) {
       const searchResults = fuzzysort.go(searchTerm, items, {
         key: 'itemName',
         limit: 10,
