@@ -85,6 +85,18 @@ export default {
           console.log(x)
           return false
         })
+        const remainingOrders = await models.Order.findAll({
+          order: [['orderDate', 'desc']],
+          limit: 2,
+          where: { userId: me.id },
+          raw: true,
+        })
+        if (remainingOrders.length === 0) {
+          const newOrder = await models.Order.create({
+            orderDate: new Date('0001-01-02'),
+            userId: me.id,
+          })
+        }
         return !!count
       }
     ),
