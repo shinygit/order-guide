@@ -146,9 +146,9 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             onChange={handleChangeInput}
           />
         </td>
-        <td className={tableCell}>
+        <td className={`${tableCell} hidden lg:table-cell`}>
           <input
-            className={`${editInput} w-full hidden lg:table-cell`}
+            className={`${editInput} w-full`}
             type='text'
             name='productNumber'
             value={parseToEmptyString(editItemForm.productNumber)}
