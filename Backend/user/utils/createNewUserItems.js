@@ -27,6 +27,7 @@ export const createUserStarterOrderAndItems = async (user, models) => {
   const item3 = await models.Item.create({
     itemName: 'Cereal',
     buildTo: 1,
+    orderAmount: 1,
     quanityOnHand: 1,
     unitPriceInPennies: 145,
     isMarketPrice: false,
