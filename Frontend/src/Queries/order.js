@@ -39,6 +39,7 @@ export const ORDER_FOR_RECEIVING = gql`
         quantityReceived
         receivingNote
         flaggedByReceiver
+        receiverNote
       }
     }
   }

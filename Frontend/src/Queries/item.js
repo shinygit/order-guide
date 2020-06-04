@@ -22,6 +22,7 @@ export const EDIT_ITEM = gql`
       previousOrders(count: 2)
       showEditForm @client
       flaggedByReceiver
+      receiverNote
     }
   }
 `
@@ -48,6 +49,7 @@ export const CREATE_ITEM = gql`
       showEditForm @client
       isExpanded @client
       flaggedByReceiver
+      receiverNote
     }
   }
 `
@@ -104,6 +106,7 @@ export const GET_LATEST_ORDER = gql`
         showEditForm @client
         isExpanded @client
         flaggedByReceiver
+        receiverNote
       }
     }
   }
