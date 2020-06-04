@@ -56,16 +56,7 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
       return null
     })
   }
-  if (graphQLErrors) {
-    for (const err of graphQLErrors) {
-      switch (err.extensions.code) {
-        case 'UNAUTHENTICATED':
-          localStorage.clear()
-          break
-        default:
-      }
-    }
-  }
+
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 const fragmentMatcher = new IntrospectionFragmentMatcher({
