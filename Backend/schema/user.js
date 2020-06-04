@@ -2,9 +2,10 @@ import { gql } from 'apollo-server-express'
 export default gql`
   union LoginResults = Token | LoginError
   union RegisterResults = User | RegisterErrors
+  union Me = User | Receiver
 
   extend type Query {
-    me: User
+    me: Me
   }
 
   extend type Mutation {

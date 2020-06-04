@@ -21,7 +21,6 @@ export default {
   },
   RegisterResults: {
     __resolveType(parent, context, info) {
-      console.log(parent)
       if (parent.emailError || parent.passwordError) {
         return 'RegisterErrors'
       }
@@ -33,10 +32,24 @@ export default {
       return null
     },
   },
+  Me: {
+    __resolveType(parent, context, info) {
+      /*       if (parent.type === 'OWNER') {
+        return 'User'
+      } */
+      if (parent.receivesForUser) {
+        return 'Receiver'
+      }
+      return 'User'
+    },
+  },
   Query: {
     me: async (parent, args, { models, me }) => {
       if (!me) {
         return null
+      }
+      if (me.receivesForUser) {
+        return await models.Receiver.findByPk(me.id)
       }
       return await models.User.findByPk(me.id)
     },
