@@ -2,7 +2,10 @@ import { ForbiddenError } from 'apollo-server-express'
 import { skip } from 'graphql-resolvers'
 
 export const isAuthenticated = (parent, args, { me }) =>
-  me ? skip : new ForbiddenError('Not authenticated as user.')
+  me.receivesForUser ? skip : new ForbiddenError('Not authenticated as user.')
+
+export const isAuthenticatedAsOwner = (parent, args, { me }) =>
+  me.email ? skip : new ForbiddenError('Not authenticated as owner.')
 
 export const isAuthenticatedAsReceiver = (parent, args, { me }) =>
   me.email
