@@ -9,7 +9,7 @@ import SearchForm from './components/SearchForm'
 import OrderMenu from './components/OrderMenu'
 import NavBar from './components/NavBar/NavBar'
 import Loading from './components/Loading'
-import useIdleTimer from './hooks/useIdleTimer'
+
 import { GET_LATEST_ORDER } from './Queries/item'
 export const LocSupContext = React.createContext({
   locations: null,
@@ -20,7 +20,6 @@ const App = () => {
     variables: { orderDepth: 1 },
   })
 
-  useIdleTimer()
   const [items, setItems] = useState([])
 
   const [currentDate, setCurrentDate] = useState('')

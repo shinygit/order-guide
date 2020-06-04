@@ -18,6 +18,7 @@ import { setContext } from 'apollo-link-context'
 import { RetryLink } from 'apollo-link-retry'
 import { ApolloLink } from 'apollo-link'
 import SerializingLink from 'apollo-link-serialize'
+import useIdleTimer from './hooks/useIdleTimer'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 if (module.hot) {
@@ -116,6 +117,8 @@ const data = {
 cache.writeData({ data })
 
 client.onResetStore(() => cache.writeData({ data }))
+
+useIdleTimer()
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
