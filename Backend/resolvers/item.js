@@ -1,13 +1,18 @@
 const uuid = require('uuid')
 import Sequelize from 'sequelize'
 import { combineResolvers } from 'graphql-resolvers'
-import { isAuthenticated, isItemOwner, isItemReceiver } from './authorization'
+import {
+  isAuthenticated,
+  isItemOwner,
+  isItemReceiver,
+  isAuthenticatedAsOwner,
+} from './authorization'
 import pubsub, { EVENTS } from '../subscription'
 
 export default {
   Query: {
     items: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       async (parent, args, { me, models }) => {
         return await models.Item.findAll({
           where: {
@@ -17,7 +22,7 @@ export default {
       }
     ),
     item: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       isItemOwner,
       async (parent, { id }, { models }) => {
         return await models.Item.findByPk(id)
@@ -26,7 +31,7 @@ export default {
   },
   Mutation: {
     createItem: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       async (parent, { input }, { me, models }) => {
         if (input.supplier) {
           let supplier = await models.Supplier.findOne({
@@ -80,19 +85,20 @@ export default {
           specialNote: '',
           receivingNote: '',
           flaggedByReceiver: null,
+          receiverNote: null,
         })
         return item
       }
     ),
     deleteItem: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       isItemOwner,
       async (parent, { id }, { models }) => {
         return await models.Item.destroy({ where: { id } })
       }
     ),
     updateItem: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       isItemOwner,
       async (parent, { id, input }, { me, models }) => {
         const item = await models.Item.findOne({
@@ -158,6 +164,7 @@ export default {
           specialNote: input.specialNote,
           receivingNote: input.receivingNote,
           flaggedByReceiver: input.flaggedByReceiver,
+          receiverNote: input.receiverNote,
         })
         return item
       }
@@ -183,7 +190,7 @@ export default {
       }
     ),
     updateItemOrderAmount: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       isItemOwner,
       async (parent, { id, orderAmount }, { models }) => {
         return await models.Item.update(

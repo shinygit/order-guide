@@ -4,13 +4,14 @@ import {
   isOrderOwner,
   isOrderSupplierOwner,
   isAuthenticatedAsReceiver,
+  isAuthenticatedAsOwner,
 } from './authorization'
 import { UserInputError } from 'apollo-server-express'
 
 export default {
   Query: {
     orders: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       async (parent, { offset = 0, orderDepth = 1 }, { me, models }) => {
         return await models.Order.findAll({
           offset: offset,
@@ -35,7 +36,7 @@ export default {
       }
     ),
     supplierOrder: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
         const isOrderPlaced = await models.Supplier_Order.findOrCreate({
@@ -47,7 +48,7 @@ export default {
   },
   Mutation: {
     toggleOrderPlacedWithSupplierId: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
         const isOrderPlaced = await models.Supplier_Order.findOne({
@@ -77,7 +78,7 @@ export default {
       }
     ),
     toggleOrderLock: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       async (parent, { orderDate }, { me, models }) => {
         const currentOrder = await models.Order.findOne({
           where: { orderDate: orderDate, userId: me.id },
@@ -89,7 +90,7 @@ export default {
     ),
 
     deleteOrder: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       async (parent, { orderDate }, { me, models }) => {
         let safeToDelete = false
         const currentOrder = await models.Order.findAll({
@@ -130,7 +131,7 @@ export default {
       }
     ),
     createNewOrder: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       async (parent, { orderDate }, { me, models }) => {
         let theyDeletedAllTheOrders = false
         const exists = await models.Order.findOne({

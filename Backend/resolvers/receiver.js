@@ -5,6 +5,7 @@ import {
   isOrderOwner,
   isOrderSupplierOwner,
   isAuthenticatedAsReceiver,
+  isAuthenticatedAsOwner,
 } from './authorization'
 
 const createToken = async (receiver, secret, expiresIn) => {
@@ -44,7 +45,7 @@ export default {
 
   Mutation: {
     createReceiver: combineResolvers(
-      isAuthenticated,
+      isAuthenticatedAsOwner,
       async (
         parent,
         { login, password, receiverName },

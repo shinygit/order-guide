@@ -23,6 +23,7 @@ export default gql`
     specialNote: String
     receivingNote: String
     flaggedByReceiver: String
+    receiverNote: String
   }
   extend type Query {
     items: [Item!]!
@@ -56,6 +57,7 @@ export default gql`
     receivingNote: String
     previousOrders(count: Int): [Int]
     flaggedByReceiver: String
+    receiverNote: String
   }
 
   extend type Subscription {
