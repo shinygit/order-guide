@@ -36,8 +36,6 @@ const Login = () => {
       const token = result.data.signIn.token
       await client.resetStore()
       localStorage.setItem('token', token)
-      localStorage.setItem('id', jwt_decode(token).id)
-      localStorage.setItem('email', jwt_decode(token).email)
       history.push('/')
     } else {
       setLoginError(result.data.signIn)
