@@ -25,7 +25,11 @@ const ReceiverFlaggedToggle = ({ item, me }) => {
     toggleFlaggedByReceiver({
       variables: {
         id: item.id,
-        flaggedByReceiver: item.flaggedByReceiver ? null : me.receiverName,
+        flaggedByReceiver: item.flaggedByReceiver
+          ? null
+          : me.receiverName
+          ? me.receiverName
+          : 'You',
       },
     })
   }
