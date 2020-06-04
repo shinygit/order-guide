@@ -119,6 +119,17 @@ const TableItemRow = ({
           <tr className='' />
         </>
       ) : null}
+      {item.receiverNote ? (
+        <>
+          <tr>
+            <td className='hidden md:block' />
+            <td className={`border border-gray-700 bg-red-200`} colSpan='9'>
+              {item.receiverNote}
+            </td>
+          </tr>
+          <tr className='' />
+        </>
+      ) : null}
       {!item.isExpanded && item.itemNote ? (
         <>
           <tr>
