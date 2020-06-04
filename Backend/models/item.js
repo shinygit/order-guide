@@ -51,6 +51,10 @@ const item = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    receiverNote: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   })
   Item.associate = (models) => {
     Item.belongsTo(models.Order, { onDelete: 'CASCADE' })
