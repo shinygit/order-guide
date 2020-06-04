@@ -32,6 +32,7 @@ const GET_ITEM = gql`
       previousOrders(count: 2)
       showEditForm @client
       isExpanded @client
+      flaggedByReceiver
     }
   }
 `
@@ -65,7 +66,7 @@ const TableItemRow = ({
         {...longPressProps}
         className={`h-10 md:h-auto ${
           index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
-        }`}
+        } ${item.flaggedByReceiver ? 'bg-red-200' : null}`}
       >
         {active && (
           <Portal>
@@ -107,6 +108,17 @@ const TableItemRow = ({
           {item.location}
         </td>
       </tr>
+      {item.flaggedByReceiver ? (
+        <>
+          <tr>
+            <td className='hidden md:block' />
+            <td className={`border border-gray-700 bg-red-200`} colSpan='9'>
+              Flagged By: {item.flaggedByReceiver}
+            </td>
+          </tr>
+          <tr className='' />
+        </>
+      ) : null}
       {!item.isExpanded && item.itemNote ? (
         <>
           <tr>
@@ -114,7 +126,7 @@ const TableItemRow = ({
             <td
               className={`border border-gray-700 ${
                 index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
-              }`}
+              } ${item.flaggedByReceiver ? 'bg-red-200' : null}`}
               colSpan='9'
             >
               Item Note: {item.itemNote}
@@ -130,7 +142,7 @@ const TableItemRow = ({
             <td
               className={`border border-gray-700 ${
                 index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
-              }`}
+              } ${item.flaggedByReceiver ? 'bg-red-200' : null}`}
               colSpan='9'
             >
               Special Note: {item.specialNote}
@@ -146,7 +158,7 @@ const TableItemRow = ({
             <td
               className={`border border-gray-700 ${
                 index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
-              }`}
+              } ${item.flaggedByReceiver ? 'bg-red-200' : null}`}
               colSpan='9'
             >
               Receiving Note: {item.receivingNote}

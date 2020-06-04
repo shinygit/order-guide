@@ -21,6 +21,7 @@ export const EDIT_ITEM = gql`
       receivingNote
       previousOrders(count: 2)
       showEditForm @client
+      flaggedByReceiver
     }
   }
 `
@@ -46,6 +47,7 @@ export const CREATE_ITEM = gql`
       previousOrders(count: 2)
       showEditForm @client
       isExpanded @client
+      flaggedByReceiver
     }
   }
 `
@@ -101,6 +103,7 @@ export const GET_LATEST_ORDER = gql`
         previousOrders(count: 2)
         showEditForm @client
         isExpanded @client
+        flaggedByReceiver
       }
     }
   }
