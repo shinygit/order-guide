@@ -27,3 +27,19 @@ export const GET_IS_ORDER_PLACED = gql`
     }
   }
 `
+export const ORDER_FOR_RECEIVING = gql`
+  query {
+    orderForReceiving {
+      orderDate
+      items {
+        id
+        itemName
+        orderAmount
+        supplier
+        quantityReceived
+        receivingNote
+        flaggedByReceiver
+      }
+    }
+  }
+`
