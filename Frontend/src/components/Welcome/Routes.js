@@ -24,32 +24,26 @@ export default function Routes() {
     localStorage.clear()
     history.push('/login')
   }
+  if (
+    me !== null &&
+    (history.location.pathname == '/login' ||
+      history.location.pathname == '/register' ||
+      history.location.pathname == '/receiverlogin')
+  ) {
+    history.push('/')
+  }
   if (me !== null && me.__typename === 'Receiver') {
     history.push('/receiving')
   }
   return (
     <Switch>
-      <Route path='/login'>
-        <Login />
-      </Route>
-      <Route path='/register'>
-        <Register />
-      </Route>
-      <Route path='/receiverlogin'>
-        <ReceiverLogin />
-      </Route>
-      <Route path='/suppliers'>
-        <MainSupplierView />
-      </Route>
-      <Route path='/manual'>
-        <Manual />
-      </Route>
-      <Route path='/receiving'>
-        <ReceivingPage />
-      </Route>
-      <Route path='/'>
-        <App />
-      </Route>
+      <Route path='/login' component={Login} />
+      <Route path='/register' component={Register} />
+      <Route path='/receiverlogin' component={ReceiverLogin} />
+      <Route path='/suppliers' component={MainSupplierView} />
+      <Route path='/manual' component={Manual} />
+      <Route path='/receiving' component={ReceivingPage} />
+      <Route path='/' component={App} />
     </Switch>
   )
 }
