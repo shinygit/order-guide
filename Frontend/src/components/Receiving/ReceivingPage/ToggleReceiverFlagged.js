@@ -12,6 +12,7 @@ const TOGGLE_FLAGGED_BY_RECEIVER = gql`
       quantityReceived
       receivingNote
       flaggedByReceiver
+      receiverNote
     }
   }
 `
@@ -20,7 +21,6 @@ const ReceiverFlaggedToggle = ({ item, me }) => {
   const [toggleFlaggedByReceiver, { data, loading, error }] = useMutation(
     TOGGLE_FLAGGED_BY_RECEIVER
   )
-  console.log(item.flaggedByReceiver)
   const handleToggleFlaggedByReceiver = () => {
     toggleFlaggedByReceiver({
       variables: {
