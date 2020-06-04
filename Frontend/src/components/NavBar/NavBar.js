@@ -44,6 +44,13 @@ const NavBar = () => {
         </li>
         <li
           className={`mr-6 p-1 border-yellow-100 ${
+            location.pathname === '/receiving' ? 'border-b-2' : null
+          }`}
+        >
+          <Link to='/receiving'>Receiving</Link>
+        </li>
+        <li
+          className={`mr-6 p-1 border-yellow-100 ${
             location.pathname === '/manual' ? 'border-b-2' : null
           }`}
         >
