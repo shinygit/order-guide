@@ -107,6 +107,22 @@ const TableItemRow = ({
           {item.location}
         </td>
       </tr>
+      {!item.isExpanded && item.itemNote ? (
+        <>
+          <tr>
+            <td className='hidden md:block' />
+            <td
+              className={`border border-gray-700 ${
+                index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
+              }`}
+              colSpan='9'
+            >
+              Item Note: {item.itemNote}
+            </td>
+          </tr>
+          <tr className='' />
+        </>
+      ) : null}
       {!item.isExpanded && item.specialNote ? (
         <>
           <tr {...longPressProps}>
@@ -120,7 +136,23 @@ const TableItemRow = ({
               Special Note: {item.specialNote}
             </td>
           </tr>
-          <tr className='h-1' />
+          <tr className='' />
+        </>
+      ) : null}
+      {!item.isExpanded && item.receivingNote ? (
+        <>
+          <tr>
+            <td className='hidden md:block' />
+            <td
+              className={`border border-gray-700 ${
+                index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
+              }`}
+              colSpan='9'
+            >
+              Receiving Note: {item.receivingNote}
+            </td>
+          </tr>
+          <tr className='' />
         </>
       ) : null}
       {item.isExpanded ? (
