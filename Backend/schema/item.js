@@ -22,6 +22,7 @@ export default gql`
     itemNote: String
     specialNote: String
     receivingNote: String
+    flaggedByReceiver: String
   }
   extend type Query {
     items: [Item!]!
@@ -32,6 +33,8 @@ export default gql`
     deleteItem(id: ID!): Boolean!
     updateItem(id: ID!, input: UpdateItemInput): Item!
     updateItemOrderAmount(id: ID!, orderAmount: Int): Item!
+    updateItemReceiveAmount(id: ID!, quantityReceived: Int!): Item!
+    toggleFlaggedByReceiver(id: ID!, flaggedByReceiver: String): Item!
   }
   type Item {
     id: ID!
@@ -52,6 +55,7 @@ export default gql`
     specialNote: String
     receivingNote: String
     previousOrders(count: Int): [Int]
+    flaggedByReceiver: String
   }
 
   extend type Subscription {

@@ -3,6 +3,7 @@ import {
   isAuthenticated,
   isOrderOwner,
   isOrderSupplierOwner,
+  isAuthenticatedAsReceiver,
 } from './authorization'
 import { UserInputError } from 'apollo-server-express'
 
@@ -19,6 +20,18 @@ export default {
             userId: me.id,
           },
         })
+      }
+    ),
+    orderForReceiving: combineResolvers(
+      isAuthenticatedAsReceiver,
+      async (parent, args, { me, models }) => {
+        const latest = await models.Order.findOne({
+          order: [['orderDate', 'desc']],
+          where: {
+            userId: me.receivesForUser || me.id,
+          },
+        })
+        return latest
       }
     ),
     supplierOrder: combineResolvers(
@@ -42,6 +55,22 @@ export default {
         })
         if (isOrderPlaced) {
           isOrderPlaced.wasOrderPlaced = !isOrderPlaced.wasOrderPlaced
+          isOrderPlaced.save()
+          return isOrderPlaced.dataValues
+        }
+      }
+    ),
+    toggleOrderReceivedWithSupplierId: combineResolvers(
+      isOrderSupplierOwner,
+      async (parent, { supplierId, orderId }, { me, models }) => {
+        if (me.receivesForUser) {
+          me.id = me.receivesForUser
+        }
+        const isOrderPlaced = await models.Supplier_Order.findOne({
+          where: { supplierId: supplierId, orderId: orderId },
+        })
+        if (isOrderPlaced) {
+          isOrderPlaced.wasOrderReceived = !isOrderPlaced.wasOrderReceived
           isOrderPlaced.save()
           return isOrderPlaced.dataValues
         }
@@ -161,7 +190,7 @@ export default {
             return {
               ...item,
               orderAmount: null,
-              specialNote: null,
+              flaggedByReceiver: null,
               supplierId: await setSupplierIfMarketPrice(item),
               orderId: newOrder.id,
             }

@@ -5,6 +5,11 @@ const supplier_order = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false,
     },
+    wasOrderReceived: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   })
   Supplier_Order.associate = (models) => {}
   return Supplier_Order

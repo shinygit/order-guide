@@ -4,6 +4,7 @@ import itemSchema from './item'
 import orderSchema from './order'
 import supplierSchema from './supplier'
 import locationSchema from './location'
+import receiverSchema from './receiver'
 const linkSchema = gql`
   type Query {
     _: Boolean
@@ -21,5 +22,6 @@ export default [
   itemSchema,
   orderSchema,
   supplierSchema,
-  locationSchema
+  locationSchema,
+  receiverSchema,
 ]

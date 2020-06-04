@@ -3,12 +3,17 @@ export default gql`
   extend type Query {
     orders(orderDepth: Int!): [Order!]
     supplierOrder(supplierId: ID!, orderId: ID!): SupplierOrder!
+    orderForReceiving: Order
   }
   extend type Mutation {
     createNewOrder(orderDate: String!): Boolean!
     deleteOrder(orderDate: String!): Boolean!
     toggleOrderLock(orderDate: String!): Order!
     toggleOrderPlacedWithSupplierId(
+      supplierId: ID!
+      orderId: ID!
+    ): SupplierOrder!
+    toggleOrderReceivedWithSupplierId(
       supplierId: ID!
       orderId: ID!
     ): SupplierOrder!

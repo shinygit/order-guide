@@ -47,6 +47,10 @@ const item = (sequelize, DataTypes) => {
       defaultValue: Sequelize.UUIDV4,
       isUUID: 4,
     },
+    flaggedByReceiver: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
   Item.associate = (models) => {
     Item.belongsTo(models.Order, { onDelete: 'CASCADE' })

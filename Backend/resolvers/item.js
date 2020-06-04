@@ -1,7 +1,7 @@
 const uuid = require('uuid')
 import Sequelize from 'sequelize'
 import { combineResolvers } from 'graphql-resolvers'
-import { isAuthenticated, isItemOwner } from './authorization'
+import { isAuthenticated, isItemOwner, isItemReceiver } from './authorization'
 import pubsub, { EVENTS } from '../subscription'
 
 export default {
@@ -79,6 +79,7 @@ export default {
           itemNote: '',
           specialNote: '',
           receivingNote: '',
+          flaggedByReceiver: null,
         })
         return item
       }
@@ -156,8 +157,29 @@ export default {
           itemNote: input.itemNote,
           specialNote: input.specialNote,
           receivingNote: input.receivingNote,
+          flaggedByReceiver: input.flaggedByReceiver,
         })
         return item
+      }
+    ),
+    updateItemReceiveAmount: combineResolvers(
+      isItemReceiver,
+      async (parent, { id, quantityReceived }, { me, models }) => {
+        const receivedItem = await models.Item.update(
+          { quantityReceived: quantityReceived },
+          { where: { id: id }, returning: true, plain: true }
+        )
+        return receivedItem[1].dataValues
+      }
+    ),
+    toggleFlaggedByReceiver: combineResolvers(
+      isItemReceiver,
+      async (parent, { id, flaggedByReceiver }, { me, models }) => {
+        const receivedItem = await models.Item.update(
+          { flaggedByReceiver: flaggedByReceiver },
+          { where: { id: id }, returning: true, plain: true }
+        )
+        return receivedItem[1].dataValues
       }
     ),
     updateItemOrderAmount: combineResolvers(
