@@ -18,14 +18,13 @@
     "graphql-tag": "^2.10.3",
     "immer": "^5.3.6",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.25.3",
+    "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
     "react-portal": "^4.2.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.1",
-    "standard": "^14.3.4"
+    "react-scripts": "^3.4.1"
   },
   "scripts": {
     "start": "npm run watch:css && react-scripts start",
