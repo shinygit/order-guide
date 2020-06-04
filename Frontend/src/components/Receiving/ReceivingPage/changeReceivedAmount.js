@@ -24,7 +24,7 @@ const ChangeReceivedAmount = ({ item }) => {
         updateItemReceiveAmount: {
           __typename: 'Item',
           id: id,
-          orderAmount: getNextAmount(quantityReceived),
+          quantityReceived: getNextAmount(quantityReceived),
         },
       },
     })
