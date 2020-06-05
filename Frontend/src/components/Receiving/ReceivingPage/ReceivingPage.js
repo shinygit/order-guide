@@ -16,16 +16,10 @@ const logout = () => {
 const ReceivingPage = ({}) => {
   const history = useHistory()
   const location = useLocation()
-  const {
-    data: meData,
-    loading: meLoading,
-    error: meError,
-    refetch,
-  } = useQuery(GET_ME)
+  const { data: meData, loading: meLoading, error: meError } = useQuery(GET_ME)
   const { me = {} } = meData
   const { data, loading, error } = useQuery(ORDER_FOR_RECEIVING)
   const [activeSupplier, setActiveSupplier] = useState('')
-  refetch()
   if (meLoading) return <Loading />
   if (loading) return <Loading />
   const {

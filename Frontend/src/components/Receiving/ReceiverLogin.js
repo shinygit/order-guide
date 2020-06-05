@@ -29,14 +29,15 @@ const ReceiverLogin = () => {
     event.preventDefault()
     const result = await loginReceiver({
       variables: { login: loginField, password: passwordField },
+      refetchQueries: ['me'],
     }).catch((e) => {
       console.log(e)
     })
     if (result.data.loginReceiver.token) {
       const token = result.data.loginReceiver.token
-      await client.resetStore()
       localStorage.setItem('token', token)
       history.push('/receiving')
+      window.location.reload(true)
     } else {
       setLoginError(result.data.loginReceiver)
     }

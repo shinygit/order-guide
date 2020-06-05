@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useMutation, useApolloClient } from '@apollo/react-hooks'
 import jwt_decode from 'jwt-decode'
+import { GET_ME } from '../../Queries/user'
 
 const LOGIN = gql`
   mutation signIn($login: String!, $password: String!) {
@@ -29,14 +30,15 @@ const Login = () => {
     event.preventDefault()
     const result = await login({
       variables: { login: email, password: password },
+      refetchQueries: () => [{ query: GET_ME }],
     }).catch((e) => {
       console.log(e)
     })
     if (result.data.signIn.token) {
       const token = result.data.signIn.token
-      await client.resetStore()
       localStorage.setItem('token', token)
       history.push('/')
+      window.location.reload(true)
     } else {
       setLoginError(result.data.signIn)
     }
