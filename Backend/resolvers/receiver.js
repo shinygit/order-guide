@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 import { combineResolvers } from 'graphql-resolvers'
 import {
   isAuthenticated,
-  isOrderOwner,
   isOrderSupplierOwner,
   isAuthenticatedAsReceiver,
   isAuthenticatedAsOwner,

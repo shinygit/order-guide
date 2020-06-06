@@ -179,6 +179,16 @@ export default {
         return receivedItem[1].dataValues
       }
     ),
+    updateItemReceiverNote: combineResolvers(
+      isItemReceiver,
+      async (parent, { id, receiverNote }, { me, models }) => {
+        const receivedItem = await models.Item.update(
+          { receiverNote: receiverNote },
+          { where: { id: id }, returning: true, plain: true }
+        )
+        return receivedItem[1].dataValues
+      }
+    ),
     toggleFlaggedByReceiver: combineResolvers(
       isItemReceiver,
       async (parent, { id, flaggedByReceiver }, { me, models }) => {

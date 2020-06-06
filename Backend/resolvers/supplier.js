@@ -1,7 +1,6 @@
 import { combineResolvers } from 'graphql-resolvers'
 import {
   isAuthenticated,
-  isOrderOwner,
   isOrderSupplierOwner,
   isAuthenticatedAsReceiver,
   isAuthenticatedAsOwner,
@@ -36,11 +35,11 @@ export default {
   },
   Query: {
     suppliers: combineResolvers(
-      isAuthenticatedAsOwner,
+      isAuthenticatedAsReceiver,
       async (parent, args, { me, models }) => {
         return await models.Supplier.findAll({
           where: {
-            userId: me.id,
+            userId: me.receivesForUser || me.id,
           },
         })
       }

@@ -36,13 +36,24 @@ export default {
       }
     ),
     supplierOrder: combineResolvers(
-      isAuthenticatedAsOwner,
       isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
         const isOrderPlaced = await models.Supplier_Order.findOrCreate({
           where: { supplierId: supplierId, orderId: orderId },
         })
         return isOrderPlaced[0].dataValues
+      }
+    ),
+    supplierOrders: combineResolvers(
+      isAuthenticatedAsReceiver,
+      async (parent, { orderId }, { me, models }) => {
+        const order = await models.Order.findOne({
+          where: { id: orderId, userId: me.receivesForUser || me.id },
+        })
+        const orderSuppliersReceived = await models.Supplier_Order.findAll({
+          where: { orderId: order.dataValues.id },
+        })
+        return orderSuppliersReceived
       }
     ),
   },
@@ -64,9 +75,6 @@ export default {
     toggleOrderReceivedWithSupplierId: combineResolvers(
       isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
-        if (me.receivesForUser) {
-          me.id = me.receivesForUser
-        }
         const isOrderPlaced = await models.Supplier_Order.findOne({
           where: { supplierId: supplierId, orderId: orderId },
         })

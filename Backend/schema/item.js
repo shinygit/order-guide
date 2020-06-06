@@ -36,6 +36,7 @@ export default gql`
     updateItemOrderAmount(id: ID!, orderAmount: Int): Item!
     updateItemReceiveAmount(id: ID!, quantityReceived: Int!): Item!
     toggleFlaggedByReceiver(id: ID!, flaggedByReceiver: String): Item!
+    updateItemReceiverNote(id: ID!, receiverNote: String): Item!
   }
   type Item {
     id: ID!
