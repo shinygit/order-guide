@@ -58,7 +58,7 @@ export const isOrderSupplierOwner = async (
   { me, models }
 ) => {
   if (me.receivesForUser) {
-    me.id = receivesForUser
+    me.id = me.receivesForUser
   }
   const [supplier, order] = await Promise.all([
     await models.Supplier.findOne({
