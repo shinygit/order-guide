@@ -62,6 +62,15 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
           {item.receivingNote}
         </td>
       </tr>
+      <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
+        <td className='bg-yellow-100' />
+        <th colSpan='2' className={tableCell}>
+          Receiver Note
+        </th>
+        <td colSpan='5' className={tableCell}>
+          {item.receiverNote}
+        </td>
+      </tr>
       <tr>
         <td className='h-3' />
       </tr>

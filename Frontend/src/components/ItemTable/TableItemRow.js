@@ -33,6 +33,7 @@ const GET_ITEM = gql`
       showEditForm @client
       isExpanded @client
       flaggedByReceiver
+      receiverNote
     }
   }
 `
@@ -58,7 +59,6 @@ const TableItemRow = ({
       id: id,
     },
   })
-
   if (loading) return null
   return (
     <>
@@ -119,12 +119,12 @@ const TableItemRow = ({
           <tr className='' />
         </>
       ) : null}
-      {item.receiverNote ? (
+      {!item.isExpanded && item.receiverNote ? (
         <>
           <tr>
             <td className='hidden md:block' />
             <td className={`border border-gray-700 bg-red-200`} colSpan='9'>
-              {item.receiverNote}
+              Receiver Note: {item.receiverNote}
             </td>
           </tr>
           <tr className='' />

@@ -30,6 +30,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
     itemNote: item.itemNote,
     specialNote: item.specialNote,
     receivingNote: item.receivingNote,
+    receiverNote: item.receiverNote,
     showEditForm: item.showEditForm,
   })
   const handleChangeInput = (event) => {
@@ -96,6 +97,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
           itemNote: editItemForm.itemNote,
           specialNote: editItemForm.specialNote,
           receivingNote: editItemForm.receivingNote,
+          receiverNote: editItemForm.receiverNote,
         },
       },
     })
@@ -119,6 +121,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         itemNote: item.itemNote,
         specialNote: item.specialNote,
         receivingNote: item.receivingNote,
+        receiverNote: item.receiverNote,
         showEditForm: false,
       }),
     [item]
@@ -306,6 +309,20 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             className={`${editInput} w-full`}
             name='receivingNote'
             value={parseToEmptyString(editItemForm.receivingNote)}
+            onChange={handleChangeInput}
+          />
+        </td>
+      </tr>
+      <tr className='bg-gray-100'>
+        <td className='bg-yellow-100' />
+        <th colSpan='2' className={tableCell}>
+          Receiver Note
+        </th>
+        <td colSpan='5' className={tableCell}>
+          <textarea
+            className={`${editInput} w-full`}
+            name='receiverNote'
+            value={parseToEmptyString(editItemForm.receiverNote)}
             onChange={handleChangeInput}
           />
         </td>
