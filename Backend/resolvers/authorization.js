@@ -7,12 +7,13 @@ export const isAuthenticated = (parent, args, { me }) =>
 export const isAuthenticatedAsOwner = (parent, args, { me }) =>
   me.email ? skip : new ForbiddenError('Not authenticated as owner.')
 
-export const isAuthenticatedAsReceiver = (parent, args, { me }) =>
+export const isAuthenticatedAsReceiver = (parent, args, { me }) => {
   me.email
     ? skip
     : me.receivesForUser
     ? skip
     : new ForbiddenError('Not authenticated as receiver.')
+}
 
 export const isItemOwner = async (parent, { id }, { models, me }) => {
   if (me.receivesForUser) {
