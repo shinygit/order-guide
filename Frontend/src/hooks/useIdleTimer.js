@@ -18,6 +18,8 @@ function useIdleTimer() {
   window.ontouchstart = resetTimer
   window.onclick = resetTimer
   window.onkeypress = resetTimer
+  window.onkeypress = resetTimer
+  window.ontouchmove = resetTimer
 
   function resetTimer() {
     clearTimeout(timer)
