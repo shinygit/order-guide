@@ -15,6 +15,7 @@ export default function Routes() {
   const history = useHistory()
   if (loading) return null
   const { me = {} } = data
+
   if (
     me === null &&
     history.location.pathname !== '/login' &&
@@ -32,7 +33,11 @@ export default function Routes() {
   ) {
     history.push('/')
   }
-  if (me !== null && me.__typename === 'Receiver') {
+  if (
+    me !== null &&
+    me.__typename === 'Receiver' &&
+    history.location.pathname !== '/receiving'
+  ) {
     history.push('/receiving')
   }
   return (
