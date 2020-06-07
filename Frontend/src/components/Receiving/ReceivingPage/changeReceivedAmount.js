@@ -4,7 +4,7 @@ import { UPDATE_ITEM_RECEIVE_AMOUNT } from '../../../Queries/item'
 
 import gql from 'graphql-tag'
 
-const ChangeReceivedAmount = ({ item }) => {
+const ChangeReceivedAmount = ({ item, confirmIfReceivedSubmitted }) => {
   const { id, quantityReceived } = item
 
   const getNextAmount = (quantityReceived) => {
@@ -49,7 +49,7 @@ const ChangeReceivedAmount = ({ item }) => {
     <div className='flex justify-around'>
       <button
         className=''
-        onClick={() => handleDecrease()}
+        onClick={() => confirmIfReceivedSubmitted(handleDecrease)}
         data-cy='decreaseReceiveAmount'
       >
         <svg
@@ -63,7 +63,7 @@ const ChangeReceivedAmount = ({ item }) => {
       <span className=''>{quantityReceived}</span>
       <button
         className=''
-        onClick={() => handleIncrease()}
+        onClick={() => confirmIfReceivedSubmitted(handleIncrease)}
         data-cy='increaseReceiveAmount'
       >
         <svg

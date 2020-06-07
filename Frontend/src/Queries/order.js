@@ -27,9 +27,19 @@ export const GET_IS_ORDER_PLACED = gql`
     }
   }
 `
+export const GET_IS_ORDERS_RECEIEVED = gql`
+  query SupplierOrders($orderId: ID!) {
+    supplierOrders(orderId: $orderId) {
+      wasOrderReceived
+      orderId
+      supplierId
+    }
+  }
+`
 export const ORDER_FOR_RECEIVING = gql`
   query {
     orderForReceiving {
+      id
       orderDate
       items {
         id
