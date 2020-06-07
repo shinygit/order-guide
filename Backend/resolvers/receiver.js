@@ -41,6 +41,19 @@ export default {
       return null
     },
   },
+  UpdateReceiverResults: {
+    __resolveType(parent, context, info) {
+      if (parent.loginError || parent.passwordError) {
+        return 'UpdateReceiverError'
+      }
+
+      if (parent.login) {
+        return 'Receiver'
+      }
+
+      return null
+    },
+  },
 
   Mutation: {
     createReceiver: combineResolvers(
@@ -52,7 +65,7 @@ export default {
       ) => {
         if (password.length < 8)
           return {
-            __typename: 'RegisterErrors',
+            __typename: 'CreateReceiverError',
             passwordError: 'Password must be at least 8 characters long',
           }
         login = login.toLowerCase().trim()
@@ -78,7 +91,50 @@ export default {
         return receiver
       }
     ),
-
+    updateReceiver: combineResolvers(
+      isAuthenticatedAsOwner,
+      async (
+        parent,
+        { id, login, password, receiverName },
+        { models, secret, me }
+      ) => {
+        if (password && password.length < 8)
+          return {
+            __typename: 'UpdateReceiverErrors',
+            passwordError: 'Password must be at least 8 characters long',
+          }
+        if (login) {
+          login = login.toLowerCase().trim()
+          const receiverExists = await models.Receiver.findOne({
+            where: { login: login },
+          })
+          if (receiverExists)
+            return {
+              __typename: 'UpdateReceiverErrors',
+              loginError: 'An account with that login already exists.',
+            }
+        }
+        const updatedReceiver = await models.Receiver.update(
+          {
+            login,
+            password,
+            receiverName,
+          },
+          {
+            where: { id: id },
+            individualHooks: true,
+            returning: true,
+            raw: true,
+          }
+        ).catch((e) => console.log(e))
+        if (!updatedReceiver)
+          return {
+            __typename: 'updateReceiverError',
+            updateError: 'There was a problem with your update.',
+          }
+        return updatedReceiver[1][0]
+      }
+    ),
     loginReceiver: async (parent, { login, password }, { models, secret }) => {
       const receiver = await models.Receiver.findByLogin(login.trim())
 

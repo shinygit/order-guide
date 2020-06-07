@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import { ORDER_FOR_RECEIVING } from '../../../Queries/order'
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import {
+  ORDER_FOR_RECEIVING,
+  GET_IS_ORDERS_RECEIEVED,
+} from '../../../Queries/order'
 import Loading from '../../Loading'
 import ListItemsForReceiving from './ListItemsForReceiving'
 import SupplierListForReceiving from './SupplierListForReceiving'
+import ReceivedForButton from './ReceivedForButton'
 import moment from 'moment'
 import { GET_ME } from '../../../Queries/user'
 import { Link, useHistory, useLocation } from 'react-router-dom'
+import gql from 'graphql-tag'
+import { GET_SUPPLIERS } from '../../../Queries/supplier'
 
 const logout = () => {
   localStorage.clear()
@@ -16,17 +22,61 @@ const logout = () => {
 const ReceivingPage = ({}) => {
   const history = useHistory()
   const location = useLocation()
+  const [activeSupplier, setActiveSupplier] = useState('')
   const { data: meData, loading: meLoading, error: meError } = useQuery(GET_ME)
   const { me = {} } = meData
-  const { data, loading, error } = useQuery(ORDER_FOR_RECEIVING)
-  const [activeSupplier, setActiveSupplier] = useState('')
+  const { data = { orderForReceiving: {} }, loading, error } = useQuery(
+    ORDER_FOR_RECEIVING
+  )
+  const {
+    orderForReceiving: { orderDate, items, id: orderId },
+  } = data
+  const { loading: supplierLoading, data: supplierData = {} } = useQuery(
+    GET_SUPPLIERS
+  )
+  const { suppliers = [] } = supplierData
+
+  const {
+    data: orderReceivedWithSuppliersData,
+    loading: orderReceivedWithSuppliersLoading,
+    error: orderReceivedWithSuppliersError,
+  } = useQuery(GET_IS_ORDERS_RECEIEVED, {
+    skip: !orderId,
+    variables: {
+      orderId: orderId,
+    },
+  })
+  if (orderReceivedWithSuppliersLoading) return <Loading />
   if (meLoading) return <Loading />
   if (loading) return <Loading />
-  const {
-    orderForReceiving: { orderDate, items },
-  } = data
+  if (supplierLoading) return <Loading />
+  const { supplierOrders } = orderReceivedWithSuppliersData
+  let activeSupplierReceivedSubmitted = false
+  if (activeSupplier) {
+    activeSupplierReceivedSubmitted = supplierOrders.filter((supplierOrder) => {
+      return supplierOrder.supplierId == activeSupplier.id
+    })[0].wasOrderReceived
+  }
+
+  const confirmIfReceivedSubmitted = (action) => {
+    if (!activeSupplierReceivedSubmitted) {
+      return action()
+    }
+    if (activeSupplierReceivedSubmitted) {
+      if (
+        window.confirm(
+          'This supplier has already been submitted are you sure you wish to change this item?'
+        )
+      ) {
+        return action()
+      } else {
+        return null
+      }
+    }
+  }
+
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col items-center'>
       <div className='flex justify-between items-center py-3 mb-3 bg-blue-800 w-full'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -66,6 +116,7 @@ const ReceivingPage = ({}) => {
           <SupplierListForReceiving
             setActiveSupplier={setActiveSupplier}
             activeSupplier={activeSupplier}
+            suppliers={suppliers}
             items={items}
           />
         </div>
@@ -76,12 +127,20 @@ const ReceivingPage = ({}) => {
             <div className='text-center text-lg col-span-2'>Received</div>
           </div>
           <ListItemsForReceiving
+            confirmIfReceivedSubmitted={confirmIfReceivedSubmitted}
             activeSupplier={activeSupplier}
             items={items}
             me={me}
           />
         </div>
       </div>
+      {activeSupplier && (
+        <ReceivedForButton
+          activeSupplier={activeSupplier}
+          orderId={orderId}
+          activeSupplierReceivedSubmitted={activeSupplierReceivedSubmitted}
+        />
+      )}
     </div>
   )
 }

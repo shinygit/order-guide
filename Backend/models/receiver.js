@@ -1,7 +1,14 @@
 import bcrypt from 'bcryptjs'
-
+const uuid = require('uuid')
+const Sequelize = require('sequelize')
 const receiver = (sequelize, DataTypes) => {
   const Receiver = sequelize.define('receiver', {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
+    },
     receiverName: {
       type: DataTypes.STRING,
       unique: false,
@@ -30,6 +37,10 @@ const receiver = (sequelize, DataTypes) => {
     Receiver.belongsTo(models.User)
   }
   Receiver.beforeCreate(async (receiver) => {
+    receiver.password = await receiver.generatePasswordHash()
+  })
+  Receiver.beforeUpdate(async (receiver) => {
+    console.log('test')
     receiver.password = await receiver.generatePasswordHash()
   })
 
