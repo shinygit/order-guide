@@ -9,7 +9,10 @@ function useIdleTimer() {
 
   const callback = () => {}
 
-  document.addEventListener('visibilitychange', function () {
+  window.addEventListener('visibilitychange', function () {
+    resetTimer()
+  })
+  window.addEventListener('focus', function () {
     resetTimer()
   })
   window.onload = resetTimer
