@@ -5,7 +5,7 @@ export default gql`
   union UpdateReceiverResults = Receiver | UpdateReceiverError
 
   extend type Query {
-    Receivers: [Receiver]!
+    receivers: [Receiver]!
   }
   extend type Mutation {
     createReceiver(
@@ -24,12 +24,15 @@ export default gql`
 
   type Receiver {
     id: ID!
+    login: String!
     receiverName: String!
     receivesForUser: Int!
   }
   type CreateReceiverError {
     loginError: String
     passwordError: String
+    receiverNameError: String
+    createError: String
   }
 
   type LoginReceiverError {
@@ -39,6 +42,7 @@ export default gql`
   type UpdateReceiverError {
     loginError: String
     passwordError: String
+    receiverNameError: String
     updateError: String
   }
 `
