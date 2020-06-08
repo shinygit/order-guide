@@ -6,6 +6,7 @@ import MainSupplierView from '../Suppliers/MainSupplierView'
 import Manual from '../Manual'
 import ReceiverLogin from '../Receiving/ReceiverLogin'
 import ReceivingPage from '../Receiving/ReceivingPage/ReceivingPage'
+import ReceiversPage from '../ManageReceivers/ReceiversPage'
 import { GET_ME } from '../../Queries/user'
 import { Switch, Route, useHistory } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
@@ -48,6 +49,7 @@ export default function Routes() {
       <Route path='/suppliers' component={MainSupplierView} />
       <Route path='/manual' component={Manual} />
       <Route path='/receiving' component={ReceivingPage} />
+      <Route path='/receivers' component={ReceiversPage} />
       <Route path='/' component={App} />
     </Switch>
   )

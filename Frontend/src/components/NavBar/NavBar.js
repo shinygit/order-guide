@@ -56,6 +56,13 @@ const NavBar = () => {
         >
           <Link to='/manual'>Manual</Link>
         </li>
+        <li
+          className={`mr-6 p-1 border-yellow-100 ${
+            location.pathname === '/receivers' ? 'border-b-2' : null
+          }`}
+        >
+          <Link to='/receivers'>Receivers</Link>
+        </li>
         <li className='mr-6 p-1'>
           <Link onClick={logout} to='/login'>
             Logout
