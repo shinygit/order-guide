@@ -54,7 +54,18 @@ export default {
       return null
     },
   },
-
+  Query: {
+    receivers: combineResolvers(
+      isAuthenticatedAsOwner,
+      async (parent, args, { me, models }) => {
+        return await models.Receiver.findAll({
+          where: {
+            receivesForUser: me.id,
+          },
+        })
+      }
+    ),
+  },
   Mutation: {
     createReceiver: combineResolvers(
       isAuthenticatedAsOwner,
