@@ -1,9 +1,10 @@
 import models from '../models'
 import { v4 as uuidv4 } from 'uuid'
+import { createUserStarterOrderAndItems } from '../user/utils/createNewUserItems'
 export default async () => {
   const items = () => {
     const lotsofitems = []
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 50; i++) {
       lotsofitems.push({
         itemName: `Good Book ${i}`,
         orderAmount: 2,
@@ -206,4 +207,9 @@ export default async () => {
   loc2.setUser(user)
   sup1.setUser(user)
   sup2.setUser(user)
+  const user5 = await models.User.create({
+    email: 'hello5@david.com',
+    password: '12345678',
+  })
+  createUserStarterOrderAndItems(user5, models)
 }
