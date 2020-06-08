@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('supplier_order', {
+    return queryInterface.createTable('supplier_orders', {
       wasOrderPlaced: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
