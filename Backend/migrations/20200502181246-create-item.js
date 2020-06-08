@@ -48,6 +48,12 @@ module.exports = {
       receivingNote: {
         type: Sequelize.TEXT,
       },
+      flaggedByReceiver: {
+        type: Sequelize.STRING,
+      },
+      receiverNote: {
+        type: Sequelize.TEXT,
+      },
       itemId: {
         type: Sequelize.UUID,
         allowNull: false,

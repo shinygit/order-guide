@@ -8,6 +8,11 @@ module.exports = {
         defaultValue: false,
         allowNull: false,
       },
+      wasOrderReceived: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

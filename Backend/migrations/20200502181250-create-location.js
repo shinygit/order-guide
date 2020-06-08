@@ -7,13 +7,13 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       locationName: {
         type: Sequelize.STRING,
         unique: false,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     })
   },
 
@@ -25,5 +25,5 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-  }
+  },
 }
