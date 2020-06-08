@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -15,7 +15,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       }
-    ),
+    )
   },
 
   down: (queryInterface, Sequelize) => {
@@ -26,5 +26,5 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-  }
-};
+  },
+}
