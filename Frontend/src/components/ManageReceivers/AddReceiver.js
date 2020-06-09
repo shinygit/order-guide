@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import { GET_RECEIVERS } from '../../Queries/receiver'
@@ -30,20 +30,17 @@ const CREATE_RECEIVER = gql`
 `
 
 const AddReceiver = () => {
-  const [createReceiver, { data, errors, loading }] = useMutation(
-    CREATE_RECEIVER,
-    {
-      update(cache, { data: { createReceiver } }) {
-        if (createReceiver.__typename === 'Receiver') {
-          const { receivers } = cache.readQuery({ query: GET_RECEIVERS })
-          cache.writeQuery({
-            query: GET_RECEIVERS,
-            data: { receivers: receivers.concat([createReceiver]) },
-          })
-        }
-      },
-    }
-  )
+  const [createReceiver] = useMutation(CREATE_RECEIVER, {
+    update(cache, { data: { createReceiver } }) {
+      if (createReceiver.__typename === 'Receiver') {
+        const { receivers } = cache.readQuery({ query: GET_RECEIVERS })
+        cache.writeQuery({
+          query: GET_RECEIVERS,
+          data: { receivers: receivers.concat([createReceiver]) },
+        })
+      }
+    },
+  })
   const [addReceiverFields, setAddReceiverFields] = useState({
     login: '',
     loginError: '',
