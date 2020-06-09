@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
 
 const SearchForm = () => {
@@ -6,9 +6,6 @@ const SearchForm = () => {
 
   const handleChange = (event) => {
     setInput(event.target.value)
-  }
-
-  useEffect(() => {
     client.writeData({
       data: {
         filter: {
@@ -19,7 +16,7 @@ const SearchForm = () => {
         },
       },
     })
-  }, [input])
+  }
 
   const client = useApolloClient()
 
