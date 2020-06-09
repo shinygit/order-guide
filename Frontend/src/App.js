@@ -13,7 +13,6 @@ import Loading from './components/Loading'
 import { GET_LATEST_ORDER } from './Queries/item'
 export const LocSupContext = React.createContext({
   locations: null,
-  suppliers: null,
 })
 const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
@@ -39,16 +38,16 @@ const App = () => {
     refetch()
   }, [currentDate, refetch])
 
-  const getCurrentSuppliers = useCallback(() => {
+  /*   const getCurrentSuppliers = useCallback(() => {
     const currentSuppliers = [...new Set(items.map((item) => item.supplier))]
     return currentSuppliers.sort()
-  }, [items])
+  }, [items]) */
 
-  const [suppliers, setSuppliers] = useState(getCurrentSuppliers)
-
+  /*   const [suppliers, setSuppliers] = useState(getCurrentSuppliers) */
+  /* 
   useEffect(() => {
     setSuppliers(getCurrentSuppliers())
-  }, [getCurrentSuppliers])
+  }, [getCurrentSuppliers]) */
 
   const getCurrentLocations = useCallback(() => {
     const currentLocations = []
@@ -67,35 +66,21 @@ const App = () => {
     setLocations(getCurrentLocations())
   }, [getCurrentLocations])
 
-  const [newItemToggle, setNewItemToggle] = useState(false)
-  const toggleNewItem = () => {
-    setNewItemToggle(!newItemToggle)
-  }
   return (
-    <div className='flex-col p-3'>
+    <div>
       <NavBar />
-      <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
-      {newItemToggle && (
-        <AddItemForm
-          suppliers={suppliers}
-          locations={locations}
-          toggleNewItem={toggleNewItem}
-        />
-      )}
-      <FilterMenu
-        items={items}
-        suppliers={suppliers}
-        locations={locations}
-        toggleNewItem={toggleNewItem}
-        newItemToggle={newItemToggle}
-        orderId={data?.orders[0]?.id}
-      />
-      <SearchForm />
-      <LocSupContext.Provider
-        value={{ locations: locations, suppliers: suppliers }}
-      >
-        {loading ? <Loading /> : <ListItems items={items} />}
-      </LocSupContext.Provider>
+      <div className='p-3'>
+        <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
+        <LocSupContext.Provider value={{ locations: locations }}>
+          <FilterMenu
+            items={items}
+            locations={locations}
+            orderId={data?.orders[0]?.id}
+          />
+          <SearchForm />
+          {loading ? <Loading /> : <ListItems items={items} />}
+        </LocSupContext.Provider>
+      </div>
     </div>
   )
 }

@@ -3,10 +3,9 @@ import { CREATE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import FieldSupplierSelector from './ItemTable/FieldSupplierSelector'
 
-const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
+const AddItemForm = ({ locations, closeModal }) => {
   const [createItem] = useMutation(CREATE_ITEM, {
     update(client, { data: { createItem } }) {
-      console.log(createItem)
       const queryResults = client.readQuery({
         query: GET_LATEST_ORDER,
         variables: { orderDepth: 1 },
@@ -79,16 +78,21 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
       location: '',
       buildTo: '',
     })
-    toggleNewItem()
+    closeModal()
   }
 
   return (
-    <form className='flex' onSubmit={handleSubmit}>
-      <div className='flex flex-col mx-1 w-1/4'>
-        <label className=''>Item Name:</label>
+    <form
+      className='flex flex-col p-2 bg-gray-300 shadow-2xl p-5 text-gray-900'
+      id='add-item-form'
+      onSubmit={handleSubmit}
+    >
+      <div className='flex items-end my-1 justify-between'>
+        <label className='mr-2'>ITEM NAME</label>
         <input
-          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.itemName &&
-            itemFormFieldError}`}
+          className={`border py-2 px-3 ${
+            itemFormErrors.itemName && itemFormFieldError
+          }`}
           type='text'
           name='itemName'
           value={itemForm.itemName}
@@ -96,11 +100,12 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
           onFocus={() => setItemFormErrors({})}
         />
       </div>
-      <div className='flex flex-col mx-1 w-1/12'>
-        <label>Build To: </label>
+      <div className='flex items-end my-1 justify-between'>
+        <label className='mr-2'>BUILD TO</label>
         <input
-          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.buildTo &&
-            itemFormFieldError}`}
+          className={`border py-2 px-3${
+            itemFormErrors.buildTo && itemFormFieldError
+          }`}
           type='number'
           name='buildTo'
           value={itemForm.buildTo}
@@ -108,18 +113,19 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
           onFocus={() => setItemFormErrors({})}
         />
       </div>
-      <div className='flex flex-col mx-1 w-1/4'>
-        <label>Supplier:</label>
+      <div className='flex items-end my-1 justify-between'>
+        <label className='mr-2'>SUPPLIER</label>
         <FieldSupplierSelector
           handleChangeInput={handleChangeInput}
           currentSupplierSelection={itemForm.supplier}
         />
       </div>
-      <div className='flex flex-col mx-1 w-1/4'>
-        <label>Location:</label>
+      <div className='flex items-end my-1 justify-between'>
+        <label className='mr-2'>LOCATION</label>
         <input
-          className={`border py-2 px-3 text-gray-900 ${itemFormErrors.location &&
-            itemFormFieldError}`}
+          className={`border py-2 px-3 ${
+            itemFormErrors.location && itemFormFieldError
+          }`}
           type='text'
           name='location'
           list='locationList'
@@ -133,12 +139,20 @@ const AddItemForm = ({ suppliers, locations, toggleNewItem }) => {
           ))}
         </datalist>
       </div>
-      <button
-        className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
-        type='submit'
-      >
-        Add Item
-      </button>
+      <div className='flex justify-between mt-4'>
+        <button
+          className='w-auto mx-1 border border-gray-900 rounded bg-gray-100'
+          onClick={closeModal}
+        >
+          Cancel
+        </button>
+        <button
+          className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100'
+          type='submit'
+        >
+          Add Item
+        </button>
+      </div>
     </form>
   )
 }

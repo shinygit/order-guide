@@ -5,9 +5,9 @@ import OrderModeToggle from './OrderModeToggle/OrderModeToggle'
 import OrderPlacedToggle from './OrderPlacedToggle'
 import SupplierFilterButtons from './FilterMenu/SupplierFilterButtons'
 import LocationFilterButtons from './FilterMenu/LocationFilterButtons'
+import AddItemButton from './AddItemButton'
 
 const FilterMenu = ({
-  suppliers,
   locations,
   toggleNewItem,
   newItemToggle,
@@ -90,12 +90,7 @@ const FilterMenu = ({
 
         <OrderPlacedToggle orderId={orderId} />
 
-        <button
-          className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
-          onClick={() => toggleNewItem()}
-        >
-          {newItemToggle ? 'Cancel' : 'New Item'}
-        </button>
+        <AddItemButton locations={locations} />
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         <button
