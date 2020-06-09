@@ -16,6 +16,7 @@ export default function useLongPress({
 
   const start = useCallback(
     (ev) => {
+      document.body.classList.add('select-none')
       ev.persist()
       eventRef.current = ev
       timerRef.current = setTimeout(callback, ms)
@@ -32,6 +33,7 @@ export default function useLongPress({
         onClick(eventRef.current)
         timerRef.current = false
         eventRef.current = {}
+        document.body.classList.remove('select-none')
       }
     },
     [onClick]
