@@ -90,9 +90,8 @@ const ReceivingPage = ({}) => {
             className={`mr-6 p-1 border-yellow-100 ${
               location.pathname === '/' ? 'border-b-2' : null
             }`}
-            onClick={() => (window.location = '/')}
           >
-            Home
+            <Link to='/'>Home</Link>
           </li>
           <li
             className={`mr-6 p-1 border-yellow-100 ${
@@ -102,7 +101,9 @@ const ReceivingPage = ({}) => {
             <Link to='/receiving'>Receiving</Link>
           </li>
           <li className='mr-6 p-1' onClick={logout}>
-            Logout
+            <Link onClick={logout} to='/login'>
+              Logout
+            </Link>
           </li>
         </ul>
       </div>

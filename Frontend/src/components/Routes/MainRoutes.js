@@ -8,50 +8,19 @@ import ReceiverLogin from '../Receiving/ReceiverLogin'
 import ReceivingPage from '../Receiving/ReceivingPage/ReceivingPage'
 import ReceiversPage from '../ManageReceivers/ReceiversPage'
 import { GET_ME } from '../../Queries/user'
-import {
-  Routes,
-  Route,
-  useNavigate,
-  useLocation,
-  Navigate,
-} from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
+import useRouteLogic from './useRouteLogic'
 
 export default function MainRoutes() {
-  const { data, loading, error } = useQuery(GET_ME)
-  const navigate = useNavigate()
-  const location = useLocation()
-  if (loading) return null
+  const { data = {}, loading } = useQuery(GET_ME)
   const { me = {} } = data
+  const chosenRoute = useRouteLogic(me)
+  if (loading) return null
 
-  let redirectedToUrl
-  if (
-    me === null &&
-    location.pathname !== '/login' &&
-    location.pathname !== '/register' &&
-    location.pathname !== '/receiverlogin'
-  ) {
-    localStorage.clear()
-    redirectedToUrl = <Navigate to='/login' />
-  }
-  if (
-    me !== null &&
-    (location.pathname == '/login' ||
-      location.pathname == '/register' ||
-      location.pathname == '/receiverlogin')
-  ) {
-    redirectedToUrl = <Navigate to='/' />
-  }
-  if (
-    me !== null &&
-    me.__typename === 'Receiver' &&
-    location.pathname !== '/receiving'
-  ) {
-    redirectedToUrl = <Navigate to='/receiving' />
-  }
   return (
     <>
-      {redirectedToUrl}
+      {chosenRoute}
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
