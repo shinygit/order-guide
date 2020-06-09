@@ -24,7 +24,8 @@
     "react-dom": "^16.13.1",
     "react-modal": "^3.11.2",
     "react-portal": "^4.2.1",
-    "react-router-dom": "^5.2.0",
+    "react-router": "^6.0.0-alpha.5",
+    "react-router-dom": "^6.0.0-alpha.5",
     "react-scripts": "^3.4.1"
   },
   "scripts": {

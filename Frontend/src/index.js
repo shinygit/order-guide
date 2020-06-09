@@ -11,7 +11,7 @@ import {
   defaultDataIdFromObject,
 } from 'apollo-cache-inmemory'
 import { resolvers, typeDefs } from './resolvers/Item.js'
-import Routes from './components/Welcome/Routes'
+import MainRoutes from './components/Routes/MainRoutes'
 import * as serviceWorker from './serviceWorker'
 import { onError } from 'apollo-link-error'
 import { setContext } from 'apollo-link-context'
@@ -122,7 +122,7 @@ useIdleTimer()
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
-      <Routes />
+      <MainRoutes />
     </Router>
   </ApolloProvider>,
 

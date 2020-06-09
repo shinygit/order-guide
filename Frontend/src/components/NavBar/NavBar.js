@@ -1,14 +1,14 @@
 import React from 'react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { client } from '../../index'
 
 const NavBar = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const logout = () => {
-    history.push('/login')
+    navigate('/login')
     localStorage.clear()
     client.resetStore()
     window.location.reload(true)

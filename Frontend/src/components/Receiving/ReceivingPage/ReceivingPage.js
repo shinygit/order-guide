@@ -10,7 +10,7 @@ import SupplierListForReceiving from './SupplierListForReceiving'
 import ReceivedForButton from './ReceivedForButton'
 import moment from 'moment'
 import { GET_ME } from '../../../Queries/user'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { GET_SUPPLIERS } from '../../../Queries/supplier'
 
@@ -20,7 +20,7 @@ const logout = () => {
 }
 
 const ReceivingPage = ({}) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const [activeSupplier, setActiveSupplier] = useState('')
   const { data: meData, loading: meLoading, error: meError } = useQuery(GET_ME)

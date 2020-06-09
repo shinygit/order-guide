@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useMutation, useApolloClient } from '@apollo/react-hooks'
 import jwt_decode from 'jwt-decode'
@@ -22,7 +22,7 @@ const LOGIN = gql`
 const Login = () => {
   const client = useApolloClient()
   const [login, { loading }] = useMutation(LOGIN)
-  const history = useHistory()
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState({})
@@ -30,14 +30,12 @@ const Login = () => {
     event.preventDefault()
     const result = await login({
       variables: { login: email, password: password },
-      refetchQueries: () => [{ query: GET_ME }],
     }).catch((e) => {
       console.log(e)
     })
     if (result.data.signIn.token) {
       const token = result.data.signIn.token
       localStorage.setItem('token', token)
-      history.push('/')
       window.location.reload(true)
     } else {
       setLoginError(result.data.signIn)

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 
@@ -18,7 +18,7 @@ const REGISTER_USER = gql`
 `
 
 const Register = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const [signUp] = useMutation(REGISTER_USER)
   const [registerForm, setRegisterForm] = useState({
     email: '',
@@ -70,7 +70,7 @@ const Register = () => {
       })
     }
     if (result.data.signUp.email) {
-      history.push('/login')
+      navigate('/login')
     }
   }
 
