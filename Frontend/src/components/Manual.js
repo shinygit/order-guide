@@ -3,7 +3,7 @@ import NavBar from './NavBar/NavBar'
 
 const Manual = () => {
   return (
-    <div className='flex flex-col p-3'>
+    <div>
       <NavBar />
       <span>Just ask James for now...</span>
     </div>

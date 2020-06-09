@@ -11,10 +11,10 @@ const MainSupplierView = () => {
   const [selectedCard, setSelectedCard] = useState('')
   if (loading) return <span>LOADING...</span>
   return (
-    <div className='flex flex-col p-3'>
+    <div className=''>
       <NavBar />
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-5'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-3 pt-5'>
         <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:col-span-2 gap-3'>
           {data.suppliers.map((supplier) => {
             if (supplier.supplierName === 'Market Price') return null
