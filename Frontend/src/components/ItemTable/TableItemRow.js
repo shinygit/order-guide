@@ -73,7 +73,7 @@ const TableItemRow = ({
             <EditItemWindow item={item} active={active} setActive={setActive} />
           </Portal>
         )}
-        <td className='hidden md:table-cell bg-yellow-100'>
+        <td className='hidden md:table-cell bg-yellow-100 text-right'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
             {item.isExpanded ? <ClipboardUp /> : <ClipboardDown />}
           </button>
