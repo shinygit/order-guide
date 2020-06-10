@@ -48,10 +48,18 @@ const AddItemButton = ({ locations }) => {
         onAfterOpen={adjustPosition}
         shouldFocusAfterRender={false}
         overlayClassName='w-full h-screen'
-        className='absolute'
+        closeTimeoutMS={500}
+        className={`absolute`}
         style={{ content: { ...position } }}
       >
-        <AddItemForm locations={locations} closeModal={closeModal} />
+        <div>
+          <AddItemForm
+            modalIsOpen={modalIsOpen}
+            locations={locations}
+            closeModal={closeModal}
+            modalIsOpen={modalIsOpen}
+          />
+        </div>
       </Modal>
       <button
         id='add-item-button'

@@ -3,7 +3,8 @@ import { CREATE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import FieldSupplierSelector from './ItemTable/FieldSupplierSelector'
 
-const AddItemForm = ({ locations, closeModal }) => {
+const AddItemForm = ({ locations, closeModal, modalIsOpen }) => {
+  const [canceled, setCanceled] = useState(false)
   const [createItem] = useMutation(CREATE_ITEM, {
     update(client, { data: { createItem } }) {
       const queryResults = client.readQuery({
@@ -83,7 +84,11 @@ const AddItemForm = ({ locations, closeModal }) => {
 
   return (
     <form
-      className='flex flex-col p-2 bg-gray-300 shadow-2xl p-5 text-gray-900'
+      className={`flex flex-col p-2 bg-gray-300 shadow-2xl p-5 text-gray-900 transform duration-500 transition ${
+        !modalIsOpen &&
+        !canceled &&
+        'translate-y-full scale-x-150 scale-y-0 -translate-x-1/2'
+      }`}
       id='add-item-form'
       onSubmit={handleSubmit}
     >
@@ -142,7 +147,10 @@ const AddItemForm = ({ locations, closeModal }) => {
       <div className='flex justify-between mt-4'>
         <button
           className='w-auto mx-1 border border-gray-900 rounded bg-gray-100'
-          onClick={closeModal}
+          onClick={() => {
+            closeModal()
+            setCanceled(true)
+          }}
         >
           Cancel
         </button>
