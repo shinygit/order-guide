@@ -3,31 +3,15 @@ import { useQuery } from '@apollo/react-hooks'
 import { GET_IS_ORDER_PLACED } from '../../Queries/order'
 
 const SupplierButton = ({
-  orderId,
   handleShowSupplier,
   activeFilterbuttonClass,
   supplier,
 }) => {
-  const {
-    loading = true,
-    data: { supplierOrder: { wasOrderPlaced } = {} } = {},
-  } = useQuery(GET_IS_ORDER_PLACED, {
-    skip: !supplier || !orderId,
-    variables: {
-      supplierId: supplier?.id,
-      orderId: orderId,
-    },
-  })
-
   return (
     <div
       key={supplier.supplierName}
       className={`m-1 rounded ${
-        loading
-          ? 'bg-gray-300'
-          : wasOrderPlaced
-          ? 'bg-green-300'
-          : 'bg-orange-300'
+        supplier.wasOrderPlaced ? 'bg-green-300' : 'bg-orange-300'
       }`}
     >
       <button

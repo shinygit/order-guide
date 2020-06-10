@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { GET_SUPPLIERS } from '../../Queries/supplier'
+import { GET_SUPPLIERS_WITH_ORDER_STATUS } from '../../Queries/supplier'
 import SupplierButton from './SupplierButton'
 
 const SupplierFilterButtons = ({
@@ -9,17 +9,18 @@ const SupplierFilterButtons = ({
   activeFilterbuttonClass,
 }) => {
   const { loading: supplierLoading, data: supplierData = {} } = useQuery(
-    GET_SUPPLIERS
+    GET_SUPPLIERS_WITH_ORDER_STATUS,
+    {
+      variables: { orderId: orderId },
+    }
   )
   const { suppliers = [] } = supplierData
-
   if (supplierLoading) return null
   return suppliers.map((supplier) => {
     if (supplier.supplierName !== 'Market Price') {
       return (
         <SupplierButton
           key={supplier.supplierName}
-          orderId={orderId}
           supplier={supplier}
           handleShowSupplier={handleShowSupplier}
           activeFilterbuttonClass={activeFilterbuttonClass}

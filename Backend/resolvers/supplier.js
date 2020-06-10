@@ -146,4 +146,15 @@ export default {
       }
     ),
   },
+  Supplier: {
+    wasOrderPlaced: async (parent, args, { models }) => {
+      const supOrd = await models.Supplier_Order.findOrCreate({
+        where: {
+          supplierId: parent.id,
+          orderId: args.orderId,
+        },
+      })
+      return supOrd[0].wasOrderPlaced
+    },
+  },
 }
