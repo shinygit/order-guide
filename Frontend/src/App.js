@@ -38,17 +38,6 @@ const App = () => {
     refetch()
   }, [currentDate, refetch])
 
-  /*   const getCurrentSuppliers = useCallback(() => {
-    const currentSuppliers = [...new Set(items.map((item) => item.supplier))]
-    return currentSuppliers.sort()
-  }, [items]) */
-
-  /*   const [suppliers, setSuppliers] = useState(getCurrentSuppliers) */
-  /* 
-  useEffect(() => {
-    setSuppliers(getCurrentSuppliers())
-  }, [getCurrentSuppliers]) */
-
   const getCurrentLocations = useCallback(() => {
     const currentLocations = []
     items.forEach((item) => {
@@ -65,7 +54,7 @@ const App = () => {
   useEffect(() => {
     setLocations(getCurrentLocations())
   }, [getCurrentLocations])
-
+  if (loading) return <Loading />
   return (
     <div>
       <NavBar />
@@ -75,7 +64,7 @@ const App = () => {
           <FilterMenu
             items={items}
             locations={locations}
-            orderId={data?.orders[0]?.id}
+            orderId={data.orders[0].id}
           />
           <SearchForm />
           {loading ? <Loading /> : <ListItems items={items} />}
