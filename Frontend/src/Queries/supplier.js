@@ -23,6 +23,7 @@ export const GET_SUPPLIERS_WITH_ORDER_STATUS = gql`
       officePhoneNumber
       salesPersonEmail
       wasOrderPlaced(orderId: $orderId)
+      wasOrderReceived(orderId: $orderId)
     }
   }
 `

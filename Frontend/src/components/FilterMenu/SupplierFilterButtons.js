@@ -5,6 +5,7 @@ import SupplierButton from './SupplierButton'
 
 const SupplierFilterButtons = ({
   orderId,
+  items,
   handleShowSupplier,
   activeFilterbuttonClass,
 }) => {
@@ -22,6 +23,7 @@ const SupplierFilterButtons = ({
         <SupplierButton
           key={supplier.supplierName}
           supplier={supplier}
+          items={items}
           handleShowSupplier={handleShowSupplier}
           activeFilterbuttonClass={activeFilterbuttonClass}
         />

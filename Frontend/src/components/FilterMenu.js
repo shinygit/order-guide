@@ -138,6 +138,7 @@ const FilterMenu = ({
 
         <SupplierFilterButtons
           orderId={orderId}
+          items={items}
           handleShowSupplier={handleShowSupplier}
           activeFilterbuttonClass={activeFilterbuttonClass}
         />
