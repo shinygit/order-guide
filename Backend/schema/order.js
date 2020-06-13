@@ -31,5 +31,6 @@ export default gql`
     wasOrderReceived: Boolean!
     orderId: Int!
     supplierId: Int!
+    notificationSendingError: Boolean
   }
 `

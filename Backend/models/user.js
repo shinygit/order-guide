@@ -37,6 +37,7 @@ const user = (sequelize, DataTypes) => {
     User.hasMany(models.Order, { onDelete: 'CASCADE' })
     User.hasMany(models.Supplier, { onDelete: 'CASCADE' })
     User.hasMany(models.Location, { onDelete: 'CASCADE' })
+    User.hasMany(models.NotificationMethod, { onDelete: 'CASCADE' })
     User.hasMany(models.Receiver, {
       onDelete: 'CASCADE',
       foreignKey: 'receivesForUser',

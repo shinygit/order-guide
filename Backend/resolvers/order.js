@@ -7,6 +7,8 @@ import {
   isAuthenticatedAsOwner,
 } from './authorization'
 import { UserInputError } from 'apollo-server-express'
+import { sendNotification } from '../apis/email/sendNotification'
+const Op = require('sequelize').Op
 
 export default {
   Query: {
@@ -75,13 +77,47 @@ export default {
     toggleOrderReceivedWithSupplierId: combineResolvers(
       isOrderSupplierOwner,
       async (parent, { supplierId, orderId }, { me, models }) => {
+        const supplier = await models.Supplier.findOne({
+          where: { id: supplierId },
+        })
+        const flaggedItems = await models.Item.findAll({
+          where: {
+            orderId: orderId,
+            supplierId: supplierId,
+            flaggedByReceiver: { [Op.ne]: null },
+          },
+        })
         const isOrderPlaced = await models.Supplier_Order.findOne({
           where: { supplierId: supplierId, orderId: orderId },
         })
+
         if (isOrderPlaced) {
+          let notificationSendingError
           isOrderPlaced.wasOrderReceived = !isOrderPlaced.wasOrderReceived
           isOrderPlaced.save()
-          return isOrderPlaced.dataValues
+          if (flaggedItems.length > 0) {
+            const firstLine = `${me.receiverName || 'You'} flagged ${
+              flaggedItems.length
+            } item${flaggedItems.length > 1 ? 's' : ''} on a delivery from ${
+              supplier.supplierName
+            }!\n`
+
+            const itemsForMessage = flaggedItems.map(
+              (item) => `${item.itemName}: ${item.receiverNote}`
+            )
+
+            const message = firstLine.concat(itemsForMessage.join(`\n`))
+
+            try {
+              await sendNotification(message, me)
+            } catch (error) {
+              if (error) notificationSendingError = true
+            }
+          }
+          return {
+            ...isOrderPlaced.dataValues,
+            notificationSendingError: notificationSendingError,
+          }
         }
       }
     ),

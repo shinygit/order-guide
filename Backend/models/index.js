@@ -24,6 +24,7 @@ const models = {
   Order: sequelize.import('./order'),
   Supplier_Order: sequelize.import('./supplier_order'),
   Receiver: sequelize.import('./receiver'),
+  NotificationMethod: sequelize.import('./notificationMethod'),
 }
 
 Object.keys(models).forEach((key) => {
