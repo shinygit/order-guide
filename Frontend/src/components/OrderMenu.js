@@ -32,7 +32,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
     if (deleteConfirmCount === 3) {
       if (
         window.confirm(
-          'Are you sure you wish to delete this order? This is unrecoverable and you will lose any items you have added since your last order!'
+          'Are you sure you wish to delete this order? This is unrecoverable and you will lose any items, notes, etc you have added since your last order!'
         )
       ) {
         try {
