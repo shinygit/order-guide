@@ -8,12 +8,21 @@ const ListItemsForReceiving = ({
   me,
   confirmIfReceivedSubmitted,
 }) => {
-  const itemsToDisplay = items.filter(
+  const filteredItems = items.filter(
     (item) =>
       item.supplier === activeSupplier.supplierName &&
       item.orderAmount !== 0 &&
       item.orderAmount !== null
   )
+  const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
+    if (a.supplier > b.supplier) return 1
+    if (a.supplier < b.supplier) return -1
+    if (a.location > b.location) return 1
+    if (a.location < b.location) return -1
+    if (a.itemName > b.itemName) return 1
+    if (a.itemName < b.itemName) return -1
+    return 0
+  })
 
   return itemsToDisplay.map((item, index) => {
     return (
