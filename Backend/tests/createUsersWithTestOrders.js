@@ -1,6 +1,8 @@
 import models from '../models'
 import { v4 as uuidv4 } from 'uuid'
 import { createUserStarterOrderAndItems } from '../user/utils/createNewUserItems'
+require('dotenv').config()
+
 export default async () => {
   const items = () => {
     const lotsofitems = []
@@ -211,5 +213,30 @@ export default async () => {
     email: 'hello5@david.com',
     password: '12345678',
   })
+  await models.NotificationMethod.create({
+    email: process.env.EMAIL,
+    phoneNumber: null,
+    confirmed: true,
+    userId: 2,
+  })
+  await models.NotificationMethod.create({
+    email: process.env.PHONE,
+    phoneNumber: null,
+    confirmed: true,
+    userId: 2,
+  })
+  await models.NotificationMethod.create({
+    email: process.env.EMAIL,
+    phoneNumber: null,
+    confirmed: true,
+    userId: 2,
+  })
+  await models.NotificationMethod.create({
+    email: process.env.PHONE,
+    phoneNumber: null,
+    confirmed: true,
+    userId: 2,
+  })
+
   createUserStarterOrderAndItems(user5, models)
 }
