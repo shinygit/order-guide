@@ -13,7 +13,9 @@ async function sendNotification(message, me) {
     raw: true,
   })
 
-  const recipientList = {}
+  const recipientList = [
+    ...new Set([].concat(...recipientsObjects.map(Object.values))),
+  ].filter(Boolean)
 
   return smtpTransport.sendMail({
     from: process.env.NODEMAILER_GMAIL_USER,
