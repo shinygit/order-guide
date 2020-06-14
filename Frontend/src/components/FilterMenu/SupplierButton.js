@@ -20,7 +20,7 @@ const SupplierButton = ({
       onClick={() => handleShowSupplier(supplier.supplierName)}
     >
       <button
-        className={`col-span-2 transition duration-200 ease-in-out w-auto p-3 border border-gray-900 rounded-t
+        className={`col-span-2 transition duration-200 ease-in-out w-auto p-2 border border-gray-900 rounded-t
 ${
   activeFilterbuttonClass === `${supplier.supplierName}-filter-button`
     ? 'bg-gray-600 text-gray-200'
