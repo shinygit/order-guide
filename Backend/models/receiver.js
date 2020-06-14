@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs'
-const uuid = require('uuid')
 const Sequelize = require('sequelize')
 const receiver = (sequelize, DataTypes) => {
   const Receiver = sequelize.define('receiver', {
