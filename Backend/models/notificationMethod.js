@@ -1,5 +1,12 @@
+const Sequelize = require('sequelize')
 const notificationMethod = (sequelize, DataTypes) => {
   const NotificationMethod = sequelize.define('notificationMethod', {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
+    },
     email: {
       type: DataTypes.STRING,
       unique: false,
