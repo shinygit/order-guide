@@ -6,6 +6,12 @@ body {
   @apply body;
   @apply bg-blue-100;
   @apply h-screen;
+  @apply select-none;
+}
+@screen md {
+  body {
+    @apply select-auto;
+  }
 }
 
 @keyframes drip {

@@ -19,7 +19,6 @@ import { RetryLink } from 'apollo-link-retry'
 import { ApolloLink } from 'apollo-link'
 import SerializingLink from 'apollo-link-serialize'
 import useIdleTimer from './hooks/useIdleTimer'
-import useDisableSelectOnMobile from './hooks/useDisableSelectOnMobile'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 if (module.hot) {
@@ -118,7 +117,7 @@ const data = {
 cache.writeData({ data })
 
 client.onResetStore(() => cache.writeData({ data }))
-useDisableSelectOnMobile()
+
 useIdleTimer()
 ReactDOM.render(
   <ApolloProvider client={client}>
