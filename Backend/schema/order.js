@@ -1,5 +1,7 @@
 import { gql } from 'apollo-server-express'
 export default gql`
+  union SupplierOrderResults = SupplierOrder | SupplierOrderError
+
   extend type Query {
     orders(orderDepth: Int!): [Order!]
     supplierOrder(supplierId: ID!, orderId: ID!): SupplierOrder!
@@ -17,7 +19,7 @@ export default gql`
     toggleOrderReceivedWithSupplierId(
       supplierId: ID!
       orderId: ID!
-    ): SupplierOrder!
+    ): SupplierOrderResults!
   }
   type Order {
     id: ID!
@@ -32,5 +34,8 @@ export default gql`
     orderId: Int!
     supplierId: Int!
     notificationSendingError: Boolean
+  }
+  type SupplierOrderError {
+    error: String!
   }
 `

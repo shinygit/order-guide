@@ -6,7 +6,7 @@ require('dotenv').config()
 export default async () => {
   const items = () => {
     const lotsofitems = []
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 200; i++) {
       lotsofitems.push({
         itemName: `Good Book ${i}`,
         orderAmount: 2,

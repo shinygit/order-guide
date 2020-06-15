@@ -88,7 +88,11 @@ export default {
           },
         })
         const isOrderPlaced = await models.Supplier_Order.findOne({
-          where: { supplierId: supplierId, orderId: orderId },
+          where: {
+            supplierId: supplierId,
+            orderId: orderId,
+            wasOrderPlaced: true,
+          },
         })
 
         if (isOrderPlaced) {
@@ -117,6 +121,12 @@ export default {
           return {
             ...isOrderPlaced.dataValues,
             notificationSendingError: notificationSendingError,
+            __typename: 'SupplierOrder',
+          }
+        } else {
+          return {
+            __typename: 'SupplierOrderError',
+            error: 'Order has not been placed yet.',
           }
         }
       }

@@ -49,7 +49,7 @@ const TableItemRow = ({
   const longPressProps = useCallback(
     useLongPress({
       onLongPress: (ev) => {
-        window.matchMedia('(max-width: 640px)').matches && setActive(true)
+        window.matchMedia('(max-width: 768px)').matches && setActive(true)
       },
     })
   )
