@@ -125,19 +125,16 @@ export default {
               loginError: 'An account with that login already exists.',
             }
         }
-        const updatedReceiver = await models.Receiver.update(
-          {
-            login,
-            password,
-            receiverName,
-          },
-          {
-            where: { id: id },
-            individualHooks: true,
-            returning: true,
-            raw: true,
-          }
-        ).catch((e) => console.log(e))
+        const updateObject = { login, password, receiverName }
+        Object.keys(updateObject).forEach(
+          (key) => updateObject[key] === '' && delete updateObject[key]
+        )
+        const updatedReceiver = await models.Receiver.update(updateObject, {
+          where: { id: id, receivesForUser: me.id },
+          individualHooks: true,
+          returning: true,
+          raw: true,
+        }).catch((e) => console.log(e))
         if (!updatedReceiver)
           return {
             __typename: 'updateReceiverError',
@@ -159,5 +156,16 @@ export default {
       }
       return { token: createToken(receiver, secret, '365d') }
     },
+    deleteReceiver: combineResolvers(
+      isAuthenticatedAsOwner,
+      async (parent, { id }, { models, me }) => {
+        return await models.Receiver.destroy({
+          where: {
+            id: id,
+            receivesForUser: me.id,
+          },
+        })
+      }
+    ),
   },
 }

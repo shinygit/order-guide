@@ -20,6 +20,7 @@ export default gql`
       password: String
       receiverName: String
     ): UpdateReceiverResults!
+    deleteReceiver(id: ID!): Boolean!
   }
 
   type Receiver {
