@@ -3,15 +3,20 @@ import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 const TOGGLE_ORDER_RECEIVED = gql`
-  mutation toggleOrderReceivedWithSupplierId($supplierId: ID!, $orderId: ID!) {
+  mutation ToggleOrderReceivedWithSupplierId($supplierId: ID!, $orderId: ID!) {
     toggleOrderReceivedWithSupplierId(
       supplierId: $supplierId
       orderId: $orderId
     ) {
-      wasOrderReceived
-      orderId
-      supplierId
-      notificationSendingError
+      ... on SupplierOrderError {
+        error
+      }
+      ... on SupplierOrder {
+        wasOrderReceived
+        orderId
+        supplierId
+        notificationSendingError
+      }
     }
   }
 `
@@ -63,6 +68,12 @@ const ReceivedForButton = ({
           {`Submit for ${activeSupplier.supplierName}`}
         </button>
       )}
+      {data?.toggleOrderReceivedWithSupplierId?.error ? (
+        <span className='text-2xl text-red-700'>
+          {data?.toggleOrderReceivedWithSupplierId?.error}
+        </span>
+      ) : null}
+
       {data?.toggleOrderReceivedWithSupplierId?.notificationSendingError ? (
         <span className='text-2xl text-red-700'>
           Notification may not have been sent! Call to confirm!
