@@ -9,12 +9,12 @@ const notificationMethod = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      unique: false,
+      unique: 'notificationMethods_userId_email_phoneNumber_key',
       allowNull: true,
     },
     phoneNumber: {
       type: DataTypes.STRING,
-      unique: false,
+      unique: 'notificationMethods_userId_email_phoneNumber_key',
       allowNull: true,
     },
     confirmed: {
@@ -27,6 +27,25 @@ const notificationMethod = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: false,
       allowNull: true,
+    },
+    confirmationAttempts: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    confirmationSentAttempts: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+    },
+    deleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      unique: 'notificationMethods_userId_email_phoneNumber_key',
     },
   })
   NotificationMethod.associate = (models) => {
