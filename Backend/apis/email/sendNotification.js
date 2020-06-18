@@ -17,10 +17,14 @@ async function sendNotification(message, me) {
     ...new Set([].concat(...recipientsObjects.map(Object.values))),
   ].filter(Boolean)
 
-  return smtpTransport.sendMail({
-    from: process.env.NODEMAILER_GMAIL_USER,
-    to: recipientList,
-    text: message,
-  })
+  return Promise.all(
+    recipientList.map((recipient) =>
+      smtpTransport.sendMail({
+        from: process.env.NODEMAILER_GMAIL_USER,
+        to: recipient,
+        text: message,
+      })
+    )
+  )
 }
 export { sendNotification }
