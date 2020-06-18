@@ -26,10 +26,9 @@ const ReceivedForButton = ({
   orderId,
   activeSupplierReceivedSubmitted,
 }) => {
-  const [toggleOrderReceivedWithSupplierId, { data }] = useMutation(
+  const [toggleOrderReceivedWithSupplierId, { data, loading }] = useMutation(
     TOGGLE_ORDER_RECEIVED
   )
-
   const handleToggleOrderReceivedWithSupplierId = () => {
     if (
       window.confirm(
@@ -63,7 +62,8 @@ const ReceivedForButton = ({
       ) : (
         <button
           onClick={handleToggleOrderReceivedWithSupplierId}
-          className='rounded bg-blue-700 font-bold text-gray-100 shadow w-6/12 p-1 my-8'
+          disabled={loading}
+          className='rounded bg-blue-700 font-bold text-gray-100 shadow w-6/12 p-1 my-8 disabled:opacity-50'
         >
           {`Submit for ${activeSupplier.supplierName}`}
         </button>
