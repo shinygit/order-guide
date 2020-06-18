@@ -246,6 +246,7 @@ export default {
               ...item,
               orderAmount: null,
               flaggedByReceiver: null,
+              quantityReceived: null,
               supplierId: await setSupplierIfMarketPrice(item),
               orderId: newOrder.id,
             }
