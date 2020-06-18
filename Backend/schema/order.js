@@ -19,6 +19,7 @@ export default gql`
     toggleOrderReceivedWithSupplierId(
       supplierId: ID!
       orderId: ID!
+      additionalNotes: String
     ): SupplierOrderResults!
   }
   type Order {
@@ -31,6 +32,7 @@ export default gql`
   type SupplierOrder {
     wasOrderPlaced: Boolean!
     wasOrderReceived: Boolean!
+    additionalNotes: String
     orderId: Int!
     supplierId: Int!
     notificationSendingError: Boolean

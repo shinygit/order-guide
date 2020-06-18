@@ -76,7 +76,11 @@ export default {
     ),
     toggleOrderReceivedWithSupplierId: combineResolvers(
       isOrderSupplierOwner,
-      async (parent, { supplierId, orderId }, { me, models }) => {
+      async (
+        parent,
+        { supplierId, orderId, additionalNotes },
+        { me, models }
+      ) => {
         const supplier = await models.Supplier.findOne({
           where: { id: supplierId },
         })
@@ -87,6 +91,12 @@ export default {
             flaggedByReceiver: { [Op.ne]: null },
           },
         })
+        await models.Supplier_Order.update(
+          {
+            additionalNotes: additionalNotes,
+          },
+          { where: { supplierId: supplierId, orderId: orderId } }
+        )
         const isOrderPlaced = await models.Supplier_Order.findOne({
           where: {
             supplierId: supplierId,
@@ -110,7 +120,14 @@ export default {
               (item) => `${item.itemName}: ${item.receiverNote}`
             )
 
-            const message = firstLine.concat(itemsForMessage.join(`\n`))
+            const additional =
+              additionalNotes && `\nAdditional Notes: ${additionalNotes}`
+
+            const message = [
+              firstLine,
+              itemsForMessage.join(`\n`),
+              additional,
+            ].join('')
 
             try {
               await sendNotification(message, me)

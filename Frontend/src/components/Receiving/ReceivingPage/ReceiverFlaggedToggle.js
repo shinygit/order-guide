@@ -5,22 +5,16 @@ import Modal from 'react-modal'
 import useLongPress from '../../../hooks/useLongPress'
 
 const TOGGLE_FLAGGED_BY_RECEIVER = gql`
-  mutation toggleFlaggedByReceiver($id: ID!, $flaggedByReceiver: String) {
-    toggleFlaggedByReceiver(id: $id, flaggedByReceiver: $flaggedByReceiver) {
-      id
-      itemName
-      orderAmount
-      supplier
-      quantityReceived
-      receivingNote
-      flaggedByReceiver
-      receiverNote
-    }
-  }
-`
-const EDIT_ITEM_RECEIVER_NOTE = gql`
-  mutation updateItemReceiverNote($id: ID!, $receiverNote: String) {
-    updateItemReceiverNote(id: $id, receiverNote: $receiverNote) {
+  mutation toggleFlaggedByReceiver(
+    $id: ID!
+    $flaggedByReceiver: String
+    $receiverNote: String
+  ) {
+    toggleFlaggedByReceiver(
+      id: $id
+      flaggedByReceiver: $flaggedByReceiver
+      receiverNote: $receiverNote
+    ) {
       id
       itemName
       orderAmount
@@ -35,7 +29,6 @@ const EDIT_ITEM_RECEIVER_NOTE = gql`
 const ReceiverFlaggedToggle = ({ item, me, confirmIfReceivedSubmitted }) => {
   Modal.setAppElement('#root')
   const [toggleFlaggedByReceiver] = useMutation(TOGGLE_FLAGGED_BY_RECEIVER)
-  const [updateItemReceiverNote] = useMutation(EDIT_ITEM_RECEIVER_NOTE)
   const [receiverNoteForm, setReceiverNoteForm] = useState(
     item.receiverNote || ''
   )
@@ -45,16 +38,11 @@ const ReceiverFlaggedToggle = ({ item, me, confirmIfReceivedSubmitted }) => {
     ms: 500,
     onLongPress: () =>
       confirmIfReceivedSubmitted(() => {
-        updateItemReceiverNote({
-          variables: {
-            id: item.id,
-            receiverNote: null,
-          },
-        })
         toggleFlaggedByReceiver({
           variables: {
             id: item.id,
             flaggedByReceiver: null,
+            receiverNote: null,
           },
         })
         setReceiverNoteForm('')
@@ -69,16 +57,11 @@ const ReceiverFlaggedToggle = ({ item, me, confirmIfReceivedSubmitted }) => {
   }
   function save() {
     setIsOpen(false)
-    updateItemReceiverNote({
-      variables: {
-        id: item.id,
-        receiverNote: receiverNoteForm,
-      },
-    })
     toggleFlaggedByReceiver({
       variables: {
         id: item.id,
         flaggedByReceiver: me.receiverName || 'You',
+        receiverNote: receiverNoteForm,
       },
     })
   }

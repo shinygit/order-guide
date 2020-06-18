@@ -65,7 +65,7 @@ const ReceivingPage = ({}) => {
     if (activeSupplierReceivedSubmitted) {
       if (
         window.confirm(
-          'This supplier has already been submitted are you sure you wish to change this item?'
+          'This supplier has already been submitted are you sure you wish to change this item?\nFlagging an item now will send an additional notification.'
         )
       ) {
         return action()

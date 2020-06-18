@@ -7,6 +7,7 @@ import {
   isItemReceiver,
   isAuthenticatedAsOwner,
 } from './authorization'
+import { sendNotification } from './../apis/email/sendNotification'
 import pubsub, { EVENTS } from '../subscription'
 
 export default {
@@ -179,24 +180,36 @@ export default {
         return receivedItem[1].dataValues
       }
     ),
-    updateItemReceiverNote: combineResolvers(
-      isItemReceiver,
-      async (parent, { id, receiverNote }, { me, models }) => {
-        const receivedItem = await models.Item.update(
-          { receiverNote: receiverNote },
-          { where: { id: id }, returning: true, plain: true }
-        )
-        return receivedItem[1].dataValues
-      }
-    ),
     toggleFlaggedByReceiver: combineResolvers(
       isItemReceiver,
-      async (parent, { id, flaggedByReceiver }, { me, models }) => {
-        const receivedItem = await models.Item.update(
-          { flaggedByReceiver: flaggedByReceiver },
-          { where: { id: id }, returning: true, plain: true }
-        )
-        return receivedItem[1].dataValues
+      async (
+        parent,
+        { id, flaggedByReceiver, receiverNote },
+        { me, models }
+      ) => {
+        const receivedItem = await models.Item.findByPk(id, {
+          nest: true,
+          include: [
+            { model: models.Order, attributes: ['id'] },
+            { model: models.Supplier, attributes: ['id'] },
+          ],
+        })
+        const isSubmitted = await models.Supplier_Order.findOne({
+          where: {
+            supplierId: receivedItem.supplier.id,
+            orderId: receivedItem.order.id,
+          },
+        })
+        receivedItem.flaggedByReceiver = flaggedByReceiver
+        receivedItem.receiverNote = receiverNote
+        receivedItem.save()
+        if (isSubmitted.wasOrderReceived) {
+          const message = `${receivedItem.itemName} flagged after submit by ${
+            me.receiverName || 'you'
+          }.\n ${receiverNote}`
+          sendNotification(message, me)
+        }
+        return receivedItem
       }
     ),
     updateItemOrderAmount: combineResolvers(

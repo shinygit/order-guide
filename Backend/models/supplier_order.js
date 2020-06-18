@@ -10,6 +10,10 @@ const supplier_order = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false,
     },
+    additionalNotes: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   })
   Supplier_Order.associate = (models) => {}
   return Supplier_Order
