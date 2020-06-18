@@ -225,18 +225,6 @@ export default async () => {
     confirmed: true,
     userId: 2,
   })
-  await models.NotificationMethod.create({
-    email: process.env.EMAIL,
-    phoneNumber: null,
-    confirmed: true,
-    userId: 2,
-  })
-  await models.NotificationMethod.create({
-    email: process.env.PHONE,
-    phoneNumber: null,
-    confirmed: true,
-    userId: 2,
-  })
 
   createUserStarterOrderAndItems(user5, models)
 }
