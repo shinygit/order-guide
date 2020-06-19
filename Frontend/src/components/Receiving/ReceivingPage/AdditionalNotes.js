@@ -13,7 +13,7 @@ const AdditionalNotes = ({
     })
   }
   return (
-    <div className='w-6/12'>
+    <div className='w-11/12'>
       <span className='text-lg'>Additional Notes</span>
       <div className='p-1 border bg-white'>
         <textarea
