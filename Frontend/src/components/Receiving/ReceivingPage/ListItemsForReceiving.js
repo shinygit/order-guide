@@ -15,10 +15,6 @@ const ListItemsForReceiving = ({
       item.orderAmount !== null
   )
   const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
-    if (a.supplier > b.supplier) return 1
-    if (a.supplier < b.supplier) return -1
-    if (a.location > b.location) return 1
-    if (a.location < b.location) return -1
     if (a.itemName > b.itemName) return 1
     if (a.itemName < b.itemName) return -1
     return 0
@@ -53,12 +49,12 @@ const ListItemsForReceiving = ({
         </div>
         {item.receivingNote && (
           <div className='border-r border-l border-b border-gray-800 mb-1'>
-            Note: {item.receivingNote}
+            Receiving Note: {item.receivingNote}
           </div>
         )}
         {item.receiverNote && (
           <div className='border-r border-l border-b border-gray-800 mb-1'>
-            Your Note: {item.receiverNote}
+            Receiver Note: {item.receiverNote}
           </div>
         )}
       </div>

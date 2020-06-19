@@ -3,16 +3,22 @@ import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 const TOGGLE_ORDER_RECEIVED = gql`
-  mutation ToggleOrderReceivedWithSupplierId($supplierId: ID!, $orderId: ID!) {
+  mutation ToggleOrderReceivedWithSupplierId(
+    $supplierId: ID!
+    $orderId: ID!
+    $additionalNotes: String
+  ) {
     toggleOrderReceivedWithSupplierId(
       supplierId: $supplierId
       orderId: $orderId
+      additionalNotes: $additionalNotes
     ) {
       ... on SupplierOrderError {
         error
       }
       ... on SupplierOrder {
         wasOrderReceived
+        additionalNotes
         orderId
         supplierId
         notificationSendingError
@@ -25,6 +31,7 @@ const ReceivedForButton = ({
   activeSupplier,
   orderId,
   activeSupplierReceivedSubmitted,
+  additionalNotesForm,
 }) => {
   const [toggleOrderReceivedWithSupplierId, { data, loading }] = useMutation(
     TOGGLE_ORDER_RECEIVED
@@ -39,6 +46,7 @@ const ReceivedForButton = ({
         variables: {
           supplierId: activeSupplier.id,
           orderId: orderId,
+          additionalNotes: additionalNotesForm[activeSupplier.id],
         },
       })
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import {
   ORDER_FOR_RECEIVING,
@@ -8,6 +8,7 @@ import Loading from '../../Loading'
 import ListItemsForReceiving from './ListItemsForReceiving'
 import SupplierListForReceiving from './SupplierListForReceiving'
 import ReceivedForButton from './ReceivedForButton'
+import AdditionalNotes from './AdditionalNotes'
 import moment from 'moment'
 import { GET_ME } from '../../../Queries/user'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
@@ -46,6 +47,18 @@ const ReceivingPage = ({}) => {
       orderId: orderId,
     },
   })
+  const [additionalNotesForm, setAdditionalNotesForm] = useState({})
+
+  useEffect(() => {
+    if (orderReceivedWithSuppliersData) {
+      const additionalNotesFormObject = {}
+      orderReceivedWithSuppliersData.supplierOrders.forEach((supplierOrder) => {
+        additionalNotesFormObject[supplierOrder.supplierId] =
+          supplierOrder.additionalNotes || ''
+      })
+      setAdditionalNotesForm(additionalNotesFormObject)
+    }
+  }, [orderReceivedWithSuppliersData])
   if (orderReceivedWithSuppliersLoading) return <Loading />
   if (meLoading) return <Loading />
   if (loading) return <Loading />
@@ -57,7 +70,6 @@ const ReceivingPage = ({}) => {
       return supplierOrder.supplierId == activeSupplier.id
     })[0].wasOrderReceived
   }
-
   const confirmIfReceivedSubmitted = (action) => {
     if (!activeSupplierReceivedSubmitted) {
       return action()
@@ -136,9 +148,19 @@ const ReceivingPage = ({}) => {
         </div>
       </div>
       {activeSupplier && (
+        <AdditionalNotes
+          activeSupplier={activeSupplier}
+          additionalNotesForm={additionalNotesForm}
+          setAdditionalNotesForm={setAdditionalNotesForm}
+          activeSupplierReceivedSubmitted={activeSupplierReceivedSubmitted}
+        />
+      )}
+
+      {activeSupplier && (
         <ReceivedForButton
           activeSupplier={activeSupplier}
           orderId={orderId}
+          additionalNotesForm={additionalNotesForm}
           activeSupplierReceivedSubmitted={activeSupplierReceivedSubmitted}
         />
       )}
