@@ -109,23 +109,23 @@ export default {
           let notificationSendingError
           isOrderPlaced.wasOrderReceived = !isOrderPlaced.wasOrderReceived
           isOrderPlaced.save()
-          if (flaggedItems.length > 0) {
+          if (flaggedItems.length > 0 || isOrderPlaced.additionalNotes) {
             const firstLine = `${me.receiverName || 'You'} flagged ${
               flaggedItems.length
-            } item${flaggedItems.length > 1 ? 's' : ''} on a delivery from ${
-              supplier.supplierName
-            }!\n`
+            } item${
+              flaggedItems.length > 1 || flaggedItems.length === 0 ? 's' : ''
+            } on a delivery from ${supplier.supplierName}!\n`
 
             const itemsForMessage = flaggedItems.map(
-              (item) => `${item.itemName}: ${item.receiverNote}`
+              (item) => `${item.itemName}: ${item.receiverNote}\n`
             )
 
             const additional =
-              additionalNotes && `\nAdditional Notes: ${additionalNotes}`
+              additionalNotes && `Additional Notes: ${additionalNotes}`
 
             const message = [
               firstLine,
-              itemsForMessage.join(`\n`),
+              itemsForMessage.join(''),
               additional,
             ].join('')
 
