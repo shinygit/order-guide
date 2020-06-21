@@ -133,7 +133,7 @@ const EditReceiver = ({
 
   return (
     <>
-      <button onClick={handleClick}>Edit User</button>
+      <button onClick={handleClick}>Edit</button>
       {activeEditReceiver === receiver.id ? (
         <div className='absolute border p-3 bg-gray-400 shadow-2xl flex flex-col'>
           <span>{receiver.receiverName}</span>

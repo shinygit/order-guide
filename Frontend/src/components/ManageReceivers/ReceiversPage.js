@@ -15,15 +15,8 @@ const ReceiversPage = () => {
     <div>
       <NavBar />
       <div className='flex p-3'>
-        <div className='mr-4'>
-          <div className='flex justify-between'>
-            <span>Name</span>
-            <span>Login</span>
-            <span></span>
-          </div>
-          <ListReceivers receivers={receivers} />
-        </div>
         <AddReceiver />
+        <ListReceivers receivers={receivers} />
       </div>
     </div>
   )

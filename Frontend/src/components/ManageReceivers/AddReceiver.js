@@ -85,10 +85,14 @@ const AddReceiver = () => {
   }
   return (
     <div>
-      <form onSubmit={handleSubmit} className='flex flex-col'>
-        <label>
-          Receiver Name:
+      <form
+        onSubmit={handleSubmit}
+        className='flex flex-col border border-gray-300 bg-white p-3 w-64'
+      >
+        <label className='flex flex-col text-gray-800 text-sm mb-2'>
+          receiver name
           <input
+            className='mt-1 rounded p-1 border border-gray-300'
             type='text'
             name='receiverName'
             value={addReceiverFields.receiverName}
@@ -102,9 +106,10 @@ const AddReceiver = () => {
           />
         </label>
         <span>{addReceiverFields.receiverNameError}</span>
-        <label>
-          Login:
+        <label className='flex flex-col text-gray-800 text-sm mb-2'>
+          login
           <input
+            className='mt-1 rounded p-1 border border-gray-300'
             type='text'
             name='login'
             value={addReceiverFields.login}
@@ -118,9 +123,10 @@ const AddReceiver = () => {
           />
         </label>
         <span>{addReceiverFields.loginError}</span>
-        <label>
-          Password:
+        <label className='flex flex-col text-gray-800 text-sm mb-2'>
+          password
           <input
+            className='mt-1 rounded p-1 border border-gray-300'
             type='text'
             name='password'
             value={addReceiverFields.password}
@@ -133,8 +139,12 @@ const AddReceiver = () => {
             }
           />
         </label>
-        <span>{addReceiverFields.passwordError}</span>
-        <input type='submit' value='Submit' className='w-16' />
+        <span className='text-red-600'>{addReceiverFields.passwordError}</span>
+        <input
+          type='submit'
+          value='Add Receiver'
+          className='w-full rounded p-1 bg-green-500 text-white font-bold mt-2'
+        />
       </form>
     </div>
   )
