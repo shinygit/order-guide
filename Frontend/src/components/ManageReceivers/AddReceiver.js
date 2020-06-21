@@ -87,7 +87,7 @@ const AddReceiver = () => {
     <div>
       <form
         onSubmit={handleSubmit}
-        className='flex flex-col border border-gray-300 bg-white p-3 w-64'
+        className='flex flex-col border border-gray-300 bg-white p-3'
       >
         <label className='flex flex-col text-gray-800 text-sm mb-2'>
           receiver name

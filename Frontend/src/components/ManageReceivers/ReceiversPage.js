@@ -14,9 +14,11 @@ const ReceiversPage = () => {
   return (
     <div>
       <NavBar />
-      <div className='flex p-3'>
-        <AddReceiver />
-        <ListReceivers receivers={receivers} />
+      <div className='flex justify-center p-3'>
+        <div className='flex flex-col lg:flex-row shadow-xl'>
+          <AddReceiver />
+          <ListReceivers receivers={receivers} />
+        </div>
       </div>
     </div>
   )
