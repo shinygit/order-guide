@@ -7,68 +7,25 @@ import AddItemForm from './AddItemForm'
 Modal.setAppElement('#root')
 
 const AddItemButton = ({ locations }) => {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const [position, setPosition] = useState({})
-
-  function openModal() {
-    setIsOpen(true)
-    const rect = document
-      .getElementById('add-item-button')
-      .getBoundingClientRect()
-    setPosition({ top: rect.top - rect.height / 2, left: rect.left })
-  }
-  function adjustPosition() {
-    const rect = document
-      .getElementById('add-item-button')
-      .getBoundingClientRect()
-    const rect2 = document
-      .getElementById('add-item-form')
-      .getBoundingClientRect()
-    setPosition({
-      top: rect.top - rect.height / 2,
-      left: rect.left - rect2.width,
-    })
-  }
-  function closeModal() {
-    setIsOpen(false)
-  }
-  function save() {
-    setIsOpen(false)
-  }
-  const handleAddItemButtonClick = () => {
-    openModal()
-  }
-  const handleChangeInput = (event) => {}
+  const [formIsOpen, setFormIsOpen] = useState(false)
 
   return (
-    <>
-      <Modal
-        isOpen={modalIsOpen}
-        contentLabel='Add Item'
-        onAfterOpen={adjustPosition}
-        shouldFocusAfterRender={false}
-        overlayClassName='w-full h-screen'
-        closeTimeoutMS={500}
-        className={`absolute`}
-        style={{ content: { ...position } }}
-      >
-        <div>
-          <AddItemForm
-            modalIsOpen={modalIsOpen}
-            locations={locations}
-            closeModal={closeModal}
-            modalIsOpen={modalIsOpen}
-          />
-        </div>
-      </Modal>
+    <div className='ml-auto relative'>
       <button
         id='add-item-button'
         className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100 ml-auto'
-        onClick={() => handleAddItemButtonClick()}
+        onClick={() => setFormIsOpen(true)}
       >
         New Item
       </button>
-    </>
+      {formIsOpen && (
+        <AddItemForm
+          locations={locations}
+          setFormIsOpen={setFormIsOpen}
+          formIsOpen={formIsOpen}
+        />
+      )}
+    </div>
   )
 }
 export default AddItemButton

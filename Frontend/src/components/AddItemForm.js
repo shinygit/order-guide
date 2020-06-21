@@ -3,8 +3,13 @@ import { CREATE_ITEM, GET_LATEST_ORDER } from '../Queries/item'
 import { useMutation } from '@apollo/react-hooks'
 import FieldSupplierSelector from './ItemTable/FieldSupplierSelector'
 
-const AddItemForm = ({ locations, closeModal, modalIsOpen }) => {
+const AddItemForm = ({ locations, formIsOpen, setFormIsOpen }) => {
   const [canceled, setCanceled] = useState(false)
+  const [closing, setClosing] = useState(false)
+  const closeForm = () => {
+    setClosing(true)
+    setTimeout(() => setFormIsOpen(false), 500)
+  }
   const [createItem] = useMutation(CREATE_ITEM, {
     update(client, { data: { createItem } }) {
       const queryResults = client.readQuery({
@@ -79,13 +84,13 @@ const AddItemForm = ({ locations, closeModal, modalIsOpen }) => {
       location: '',
       buildTo: '',
     })
-    closeModal()
+    setTimeout(() => closeForm(), 100)
   }
 
   return (
     <form
-      className={`flex flex-col p-2 bg-gray-300 shadow-2xl p-5 text-gray-900 transform duration-500 transition ${
-        !modalIsOpen &&
+      className={`absolute top-0 right-0 mr-10 mt-10 flex flex-col p-2 bg-gray-300 shadow-2xl p-5 text-gray-900 transform duration-500 transition ${
+        closing &&
         !canceled &&
         'translate-y-full scale-x-150 scale-y-0 -translate-x-1/2'
       }`}
@@ -146,16 +151,16 @@ const AddItemForm = ({ locations, closeModal, modalIsOpen }) => {
       </div>
       <div className='flex justify-between mt-4'>
         <button
-          className='w-auto mx-1 border border-gray-900 rounded bg-gray-100'
+          className='self-end p-1 mx-1 border border-gray-900 rounded bg-gray-100'
+          type='button'
           onClick={() => {
-            closeModal()
-            setCanceled(true)
+            setFormIsOpen(false)
           }}
         >
           Cancel
         </button>
         <button
-          className='w-auto p-4 mx-1 border border-gray-900 rounded bg-gray-100'
+          className='p-4 mx-1 border border-green-500 rounded bg-green-100'
           type='submit'
         >
           Add Item
