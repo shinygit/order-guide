@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { client } from '../../index'
@@ -56,13 +56,13 @@ const NavBar = () => {
         >
           <Link to='/manual'>Manual</Link>
         </li>
-        <li
-          className={`mr-6 p-1 border-yellow-100 ${
-            location.pathname === '/receivers' ? 'border-b-2' : null
-          }`}
+        <NavLink
+          to='/account'
+          className='mr-6 p-1 border-yellow-100'
+          activeClassName='border-b-2'
         >
-          <Link to='/receivers'>Receivers</Link>
-        </li>
+          <li>Account</li>
+        </NavLink>
         <li className='mr-6 p-1'>
           <Link onClick={logout} to='/login'>
             Logout
