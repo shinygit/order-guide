@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
 
 const SearchForm = () => {
+  const client = useApolloClient()
   const [input, setInput] = useState('')
 
   const handleChange = (event) => {
@@ -17,8 +18,6 @@ const SearchForm = () => {
       },
     })
   }
-
-  const client = useApolloClient()
 
   return (
     <div>
