@@ -84,11 +84,11 @@ const TableItemRow = ({
         <td className='hidden md:table-cell border border-gray-700 text-center'>
           {item.unitSize}
         </td>
-        <td className='hidden lg:table-cell border border-gray-700 text-center'>
+        <td className='hidden md:table-cell border border-gray-700 text-center'>
           {item.productNumber}
         </td>
         <td className='border border-gray-700 text-center'>{item.buildTo}</td>
-        <td className='hidden md:table-cell border border-gray-700 text-center'>
+        <td className='hidden lg:table-cell border border-gray-700 text-center'>
           {item.previousOrders[1]}
         </td>
         <td className='border border-gray-700 text-center'>

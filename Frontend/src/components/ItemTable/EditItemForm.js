@@ -149,7 +149,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             onChange={handleChangeInput}
           />
         </td>
-        <td className={`${tableCell} hidden lg:table-cell`}>
+        <td className={`${tableCell} hidden md:table-cell`}>
           <input
             className={`${editInput} w-full`}
             type='text'
@@ -167,7 +167,9 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             onChange={handleChangeInput}
           />
         </td>
-        <td className={tableCell}>{item.previousOrders[1]}</td>
+        <td className={`${tableCell} hidden lg:table-cell`}>
+          {item.previousOrders[1]}
+        </td>
         <td className={tableCell}>{item.previousOrders[0]}</td>
         <td className={tableCell}>
           <ChangeOrderAmount id={item.id} />
