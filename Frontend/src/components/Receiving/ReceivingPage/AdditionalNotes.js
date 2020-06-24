@@ -18,7 +18,11 @@ const AdditionalNotes = ({
       <div className='p-1 border bg-white'>
         <textarea
           className='w-full resize-none outline-none'
-          placeholder='Extra items received, substitutions, something you think might be missing, etc...'
+          placeholder={
+            activeSupplierReceivedSubmitted
+              ? `Can not add additional notes because delivery has already been submitted.`
+              : `Extra items received, substitutions, something you think might be missing, etc...`
+          }
           name='additionalNotesForm'
           value={additionalNotesForm[activeSupplier.id]}
           onChange={handleChangeInput}
