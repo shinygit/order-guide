@@ -114,14 +114,14 @@ export default {
               flaggedItems.length
             } item${
               flaggedItems.length > 1 || flaggedItems.length === 0 ? 's' : ''
-            } on a delivery from ${supplier.supplierName}!\n`
+            } on a delivery from ${supplier.supplierName}!`
 
             const itemsForMessage = flaggedItems.map(
-              (item) => `${item.itemName}: ${item.receiverNote}\n`
+              (item) => `\n${item.itemName}: ${item.receiverNote}`
             )
 
             const additional =
-              additionalNotes && `Additional Notes: ${additionalNotes}`
+              additionalNotes && `\nAdditional Notes: ${additionalNotes}`
 
             const message = [
               firstLine,
