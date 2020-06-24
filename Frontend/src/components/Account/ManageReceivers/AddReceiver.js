@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
-import { GET_RECEIVERS } from '../../Queries/receiver'
+import { GET_RECEIVERS } from '../../../Queries/receiver'
 
 const CREATE_RECEIVER = gql`
   mutation createReceiver(
