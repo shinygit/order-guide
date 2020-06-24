@@ -38,10 +38,36 @@ export default {
         if (email) emailOrPhoneNumber.email = email
         if (phoneNumber) emailOrPhoneNumber.phoneNumber = phoneNumber
 
+        if (email) {
+          const emailExists = await models.NotificationMethod.findOne({
+            where: {
+              userId: me.id,
+              email: email,
+              deleted: false,
+            },
+          })
+          if (emailExists) {
+            return { error: 'This notification method has already been added.' }
+          }
+        }
+        if (phoneNumber) {
+          const phoneNumberExists = await models.NotificationMethod.findOne({
+            where: {
+              userId: me.id,
+              phoneNumber: phoneNumber,
+              deleted: false,
+            },
+          })
+          if (phoneNumberExists) {
+            return { error: 'This notification method has already been added.' }
+          }
+        }
+
         const previouslyDeleted = await models.NotificationMethod.findOne({
           where: emailOrPhoneNumber,
         })
-        if (previouslyDeleted.confirmationSentAttempts > 5) {
+
+        if (previouslyDeleted?.confirmationSentAttempts > 5) {
           return {
             error:
               'Maximum amount of attempts reached.  Contact support to resolve.',
@@ -71,28 +97,6 @@ export default {
         if (email !== undefined && phoneNumber !== undefined) {
           return {
             error: 'You can only add one notification method at a time.',
-          }
-        }
-        if (email) {
-          const emailExists = await models.NotificationMethod.findOne({
-            where: {
-              userId: me.id,
-              email: email,
-            },
-          })
-          if (emailExists) {
-            return { error: 'This notification method has already been added.' }
-          }
-        }
-        if (phoneNumber) {
-          const phoneNumberExists = await models.NotificationMethod.findOne({
-            where: {
-              userId: me.id,
-              phoneNumber: phoneNumber,
-            },
-          })
-          if (phoneNumberExists) {
-            return { error: 'This notification method has already been added.' }
           }
         }
         const method = await models.NotificationMethod.create({
@@ -160,7 +164,7 @@ export default {
           {
             deleted: true,
           },
-          { where: { id: id, userId: me } }
+          { where: { id: id, userId: me.id } }
         )
         if (deleted) return true
       }
