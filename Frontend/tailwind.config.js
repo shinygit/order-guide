@@ -1,5 +1,9 @@
 module.exports = {
-  purge: ['./src/**/*.html', './src/**/*.js'],
+  purge: [
+    './src/**/*.html',
+    './src/**/*.js',
+    './src/assets/styles/tailwind.css',
+  ],
   theme: {
     extend: {},
   },
