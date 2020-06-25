@@ -21,6 +21,11 @@ export default gql`
       orderId: ID!
       additionalNotes: String
     ): SupplierOrderResults!
+    appendAdditionalNote(
+      supplierId: ID!
+      orderId: ID!
+      additionalNote: String!
+    ): SupplierOrderResults!
   }
   type Order {
     id: ID!

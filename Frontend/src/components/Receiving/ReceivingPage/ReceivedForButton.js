@@ -46,7 +46,7 @@ const ReceivedForButton = ({
         variables: {
           supplierId: activeSupplier.id,
           orderId: orderId,
-          additionalNotes: additionalNotesForm[activeSupplier.id],
+          additionalNotes: additionalNotesForm[activeSupplier.id].field,
         },
       })
     }

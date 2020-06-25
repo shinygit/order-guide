@@ -53,7 +53,9 @@ const ReceivingPage = ({}) => {
     if (orderReceivedWithSuppliersData) {
       const additionalNotesFormObject = {}
       orderReceivedWithSuppliersData.supplierOrders.forEach((supplierOrder) => {
-        additionalNotesFormObject[supplierOrder.supplierId] =
+        additionalNotesFormObject[supplierOrder.supplierId] = {}
+        additionalNotesFormObject[supplierOrder.supplierId].field = ''
+        additionalNotesFormObject[supplierOrder.supplierId].current =
           supplierOrder.additionalNotes || ''
       })
       setAdditionalNotesForm(additionalNotesFormObject)
@@ -149,6 +151,7 @@ const ReceivingPage = ({}) => {
       </div>
       {activeSupplier && (
         <AdditionalNotes
+          orderId={orderId}
           activeSupplier={activeSupplier}
           additionalNotesForm={additionalNotesForm}
           setAdditionalNotesForm={setAdditionalNotesForm}

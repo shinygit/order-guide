@@ -9,6 +9,7 @@ import {
 import { UserInputError } from 'apollo-server-express'
 import { sendNotification } from '../apis/email/sendNotification'
 const Op = require('sequelize').Op
+const { QueryTypes } = require('sequelize')
 
 export default {
   Query: {
@@ -148,6 +149,43 @@ export default {
         }
       }
     ),
+    appendAdditionalNote: combineResolvers(
+      isOrderSupplierOwner,
+      async (
+        parent,
+        { supplierId, orderId, additionalNote },
+        { me, models }
+      ) => {
+        const supplier = await models.Supplier.findOne({
+          where: { id: supplierId },
+        })
+
+        const updatedNotes = await models.sequelize.query(
+          'UPDATE supplier_orders SET "additionalNotes" = "additionalNotes" || ? WHERE "supplierId" = ? AND "orderId" = ? RETURNING *;',
+          {
+            replacements: [additionalNote, supplierId, orderId],
+          }
+        )
+        const message = `Additional note added to ${supplier.supplierName} by ${
+          me.receiverName || 'You'
+        }: ${additionalNote}`
+
+        let notificationSendingError
+
+        try {
+          await sendNotification(message, me)
+        } catch (error) {
+          if (error) notificationSendingError = true
+        }
+
+        return {
+          ...updatedNotes[0][0],
+          notificationSendingError: notificationSendingError,
+          __typename: 'SupplierOrder',
+        }
+      }
+    ),
+
     toggleOrderLock: combineResolvers(
       isAuthenticatedAsOwner,
       async (parent, { orderDate }, { me, models }) => {
