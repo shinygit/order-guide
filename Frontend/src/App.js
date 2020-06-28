@@ -17,6 +17,7 @@ export const LocSupContext = React.createContext({
 const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
+    notifyOnNetworkStatusChange: true,
   })
 
   const [items, setItems] = useState([])
