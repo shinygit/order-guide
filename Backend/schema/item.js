@@ -59,7 +59,7 @@ export default gql`
     itemNote: String
     specialNote: String
     receivingNote: String
-    previousOrders(count: Int): [Int]
+    previousOrders: [Int]!
     flaggedByReceiver: String
     receiverNote: String
   }

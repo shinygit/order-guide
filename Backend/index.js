@@ -35,26 +35,41 @@ const getMe = async (req) => {
     }
   }
 }
-const batchUsers = async (keys, models) => {
-  const users = await models.User.findAll({
-    where: {
-      id: {
-        [Sequelize.Op.in]: keys,
+const loader = {
+  suppliers: new DataLoader(async (ids) => {
+    const rows = await models.Supplier.findAll({
+      where: {
+        id: {
+          [Sequelize.Op.in]: ids,
+        },
       },
-    },
-  })
-  return keys.map((key) => users.find((user) => user.id === key))
-}
-const batchItems = async (keys, models) => {
-  const items = await models.Item.findAll({
-    where: {
-      userId: {
-        [Sequelize.Op.in]: keys,
+      raw: true,
+    })
+
+    const lookUp = rows.reduce((acc, row) => {
+      acc[row.id] = row
+      return acc
+    }, {})
+
+    return ids.map((id) => lookUp[id] || null)
+  }),
+  locations: new DataLoader(async (ids) => {
+    const rows = await models.Location.findAll({
+      where: {
+        id: {
+          [Sequelize.Op.in]: ids,
+        },
       },
-    },
-  })
-  return keys.map((key) => items.filter((item) => item.userId === key))
+      raw: true,
+    })
+    const lookUp = rows.reduce((acc, row) => {
+      acc[row.id] = row
+      return acc
+    }, {})
+    return ids.map((id) => lookUp[id] || null)
+  }),
 }
+
 const server = new ApolloServer({
   typeDefs: schema,
   resolvers,
@@ -68,10 +83,7 @@ const server = new ApolloServer({
         models,
         me,
         secret: process.env.SECRET,
-        loaders: {
-          user: new DataLoader((keys) => batchUsers(keys, models)),
-          item: new DataLoader((keys) => batchItems(keys, models)),
-        },
+        loader,
       }
     }
   },

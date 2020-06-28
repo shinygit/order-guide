@@ -281,17 +281,11 @@ export default {
             return item.supplierId
           }
           if (item.isMarketPrice === true) {
-            let marketPriceId = await models.Supplier.findOne({
+            let marketPriceId = await models.Supplier.findOrCreate({
               where: { userId: me.id, supplierName: 'Market Price' },
+              raw: true,
             })
-            if (!marketPriceId) {
-              const mp = await models.Supplier.create({
-                supplierName: 'Market Price',
-                userId: me.id,
-              })
-              marketPriceId = mp.dataValues
-            }
-            return marketPriceId.id
+            return marketPriceId[0].id
           }
         }
         const newOrderItems = Promise.all(
@@ -318,11 +312,11 @@ export default {
       return await models.User.findById(order.userId)
     },
     items: async (order, args, { models }) => {
-      return await models.Item.findAll({
-        where: {
-          orderId: order.id,
-        },
-      })
+      const test = await models.sequelize.query(
+        'select (array(select "orderAmount" from items join orders on "orderId" = orders.id where "orderId" IN (select id from orders where "userId"=?) and "itemId"=a."itemId" order by "orderDate" desc offset 1 limit 2))  as "previousOrders",  a.*, orders."orderDate" from items a join orders on "orderId" = orders.id where "orderId"=?',
+        { replacements: [order.userId, order.id], raw: true }
+      )
+      return test[0]
     },
   },
 }

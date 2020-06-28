@@ -19,7 +19,6 @@ export const EDIT_ITEM = gql`
       itemNote
       specialNote
       receivingNote
-      previousOrders(count: 2)
       showEditForm @client
       flaggedByReceiver
       receiverNote
@@ -45,7 +44,6 @@ export const CREATE_ITEM = gql`
       itemNote
       specialNote
       receivingNote
-      previousOrders(count: 2)
       showEditForm @client
       isExpanded @client
       flaggedByReceiver
@@ -102,7 +100,7 @@ export const GET_LATEST_ORDER = gql`
         itemNote
         specialNote
         receivingNote
-        previousOrders(count: 2)
+        previousOrders
         showEditForm @client
         isExpanded @client
         flaggedByReceiver

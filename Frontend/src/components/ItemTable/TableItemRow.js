@@ -29,7 +29,7 @@ const GET_ITEM = gql`
       itemNote
       specialNote
       receivingNote
-      previousOrders(count: 2)
+      previousOrders
       showEditForm @client
       isExpanded @client
       flaggedByReceiver

@@ -8,6 +8,7 @@ import {
   isAuthenticatedAsOwner,
 } from './authorization'
 import { sendNotification } from './../apis/email/sendNotification'
+
 import pubsub, { EVENTS } from '../subscription'
 
 export default {
@@ -233,16 +234,23 @@ export default {
     userId: async (item, args, { loaders }) => {
       return await loaders.user.load(item.userId)
     },
-    supplier: async (item, args, { models }) => {
+    supplier: async (item, args, { loader }) => {
+      if (!item.supplierId) return ''
+      return (await loader.suppliers.load(item.supplierId)).supplierName
+      /*       if (item.supplier) return item.supplier
       let supplier = await models.Supplier.findByPk(item.supplierId)
       if (supplier) return supplier.supplierName
-      if (!supplier) return ''
+      if (!supplier) return '' */
     },
-    location: async (item, args, { models }) => {
+    location: async (item, args, { loader }) => {
+      if (!item.locationId) return ''
+      return (await loader.locations.load(item.locationId)).locationName
+      /*       if (item.location) return item.location
       let location = await models.Location.findByPk(item.locationId)
-      return location.locationName
+      return location.locationName */
     },
     previousOrders: async (item, { count }, { models }) => {
+      if (item.previousOrders) return item.previousOrders
       const previous = await models.Item.findAll({
         attributes: ['id', 'orderAmount'],
         where: {
