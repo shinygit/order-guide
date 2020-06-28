@@ -19,6 +19,7 @@ export const EDIT_ITEM = gql`
       itemNote
       specialNote
       receivingNote
+      previousOrders
       showEditForm @client
       flaggedByReceiver
       receiverNote
@@ -44,6 +45,7 @@ export const CREATE_ITEM = gql`
       itemNote
       specialNote
       receivingNote
+      previousOrders
       showEditForm @client
       isExpanded @client
       flaggedByReceiver

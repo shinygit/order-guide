@@ -249,7 +249,7 @@ export default {
       let location = await models.Location.findByPk(item.locationId)
       return location.locationName */
     },
-    previousOrders: async (item, { count }, { models }) => {
+    previousOrders: async (item, { count = 2 }, { models }) => {
       if (item.previousOrders) return item.previousOrders
       const previous = await models.Item.findAll({
         attributes: ['id', 'orderAmount'],
@@ -263,6 +263,7 @@ export default {
           },
         ],
         order: [[models.Order, 'orderDate', 'desc']],
+        limit: count + 1,
         raw: true,
       })
       const index = previous.findIndex((x) => x.id === item.id)
