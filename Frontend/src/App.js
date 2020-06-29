@@ -51,7 +51,14 @@ const App = () => {
   useEffect(() => {
     setLocations(getCurrentLocations())
   }, [getCurrentLocations])
-  if (loading) return <Loading />
+  if (loading) {
+    return (
+      <div>
+        <NavBar />
+        <Loading />
+      </div>
+    )
+  }
   return (
     <div>
       <NavBar />
