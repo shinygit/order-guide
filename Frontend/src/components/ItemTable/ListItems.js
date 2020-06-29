@@ -47,7 +47,6 @@ const ListItems = ({ items }) => {
         limit: 10,
         threshold: -10000,
       })
-      console.log(searchResults)
       return searchResults.map((x, i) => searchResults[i].obj).includes(item)
     }
     if (filterName === 'ALL' && filterType === 'ALL') return true
@@ -100,43 +99,43 @@ const ListItems = ({ items }) => {
         <thead>
           <tr>
             <th className='hidden md:table-cell' />
-            <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Item
             </th>
-            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='hidden md:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Unit Size
             </th>
-            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='hidden md:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Product #
             </th>
-            <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Build To
             </th>
             {(orderDates && orderDates.orders[2] && (
-              <th className='hidden lg:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              <th className='hidden lg:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 {orderDates.orders[2].orderDate.slice(5).replace('-', '/')}
               </th>
             )) || (
-              <th className='hidden lg:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              <th className='hidden lg:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 --/--
               </th>
             )}
             {(orderDates && orderDates.orders[1] && (
-              <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              <th className='px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 {orderDates.orders[1].orderDate.slice(5).replace('-', '/')}
               </th>
             )) || (
-              <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+              <th className='px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
                 --/--
               </th>
             )}
-            <th className='px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Order
             </th>
-            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='hidden md:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Supplier
             </th>
-            <th className='hidden md:table-cell px-4 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='hidden md:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Location
             </th>
           </tr>
