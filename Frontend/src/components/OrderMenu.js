@@ -4,7 +4,7 @@ import moment from 'moment'
 import { useMutation } from '@apollo/react-hooks'
 import { CREATE_NEW_ORDER_DATE, DELETE_ORDER_DATE } from '../Queries/order'
 
-const OrderMenu = ({ setCurrentDate, currentDate }) => {
+const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
   const [createNewOrder, { error }] = useMutation(CREATE_NEW_ORDER_DATE)
   const [deleteOrder, { error: deleteError }] = useMutation(DELETE_ORDER_DATE)
   const [orderDateForm, setOrderDateForm] = useState('')
@@ -23,6 +23,7 @@ const OrderMenu = ({ setCurrentDate, currentDate }) => {
       })
       setCurrentDate('0000-00-00')
       setOrderDateForm('')
+      refetch()
     } catch (error) {
       setErrorMessage(error.message.split('GraphQL error: ')[1])
     }

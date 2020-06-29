@@ -17,6 +17,7 @@ export const LocSupContext = React.createContext({
 const App = () => {
   const { loading, data, refetch } = useQuery(GET_LATEST_ORDER, {
     variables: { orderDepth: 1 },
+    notifyOnNetworkStatusChange: true,
   })
 
   const [items, setItems] = useState([])
@@ -33,10 +34,6 @@ const App = () => {
       setItems(data.orders[0].items)
     }
   }, [data])
-
-  useEffect(() => {
-    refetch()
-  }, [currentDate, refetch])
 
   const getCurrentLocations = useCallback(() => {
     const currentLocations = []
@@ -59,7 +56,11 @@ const App = () => {
     <div>
       <NavBar />
       <div className='p-3'>
-        <OrderMenu setCurrentDate={setCurrentDate} currentDate={currentDate} />
+        <OrderMenu
+          setCurrentDate={setCurrentDate}
+          currentDate={currentDate}
+          refetch={refetch}
+        />
         <LocSupContext.Provider value={{ locations: locations }}>
           <FilterMenu
             items={items}
