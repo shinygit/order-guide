@@ -591,7 +591,7 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px), (orientation: landscape) {
   body {
     -webkit-user-select: auto;
             user-select: auto;
@@ -8722,10 +8722,6 @@ body {
 
 .max-w-screen-sm {
   max-width: 640px;
-}
-
-.max-w-screen-md {
-  max-width: 768px;
 }
 
 .max-w-screen-lg {
@@ -23629,10 +23625,6 @@ body {
     max-width: 640px;
   }
 
-  .sm\:max-w-screen-md {
-    max-width: 768px;
-  }
-
   .sm\:max-w-screen-lg {
     max-width: 1024px;
   }
@@ -30433,7 +30425,7 @@ body {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px), (orientation: landscape) {
   .md\:space-y-0 > :not(template) ~ :not(template) {
     --space-y-reverse: 0;
     margin-top: calc(0px * calc(1 - var(--space-y-reverse)));
@@ -38506,10 +38498,6 @@ body {
 
   .md\:max-w-screen-sm {
     max-width: 640px;
-  }
-
-  .md\:max-w-screen-md {
-    max-width: 768px;
   }
 
   .md\:max-w-screen-lg {
@@ -53387,10 +53375,6 @@ body {
     max-width: 640px;
   }
 
-  .lg\:max-w-screen-md {
-    max-width: 768px;
-  }
-
   .lg\:max-w-screen-lg {
     max-width: 1024px;
   }
@@ -68264,10 +68248,6 @@ body {
 
   .xl\:max-w-screen-sm {
     max-width: 640px;
-  }
-
-  .xl\:max-w-screen-md {
-    max-width: 768px;
   }
 
   .xl\:max-w-screen-lg {
