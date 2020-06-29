@@ -127,7 +127,7 @@ const ReceivingPage = ({}) => {
             Week of {moment.utc(orderDate).format('L')}
           </span>
         </div>
-        <div>
+        <div className='flex'>
           <SupplierListForReceiving
             orderReceivedWithSuppliersData={orderReceivedWithSuppliersData}
             setActiveSupplier={setActiveSupplier}
