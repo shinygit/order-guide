@@ -129,6 +129,7 @@ const ReceivingPage = ({}) => {
         </div>
         <div>
           <SupplierListForReceiving
+            orderReceivedWithSuppliersData={orderReceivedWithSuppliersData}
             setActiveSupplier={setActiveSupplier}
             activeSupplier={activeSupplier}
             suppliers={suppliers}
