@@ -11,7 +11,7 @@ const SupplierListForReceiving = ({
     supplier.supplierName === 'Market Price' ? null : (
       <button
         key={supplier.supplierName}
-        className={`transition duration-200 ease-in-out w-auto px-4 py-1 mb-1 border border-gray-900 rounded-t mx-1
+        className={`flex flex-col transition duration-200 ease-in-out w-auto px-4 py-1 mb-1 border border-gray-900 rounded-t mx-1
         ${
           orderReceivedWithSuppliersData.supplierOrders.find(
             (e) => e.supplierId == supplier.id
@@ -22,7 +22,9 @@ ${activeSupplier === supplier ? 'bg-gray-600 text-gray-200' : 'bg-gray-400'}`}
       >
         <div className='flex flex-col'>
           <span>{supplier.supplierName}</span>
-          <span className='text-sm'>{`(${supplier.deliveryDay})`}</span>
+          <span className='text-sm'>
+            {supplier.deliveryDay && `(${supplier.deliveryDay})`}
+          </span>
         </div>
       </button>
     )
