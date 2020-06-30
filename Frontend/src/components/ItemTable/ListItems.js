@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
 import gql from 'graphql-tag'
@@ -41,7 +41,7 @@ const ListItems = ({ items }) => {
   }
 
   const filteredItems = items.filter((item) => {
-    if (searchTerm.length > 1) {
+    if (searchTerm) {
       const searchResults = fuzzysort.go(searchTerm, items, {
         key: 'itemName',
         limit: 10,
@@ -67,7 +67,7 @@ const ListItems = ({ items }) => {
     }
     return true
   })
-  const itemsToDisplay = hideAllZeroOrderAmountItems
+  let itemsToDisplay = hideAllZeroOrderAmountItems
     .slice()
     .sort(function (a, b) {
       if (a.supplier > b.supplier) return 1
@@ -78,6 +78,7 @@ const ListItems = ({ items }) => {
       if (a.itemName < b.itemName) return -1
       return 0
     })
+  if (searchTerm) itemsToDisplay = filteredItems
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleToggleEdit = useCallback(
     (id) => toggle({ variables: { itemId: id } }),
