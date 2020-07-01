@@ -135,7 +135,7 @@ const EditReceiver = ({
     <>
       <button onClick={handleClick}>Edit</button>
       {activeEditReceiver === receiver.id ? (
-        <div className='absolute border p-3 bg-gray-400 shadow-2xl flex flex-col'>
+        <div className='absolute border p-3 bg-gray-300 shadow-xl flex flex-col'>
           <span>{receiver.receiverName}</span>
           <form onSubmit={handleSubmit} className='flex flex-col'>
             <label>
