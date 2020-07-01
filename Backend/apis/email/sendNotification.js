@@ -8,7 +8,7 @@ async function sendNotification(message, me) {
   }
 
   const recipientsObjects = await models.NotificationMethod.findAll({
-    where: { userId: me.id, confirmed: true },
+    where: { userId: me.id, confirmed: true, deleted: false },
     attributes: ['email', 'phoneNumber'],
     raw: true,
   })
