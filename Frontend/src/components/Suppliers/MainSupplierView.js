@@ -14,10 +14,18 @@ const MainSupplierView = () => {
     <div className=''>
       <NavBar />
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-3 pt-5'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:col-span-2 gap-3'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 p-3 pt-5'>
+        <div className='grid grid-cols-1 xl:grid-cols-2 xl:col-span-2 gap-3'>
           {data.suppliers.map((supplier) => {
             if (supplier.supplierName === 'Market Price') return null
+            if (supplier.id === selectedCard)
+              return (
+                <SupplierEdit
+                  suppliers={data.suppliers}
+                  selectedCard={selectedCard}
+                  setSelectedCard={setSelectedCard}
+                />
+              )
             return (
               <SupplierCard
                 key={supplier.id}
@@ -30,13 +38,6 @@ const MainSupplierView = () => {
         </div>
         <div className='flex flex-col'>
           <NewSupplierForm />
-          {selectedCard ? (
-            <SupplierEdit
-              suppliers={data.suppliers}
-              selectedCard={selectedCard}
-              setSelectedCard={setSelectedCard}
-            />
-          ) : null}
         </div>
       </div>
     </div>

@@ -59,16 +59,28 @@ const NewSupplierForm = () => {
     }
   }
   return (
-    <div className='flex flex-col'>
-      <button onClick={() => setIsActive(!isActive)}>New Supplier</button>
+    <div className='flex flex-col w-56'>
+      <button
+        className='rounded border border-gray-600 bg-gray-300'
+        onClick={() => setIsActive(!isActive)}
+      >
+        {isActive ? 'Cancel' : 'Add New Supplier'}
+      </button>
       {isActive && (
-        <div className='flex flex-col'>
+        <div className='flex flex-col items-end'>
           <input
+            className='rounded border border-gray-400 mt-4 w-40'
             value={newSupplierForm.supplierName}
             name='supplierName'
+            placeholder='Supplier Name...'
             onChange={handleChangeInput}
           ></input>
-          <button onClick={handleSaveSupplier}>Save</button>
+          <button
+            className='border rounded border-gray-600 bg-green-100 w-20 mt-2'
+            onClick={handleSaveSupplier}
+          >
+            Save
+          </button>
           {errors}
         </div>
       )}

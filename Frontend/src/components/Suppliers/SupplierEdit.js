@@ -124,8 +124,7 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
     if (result.data.updateSupplier.error) {
       setFormErrors(result.data.updateSupplier.error)
     }
-
-    if (!result.data.updateSupplier.error) setFormErrors('')
+    if (!result.data.updateSupplier.error) setSelectedCard('')
   }
 
   const handleDelete = async () => {
@@ -134,71 +133,101 @@ const SupplierEdit = ({ suppliers, selectedCard, setSelectedCard }) => {
       setFormErrors(result.data.deleteSupplier.error)
   }
   return (
-    <div className='flex flex-col w-4/12'>
-      <label>
-        Supplier Name:
-        <input
-          type='text'
-          name='supplierName'
-          value={supplierForm.supplierName}
-          onChange={handleChangeInput}
-        ></input>
-      </label>
-      <label>
-        Delivery Day:
-        <select
-          name='deliveryDay'
-          value={supplierForm.deliveryDay}
-          onChange={handleChangeInput}
-        >
-          {daysOfTheWeek.map(({ label, value }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Sales Person:
-        <input
-          type='text'
-          name='salesPersonName'
-          value={supplierForm.salesPersonName}
-          onChange={handleChangeInput}
-        ></input>
-      </label>
-      <label>
-        Sales Person Phone:
-        <input
-          type='text'
-          name='salesPersonPhoneNumber'
-          value={supplierForm.salesPersonPhoneNumber}
-          onChange={handleChangeInput}
-        ></input>
-      </label>
-      <label>
-        Sales Person Email:
-        <input
-          type='text'
-          name='salesPersonEmail'
-          value={supplierForm.salesPersonEmail}
-          onChange={handleChangeInput}
-        ></input>
-      </label>
-      <label>
-        Office Phone:
-        <input
-          type='text'
-          name='officePhoneNumber'
-          value={supplierForm.officePhoneNumber}
-          onChange={handleChangeInput}
-        ></input>
-      </label>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={handleCancel}>Cancel</button>
-      {formErrors}
+    <div className='max-w-md text-gray-900'>
+      <div className='flex flex-col border-2 rounded p-2 bg-gray-200 border-blue-700 shadow'>
+        <div className='text-2xl font-semibold self-center'>
+          <input
+            type='text'
+            name='supplierName'
+            value={supplierForm.supplierName}
+            onChange={handleChangeInput}
+          ></input>
+        </div>
 
-      <button onClick={handleDelete}>Delete</button>
+        <div className='grid grid-cols-2'>
+          <div className='flex flex-col'>
+            <span className='text-gray-700 text-sm pr-2'>office phone</span>
+            <input
+              className='w-48 ml-4'
+              type='text'
+              name='officePhoneNumber'
+              value={supplierForm.officePhoneNumber}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
+          <div className='flex flex-col ml-5'>
+            <span className='text-gray-700 text-sm -ml-4'>sales person</span>
+            <input
+              className='w-48'
+              type='text'
+              name='salesPersonName'
+              value={supplierForm.salesPersonName}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
+        </div>
+        <div className='grid grid-cols-2'>
+          <div className='flex flex-col'></div>
+          <div className='flex flex-col ml-5'>
+            <span className='text-gray-700 text-sm -ml-4'>phone</span>
+            <input
+              className='w-48'
+              type='text'
+              name='salesPersonPhoneNumber'
+              value={supplierForm.salesPersonPhoneNumber}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
+        </div>
+        <div className='grid grid-cols-2'>
+          <div className='flex flex-col'>
+            <span className='text-gray-700 text-sm pr-2'>delivery day</span>
+            <select
+              className='w-32 ml-4'
+              name='deliveryDay'
+              value={supplierForm.deliveryDay}
+              onChange={handleChangeInput}
+            >
+              {daysOfTheWeek.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='flex flex-col ml-5'>
+            <span className='text-gray-700 text-sm -ml-4'>email</span>
+            <input
+              className='w-48'
+              type='text'
+              name='salesPersonEmail'
+              value={supplierForm.salesPersonEmail}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
+        </div>
+      </div>
+      <div className='flex justify-around'>
+        <button
+          className='rounded-b border-2 border-red-400 bg-red-200 p-1'
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+        <button
+          className='rounded-b border-2 border-gray-400 bg-gray-200 p-1'
+          onClick={handleCancel}
+        >
+          Cancel
+        </button>
+        <button
+          className='rounded-b border-2 border-green-400 bg-green-200 p-1'
+          onClick={handleSave}
+        >
+          Save
+        </button>
+      </div>
+      {formErrors}
     </div>
   )
 }
