@@ -57,6 +57,7 @@ export const createUserStarterOrderAndItems = async (user, models) => {
   })
   const sup2 = await models.Supplier.create({ supplierName: 'Neighbor' })
   const sup3 = await models.Supplier.create({ supplierName: 'Baker' })
+  const sup4 = await models.Supplier.create({ supplierName: 'Market Price' })
   await order.setUser(user)
   await Promise.all([
     loc1.setUser(user),
@@ -65,6 +66,7 @@ export const createUserStarterOrderAndItems = async (user, models) => {
     sup1.setUser(user),
     sup2.setUser(user),
     sup3.setUser(user),
+    sup4.setUser(user),
     item1.setLocation(loc1),
     item2.setLocation(loc2),
     item3.setLocation(loc2),
