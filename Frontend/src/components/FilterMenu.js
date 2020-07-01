@@ -144,7 +144,7 @@ const FilterMenu = ({
           {`${'Market Price'}(${marketPriceCount})`}
         </button>
         <button
-          className={`flex flex-col items-center w-auto p-4 mx-1 border border-gray-900 rounded 
+          className={`flex flex-col items-center w-auto py-1 px-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'shorted-filter-button'
                   ? 'bg-gray-600 text-gray-200'
