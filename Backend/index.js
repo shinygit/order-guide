@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const Sequelize = require('sequelize')
 import DataLoader from 'dataloader'
-
 import schema from './schema'
 import resolvers from './resolvers'
 import models, { sequelize } from './models'
@@ -82,6 +81,7 @@ const server = new ApolloServer({
       return {
         models,
         me,
+        req,
         secret: process.env.SECRET,
         loader,
       }
