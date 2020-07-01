@@ -33,7 +33,7 @@ const ListNotificationMethods = ({ notificationMethods }) => {
       },
     })
   }
-
+  if (notificationMethods.length === 0) return null
   return (
     <div className='border border-gray-300 p-1 bg-white'>
       {notificationMethods.map((method) => (

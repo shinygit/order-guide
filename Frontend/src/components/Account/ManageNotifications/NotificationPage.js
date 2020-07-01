@@ -12,8 +12,8 @@ const NotificationPage = ({}) => {
   const { notificationMethods } = data
   return (
     <div className=''>
-      <div className='flex flex-col p-3'>
-        <div className='flex flex-col lg:flex-row shadow-xl'>
+      <div className='flex flex-col p-3 items-start'>
+        <div className='flex flex-col lg:flex-row shadow-xl mb-5'>
           <AddNotificationMethod />
           <ListNotificationMethods notificationMethods={notificationMethods} />
         </div>
