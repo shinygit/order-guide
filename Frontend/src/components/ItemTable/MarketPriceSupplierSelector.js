@@ -49,7 +49,7 @@ const MarketPriceSupplierSelector = ({ item }) => {
           <option key='Market Price' value='Market Price'>
             Market Price
           </option>
-          {listOfSuppliers.flatMap((supplierName) =>
+          {listOfSuppliers.map((supplierName) =>
             supplierName === 'Market Price' ? null : (
               <option key={supplierName} value={supplierName}>
                 {supplierName}
