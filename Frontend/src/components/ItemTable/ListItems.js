@@ -7,6 +7,7 @@ import fuzzysort from 'fuzzysort'
 
 import { ORDER_DATES } from '../../Queries/order'
 import { FILTER_QUERY } from '../../Queries/filter'
+import { GET_SUPPLIERS_WITH_ORDER_STATUS } from '../../Queries/supplier'
 
 const TOGGLE_SHOW_EDIT_ITEM_FORM = gql`
   mutation toggleShowEditItemForm($itemId: ID!) {
@@ -20,7 +21,7 @@ const TOGGLE_EXPANDED_ITEM = gql`
   }
 `
 
-const ListItems = ({ items }) => {
+const ListItems = ({ items, orderId }) => {
   const { data } = useQuery(FILTER_QUERY)
   const {
     searchTerm,
@@ -28,6 +29,14 @@ const ListItems = ({ items }) => {
     filterType,
     hideAllZeroOrderAmount,
   } = data.filter
+
+  const { loading: supplierLoading, data: supplierData = {} } = useQuery(
+    GET_SUPPLIERS_WITH_ORDER_STATUS,
+    {
+      variables: { orderId: orderId },
+    }
+  )
+  const { suppliers = [] } = supplierData
 
   const uncheckedItems = useRef([])
   if (filterType === 'UNCHECKED') {
@@ -39,7 +48,6 @@ const ListItems = ({ items }) => {
   if (filterType !== 'UNCHECKED') {
     uncheckedItems.current = []
   }
-
   const filteredItems = items.filter((item) => {
     if (searchTerm) {
       const searchResults = fuzzysort.go(searchTerm, items, {
@@ -50,6 +58,14 @@ const ListItems = ({ items }) => {
       return searchResults.map((x, i) => searchResults[i].obj).includes(item)
     }
     if (filterName === 'ALL' && filterType === 'ALL') return true
+    if (
+      filterName === 'SHORTED' &&
+      filterType === 'SHORTED' &&
+      item.orderAmount > item.quantityReceived &&
+      suppliers.find((supplier) => supplier.supplierName === item.supplier)
+        ?.wasOrderReceived === true
+    )
+      return true
     if (
       filterType === 'UNCHECKED' &&
       uncheckedItems.current.filter((e) => e.id === item.id).length > 0
@@ -79,6 +95,7 @@ const ListItems = ({ items }) => {
       return 0
     })
   if (searchTerm) itemsToDisplay = filteredItems
+
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleToggleEdit = useCallback(
     (id) => toggle({ variables: { itemId: id } }),

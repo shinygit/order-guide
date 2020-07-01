@@ -81,6 +81,19 @@ const FilterMenu = ({
       },
     })
   }
+  const handleShowShorted = (location) => {
+    setActiveFilterbuttonClass(`shorted-filter-button`)
+    client.writeData({
+      data: {
+        filter: {
+          searchTerm: '',
+          filterType: 'SHORTED',
+          filterName: 'SHORTED',
+          __typename: 'Filter',
+        },
+      },
+    })
+  }
 
   return (
     <div className='flex flex-col'>
@@ -129,6 +142,18 @@ const FilterMenu = ({
           onClick={() => handleShowSupplier('Market Price')}
         >
           {`${'Market Price'}(${marketPriceCount})`}
+        </button>
+        <button
+          className={`w-auto p-4 mx-1 border border-gray-900 rounded 
+              ${
+                activeFilterbuttonClass === 'shorted-filter-button'
+                  ? 'bg-gray-600 text-gray-200'
+                  : 'bg-gray-400'
+              }`}
+          key='SHORTED'
+          onClick={() => handleShowShorted()}
+        >
+          Shorted
         </button>
       </div>
       <div className='md:order-last flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>

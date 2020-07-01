@@ -75,7 +75,11 @@ const App = () => {
             orderId={data.orders[0].id}
           />
           <SearchForm />
-          {loading ? <Loading /> : <ListItems items={items} />}
+          {loading ? (
+            <Loading />
+          ) : (
+            <ListItems items={items} orderId={data.orders[0].id} />
+          )}
         </LocSupContext.Provider>
       </div>
     </div>
