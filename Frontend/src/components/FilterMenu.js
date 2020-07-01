@@ -144,7 +144,7 @@ const FilterMenu = ({
           {`${'Market Price'}(${marketPriceCount})`}
         </button>
         <button
-          className={`w-auto p-4 mx-1 border border-gray-900 rounded 
+          className={`flex flex-col items-center w-auto p-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'shorted-filter-button'
                   ? 'bg-gray-600 text-gray-200'
@@ -153,7 +153,8 @@ const FilterMenu = ({
           key='SHORTED'
           onClick={() => handleShowShorted()}
         >
-          Shorted
+          <span>Attention</span>
+          <span>Needed</span>
         </button>
       </div>
       <div className='md:order-last flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
