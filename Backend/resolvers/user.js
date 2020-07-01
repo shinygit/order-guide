@@ -1,5 +1,9 @@
 import jwt from 'jsonwebtoken'
 import { createUserStarterOrderAndItems } from '../user/utils/createNewUserItems'
+
+import { rateLimit, clearRateLimit } from './../graphQLMiddleware/rate-limit'
+import { combineResolvers } from 'graphql-resolvers'
+
 const createToken = async (user, secret, expiresIn) => {
   const { id, email } = user
   return await jwt.sign({ id, email }, secret, { expiresIn })
@@ -84,19 +88,23 @@ export default {
       return { email: user.dataValues.email }
     },
 
-    signIn: async (parent, { login, password }, { models, secret }) => {
-      const user = await models.User.findByLogin(login.trim())
+    signIn: combineResolvers(
+      rateLimit(),
+      async (parent, { login, password }, { models, secret, req }, info) => {
+        const user = await models.User.findByLogin(login.trim())
 
-      if (!user) {
-        return { emailError: 'Invalid Email' }
-      }
-      const isValid = await user.validatePassword(password)
+        if (!user) {
+          return { emailError: 'Invalid Email' }
+        }
+        const isValid = await user.validatePassword(password)
 
-      if (!isValid) {
-        return { passwordError: 'Incorrect password.' }
+        if (!isValid) {
+          return { passwordError: 'Incorrect password.' }
+        }
+        clearRateLimit(req, info)
+        return { token: createToken(user, secret, '365d') }
       }
-      return { token: createToken(user, secret, '365d') }
-    },
+    ),
   },
 
   /*   User: {

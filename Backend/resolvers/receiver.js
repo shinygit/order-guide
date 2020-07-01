@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { combineResolvers } from 'graphql-resolvers'
+import { rateLimit, clearRateLimit } from './../graphQLMiddleware/rate-limit'
 import {
   isAuthenticated,
   isOrderSupplierOwner,
@@ -143,19 +144,23 @@ export default {
         return updatedReceiver[1][0]
       }
     ),
-    loginReceiver: async (parent, { login, password }, { models, secret }) => {
-      const receiver = await models.Receiver.findByLogin(login.trim())
+    loginReceiver: combineResolvers(
+      rateLimit(),
+      async (parent, { login, password }, { models, secret }) => {
+        const receiver = await models.Receiver.findByLogin(login.trim())
 
-      if (!receiver) {
-        return { loginError: 'Invalid Login' }
-      }
-      const isValid = await receiver.validatePassword(password)
+        if (!receiver) {
+          return { loginError: 'Invalid Login' }
+        }
+        const isValid = await receiver.validatePassword(password)
 
-      if (!isValid) {
-        return { passwordError: 'Incorrect password.' }
+        if (!isValid) {
+          return { passwordError: 'Incorrect password.' }
+        }
+        clearRateLimit(req, info)
+        return { token: createToken(receiver, secret, '365d') }
       }
-      return { token: createToken(receiver, secret, '365d') }
-    },
+    ),
     deleteReceiver: combineResolvers(
       isAuthenticatedAsOwner,
       async (parent, { id }, { models, me }) => {
