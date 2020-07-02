@@ -19,6 +19,7 @@ export default gql`
     salesPersonEmail: String
     wasOrderPlaced(orderId: ID!): Boolean!
     wasOrderReceived(orderId: ID!): Boolean!
+    additionalNotes(orderId: ID!): String
   }
 
   input supplierInput {

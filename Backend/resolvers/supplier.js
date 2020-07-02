@@ -165,5 +165,14 @@ export default {
       })
       return supOrd[0].wasOrderReceived
     },
+    additionalNotes: async (parent, args, { models }) => {
+      const supOrd = await models.Supplier_Order.findOrCreate({
+        where: {
+          supplierId: parent.id,
+          orderId: args.orderId,
+        },
+      })
+      return supOrd[0].additionalNotes
+    },
   },
 }

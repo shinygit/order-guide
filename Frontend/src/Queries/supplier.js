@@ -24,6 +24,7 @@ export const GET_SUPPLIERS_WITH_ORDER_STATUS = gql`
       salesPersonEmail
       wasOrderPlaced(orderId: $orderId)
       wasOrderReceived(orderId: $orderId)
+      additionalNotes(orderId: $orderId)
     }
   }
 `
