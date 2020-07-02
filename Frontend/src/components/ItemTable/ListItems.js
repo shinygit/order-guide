@@ -65,7 +65,9 @@ const ListItems = ({ items, orderId }) => {
           item.orderAmount > item.quantityReceived) &&
         suppliers.find((supplier) => supplier.supplierName === item.supplier)
           ?.wasOrderReceived === true) ||
-      item.flaggedByReceiver
+      (item.flaggedByReceiver &&
+        filterName === 'SHORTED' &&
+        filterType === 'SHORTED')
     )
       return true
     if (
