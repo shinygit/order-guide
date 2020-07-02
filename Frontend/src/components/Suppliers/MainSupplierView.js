@@ -21,6 +21,7 @@ const MainSupplierView = () => {
             if (supplier.id === selectedCard)
               return (
                 <SupplierEdit
+                  key={supplier.id}
                   suppliers={data.suppliers}
                   selectedCard={selectedCard}
                   setSelectedCard={setSelectedCard}
