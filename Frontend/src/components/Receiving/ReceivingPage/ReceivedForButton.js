@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
@@ -32,11 +32,35 @@ const ReceivedForButton = ({
   orderId,
   activeSupplierReceivedSubmitted,
   additionalNotesForm,
+  items,
 }) => {
   const [toggleOrderReceivedWithSupplierId, { data, loading }] = useMutation(
     TOGGLE_ORDER_RECEIVED
   )
+
+  const [error, setError] = useState('')
+  useEffect(() => setError(''), [setError, activeSupplier, items])
+
+  const filteredItems = items.filter(
+    (item) =>
+      item.supplier === activeSupplier.supplierName &&
+      item.orderAmount !== 0 &&
+      item.orderAmount !== null
+  )
+
   const handleToggleOrderReceivedWithSupplierId = () => {
+    if (filteredItems.some((item) => item.quantityReceived === null))
+      return setError('Looks like an item has not been checked in.')
+    if (
+      filteredItems.some(
+        (item) =>
+          item.quantityReceived < item.orderAmount && item.receiverNote === null
+      )
+    )
+      return setError(
+        'If an item was shorted please flag the item with a reason.'
+      )
+
     if (
       window.confirm(
         'Once you submit you will have to confirm every change for this supplier.'
@@ -76,6 +100,9 @@ const ReceivedForButton = ({
           {`Submit for ${activeSupplier.supplierName}`}
         </button>
       )}
+
+      {error ? <span className='text-2xl text-red-700'>{error}</span> : null}
+
       {data?.toggleOrderReceivedWithSupplierId?.error ? (
         <span className='text-2xl text-red-700'>
           {data?.toggleOrderReceivedWithSupplierId?.error}

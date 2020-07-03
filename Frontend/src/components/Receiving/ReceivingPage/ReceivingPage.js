@@ -162,6 +162,7 @@ const ReceivingPage = ({}) => {
 
       {activeSupplier && (
         <ReceivedForButton
+          items={items}
           activeSupplier={activeSupplier}
           orderId={orderId}
           additionalNotesForm={additionalNotesForm}
