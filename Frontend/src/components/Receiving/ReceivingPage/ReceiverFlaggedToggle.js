@@ -92,13 +92,13 @@ const ReceiverFlaggedToggle = ({ item, me, confirmIfReceivedSubmitted }) => {
         </div>
         <div className='p-4 flex w-10/12 justify-between pt-10'>
           <button
-            className='border border-2 rounded w-24 bg-green-100 p-2 border-green-600 text-green-700'
+            className='border-2 rounded w-24 bg-green-100 p-2 border-green-600 text-green-700'
             onClick={save}
           >
             Save
           </button>
           <button
-            className='border border-2 rounded w-24 bg-gray-100 p-2 border-gray-600 text-gray-700'
+            className='border-2 rounded w-24 bg-gray-100 p-2 border-gray-600 text-gray-700'
             onClick={closeModal}
           >
             Cancel
