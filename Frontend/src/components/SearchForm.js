@@ -8,7 +8,9 @@ const SearchForm = () => {
   const handleChange = (event) => {
     setInput(event.target.value)
   }
-
+  const handleClear = () => {
+    setInput('')
+  }
   useEffect(
     () =>
       client.writeData({
@@ -24,12 +26,14 @@ const SearchForm = () => {
     [input]
   )
   return (
-    <div>
+    <div
+      className='flex justify-between bg-white
+    focus-within:border-blue-500 border-2 border-gray-500
+     rounded-lg py-2 px-4 w-full lg:w-1/2 mb-1'
+    >
       <input
         id='searchField'
-        className='bg-white focus:outline-none
-        focus:shadow-outline border-2 border-gray-500
-         rounded-lg py-2 px-4 block w-full lg:w-1/2 mb-1'
+        className='w-full focus:outline-none'
         type='text'
         placeholder='Search... (will show hidden items)'
         value={input}
@@ -40,6 +44,12 @@ const SearchForm = () => {
           }
         }}
       />
+      <button
+        onClick={handleClear}
+        className='shadow text-gray-700 border border-gray-700 rounded-md px-1 bg-gray-100'
+      >
+        clear
+      </button>
     </div>
   )
 }
