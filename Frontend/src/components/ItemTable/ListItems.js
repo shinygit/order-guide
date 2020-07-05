@@ -173,7 +173,7 @@ const ListItems = ({ items, orderId }) => {
             <th className='px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Order
             </th>
-            <th className='hidden md:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
+            <th className='z-10 hidden md:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
               Supplier
             </th>
             <th className='hidden md:table-cell px-2 py-2 border border-gray-700 sticky top-0 bg-yellow-200'>
