@@ -107,7 +107,7 @@ const FilterMenu = ({
       </div>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
         <button
-          className={`w-auto p-4 mx-1 border border-gray-900 rounded 
+          className={`w-auto p-4 m-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'all-filter-button'
                   ? 'bg-gray-600 text-gray-200'
@@ -119,7 +119,7 @@ const FilterMenu = ({
           ALL
         </button>
         <button
-          className={`w-auto p-4 mx-1 border border-gray-900 rounded 
+          className={`w-auto p-4 m-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'unchecked-filter-button'
                   ? 'bg-gray-600 text-gray-200'
@@ -132,7 +132,7 @@ const FilterMenu = ({
         </button>
 
         <button
-          className={`w-auto p-4 mx-1 border border-gray-900 rounded
+          className={`w-auto p-4 m-1 border border-gray-900 rounded
               ${
                 activeFilterbuttonClass === `${'Market Price'}-filter-button`
                   ? 'bg-gray-600 text-gray-200'
@@ -144,7 +144,7 @@ const FilterMenu = ({
           {`${'Market Price'}(${marketPriceCount})`}
         </button>
         <button
-          className={`flex flex-col items-center w-auto py-1 px-4 mx-1 border border-gray-900 rounded 
+          className={`m-1 flex flex-col items-center w-auto py-1 px-4 mx-1 border border-gray-900 rounded 
               ${
                 activeFilterbuttonClass === 'shorted-filter-button'
                   ? 'bg-gray-600 text-gray-200'
