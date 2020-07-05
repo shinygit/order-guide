@@ -192,6 +192,7 @@ export default {
         const currentOrder = await models.Order.findOne({
           where: { orderDate: orderDate, userId: me.id },
         })
+        if (currentOrder.isLocked) currentOrder.unlockedTime = Date.now()
         currentOrder.isLocked = !currentOrder.isLocked
         await currentOrder.save()
         return currentOrder
@@ -317,6 +318,17 @@ export default {
         { replacements: [order.userId, order.id], raw: true }
       )
       return test[0]
+    },
+    isLocked: async (order, args, { models }) => {
+      if (order.isLocked) return order.isLocked
+      if (order.unlockedTime === null) return order.isLocked
+      if (!order.isLocked) {
+        if (Date.now() - order.unlockedTime > 1000 * 60 * 60) {
+          order.isLocked = true
+          await order.save()
+        }
+        return order.isLocked
+      }
     },
   },
 }

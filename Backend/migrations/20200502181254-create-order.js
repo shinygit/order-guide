@@ -13,6 +13,9 @@ module.exports = {
         type: Sequelize.DATEONLY,
         allowNull: false,
       },
+      unlockedTime: {
+        type: Sequelize.DATE,
+      },
       isLocked: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
