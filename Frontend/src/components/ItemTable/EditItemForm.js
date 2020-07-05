@@ -235,7 +235,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         <td className={tableCell}>
           <input
             className={`${editInput} w-12`}
-            type='text'
+            type='number'
             name='quantityOnHand'
             value={parseToEmptyString(editItemForm.quantityOnHand)}
             onChange={handleChangeInput}
@@ -258,7 +258,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         <td className={tableCell}>
           <input
             className={`${editInput} w-12`}
-            type='text'
+            type='number'
             name='quantityReceived'
             value={parseToEmptyString(editItemForm.quantityReceived)}
             onChange={handleChangeInput}
