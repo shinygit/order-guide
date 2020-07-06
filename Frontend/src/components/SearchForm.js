@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
 
 const SearchForm = () => {
+  const searchField = useRef(null)
   const client = useApolloClient()
   const [input, setInput] = useState('')
 
@@ -10,6 +11,7 @@ const SearchForm = () => {
   }
   const handleClear = () => {
     setInput('')
+    searchField.current.focus()
   }
   useEffect(
     () =>
@@ -43,6 +45,7 @@ const SearchForm = () => {
             event.target.blur()
           }
         }}
+        ref={searchField}
       />
       <button
         onClick={handleClear}
