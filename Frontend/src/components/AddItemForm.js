@@ -108,6 +108,7 @@ const AddItemForm = ({ locations, formIsOpen, setFormIsOpen }) => {
           value={itemForm.itemName}
           onChange={handleChangeInput}
           onFocus={() => setItemFormErrors({})}
+          autoFocus
         />
       </div>
       <div className='flex items-end my-1 justify-between'>
