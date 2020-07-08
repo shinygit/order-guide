@@ -146,7 +146,7 @@ export default {
     ),
     loginReceiver: combineResolvers(
       rateLimit(),
-      async (parent, { login, password }, { models, secret }) => {
+      async (parent, { login, password }, { models, secret, req }, info) => {
         const receiver = await models.Receiver.findByLogin(login.trim())
 
         if (!receiver) {
