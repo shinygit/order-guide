@@ -21,9 +21,7 @@ const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
         variables: { orderDate: orderDateForm },
         refetchQueries: ['orderDates'],
       })
-      setCurrentDate('0000-00-00')
-      setOrderDateForm('')
-      refetch()
+      window.location.reload(true)
     } catch (error) {
       setErrorMessage(error.message.split('GraphQL error: ')[1])
     }
