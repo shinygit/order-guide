@@ -6,7 +6,7 @@ const EditItemWindow = ({ item, active, setActive }) => {
   const [edit] = useMutation(EDIT_ITEM)
   const [editItemForm, setEditItemForm] = useState({
     id: item.id,
-    specialNote: item.specialNote,
+    specialNote: item.specialNote || '',
     isMarketPrice: item.isMarketPrice,
   })
 
