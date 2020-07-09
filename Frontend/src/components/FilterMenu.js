@@ -5,6 +5,8 @@ import OrderModeToggle from './OrderModeToggle/OrderModeToggle'
 import OrderPlacedToggle from './OrderPlacedToggle'
 import SupplierFilterButtons from './FilterMenu/SupplierFilterButtons'
 import LocationFilterButtons from './FilterMenu/LocationFilterButtons'
+import MarketPriceButton from './FilterMenu/MarketPriceButton'
+import UncheckedFilterButton from './FilterMenu/UncheckedFilterButton'
 import AddItemButton from './AddItemButton'
 
 const FilterMenu = ({
@@ -15,15 +17,6 @@ const FilterMenu = ({
   orderId,
 }) => {
   const client = useApolloClient()
-
-  const uncheckedCount = items.reduce(
-    (acc, item) => (item.orderAmount === null ? ++acc : acc),
-    0
-  )
-  const marketPriceCount = items.reduce(
-    (acc, item) => (item.supplier === 'Market Price' ? ++acc : acc),
-    0
-  )
 
   const [activeFilterbuttonClass, setActiveFilterbuttonClass] = useState(
     'all-filter-button'
@@ -94,7 +87,6 @@ const FilterMenu = ({
       },
     })
   }
-
   return (
     <div className='flex flex-col'>
       <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
@@ -118,31 +110,18 @@ const FilterMenu = ({
         >
           ALL
         </button>
-        <button
-          className={`w-auto p-4 m-1 border border-gray-900 rounded 
-              ${
-                activeFilterbuttonClass === 'unchecked-filter-button'
-                  ? 'bg-gray-600 text-gray-200'
-                  : 'bg-gray-400'
-              }`}
-          key='UNCHECKED'
-          onClick={() => handleShowUnchecked()}
-        >
-          Unchecked({uncheckedCount})
-        </button>
+        <UncheckedFilterButton
+          items={items}
+          activeFilterbuttonClass={activeFilterbuttonClass}
+          handleShowUnchecked={handleShowUnchecked}
+        />
 
-        <button
-          className={`w-auto p-4 m-1 border border-gray-900 rounded
-              ${
-                activeFilterbuttonClass === `${'Market Price'}-filter-button`
-                  ? 'bg-gray-600 text-gray-200'
-                  : 'bg-gray-400'
-              }`}
-          key='Market Price'
-          onClick={() => handleShowSupplier('Market Price')}
-        >
-          {`${'Market Price'}(${marketPriceCount})`}
-        </button>
+        <MarketPriceButton
+          items={items}
+          handleShowSupplier={handleShowSupplier}
+          activeFilterbuttonClass={activeFilterbuttonClass}
+        />
+
         <button
           className={`m-1 flex flex-col items-center w-auto py-1 px-4 mx-1 border border-gray-900 rounded 
               ${
