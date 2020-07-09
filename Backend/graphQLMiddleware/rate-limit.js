@@ -16,6 +16,5 @@ export const rateLimit = (limit = 5) => async (parent, args, { req }, info) => {
 
 export const clearRateLimit = async (req, info) => {
   const key = `rate-limit:${info.fieldName}:${req.ip}`
-  console.log(key)
   await redis.delAsync(key)
 }

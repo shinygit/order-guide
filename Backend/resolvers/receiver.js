@@ -145,7 +145,7 @@ export default {
       }
     ),
     loginReceiver: combineResolvers(
-      rateLimit(),
+      // rateLimit(),
       async (parent, { login, password }, { models, secret, req }, info) => {
         const receiver = await models.Receiver.findByLogin(login.trim())
 
@@ -157,7 +157,7 @@ export default {
         if (!isValid) {
           return { passwordError: 'Incorrect password.' }
         }
-        clearRateLimit(req, info)
+        // clearRateLimit(req, info)
         return { token: createToken(receiver, secret, '365d') }
       }
     ),
