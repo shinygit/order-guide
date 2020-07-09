@@ -269,9 +269,6 @@ export default {
       const index = previous.findIndex((x) => x.id === item.id)
       const sliced = previous.slice(index + 1, index + count + 1)
       const array = sliced.map((a) => a.orderAmount)
-      while (array.length < count) {
-        array.push(0)
-      }
       return array
     },
   },
