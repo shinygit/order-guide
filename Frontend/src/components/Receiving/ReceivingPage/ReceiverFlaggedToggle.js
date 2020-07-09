@@ -85,6 +85,7 @@ const ReceiverFlaggedToggle = ({ item, me, confirmIfReceivedSubmitted }) => {
         <div className='w-10/12 p-2 bg-white'>
           <textarea
             className='w-full justify-between resize-none outline-none'
+            placeholder='Not on invoice? Damaged? On invoice but not on truck?...'
             name='receiverNoteForm'
             value={receiverNoteForm}
             onChange={handleChangeInput}
