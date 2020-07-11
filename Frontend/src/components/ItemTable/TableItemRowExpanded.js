@@ -46,7 +46,9 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
           Last Ordered
         </th>
         <td className={tableCell}>
-          {!loading && moment.utc(data.item.lastOrderedDate).format('L')}
+          {!loading &&
+            data.item.lastOrderedDate &&
+            moment.utc(data.item.lastOrderedDate).format('L')}
         </td>
       </tr>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
