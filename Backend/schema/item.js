@@ -62,6 +62,7 @@ export default gql`
     previousOrders: [Int]!
     flaggedByReceiver: String
     receiverNote: String
+    lastOrderedDate: String
   }
 
   extend type Subscription {

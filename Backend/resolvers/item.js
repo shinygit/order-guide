@@ -271,6 +271,17 @@ export default {
       const array = sliced.map((a) => a.orderAmount)
       return array
     },
+    lastOrderedDate: async (item, args, { models, me }) => {
+      const test = await models.sequelize.query(
+        'select "orderDate" from items join orders on "orderId" = orders.id where "orderId" IN (select id from orders where "userId"=? order by "orderDate" desc offset 1) and "orderAmount" > 0 and "itemId"=?  order by "orderDate" desc limit 1',
+        {
+          replacements: [me.id, item.itemId],
+          raw: true,
+          type: models.sequelize.QueryTypes.SELECT,
+        }
+      )
+      return test[0]?.orderDate
+    },
   },
   Subscription: {
     itemChanged: {
