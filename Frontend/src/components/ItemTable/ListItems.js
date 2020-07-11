@@ -82,6 +82,7 @@ const ListItems = ({ items, orderId }) => {
   })
   const hideAllZeroOrderAmountItems = filteredItems.filter((item) => {
     if (hideAllZeroOrderAmount && searchTerm === '') {
+      if (item.specialNote) return true
       if (item.orderAmount === 0) return false
       return true
     }
