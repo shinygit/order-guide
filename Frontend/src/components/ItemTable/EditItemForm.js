@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
 import { LocSupContext } from '../../App'
 import FieldSupplierSelector from './FieldSupplierSelector'
+import LastOrderedDate from './LastOrderedDate'
 const parseToEmptyString = (value) => {
   if (value !== 0 && !value) return ''
   return value
@@ -263,6 +264,12 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             value={parseToEmptyString(editItemForm.quantityReceived)}
             onChange={handleChangeInput}
           />
+        </td>
+        <th colSpan='2' className={tableCell}>
+          Last Ordered
+        </th>
+        <td className={tableCell}>
+          <LastOrderedDate itemId={item.id} />
         </td>
       </tr>
       <tr className='bg-gray-100'>
