@@ -87,7 +87,7 @@ const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
         </button>
       </form>
       <div className='flex flex-col'>
-        <span>current order date</span>
+        <span>Week of</span>
         <span className='font-semibold text-2xl'>
           {moment.utc(currentDate).format('L')}
         </span>
