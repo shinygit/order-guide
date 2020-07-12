@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useEffect } from 'react'
 import TableItemRow from './TableItemRow'
 import EditItemForm from './EditItemForm'
+import TableDescription from './TableDescription'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import fuzzysort from 'fuzzysort'
@@ -125,25 +126,11 @@ const ListItems = ({ items, orderId }) => {
 
   return (
     <div className='flex flex-col items-center rounded border border-gray-700 bg-yellow-100 shadow-inner p-2'>
-      {filterName === 'SHORTED' && filterType === 'SHORTED' && (
-        <div className='flex flex-col text-lg bg-yellow-200 p-4 border-t border-l border-r border-gray-700'>
-          Additional Notes:
-          {suppliers.map((supplier) => {
-            if (
-              filterName === 'SHORTED' &&
-              filterType === 'SHORTED' &&
-              supplier.wasOrderReceived &&
-              supplier.additionalNotes
-            )
-              return (
-                <div className='m-1 ml-4'>
-                  <span>{`${supplier.supplierName}: `}</span>
-                  <span>{supplier.additionalNotes}</span>
-                </div>
-              )
-          })}
-        </div>
-      )}
+      <TableDescription
+        filterName={filterName}
+        filterType={filterType}
+        suppliers={suppliers}
+      />
       <table className='table-auto text-lg xl:w-10/12'>
         <thead>
           <tr>
