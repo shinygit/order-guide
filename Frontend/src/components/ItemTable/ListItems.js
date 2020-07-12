@@ -71,6 +71,13 @@ const ListItems = ({ items, orderId }) => {
     )
       return true
     if (
+      filterName === 'DOUBLECHECK' &&
+      filterType === 'DOUBLECHECK' &&
+      item.previousOrders.filter((x) => x > 0).length >= 3 &&
+      item.orderAmount < 1
+    )
+      return true
+    if (
       filterType === 'UNCHECKED' &&
       uncheckedItems.current.filter((e) => e.id === item.id).length > 0
     ) {

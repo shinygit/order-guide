@@ -7,6 +7,7 @@ import SupplierFilterButtons from './FilterMenu/SupplierFilterButtons'
 import LocationFilterButtons from './FilterMenu/LocationFilterButtons'
 import MarketPriceButton from './FilterMenu/MarketPriceButton'
 import UncheckedFilterButton from './FilterMenu/UncheckedFilterButton'
+import DoubleCheckButton from './FilterMenu/DoubleCheckButton'
 import AddItemButton from './AddItemButton'
 
 const FilterMenu = ({
@@ -56,6 +57,19 @@ const FilterMenu = ({
           searchTerm: '',
           filterType: 'UNCHECKED',
           filterName: 'UNCHECKED',
+          __typename: 'Filter',
+        },
+      },
+    })
+  }
+  const handleShowDoubleCheck = () => {
+    setActiveFilterbuttonClass('double-check-filter-button')
+    client.writeData({
+      data: {
+        filter: {
+          searchTerm: '',
+          filterType: 'DOUBLECHECK',
+          filterName: 'DOUBLECHECK',
           __typename: 'Filter',
         },
       },
@@ -121,7 +135,11 @@ const FilterMenu = ({
           handleShowSupplier={handleShowSupplier}
           activeFilterbuttonClass={activeFilterbuttonClass}
         />
-
+        <DoubleCheckButton
+          items={items}
+          handleShowDoubleCheck={handleShowDoubleCheck}
+          activeFilterbuttonClass={activeFilterbuttonClass}
+        />
         <button
           className={`m-1 flex flex-col items-center w-auto py-1 px-4 mx-1 border border-gray-900 rounded 
               ${

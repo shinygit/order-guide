@@ -314,7 +314,7 @@ export default {
     },
     items: async (order, args, { models }) => {
       const test = await models.sequelize.query(
-        'select (array(select "orderAmount" from items join orders on "orderId" = orders.id where "orderId" IN (select id from orders where "userId"=?) and "itemId"=a."itemId" order by "orderDate" desc offset 1 limit 2))  as "previousOrders",  a.*, orders."orderDate" from items a join orders on "orderId" = orders.id where "orderId"=?',
+        'select (array(select "orderAmount" from items join orders on "orderId" = orders.id where "orderId" IN (select id from orders where "userId"=?) and "itemId"=a."itemId" order by "orderDate" desc offset 1 limit 4))  as "previousOrders",  a.*, orders."orderDate" from items a join orders on "orderId" = orders.id where "orderId"=?',
         { replacements: [order.userId, order.id], raw: true }
       )
       return test[0]
