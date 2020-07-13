@@ -282,6 +282,17 @@ export default {
       )
       return test[0]?.orderDate
     },
+    averageWeeklyUse: async (item, args, { models, me }) => {
+      const test = await models.sequelize.query(
+        'select  AVG("orderAmount") as "averageWeeklyUse" from (select "orderAmount" from items join orders on "orderId"=orders.id where "userId" = ? and "itemId" = ? order by "orderDate" desc offset 1 limit 4) t',
+        {
+          replacements: [me.id, item.itemId],
+          raw: true,
+          type: models.sequelize.QueryTypes.SELECT,
+        }
+      )
+      return test[0]?.averageWeeklyUse
+    },
   },
   Subscription: {
     itemChanged: {

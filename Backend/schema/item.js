@@ -63,6 +63,7 @@ export default gql`
     flaggedByReceiver: String
     receiverNote: String
     lastOrderedDate: String
+    averageWeeklyUse: Float
   }
 
   extend type Subscription {
