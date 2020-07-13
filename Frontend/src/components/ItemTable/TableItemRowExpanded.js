@@ -1,5 +1,6 @@
 import React from 'react'
 import LastOrderedDate from './LastOrderedDate'
+import AverageWeeklyUse from './AverageWeeklyUse'
 
 const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
   return (
@@ -41,6 +42,12 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
           Quantity Received
         </th>
         <td className={tableCell}>{item.quantityReceived}</td>
+        <th colSpan='2' className={tableCell}>
+          Average Weekly Use
+        </th>
+        <td className={tableCell}>
+          <AverageWeeklyUse itemId={item.id} />
+        </td>
       </tr>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
         <td className='bg-yellow-100' />

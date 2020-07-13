@@ -6,6 +6,7 @@ import { produce } from 'immer'
 import { LocSupContext } from '../../App'
 import FieldSupplierSelector from './FieldSupplierSelector'
 import LastOrderedDate from './LastOrderedDate'
+import AverageWeeklyUse from './AverageWeeklyUse'
 const parseToEmptyString = (value) => {
   if (value !== 0 && !value) return ''
   return value
@@ -242,6 +243,12 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             onChange={handleChangeInput}
           />
         </td>
+        <th colSpan='2' className={tableCell}>
+          Last Ordered
+        </th>
+        <td className={tableCell}>
+          <LastOrderedDate itemId={item.id} />
+        </td>
       </tr>
       <tr className='bg-gray-100'>
         <td className='bg-yellow-100'>
@@ -265,11 +272,12 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             onChange={handleChangeInput}
           />
         </td>
+
         <th colSpan='2' className={tableCell}>
-          Last Ordered
+          Average Weekly Use
         </th>
         <td className={tableCell}>
-          <LastOrderedDate itemId={item.id} />
+          <AverageWeeklyUse itemId={item.id} />
         </td>
       </tr>
       <tr className='bg-gray-100'>
