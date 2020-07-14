@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { EDIT_ITEM } from '../../Queries/item'
+import AverageWeeklyUse from './AverageWeeklyUse'
 
 const EditItemWindow = ({ item, active, setActive }) => {
   const [edit] = useMutation(EDIT_ITEM)
@@ -36,6 +37,9 @@ const EditItemWindow = ({ item, active, setActive }) => {
     >
       <div className='w-11/12 bg-gray-200 shadow-lg rounded-lg p-6 flex flex-col items-center'>
         <span className='text-lg py-3'>{item.itemName}</span>
+        <span>
+          Average weekly use: <AverageWeeklyUse itemId={item.id} />
+        </span>
         <span className='text-gray-700 py-3'>Special Note</span>
         <div className='w-10/12 p-2 bg-white'>
           <textarea
@@ -47,13 +51,13 @@ const EditItemWindow = ({ item, active, setActive }) => {
         </div>
         <div className='p-4 flex w-10/12 justify-between pt-10'>
           <button
-            className='border border-2 rounded w-24 bg-green-100 p-2 border-green-600 text-green-700'
+            className='border-2 rounded w-24 bg-green-100 p-2 border-green-600 text-green-700'
             onClick={handleSubmit}
           >
             Save
           </button>
           <button
-            className='border border-2 rounded w-24 bg-gray-100 p-2 border-gray-600 text-gray-700'
+            className='border-2 rounded w-24 bg-gray-100 p-2 border-gray-600 text-gray-700'
             onClick={() => setActive(false)}
           >
             Cancel
