@@ -11,11 +11,12 @@ const ADDITIONAL_ITEM_INFO = gql`
   }
 `
 const AverageWeeklyUse = ({ itemId }) => {
-  const { loading, data } = useQuery(ADDITIONAL_ITEM_INFO, {
+  const { loading, data, error } = useQuery(ADDITIONAL_ITEM_INFO, {
     variables: { id: itemId },
   })
   if (loading) return 'Loading...'
-  return !loading && data.item.averageWeeklyUse
+  if (error) return 'Error...'
+  return data.item.averageWeeklyUse.toFixed(2)
   return null
 }
 
