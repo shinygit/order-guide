@@ -49,6 +49,22 @@ const ListItems = ({ items, orderId }) => {
   if (filterType !== 'UNCHECKED') {
     uncheckedItems.current = []
   }
+
+  const doubleCheckItems = useRef([])
+  if (filterType === 'DOUBLECHECK') {
+    items.map((item) => {
+      if (
+        item.orderAmount === 0 &&
+        item.previousOrders.filter((x) => x > 0).length >= 3
+      )
+        doubleCheckItems.current.push(item)
+      return null
+    })
+  }
+  if (filterType !== 'DOUBLECHECK') {
+    doubleCheckItems.current = []
+  }
+
   const filteredItems = items.filter((item) => {
     if (searchTerm) {
       const searchResults = fuzzysort.go(searchTerm, items, {
@@ -74,8 +90,7 @@ const ListItems = ({ items, orderId }) => {
     if (
       filterName === 'DOUBLECHECK' &&
       filterType === 'DOUBLECHECK' &&
-      item.previousOrders.filter((x) => x > 0).length >= 3 &&
-      item.orderAmount < 1
+      doubleCheckItems.current.filter((e) => e.id === item.id).length > 0
     )
       return true
     if (
@@ -108,7 +123,8 @@ const ListItems = ({ items, orderId }) => {
       return 0
     })
   if (searchTerm) itemsToDisplay = filteredItems
-
+  if (filterName === 'DOUBLECHECK' && filterType === 'DOUBLECHECK')
+    itemsToDisplay = filteredItems
   const [toggle] = useMutation(TOGGLE_SHOW_EDIT_ITEM_FORM)
   const handleToggleEdit = useCallback(
     (id) => toggle({ variables: { itemId: id } }),
