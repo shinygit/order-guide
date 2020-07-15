@@ -51,12 +51,11 @@ const AddNotificationMethod = ({}) => {
         [method]: input,
       },
     })
-    console.log(result)
+
     if (result.data.addNotificationMethod.error) {
       setError(result.data.addNotificationMethod.error)
     }
     if (result.data.addNotificationMethod.id) {
-      console.log(result.data.addNotificationMethod.id)
       setInput('')
     }
   }
