@@ -77,6 +77,19 @@ const ReceivedForButton = ({
   }
   return (
     <>
+      {error ? <span className='text-2xl text-red-700'>{error}</span> : null}
+
+      {data?.toggleOrderReceivedWithSupplierId?.error ? (
+        <span className='text-2xl text-red-700'>
+          {data?.toggleOrderReceivedWithSupplierId?.error}
+        </span>
+      ) : null}
+
+      {data?.toggleOrderReceivedWithSupplierId?.notificationSendingError ? (
+        <span className='text-2xl text-red-700'>
+          Notification may not have been sent! Call to confirm!
+        </span>
+      ) : null}
       {activeSupplierReceivedSubmitted ? (
         <button className='rounded bg-gray-300 font-bold text-gray-600 shadow w-6/12 p-1 my-8'>
           <div className='flex justify-around items-center'>
@@ -100,20 +113,6 @@ const ReceivedForButton = ({
           {`Submit for ${activeSupplier.supplierName}`}
         </button>
       )}
-
-      {error ? <span className='text-2xl text-red-700'>{error}</span> : null}
-
-      {data?.toggleOrderReceivedWithSupplierId?.error ? (
-        <span className='text-2xl text-red-700'>
-          {data?.toggleOrderReceivedWithSupplierId?.error}
-        </span>
-      ) : null}
-
-      {data?.toggleOrderReceivedWithSupplierId?.notificationSendingError ? (
-        <span className='text-2xl text-red-700'>
-          Notification may not have been sent! Call to confirm!
-        </span>
-      ) : null}
     </>
   )
 }
