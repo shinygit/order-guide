@@ -9,7 +9,7 @@ It has grown into adding features not possible with previous methods.
 - Receiver accounts. Allows employees to check in orders as they are deliveried. Recording amount received and flagging discrepencies. Text alerts set for problems that need action.
 - Records history of orders, prices and suppliers.
 - Responsive design. Easily take inventory on a phone with one hand. But view all the information you need when working on a larger screen.
-- Demonstation video https://www.youtube.com/watch?v=vG2_Nqge6jQ&feature=youtu.be
+- Demonstration video https://www.youtube.com/watch?v=vG2_Nqge6jQ&feature=youtu.be
 
 ## Getting Started
 
