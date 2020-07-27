@@ -150,6 +150,20 @@ export default {
           }
           input.location = location.id
         }
+        if (input.category) {
+          let category = await models.Category.findOne({
+            where: {
+              categoryName: input.category,
+              userId: me.id,
+            },
+          })
+          if (category) {
+            input.category = category.id
+          }
+          if (!category) {
+            input.category = null
+          }
+        }
 
         await item.update({
           itemName: input.itemName,
@@ -164,7 +178,7 @@ export default {
           unitSize: input.unitSize,
           itemNote: input.itemNote,
           specialNote: input.specialNote,
-          receivingNote: input.receivingNote,
+          receivingNote: input.receivingNote || null,
           flaggedByReceiver: input.flaggedByReceiver,
           receiverNote: input.receiverNote,
         })
@@ -237,17 +251,14 @@ export default {
     supplier: async (item, args, { loader }) => {
       if (!item.supplierId) return ''
       return (await loader.suppliers.load(item.supplierId)).supplierName
-      /*       if (item.supplier) return item.supplier
-      let supplier = await models.Supplier.findByPk(item.supplierId)
-      if (supplier) return supplier.supplierName
-      if (!supplier) return '' */
     },
     location: async (item, args, { loader }) => {
       if (!item.locationId) return ''
       return (await loader.locations.load(item.locationId)).locationName
-      /*       if (item.location) return item.location
-      let location = await models.Location.findByPk(item.locationId)
-      return location.locationName */
+    },
+    category: async (item, args, { loader }) => {
+      if (!item.categoryId) return ''
+      return (await loader.categories.load(item.categoryId)).categoryName
     },
     previousOrders: async (item, { count = 2 }, { models }) => {
       if (item.previousOrders) return item.previousOrders
