@@ -11,8 +11,8 @@ const ListItemsForReceiving = ({
   const filteredItems = items.filter(
     (item) =>
       item.supplier === activeSupplier.supplierName &&
-      item.orderAmount !== 0 &&
-      item.orderAmount !== null
+      (item.receivingNote !== null ||
+        (item.orderAmount !== 0 && item.orderAmount !== null))
   )
   const itemsToDisplay = filteredItems.slice().sort(function (a, b) {
     if (a.itemName > b.itemName) return 1
