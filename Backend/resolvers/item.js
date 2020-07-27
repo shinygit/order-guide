@@ -150,20 +150,6 @@ export default {
           }
           input.location = location.id
         }
-        if (input.category) {
-          let category = await models.Category.findOne({
-            where: {
-              categoryName: input.category,
-              userId: me.id,
-            },
-          })
-          if (category) {
-            input.category = category.id
-          }
-          if (!category) {
-            input.category = null
-          }
-        }
 
         await item.update({
           itemName: input.itemName,
@@ -255,10 +241,6 @@ export default {
     location: async (item, args, { loader }) => {
       if (!item.locationId) return ''
       return (await loader.locations.load(item.locationId)).locationName
-    },
-    category: async (item, args, { loader }) => {
-      if (!item.categoryId) return ''
-      return (await loader.categories.load(item.categoryId)).categoryName
     },
     previousOrders: async (item, { count = 2 }, { models }) => {
       if (item.previousOrders) return item.previousOrders
