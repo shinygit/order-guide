@@ -61,13 +61,6 @@ const AddItemForm = ({ locations, formIsOpen, setFormIsOpen }) => {
         buildTo: 'An item must have a build to amount.',
       })
     }
-
-    if (!itemForm.location) {
-      return setItemFormErrors({
-        ...itemFormErrors,
-        location: 'An item must have a location.',
-      })
-    }
     createItem({
       variables: {
         input: {
@@ -84,7 +77,7 @@ const AddItemForm = ({ locations, formIsOpen, setFormIsOpen }) => {
       location: '',
       buildTo: '',
     })
-    setTimeout(() => closeForm(), 100)
+    setTimeout(() => closeForm(), 200)
   }
 
   return (

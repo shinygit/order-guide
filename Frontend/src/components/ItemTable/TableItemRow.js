@@ -18,6 +18,7 @@ const GET_ITEM = gql`
       orderAmount
       supplier
       location
+      category
       buildTo
       quantityOnHand
       quantityReceived

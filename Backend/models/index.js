@@ -25,6 +25,7 @@ const models = {
   Supplier_Order: sequelize.import('./supplier_order'),
   Receiver: sequelize.import('./receiver'),
   NotificationMethod: sequelize.import('./notificationMethod'),
+  Category: sequelize.import('./category'),
   sequelize: sequelize,
 }
 

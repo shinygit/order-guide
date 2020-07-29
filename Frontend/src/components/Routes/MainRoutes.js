@@ -8,6 +8,7 @@ import ReceiverLogin from '../Receiving/ReceiverLogin'
 import ReceivingPage from '../Receiving/ReceivingPage/ReceivingPage'
 import ReceiversPage from '../Account/ManageReceivers/ReceiversPage'
 import NotificationPage from '../Account/ManageNotifications/NotificationPage'
+import CategoriesPage from '../Account/ManageCategories/CategoriesPage'
 import { GET_ME } from '../../Queries/user'
 import { Routes, Route } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
@@ -31,6 +32,7 @@ export default function MainRoutes() {
         <Route path='/manual' element={<Manual />} />
         <Route path='/receiving' element={<ReceivingPage />} />
         <Route path='/account' element={<AccountPage />}>
+          <Route path='/categories' element={<CategoriesPage />} />
           <Route path='/receivers' element={<ReceiversPage />} />
           <Route path='/notifications' element={<NotificationPage />} />
         </Route>

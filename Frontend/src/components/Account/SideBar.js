@@ -18,6 +18,12 @@ const SideBar = ({}) => {
   const location = useLocation()
   return (
     <div className='bg-white border-r-2 border-gray-300 p-5 w-48'>
+      <Link to='categories'>
+        <div className='flex justify-between items-center border-b-2 border-gray-300 text-gray-900 py-3 pl-3'>
+          <span>Categories</span>
+          {location.pathname === '/account/categories' ? chevron : null}
+        </div>
+      </Link>
       <Link to='receivers'>
         <div className='flex justify-between items-center border-b-2 border-gray-300 text-gray-900 py-3 pl-3'>
           <span>Receivers</span>

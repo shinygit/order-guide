@@ -4,6 +4,7 @@ import orderResolver from './order'
 import supplierResolver from './supplier'
 import locationResolver from './location'
 import receiverResolver from './receiver'
+import categoryResolver from './category'
 import notificationMethodResolver from './notificationMethod'
 export default [
   userResolver,
@@ -12,5 +13,6 @@ export default [
   supplierResolver,
   locationResolver,
   receiverResolver,
+  categoryResolver,
   notificationMethodResolver,
 ]

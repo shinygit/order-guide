@@ -10,6 +10,7 @@ export default gql`
     itemName: String
     supplier: String
     location: String
+    category: String
     buildTo: Int
     quantityOnHand: Int
     quantityReceived: Int
@@ -46,6 +47,7 @@ export default gql`
     itemName: String!
     supplier: String
     location: String
+    category: String
     buildTo: Int
     quantityOnHand: Int
     quantityReceived: Int

@@ -6,7 +6,7 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
   return (
     <>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
-        <td className='bg-yellow-100'>
+        <td className='bg-yellow-100 text-right'>
           <button onClick={() => handleToggleEdit(item.id)}>Edit</button>
         </td>
         <th colSpan='2' className={tableCell}>
@@ -22,6 +22,9 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
           Market Price?
         </th>
         <td className={tableCell}>{(item.isMarketPrice && 'Yes') || 'No'}</td>
+        <td className='hidden lg:table-cell'></td>
+        <th className={tableCell}>Category</th>
+        <td className={tableCell}>{item.category}</td>
       </tr>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
         <td className='bg-yellow-100' />

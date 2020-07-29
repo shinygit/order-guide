@@ -67,6 +67,21 @@ const loader = {
     }, {})
     return ids.map((id) => lookUp[id] || null)
   }),
+  categories: new DataLoader(async (ids) => {
+    const rows = await models.Category.findAll({
+      where: {
+        id: {
+          [Sequelize.Op.in]: ids,
+        },
+      },
+      raw: true,
+    })
+    const lookUp = rows.reduce((acc, row) => {
+      acc[row.id] = row
+      return acc
+    }, {})
+    return ids.map((id) => lookUp[id] || null)
+  }),
 }
 
 const server = new ApolloServer({

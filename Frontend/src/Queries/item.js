@@ -7,6 +7,7 @@ export const EDIT_ITEM = gql`
       itemName
       supplier
       location
+      category
       buildTo
       quantityOnHand
       quantityReceived
@@ -34,6 +35,7 @@ export const CREATE_ITEM = gql`
       orderAmount
       supplier
       location
+      category
       buildTo
       quantityOnHand
       quantityReceived
@@ -91,6 +93,7 @@ export const GET_LATEST_ORDER = gql`
         orderAmount
         supplier
         location
+        category
         buildTo
         quantityOnHand
         quantityReceived

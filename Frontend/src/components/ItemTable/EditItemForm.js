@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { produce } from 'immer'
 import { LocSupContext } from '../../App'
 import FieldSupplierSelector from './FieldSupplierSelector'
+import CategorySelector from './CategorySelector'
 import LastOrderedDate from './LastOrderedDate'
 import AverageWeeklyUse from './AverageWeeklyUse'
 const parseToEmptyString = (value) => {
@@ -21,6 +22,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
     itemName: item.itemName,
     buildTo: item.buildTo,
     supplier: item.supplier,
+    category: item.category,
     location: item.location,
     orderAmount: item.orderAmount,
     productNumber: item.productNumber,
@@ -79,9 +81,6 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
     }
   }
   const handleSubmit = () => {
-    if (!editItemForm.location.trim()) {
-      return console.log('dont forget you silently error empty location')
-    }
     edit({
       variables: {
         id: editItemForm.id,
@@ -89,7 +88,8 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
           itemName: editItemForm.itemName,
           buildTo: parseInt(editItemForm.buildTo),
           supplier: editItemForm.supplier === '' ? null : editItemForm.supplier,
-          location: editItemForm.location,
+          location: editItemForm.location === '' ? null : editItemForm.location,
+          category: editItemForm.category === '' ? null : editItemForm.category,
           productNumber: editItemForm.productNumber,
           unitSize: editItemForm.unitSize,
           unitPriceInPennies: parseInt(editItemForm.unitPriceInPennies),
@@ -113,6 +113,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         buildTo: item.buildTo,
         supplier: item.supplier,
         location: item.location,
+        category: item.category,
         orderAmount: item.orderAmount,
         productNumber: item.productNumber,
         unitSize: item.unitSize,
@@ -200,7 +201,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         <td />
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100'>
+        <td className='bg-yellow-100 text-right'>
           <button onClick={handleSubmit}>Save</button>
         </td>
         <th colSpan='2' className={tableCell}>
@@ -228,6 +229,14 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             {(editItemForm.isMarketPrice && 'Yes') || 'No'}
           </button>
         </td>
+        <td className='hidden lg:table-cell'></td>
+        <th className={tableCell}>Category</th>
+        <td className={tableCell}>
+          <CategorySelector
+            handleChangeInput={handleChangeInput}
+            currentCategorySelection={editItemForm.category}
+          />
+        </td>
       </tr>
       <tr className='bg-gray-100'>
         <td className='bg-yellow-100' />
@@ -251,7 +260,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         </td>
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100'>
+        <td className='bg-yellow-100 text-right'>
           <button
             onClick={() => {
               handleToggleEdit(item.id)
@@ -295,7 +304,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         </td>
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100'>
+        <td className='bg-yellow-100 text-right'>
           <button
             onClick={() => {
               handleDelete(item.id, item.itemName)

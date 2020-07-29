@@ -10,11 +10,11 @@ module.exports = {
           type: Sequelize.INTEGER,
           references: {
             model: 'users', // name of Target table
-            key: 'id' // key in Target model that we're referencing
+            key: 'id', // key in Target model that we're referencing
           },
           allowNull: false,
           onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE',
         }
       ),
       queryInterface.addColumn(
@@ -24,10 +24,10 @@ module.exports = {
           type: Sequelize.INTEGER,
           references: {
             model: 'users', // name of Target table
-            key: 'id' // key in Target model that we're referencing
+            key: 'id', // key in Target model that we're referencing
           },
           onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE',
         }
       ),
       queryInterface.addColumn(
@@ -37,10 +37,23 @@ module.exports = {
           type: Sequelize.INTEGER,
           references: {
             model: 'users', // name of Target table
-            key: 'id' // key in Target model that we're referencing
+            key: 'id', // key in Target model that we're referencing
           },
           onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE',
+        }
+      ),
+      queryInterface.addColumn(
+        'categories', // name of Source table
+        'userId', // name of the key we're adding
+        {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'users', // name of Target table
+            key: 'id', // key in Target model that we're referencing
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
         }
       ),
       queryInterface.addColumn(
@@ -50,10 +63,10 @@ module.exports = {
           type: Sequelize.INTEGER,
           references: {
             model: 'orders', // name of Target table
-            key: 'id' // key in Target model that we're referencing
+            key: 'id', // key in Target model that we're referencing
           },
           onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
+          onDelete: 'CASCADE',
         }
       ),
       queryInterface.addColumn(
@@ -63,10 +76,10 @@ module.exports = {
           type: Sequelize.INTEGER,
           references: {
             model: 'suppliers', // name of Target table
-            key: 'id' // key in Target model that we're referencing
+            key: 'id', // key in Target model that we're referencing
           },
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'SET NULL',
         }
       ),
       queryInterface.addColumn(
@@ -76,12 +89,25 @@ module.exports = {
           type: Sequelize.INTEGER,
           references: {
             model: 'locations', // name of Target table
-            key: 'id' // key in Target model that we're referencing
+            key: 'id', // key in Target model that we're referencing
           },
           onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          onDelete: 'SET NULL',
         }
-      )
+      ),
+      queryInterface.addColumn(
+        'items', // name of Source table
+        'categoryId', // name of the key we're adding
+        {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'categories', // name of Target table
+            key: 'id', // key in Target model that we're referencing
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL',
+        }
+      ),
     ])
   },
 
@@ -93,5 +119,5 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-  }
+  },
 }

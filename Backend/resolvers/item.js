@@ -76,16 +76,17 @@ export default {
         const item = await models.Item.create({
           itemName: input.itemName,
           buildTo: input.buildTo,
-          locationId: input.location,
+          locationId: input.location || null,
           supplierId: input.supplier || null,
+          categoryId: input.category || null,
           orderId: order[0].id,
           unitPriceInPennies: 0,
           isMarketPrice: false,
           productNumber: '',
           unitSize: '',
-          itemNote: '',
-          specialNote: '',
-          receivingNote: '',
+          itemNote: null,
+          specialNote: null,
+          receivingNote: null,
           flaggedByReceiver: null,
           receiverNote: null,
         })
@@ -150,12 +151,27 @@ export default {
           }
           input.location = location.id
         }
+        if (input.category) {
+          let category = await models.Category.findOne({
+            where: {
+              categoryName: input.category,
+              userId: me.id,
+            },
+          })
+          if (category) {
+            input.category = category.id
+          }
+          if (!category) {
+            input.category = null
+          }
+        }
 
         await item.update({
           itemName: input.itemName,
           buildTo: input.buildTo,
           supplierId: input.supplier,
           locationId: input.location,
+          categoryId: input.category,
           unitPriceInPennies: input.unitPriceInPennies,
           isMarketPrice: input.isMarketPrice,
           productNumber: input.productNumber,
@@ -239,8 +255,12 @@ export default {
       return (await loader.suppliers.load(item.supplierId)).supplierName
     },
     location: async (item, args, { loader }) => {
-      if (!item.locationId) return ''
+      if (!item.locationId) return null
       return (await loader.locations.load(item.locationId)).locationName
+    },
+    category: async (item, args, { loader }) => {
+      if (!item.categoryId) return ''
+      return (await loader.categories.load(item.categoryId)).categoryName
     },
     previousOrders: async (item, { count = 2 }, { models }) => {
       if (item.previousOrders) return item.previousOrders

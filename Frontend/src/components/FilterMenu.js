@@ -5,6 +5,7 @@ import OrderModeToggle from './OrderModeToggle/OrderModeToggle'
 import OrderPlacedToggle from './OrderPlacedToggle'
 import SupplierFilterButtons from './FilterMenu/SupplierFilterButtons'
 import LocationFilterButtons from './FilterMenu/LocationFilterButtons'
+import CategoryFilterButtons from './FilterMenu/CategoryFilterButtons'
 import MarketPriceButton from './FilterMenu/MarketPriceButton'
 import UncheckedFilterButton from './FilterMenu/UncheckedFilterButton'
 import DoubleCheckButton from './FilterMenu/DoubleCheckButton'
@@ -31,6 +32,19 @@ const FilterMenu = ({
           searchTerm: '',
           filterType: 'supplier',
           filterName: supplier,
+          __typename: 'Filter',
+        },
+      },
+    })
+  }
+  const handleShowCategory = (category) => {
+    setActiveFilterbuttonClass(`${category}-filter-button`)
+    client.writeData({
+      data: {
+        filter: {
+          searchTerm: '',
+          filterType: 'category',
+          filterName: category,
           __typename: 'Filter',
         },
       },
@@ -154,27 +168,39 @@ const FilterMenu = ({
           <span>Needed</span>
         </button>
       </div>
-      <div className='md:order-last flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
-        <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
-          SUPPLIERS
-        </span>
+      <div className='flex flex-col'>
+        <div className='order-1 md:order-3 flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+          <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+            SUPPLIERS
+          </span>
 
-        <SupplierFilterButtons
-          orderId={orderId}
-          items={items}
-          handleShowSupplier={handleShowSupplier}
-          activeFilterbuttonClass={activeFilterbuttonClass}
-        />
-      </div>
-      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
-        <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
-          LOCATIONS
-        </span>
-        <LocationFilterButtons
-          locations={locations}
-          handleShowLocation={handleShowLocation}
-          activeFilterbuttonClass={activeFilterbuttonClass}
-        />
+          <SupplierFilterButtons
+            orderId={orderId}
+            items={items}
+            handleShowSupplier={handleShowSupplier}
+            activeFilterbuttonClass={activeFilterbuttonClass}
+          />
+        </div>
+        <div className='order-2 flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+          <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+            CATEGORIES
+          </span>
+
+          <CategoryFilterButtons
+            handleShowCategory={handleShowCategory}
+            activeFilterbuttonClass={activeFilterbuttonClass}
+          />
+        </div>
+        <div className='order-3 md:order-1 flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+          <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+            LOCATIONS
+          </span>
+          <LocationFilterButtons
+            locations={locations}
+            handleShowLocation={handleShowLocation}
+            activeFilterbuttonClass={activeFilterbuttonClass}
+          />
+        </div>
       </div>
     </div>
   )

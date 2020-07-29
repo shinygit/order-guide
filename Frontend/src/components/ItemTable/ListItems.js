@@ -101,6 +101,7 @@ const ListItems = ({ items, orderId }) => {
     }
     if (filterType === 'supplier' && item.supplier === filterName) return true
     if (filterType === 'location' && item.location === filterName) return true
+    if (filterType === 'category' && item.category === filterName) return true
     return false
   })
   const hideAllZeroOrderAmountItems = filteredItems.filter((item) => {

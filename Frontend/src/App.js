@@ -39,7 +39,7 @@ const App = () => {
     const currentLocations = []
     items.forEach((item) => {
       if (currentLocations.includes(item.location)) {
-      } else {
+      } else if (item.location !== null) {
         currentLocations.push(item.location)
       }
     })
