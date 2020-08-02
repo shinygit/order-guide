@@ -62,7 +62,7 @@ const App = () => {
   return (
     <div>
       <NavBar />
-      <div className='p-3'>
+      <div className='p-2'>
         <OrderMenu
           setCurrentDate={setCurrentDate}
           currentDate={currentDate}

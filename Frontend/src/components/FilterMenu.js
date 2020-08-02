@@ -117,7 +117,7 @@ const FilterMenu = ({
   }
   return (
     <div className='flex flex-col'>
-      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
+      <div className='flex flex-row flex-wrap bg-gray-200 my-1'>
         <OrderLock />
         <OrderModeToggle />
 
@@ -125,7 +125,7 @@ const FilterMenu = ({
 
         <AddItemButton locations={locations} />
       </div>
-      <div className='flex flex-row flex-wrap bg-gray-200 -mx-1 my-1'>
+      <div className='flex flex-row flex-wrap bg-gray-200 my-1'>
         <button
           className={`w-auto p-4 m-1 border border-gray-900 rounded 
               ${
@@ -169,7 +169,7 @@ const FilterMenu = ({
         </button>
       </div>
       <div className='flex flex-col'>
-        <div className='order-1 md:order-3 flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+        <div className='order-1 md:order-3 flex flex-row flex-wrap bg-gray-200 my-2 border border-gray-900 rounded'>
           <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
             SUPPLIERS
           </span>
@@ -181,7 +181,7 @@ const FilterMenu = ({
             activeFilterbuttonClass={activeFilterbuttonClass}
           />
         </div>
-        <div className='order-2 flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+        <div className='order-2 flex flex-row flex-wrap bg-gray-200 my-2 border border-gray-900 rounded'>
           <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
             CATEGORIES
           </span>
@@ -191,7 +191,7 @@ const FilterMenu = ({
             activeFilterbuttonClass={activeFilterbuttonClass}
           />
         </div>
-        <div className='order-3 md:order-1 flex flex-row flex-wrap bg-gray-200 -mx-1 my-2 border border-gray-900 rounded'>
+        <div className='order-3 md:order-1 flex flex-row flex-wrap bg-gray-200 my-2 border border-gray-900 rounded'>
           <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
             LOCATIONS
           </span>
