@@ -11,6 +11,8 @@ import NavBar from './components/NavBar/NavBar'
 import Loading from './components/Loading'
 
 import { GET_LATEST_ORDER } from './Queries/item'
+import { GET_SUPPLIERS_WITH_ORDER_STATUS } from './Queries/supplier'
+import { GET_CATEGORIES } from './Queries/category'
 export const LocSupContext = React.createContext({
   locations: null,
 })
@@ -19,6 +21,18 @@ const App = () => {
     variables: { orderDepth: 1 },
     notifyOnNetworkStatusChange: true,
   })
+
+  const { loading: supplierLoading, data: supplierData = {} } = useQuery(
+    GET_SUPPLIERS_WITH_ORDER_STATUS,
+    {
+      variables: { orderId: data?.orders[0]?.id },
+      skip: !data,
+    }
+  )
+
+  const { loading: loadingCategoriesData, data: allCategoriesData } = useQuery(
+    GET_CATEGORIES
+  )
 
   const [items, setItems] = useState([])
 
@@ -51,7 +65,7 @@ const App = () => {
   useEffect(() => {
     setLocations(getCurrentLocations())
   }, [getCurrentLocations])
-  if (loading) {
+  if (loading || supplierLoading || loadingCategoriesData) {
     return (
       <div>
         <NavBar />
