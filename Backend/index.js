@@ -34,7 +34,7 @@ const getMe = async (req) => {
     }
   }
 }
-const loader = {
+const createLoader = () => ({
   suppliers: new DataLoader(async (ids) => {
     const rows = await models.Supplier.findAll({
       where: {
@@ -52,6 +52,44 @@ const loader = {
 
     return ids.map((id) => lookUp[id] || null)
   }),
+  supplier_orders: new DataLoader(
+    async (supOrds) => {
+      let lookUp = {}
+
+      await Promise.all(
+        supOrds.map(async (supOrd) => {
+          lookUp[`${supOrd.supplier} + ${supOrd.order}`] = (
+            await models.Supplier_Order.findOrCreate({
+              where: {
+                supplierId: supOrd.supplier,
+                orderId: supOrd.order,
+              },
+            })
+          )[0]
+        })
+      )
+      return supOrds.map(
+        (supOrd) =>
+          lookUp[`${supOrd.supplier} + ${supOrd.order}`].dataValues || null
+      )
+    },
+    {
+      cacheKeyFn: (key) => {
+        if (typeof key === 'object') {
+          return JSON.stringify(
+            Object.keys(key)
+              .sort()
+              .reduce((acc, val) => {
+                acc[val] = key[val]
+                return acc
+              }, {})
+          )
+        } else {
+          return key
+        }
+      },
+    }
+  ),
   locations: new DataLoader(async (ids) => {
     const rows = await models.Location.findAll({
       where: {
@@ -82,7 +120,7 @@ const loader = {
     }, {})
     return ids.map((id) => lookUp[id] || null)
   }),
-}
+})
 
 const server = new ApolloServer({
   typeDefs: schema,
@@ -98,7 +136,7 @@ const server = new ApolloServer({
         me,
         req,
         secret: process.env.SECRET,
-        loader,
+        loader: createLoader(),
       }
     }
   },

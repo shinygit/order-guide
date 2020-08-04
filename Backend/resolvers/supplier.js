@@ -147,32 +147,29 @@ export default {
     ),
   },
   Supplier: {
-    wasOrderPlaced: async (parent, args, { models }) => {
-      const supOrd = await models.Supplier_Order.findOrCreate({
-        where: {
-          supplierId: parent.id,
-          orderId: args.orderId,
-        },
-      })
-      return supOrd[0].wasOrderPlaced
+    wasOrderPlaced: async (parent, args, { loader }) => {
+      return (
+        await loader.supplier_orders.load({
+          supplier: parent.id,
+          order: args.orderId,
+        })
+      ).wasOrderPlaced
     },
-    wasOrderReceived: async (parent, args, { models }) => {
-      const supOrd = await models.Supplier_Order.findOrCreate({
-        where: {
-          supplierId: parent.id,
-          orderId: args.orderId,
-        },
-      })
-      return supOrd[0].wasOrderReceived
+    wasOrderReceived: async (parent, args, { loader }) => {
+      return (
+        await loader.supplier_orders.load({
+          supplier: parent.id,
+          order: args.orderId,
+        })
+      ).wasOrderReceived
     },
-    additionalNotes: async (parent, args, { models }) => {
-      const supOrd = await models.Supplier_Order.findOrCreate({
-        where: {
-          supplierId: parent.id,
-          orderId: args.orderId,
-        },
-      })
-      return supOrd[0].additionalNotes
+    additionalNotes: async (parent, args, { loader }) => {
+      return (
+        await loader.supplier_orders.load({
+          supplier: parent.id,
+          order: args.orderId,
+        })
+      ).additionalNotes
     },
   },
 }
