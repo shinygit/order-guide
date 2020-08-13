@@ -16,7 +16,7 @@ It has grown into adding features not possible with previous methods.
 
 To try go to (please give it 30seconds to wake up):
 
-### [Build-To Order Guide](order-guide.herokuapp.com)
+### [Build-To Order Guide](https://order-guide.herokuapp.com)
 
 and make an account (no reason to use a real email). Your account will be prepopulated with some example items. This project is in very early stages but currently used in production at a small restaurant. New features added as requested.
 
