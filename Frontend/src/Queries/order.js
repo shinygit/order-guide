@@ -34,6 +34,7 @@ export const GET_IS_ORDERS_RECEIEVED = gql`
       orderId
       supplierId
       additionalNotes
+      supplierReceivingNotes
     }
   }
 `

@@ -25,6 +25,7 @@ export const GET_SUPPLIERS_WITH_ORDER_STATUS = gql`
       wasOrderPlaced(orderId: $orderId)
       wasOrderReceived(orderId: $orderId)
       additionalNotes(orderId: $orderId)
+      supplierReceivingNotes(orderId: $orderId)
     }
   }
 `
