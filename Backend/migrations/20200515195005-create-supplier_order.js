@@ -13,6 +13,12 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+      additionalNotes: {
+        type: Sequelize.TEXT,
+      },
+      supplierReceivingNotes: {
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
