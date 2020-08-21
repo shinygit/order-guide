@@ -75,6 +75,30 @@ export default {
         }
       }
     ),
+    editSupplierOrderReceivingNotes: combineResolvers(
+      isOrderSupplierOwner,
+      async (
+        parent,
+        { supplierId, orderId, supplierReceivingNotes },
+        { me, models }
+      ) => {
+        const updatedSupplierOrderWithReceivingNotes = await models.Supplier_Order.update(
+          {
+            supplierReceivingNotes: supplierReceivingNotes,
+          },
+          {
+            where: { supplierId: supplierId, orderId: orderId },
+            returning: true,
+            raw: true,
+          }
+        )
+        console.log(updatedSupplierOrderWithReceivingNotes[1][0])
+        return {
+          ...updatedSupplierOrderWithReceivingNotes[1][0],
+          __typename: 'SupplierOrder',
+        }
+      }
+    ),
     toggleOrderReceivedWithSupplierId: combineResolvers(
       isOrderSupplierOwner,
       async (

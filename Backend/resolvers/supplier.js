@@ -171,5 +171,13 @@ export default {
         })
       ).additionalNotes
     },
+    supplierReceivingNotes: async (parent, args, { loader }) => {
+      return (
+        await loader.supplier_orders.load({
+          supplier: parent.id,
+          order: args.orderId,
+        })
+      ).supplierReceivingNotes
+    },
   },
 }

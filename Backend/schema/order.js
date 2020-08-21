@@ -26,6 +26,11 @@ export default gql`
       orderId: ID!
       additionalNote: String!
     ): SupplierOrderResults!
+    editSupplierOrderReceivingNotes(
+      supplierId: ID!
+      orderId: ID!
+      supplierReceivingNotes: String
+    ): SupplierOrderResults!
   }
   type Order {
     id: ID!
@@ -38,6 +43,7 @@ export default gql`
     wasOrderPlaced: Boolean!
     wasOrderReceived: Boolean!
     additionalNotes: String
+    supplierReceivingNotes: String
     orderId: Int!
     supplierId: Int!
     notificationSendingError: Boolean

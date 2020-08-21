@@ -20,6 +20,7 @@ export default gql`
     wasOrderPlaced(orderId: ID!): Boolean!
     wasOrderReceived(orderId: ID!): Boolean!
     additionalNotes(orderId: ID!): String
+    supplierReceivingNotes(orderId: ID!): String
   }
 
   input supplierInput {
