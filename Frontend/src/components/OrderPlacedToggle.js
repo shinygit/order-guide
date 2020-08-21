@@ -74,7 +74,7 @@ const OrderPlaceToggle = ({ orderId }) => {
     return (
       <div
         onClick={handleChange}
-        className={`transition duration-200 ease-in-out flex flex-col justify-center items-center border-4 border border-gray-700 px-3 ${
+        className={`transition duration-200 ease-in-out flex flex-col justify-center items-center border border-gray-700 px-3 ${
           supplier.wasOrderPlaced ? 'bg-green-300' : 'bg-orange-300'
         }`}
       >
