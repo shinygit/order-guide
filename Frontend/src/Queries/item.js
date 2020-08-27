@@ -15,6 +15,7 @@ export const EDIT_ITEM = gql`
       itemId
       unitPriceInPennies
       isMarketPrice
+      isInfrequent
       productNumber
       unitSize
       itemNote
@@ -42,6 +43,7 @@ export const CREATE_ITEM = gql`
       orderAmount
       unitPriceInPennies
       isMarketPrice
+      isInfrequent
       productNumber
       unitSize
       itemNote
@@ -64,7 +66,7 @@ export const DELETE_ITEM = gql`
 
 export const UPDATE_ITEM_ORDER_AMOUNT = gql`
   mutation updateItemOrderAmount($id: ID!, $orderAmount: Int!)
-    @serialize(key: ["updateOrderAmount"]) {
+  @serialize(key: ["updateOrderAmount"]) {
     updateItemOrderAmount(id: $id, orderAmount: $orderAmount) {
       id
       orderAmount
@@ -74,7 +76,7 @@ export const UPDATE_ITEM_ORDER_AMOUNT = gql`
 
 export const UPDATE_ITEM_RECEIVE_AMOUNT = gql`
   mutation updateItemReceiveAmount($id: ID!, $quantityReceived: Int!)
-    @serialize(key: ["quantityReceived"]) {
+  @serialize(key: ["quantityReceived"]) {
     updateItemReceiveAmount(id: $id, quantityReceived: $quantityReceived) {
       id
       quantityReceived
@@ -100,6 +102,7 @@ export const GET_LATEST_ORDER = gql`
         orderAmount
         unitPriceInPennies
         isMarketPrice
+        isInfrequent
         productNumber
         unitSize
         itemNote

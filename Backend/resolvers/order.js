@@ -8,6 +8,7 @@ import {
 } from './authorization'
 import { UserInputError } from 'apollo-server-express'
 import { sendNotification } from '../apis/email/sendNotification'
+import item from '../models/item'
 const Op = require('sequelize').Op
 const { QueryTypes } = require('sequelize')
 
@@ -313,12 +314,16 @@ export default {
             return marketPriceId[0].id
           }
         }
+        const getOrderAmount = (item) => {
+          if (item.isInfrequent === true) return 0
+          return null
+        }
         const newOrderItems = Promise.all(
           items.map(async (item) => {
             delete item.id
             return {
               ...item,
-              orderAmount: null,
+              orderAmount: getOrderAmount(item),
               flaggedByReceiver: null,
               quantityReceived: null,
               supplierId: await setSupplierIfMarketPrice(item),

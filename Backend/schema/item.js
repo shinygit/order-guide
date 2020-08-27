@@ -25,6 +25,7 @@ export default gql`
     receivingNote: String
     flaggedByReceiver: String
     receiverNote: String
+    isInfrequent: Boolean
   }
   extend type Query {
     items: [Item!]!
@@ -66,6 +67,7 @@ export default gql`
     receiverNote: String
     lastOrderedDate: String
     averageWeeklyUse: Float
+    isInfrequent: Boolean
   }
 
   extend type Subscription {

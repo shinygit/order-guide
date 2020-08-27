@@ -10,6 +10,7 @@ import MarketPriceButton from './FilterMenu/MarketPriceButton'
 import UncheckedFilterButton from './FilterMenu/UncheckedFilterButton'
 import DoubleCheckButton from './FilterMenu/DoubleCheckButton'
 import AddItemButton from './AddItemButton'
+import InfrequentFilterButton from './FilterMenu/InfrequentFilterButton.js'
 
 const FilterMenu = ({
   locations,
@@ -115,9 +116,22 @@ const FilterMenu = ({
       },
     })
   }
+  const handleShowInfrequent = () => {
+    setActiveFilterbuttonClass(`infrequent-filter-button`)
+    client.writeData({
+      data: {
+        filter: {
+          searchTerm: '',
+          filterType: 'INFREQUENT',
+          filterName: 'INFREQUENT',
+          __typename: 'Filter',
+        },
+      },
+    })
+  }
   return (
     <div className='flex flex-col'>
-      <div className='flex flex-row flex-wrap bg-gray-200 my-1'>
+      <div className='flex flex-row flex-wrap my-1 bg-gray-200'>
         <OrderLock />
         <OrderModeToggle />
 
@@ -125,7 +139,7 @@ const FilterMenu = ({
 
         <AddItemButton locations={locations} />
       </div>
-      <div className='flex flex-row flex-wrap bg-gray-200 my-1'>
+      <div className='flex flex-row flex-wrap my-1 bg-gray-200'>
         <button
           className={`w-auto p-4 m-1 border border-gray-900 rounded 
               ${
@@ -167,10 +181,14 @@ const FilterMenu = ({
           <span>Attention</span>
           <span>Needed</span>
         </button>
+        <InfrequentFilterButton
+          handleShowInfrequent={handleShowInfrequent}
+          activeFilterbuttonClass={activeFilterbuttonClass}
+        />
       </div>
       <div className='flex flex-col'>
-        <div className='order-1 md:order-3 flex flex-row flex-wrap bg-gray-200 my-2 border border-gray-900 rounded'>
-          <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+        <div className='flex flex-row flex-wrap order-1 my-2 bg-gray-200 border border-gray-900 rounded md:order-3'>
+          <span className='w-full font-semibold tracking-wider text-center text-gray-700'>
             SUPPLIERS
           </span>
 
@@ -181,8 +199,8 @@ const FilterMenu = ({
             activeFilterbuttonClass={activeFilterbuttonClass}
           />
         </div>
-        <div className='order-2 flex flex-row flex-wrap bg-gray-200 my-2 border border-gray-900 rounded'>
-          <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+        <div className='flex flex-row flex-wrap order-2 my-2 bg-gray-200 border border-gray-900 rounded'>
+          <span className='w-full font-semibold tracking-wider text-center text-gray-700'>
             CATEGORIES
           </span>
 
@@ -191,8 +209,8 @@ const FilterMenu = ({
             activeFilterbuttonClass={activeFilterbuttonClass}
           />
         </div>
-        <div className='order-3 md:order-1 flex flex-row flex-wrap bg-gray-200 my-2 border border-gray-900 rounded'>
-          <span className='w-full text-center font-semibold text-gray-700 tracking-wider'>
+        <div className='flex flex-row flex-wrap order-3 my-2 bg-gray-200 border border-gray-900 rounded md:order-1'>
+          <span className='w-full font-semibold tracking-wider text-center text-gray-700'>
             LOCATIONS
           </span>
           <LocationFilterButtons

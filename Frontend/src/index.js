@@ -111,6 +111,7 @@ const data = {
     filterType: 'ALL',
     filterName: 'ALL',
     hideAllZeroOrderAmount: false,
+    hideInfrequent: true,
     __typename: 'Filter',
   },
 }

@@ -30,6 +30,11 @@ module.exports = {
         defaultValue: false,
         allowNull: false,
       },
+      isInfrequent: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+      },
       productNumber: {
         type: Sequelize.STRING,
       },

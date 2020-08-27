@@ -55,6 +55,11 @@ const item = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    isInfrequent: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   })
   Item.associate = (models) => {
     Item.belongsTo(models.Order, { onDelete: 'CASCADE' })

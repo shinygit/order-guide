@@ -89,6 +89,7 @@ export default {
           receivingNote: null,
           flaggedByReceiver: null,
           receiverNote: null,
+          isInfrequent: false,
         })
         return item
       }
@@ -183,7 +184,9 @@ export default {
           receivingNote: input.receivingNote || null,
           flaggedByReceiver: input.flaggedByReceiver,
           receiverNote: input.receiverNote,
+          isInfrequent: input.isInfrequent,
         })
+
         return item
       }
     ),

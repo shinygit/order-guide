@@ -29,6 +29,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
     unitSize: item.unitSize,
     unitPriceInPennies: item.unitPriceInPennies,
     isMarketPrice: item.isMarketPrice,
+    isInfrequent: item.isInfrequent,
     quantityOnHand: item.quantityOnHand,
     quantityReceived: item.quantityReceived,
     itemNote: item.itemNote,
@@ -55,6 +56,12 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
     setEditItemForm({
       ...editItemForm,
       isMarketPrice: !editItemForm.isMarketPrice,
+    })
+  }
+  const handleToggleInfrequentItem = () => {
+    setEditItemForm({
+      ...editItemForm,
+      isInfrequent: !editItemForm.isInfrequent,
     })
   }
   const handleDelete = (id, itemName) => {
@@ -100,6 +107,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
           specialNote: editItemForm.specialNote,
           receivingNote: editItemForm.receivingNote,
           receiverNote: editItemForm.receiverNote,
+          isInfrequent: editItemForm.isInfrequent,
         },
       },
     })
@@ -125,6 +133,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         specialNote: item.specialNote,
         receivingNote: item.receivingNote,
         receiverNote: item.receiverNote,
+        isInfrequent: item.isInfrequent,
         showEditForm: false,
       }),
     [item]
@@ -201,7 +210,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         <td />
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100 text-right'>
+        <td className='text-right bg-yellow-100'>
           <button onClick={handleSubmit}>Save</button>
         </td>
         <th colSpan='2' className={tableCell}>
@@ -253,14 +262,20 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
           />
         </td>
         <th colSpan='2' className={tableCell}>
-          Last Ordered
+          Infrequent Item?
         </th>
         <td className={tableCell}>
-          <LastOrderedDate itemId={item.id} />
+          <button
+            className={`${editInput} w-12`}
+            onClick={handleToggleInfrequentItem}
+            data-cy='toggleInfrequentItemButton'
+          >
+            {(editItemForm.isInfrequent && 'Yes') || 'No'}
+          </button>
         </td>
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100 text-right'>
+        <td className='text-right bg-yellow-100'>
           <button
             onClick={() => {
               handleToggleEdit(item.id)
@@ -281,8 +296,13 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
             onChange={handleChangeInput}
           />
         </td>
-
         <th colSpan='2' className={tableCell}>
+          Last Ordered
+        </th>
+        <td className={tableCell}>
+          <LastOrderedDate itemId={item.id} />
+        </td>
+        <th colSpan='1' className={tableCell}>
           Average Weekly Use
         </th>
         <td className={tableCell}>
@@ -304,7 +324,7 @@ const EditItemForm = ({ item, handleToggleEdit }) => {
         </td>
       </tr>
       <tr className='bg-gray-100'>
-        <td className='bg-yellow-100 text-right'>
+        <td className='text-right bg-yellow-100'>
           <button
             onClick={() => {
               handleDelete(item.id, item.itemName)

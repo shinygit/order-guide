@@ -6,6 +6,7 @@ export const FILTER_QUERY = gql`
       filterName @client
       filterType @client
       hideAllZeroOrderAmount @client
+      hideInfrequent @client
     }
   }
 `

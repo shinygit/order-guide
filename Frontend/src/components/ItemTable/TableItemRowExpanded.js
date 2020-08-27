@@ -6,7 +6,7 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
   return (
     <>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
-        <td className='bg-yellow-100 text-right'>
+        <td className='text-right bg-yellow-100'>
           <button onClick={() => handleToggleEdit(item.id)}>Edit</button>
         </td>
         <th colSpan='2' className={tableCell}>
@@ -33,11 +33,9 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
         </th>
         <td className={tableCell}>{item.quantityOnHand}</td>
         <th colSpan='2' className={tableCell}>
-          Last Ordered
+          Infrequent Item?
         </th>
-        <td className={tableCell}>
-          <LastOrderedDate itemId={item.id} />
-        </td>
+        <td className={tableCell}>{(item.isInfrequent && 'Yes') || 'No'}</td>
       </tr>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
         <td className='bg-yellow-100' />
@@ -46,6 +44,12 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
         </th>
         <td className={tableCell}>{item.quantityReceived}</td>
         <th colSpan='2' className={tableCell}>
+          Last Ordered
+        </th>
+        <td className={tableCell}>
+          <LastOrderedDate itemId={item.id} />
+        </td>
+        <th colSpan='1' className={tableCell}>
           Average Weekly Use
         </th>
         <td className={tableCell}>

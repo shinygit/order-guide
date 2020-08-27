@@ -25,6 +25,7 @@ const GET_ITEM = gql`
       orderAmount
       unitPriceInPennies
       isMarketPrice
+      isInfrequent
       productNumber
       unitSize
       itemNote
@@ -74,38 +75,38 @@ const TableItemRow = ({
             <EditItemWindow item={item} active={active} setActive={setActive} />
           </Portal>
         )}
-        <td className='hidden md:table-cell bg-yellow-100 text-right'>
+        <td className='hidden text-right bg-yellow-100 md:table-cell'>
           <button onClick={() => handleToggleShowExpandedItem(item.id)}>
             {item.isExpanded ? <ClipboardUp /> : <ClipboardDown />}
           </button>
         </td>
-        <td className='border border-gray-700 text-center px-1'>
+        <td className='px-1 text-center border border-gray-700'>
           {item.itemName}
         </td>
-        <td className='hidden md:table-cell border border-gray-700 text-center'>
+        <td className='hidden text-center border border-gray-700 md:table-cell'>
           {item.unitSize}
         </td>
-        <td className='hidden md:table-cell border border-gray-700 text-center'>
+        <td className='hidden text-center border border-gray-700 md:table-cell'>
           {item.productNumber}
         </td>
-        <td className='border border-gray-700 text-center'>{item.buildTo}</td>
-        <td className='hidden lg:table-cell border border-gray-700 text-center'>
+        <td className='text-center border border-gray-700'>{item.buildTo}</td>
+        <td className='hidden text-center border border-gray-700 lg:table-cell'>
           {item.previousOrders[1]}
         </td>
-        <td className='border border-gray-700 text-center'>
+        <td className='text-center border border-gray-700'>
           {item.previousOrders[0]}
         </td>
-        <td className='border border-gray-700 text-center'>
+        <td className='text-center border border-gray-700'>
           <ChangeOrderAmount id={item.id} orderDates={orderDates} />
         </td>
-        <td className='hidden md:table-cell border border-gray-700 text-center px-1'>
+        <td className='hidden px-1 text-center border border-gray-700 md:table-cell'>
           {item.isMarketPrice && !orderDates?.orders[0].isLocked ? (
             <MarketPriceSupplierSelector item={item} />
           ) : (
             item.supplier
           )}
         </td>
-        <td className='hidden md:table-cell border border-gray-700 text-center px-1'>
+        <td className='hidden px-1 text-center border border-gray-700 md:table-cell'>
           {item.location}
         </td>
       </tr>

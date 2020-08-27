@@ -29,8 +29,8 @@ const ListItems = ({ items, orderId }) => {
     filterName,
     filterType,
     hideAllZeroOrderAmount,
+    hideInfrequent,
   } = data.filter
-
   const { loading: supplierLoading, data: supplierData = {} } = useQuery(
     GET_SUPPLIERS_WITH_ORDER_STATUS,
     {
@@ -99,6 +99,9 @@ const ListItems = ({ items, orderId }) => {
     ) {
       return true
     }
+    if (filterType === 'INFREQUENT' && item.isInfrequent) {
+      return true
+    }
     if (filterType === 'supplier' && item.supplier === filterName) return true
     if (filterType === 'location' && item.location === filterName) return true
     if (filterType === 'category' && item.category === filterName) return true
@@ -112,17 +115,24 @@ const ListItems = ({ items, orderId }) => {
     }
     return true
   })
-  let itemsToDisplay = hideAllZeroOrderAmountItems
-    .slice()
-    .sort(function (a, b) {
-      if (a.supplier > b.supplier) return 1
-      if (a.supplier < b.supplier) return -1
-      if (a.location > b.location) return 1
-      if (a.location < b.location) return -1
-      if (a.itemName > b.itemName) return 1
-      if (a.itemName < b.itemName) return -1
-      return 0
-    })
+  const hideInfrequentItems = hideAllZeroOrderAmountItems.filter((item) => {
+    if (hideInfrequent) {
+      if (filterType === 'INFREQUENT') return true
+      if (!item.isInfrequent) return true
+      if (item.isInfrequent && item.orderAmount > 0) return true
+      return false
+    }
+    return true
+  })
+  let itemsToDisplay = hideInfrequentItems.slice().sort(function (a, b) {
+    if (a.supplier > b.supplier) return 1
+    if (a.supplier < b.supplier) return -1
+    if (a.location > b.location) return 1
+    if (a.location < b.location) return -1
+    if (a.itemName > b.itemName) return 1
+    if (a.itemName < b.itemName) return -1
+    return 0
+  })
   if (searchTerm) itemsToDisplay = filteredItems
   if (filterName === 'DOUBLECHECK' && filterType === 'DOUBLECHECK')
     itemsToDisplay = filteredItems
