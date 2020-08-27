@@ -16,6 +16,7 @@ It has grown into adding features not possible with previous methods.
 - Sort by category.
 - Show items that are frequently ordered but not currently on this weeks order.
 - Supplier receiving notes. When a note is specific to a supplier but not necessarily an item.
+- Infrequent items. Logic and features for items not frequently ordered.
 
 ## Getting Started
 
