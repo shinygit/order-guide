@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { createUserStarterOrderAndItems } from '../user/utils/createNewUserItems'
-
+import { log } from './../graphQLMiddleware/log'
 import { rateLimit, clearRateLimit } from './../graphQLMiddleware/rate-limit'
 import { combineResolvers } from 'graphql-resolvers'
 
@@ -89,7 +89,8 @@ export default {
     },
 
     signIn: combineResolvers(
-      //rateLimit(),
+      rateLimit(),
+      log,
       async (parent, { login, password }, { models, secret, req }, info) => {
         const user = await models.User.findByLogin(login.trim())
 
