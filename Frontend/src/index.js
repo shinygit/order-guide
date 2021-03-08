@@ -42,10 +42,11 @@ const authLink = setContext((_, { headers }) => {
 const retryLink = new RetryLink({
   delay: {
     initial: 300,
+    max: 1000,
     jitter: false,
   },
   attempts: {
-    max: 100,
+    max: 10000,
   },
 })
 const onErrorLink = onError(({ graphQLErrors, networkError }) => {
