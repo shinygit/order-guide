@@ -117,6 +117,7 @@ const ListItems = ({ items, orderId }) => {
   })
   const hideInfrequentItems = hideAllZeroOrderAmountItems.filter((item) => {
     if (hideInfrequent) {
+      if (filterType === 'category') return true
       if (filterType === 'INFREQUENT') return true
       if (!item.isInfrequent) return true
       if (item.isInfrequent && item.orderAmount > 0) return true
