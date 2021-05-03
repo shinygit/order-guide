@@ -49,18 +49,18 @@ const ReceivedForButton = ({
   )
 
   const handleToggleOrderReceivedWithSupplierId = () => {
-    if (filteredItems.some((item) => item.quantityReceived === null))
+    if (filteredItems.some((item) => item.quantityReceived === null)) {
       return setError('Looks like an item has not been checked in.')
+    }
     if (
       filteredItems.some(
-        (item) =>
-          item.quantityReceived < item.orderAmount && item.receiverNote === null
+        (item) => item.quantityReceived < item.orderAmount && !item.receiverNote
       )
-    )
+    ) {
       return setError(
         'If an item was shorted please flag the item with a reason.'
       )
-
+    }
     if (
       window.confirm(
         'Once you submit you will have to confirm every change for this supplier.'
@@ -91,11 +91,11 @@ const ReceivedForButton = ({
         </span>
       ) : null}
       {activeSupplierReceivedSubmitted ? (
-        <button className='rounded bg-gray-300 font-bold text-gray-600 shadow w-6/12 p-1 my-8'>
-          <div className='flex justify-around items-center'>
+        <button className='w-6/12 p-1 my-8 font-bold text-gray-600 bg-gray-300 rounded shadow'>
+          <div className='flex items-center justify-around'>
             {`Submitted for ${activeSupplier.supplierName}`}
             <svg
-              className='fill-current text-green-500'
+              className='text-green-500 fill-current'
               xmlns='http://www.w3.org/2000/svg'
               width='40'
               height='40'
@@ -108,7 +108,7 @@ const ReceivedForButton = ({
         <button
           onClick={handleToggleOrderReceivedWithSupplierId}
           disabled={loading}
-          className='rounded bg-blue-700 font-bold text-gray-100 shadow w-6/12 p-1 my-8 disabled:opacity-50'
+          className='w-6/12 p-1 my-8 font-bold text-gray-100 bg-blue-700 rounded shadow disabled:opacity-50'
         >
           {`Submit for ${activeSupplier.supplierName}`}
         </button>
