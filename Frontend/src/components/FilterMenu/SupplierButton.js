@@ -13,10 +13,16 @@ const SupplierButton = ({
   const flagged = suppliersItems.some(
     (suppliersItem) => suppliersItem.flaggedByReceiver
   )
+  const orderedCount = suppliersItems.reduce((total, item) => {
+    if (!item.orderAmount) {
+      return total
+    }
+    return total + item.orderAmount
+  }, 0)
   return (
     <div
       key={supplier.supplierName}
-      className='m-1 grid grid-cols-2'
+      className='grid grid-cols-2 m-1'
       onClick={() => handleShowSupplier(supplier.supplierName)}
     >
       <button
@@ -27,7 +33,7 @@ ${
     : 'bg-gray-400'
 }`}
       >
-        {supplier.supplierName}
+        {`${supplier.supplierName}(${orderedCount})`}
       </button>
       <button
         className={`rounded-bl border-l border-b border-gray-900 px-px ${
