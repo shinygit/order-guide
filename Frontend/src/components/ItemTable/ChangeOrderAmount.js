@@ -27,6 +27,7 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
   }
   const [updateItemOrderAmount] = useMutation(UPDATE_ITEM_ORDER_AMOUNT)
   const handleDecrease = () => {
+    if (orderAmount === 0) return
     updateItemOrderAmount({
       variables: {
         id: id,
@@ -60,7 +61,7 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
   }
   return (
     <div className='flex justify-around'>
-      {!orderDates?.orders[0].isLocked && orderAmount !== 0 && (
+      {!orderDates?.orders[0].isLocked && (
         <button
           className=''
           onClick={() => handleDecrease()}
