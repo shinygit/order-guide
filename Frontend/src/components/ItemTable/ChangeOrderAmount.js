@@ -60,14 +60,14 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
   }
   return (
     <div className='flex justify-around'>
-      {!orderDates?.orders[0].isLocked && (
+      {!orderDates?.orders[0].isLocked && orderAmount !== 0 && (
         <button
           className=''
           onClick={() => handleDecrease()}
           data-cy='decreaseOrderAmount'
         >
           <svg
-            className='h-6 w-6'
+            className='w-6 h-6'
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
           >
@@ -76,7 +76,7 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
         </button>
       )}
       {orderDates?.orders[0].isLocked ? (
-        <span className='font-bold text-2xl'>{orderAmount}</span>
+        <span className='text-2xl font-bold'>{orderAmount}</span>
       ) : (
         <span className=''>{orderAmount}</span>
       )}
@@ -87,7 +87,7 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
           data-cy='increaseOrderAmount'
         >
           <svg
-            className='h-6 w-6'
+            className='w-6 h-6'
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
           >
