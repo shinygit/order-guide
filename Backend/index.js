@@ -152,9 +152,9 @@ const httpServer = http.createServer(app)
 server.installSubscriptionHandlers(httpServer)
 
 const isTest = !!process.env.TEST
-sequelize.sync({ force: isTest }).then(async () => {
+sequelize.sync({ force: false }).then(async () => {
   if (isTest) {
-    createUsersWithTestOrders()
+    // createUsersWithTestOrders()
   }
   httpServer.listen({ port: process.env.PORT || 3001 }, () => {
     console.log('Apollo Server on http://localhost:3001/graphql')

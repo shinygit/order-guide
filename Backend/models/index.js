@@ -9,6 +9,7 @@ const getDatabase = () => {
   }
 }
 const sequelize = new Sequelize(getDatabase(), {
+  logging: false,
   pool: {
     max: 3,
     min: 0,

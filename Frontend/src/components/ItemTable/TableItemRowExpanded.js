@@ -1,5 +1,6 @@
 import React from 'react'
 import LastOrderedDate from './LastOrderedDate'
+import LastOrderedSupplier from './LastOrderedSupplier'
 import AverageWeeklyUse from './AverageWeeklyUse'
 
 const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
@@ -36,6 +37,12 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
           Infrequent Item?
         </th>
         <td className={tableCell}>{(item.isInfrequent && 'Yes') || 'No'}</td>
+        <th colSpan='1' className={tableCell}>
+          Average Weekly Use
+        </th>
+        <td className={tableCell}>
+          <AverageWeeklyUse itemId={item.id} />
+        </td>
       </tr>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>
         <td className='bg-yellow-100' />
@@ -50,10 +57,10 @@ const TableItemRowExpanded = ({ item, handleToggleEdit, index }) => {
           <LastOrderedDate itemId={item.id} />
         </td>
         <th colSpan='1' className={tableCell}>
-          Average Weekly Use
+          With
         </th>
         <td className={tableCell}>
-          <AverageWeeklyUse itemId={item.id} />
+          <LastOrderedSupplier itemId={item.id} />
         </td>
       </tr>
       <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white'}>

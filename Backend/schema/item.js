@@ -65,9 +65,14 @@ export default gql`
     previousOrders: [Int]!
     flaggedByReceiver: String
     receiverNote: String
-    lastOrderedDate: String
+    lastOrder: ItemSupplierOrder
     averageWeeklyUse: Float
     isInfrequent: Boolean
+  }
+
+  type ItemSupplierOrder {
+    orderDate: String
+    supplierName: String
   }
 
   extend type Subscription {
