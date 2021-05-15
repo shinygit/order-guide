@@ -102,6 +102,12 @@ const ListItems = ({ items, orderId }) => {
     if (filterType === 'INFREQUENT' && item.isInfrequent) {
       return true
     }
+    if (
+      filterType === 'supplier' &&
+      filterName === 'Market Price' &&
+      item.isMarketPrice
+    )
+      return true
     if (filterType === 'supplier' && item.supplier === filterName) return true
     if (filterType === 'location' && item.location === filterName) return true
     if (filterType === 'category' && item.category === filterName) return true
