@@ -7,7 +7,7 @@ const DoubleCheckButton = ({
 }) => {
   const doubleCheckCount = items.reduce((acc, item) => {
     const isFrequentItem = item.previousOrders.filter((x) => x > 0).length >= 3
-    return item.orderAmount < 1 && isFrequentItem ? ++acc : acc
+    return item.orderAmount === 0 && isFrequentItem ? ++acc : acc
   }, 0)
 
   return (
