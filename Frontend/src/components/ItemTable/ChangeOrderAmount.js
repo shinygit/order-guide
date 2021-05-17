@@ -23,11 +23,14 @@ const ChangeOrderAmount = ({ id, orderDates }) => {
   const getNextOrderAmount = (orderAmount) => {
     if (orderAmount === null) {
       return 0
-    } else return orderAmount - 1
+    } else if (orderAmount === 0) {
+      return null
+    } else {
+      return orderAmount - 1
+    }
   }
   const [updateItemOrderAmount] = useMutation(UPDATE_ITEM_ORDER_AMOUNT)
   const handleDecrease = () => {
-    if (orderAmount === 0) return
     updateItemOrderAmount({
       variables: {
         id: id,
