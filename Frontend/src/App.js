@@ -38,6 +38,10 @@ const App = () => {
 
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
+     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+  }, []);
+  
+  useEffect(() => {
     if (
       data &&
       data.orders[0] &&
