@@ -38,8 +38,8 @@ const App = () => {
 
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
-     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
      window.open("https://www.youtube.com/watch?v=jL691iRxFyI", "_blank");
+     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
   }, []);
   
   useEffect(() => {
