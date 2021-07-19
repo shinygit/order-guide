@@ -89,6 +89,7 @@ export const GET_LATEST_ORDER = gql`
     orders(orderDepth: $orderDepth) {
       id
       orderDate
+      note
       items {
         id
         itemName

@@ -224,6 +224,19 @@ export default {
       }
     ),
 
+    updateOrderNote: combineResolvers(
+      isAuthenticatedAsOwner,
+      async (parent, { orderId, note }, { me, models }) => {
+        const currentOrder = await models.Order.findOne({
+          where: { id: orderId, userId: me.id },
+        })
+        currentOrder.note = note
+        await currentOrder.save()
+
+        return currentOrder.dataValues
+      }
+    ),
+
     deleteOrder: combineResolvers(
       isAuthenticatedAsOwner,
       async (parent, { orderDate }, { me, models }) => {
@@ -297,6 +310,7 @@ export default {
         const newOrder = await models.Order.create({
           orderDate: orderDate,
           userId: me.id,
+          note: currentOrder[0].note,
         })
         const items = await models.Item.findAll({
           where: { orderId: currentOrder[0].id },
@@ -358,6 +372,9 @@ export default {
         }
         return order.isLocked
       }
+    },
+    note: async (order, args, { models }) => {
+      return order.note
     },
   },
 }

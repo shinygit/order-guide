@@ -14,6 +14,10 @@ const order = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: null,
     },
+    note: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   })
   Order.associate = (models) => {
     Order.hasMany(models.Item)

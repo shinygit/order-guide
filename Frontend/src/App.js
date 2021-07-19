@@ -35,7 +35,6 @@ const App = () => {
   )
 
   const [items, setItems] = useState([])
-
   const [currentDate, setCurrentDate] = useState('')
   useEffect(() => {
     if (

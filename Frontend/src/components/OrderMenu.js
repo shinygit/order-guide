@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import { useMutation } from '@apollo/react-hooks'
 import { CREATE_NEW_ORDER_DATE, DELETE_ORDER_DATE } from '../Queries/order'
+import OrderNote from './OrderNote'
 
 const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
   const [createNewOrder, { error }] = useMutation(CREATE_NEW_ORDER_DATE)
@@ -56,13 +57,11 @@ const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
     setDeleteConfirmCount(0)
   }
   return (
-    <div className='flex justify-between mb-10'>
+    <div className='grid justify-between grid-cols-2 mb-10 md:flex'>
       <form className='flex flex-col w-56' onSubmit={handleSubmit}>
         <label className=''>new order date</label>{' '}
         <input
-          className='bg-white focus:outline-none
-        focus:shadow-outline border border-gray-300
-         rounded-lg py-2 px-4 mb-1 w-48'
+          className='w-48 px-4 py-2 mb-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:shadow-outline'
           type='date'
           name='orderDate'
           value={orderDateForm}
@@ -72,7 +71,7 @@ const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
         <div>
           {error && errorMessage && (
             <div
-              className='bg-red-200 text-red-700 font-bold border-2 border-red-800'
+              className='font-bold text-red-700 bg-red-200 border-2 border-red-800'
               onClick={() => setErrorMessage()}
             >
               {error && errorMessage}
@@ -80,21 +79,24 @@ const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
           )}
         </div>
         <button
-          className='w-48 p-2 border border-gray-900 rounded bg-gray-100'
+          className='w-48 p-2 bg-gray-100 border border-gray-900 rounded'
           type='submit'
         >
           Create new order
         </button>
       </form>
+      <div className='flex-1 order-last col-span-2 p-2 mx-10 mt-5 bg-yellow-100 md:order-none'>
+        <OrderNote />
+      </div>
       <div className='flex flex-col'>
-        <span>Week of</span>
-        <span className='font-semibold text-2xl'>
+        <span className='ml-auto'>Week of</span>
+        <span className='ml-auto text-2xl font-semibold'>
           {moment.utc(currentDate).format('L')}
         </span>
         <div>
           {deleteError && deleteErrorMessage && (
             <div
-              className='bg-red-200 text-red-700 font-bold border-2 border-red-800'
+              className='font-bold text-red-700 bg-red-200 border-2 border-red-800'
               onClick={() => setDeleteErrorMessage()}
             >
               {deleteError && deleteErrorMessage}
@@ -102,7 +104,7 @@ const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
           )}
         </div>
         <button
-          className='w-auto p-2 border border-gray-900 rounded bg-gray-100 ml-auto'
+          className='w-auto p-2 ml-auto bg-gray-100 border border-gray-900 rounded'
           onClick={deleteOrderDate}
         >
           Delete this order
@@ -113,7 +115,7 @@ const OrderMenu = ({ setCurrentDate, currentDate, refetch }) => {
               Click {4 - deleteConfirmCount} more times to delete.
             </span>
             <button
-              className='w-auto p-2 border border-gray-900 rounded bg-gray-100 ml-auto'
+              className='w-auto p-2 ml-auto bg-gray-100 border border-gray-900 rounded'
               onClick={cancelDelete}
             >
               Cancel

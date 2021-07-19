@@ -12,6 +12,7 @@ export default gql`
     createNewOrder(orderDate: String!): Boolean!
     deleteOrder(orderDate: String!): Boolean!
     toggleOrderLock(orderDate: String!): Order!
+    updateOrderNote(orderId: ID!, note: String!): Order!
     toggleOrderPlacedWithSupplierId(
       supplierId: ID!
       orderId: ID!
@@ -35,6 +36,7 @@ export default gql`
   type Order {
     id: ID!
     orderDate: String!
+    note: String
     isLocked: Boolean!
     items: [Item!]
     userId: User!
