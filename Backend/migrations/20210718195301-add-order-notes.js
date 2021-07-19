@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -6,7 +6,7 @@ module.exports = {
       'orders', // name of Source table
       'order_note', // name of the key we're adding
       {
-        type:  type: Sequelize.STRING,
+        type: Sequelize.STRING,
         unique: false,
         allowNull: true,
       }
@@ -21,5 +21,5 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-  }
-};
+  },
+}
